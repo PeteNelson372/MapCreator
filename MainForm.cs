@@ -53,6 +53,7 @@ namespace MapCreator
         private MapLabel? UISelectedLabel = null;
         private PlacedMapBox? UISelectedBox = null;
         private MapGrid? UIMapGrid = null;
+        private MapWindrose? UIWindrose = null;
 
         private Cmd_ColorOcean COLOR_OCEAN_COMMAND;
         private Cmd_EraseOceanColor ERASE_OCEAN_COLOR_COMMAND;
@@ -601,8 +602,21 @@ namespace MapCreator
                     {
                         LayerUpDown.SelectedItem = "Default";
                     }
+                }
 
-
+                MapLayer windroseLayer = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.WINDROSELAYER);
+                for (int i = 0; i < windroseLayer.MapLayerComponents.Count; i++)
+                {
+                    if (windroseLayer.MapLayerComponents[i] is MapWindrose windrose)
+                    {
+                        windrose.WindrosePaint = new()
+                        {
+                            Style = SKPaintStyle.Stroke,
+                            StrokeWidth = windrose.LineWidth,
+                            Color = windrose.WindroseColor.ToSKColor(),
+                            IsAntialias = true,
+                        };
+                    }
                 }
 
                 Text = "Map Creator - " + CURRENT_MAP.MapName;
@@ -843,6 +857,9 @@ namespace MapCreator
                     break;
                 case DrawingModeEnum.DrawBox:
                     modeText += "Draw Box";
+                    break;
+                case DrawingModeEnum.PlaceWindrose:
+                    modeText += "Place Windrose";
                     break;
                 default:
                     modeText += "Undefined";
@@ -1966,7 +1983,53 @@ namespace MapCreator
         * *****************************************************************************************************
         *******************************************************************************************************/
 
+        private MapWindrose CreateWindrose()
+        {
+            MapWindrose windrose = new()
+            {
+                InnerCircles = WindroseInnerCirclesTrack.Value,
+                InnerRadius = (int)WindroseInnerRadiusUpDown.Value,
+                FadeOut = WindroseFadeOutCheck.Checked,
+                LineWidth = (int)WindroseLineWidthUpDown.Value,
+                OuterRadius = (int)WindroseOuterRadiusUpDown.Value,
+                WindroseColor = WindroseColorSelectLabel.BackColor,
+                WindroseColorOpacity = WindroseColorOpacityTrack.Value,
+                DirectionCount = (int)WindroseDirectionsUpDown.Value,
+            };
 
+            windrose.WindrosePaint = new()
+            {
+                Style = SKPaintStyle.Stroke,
+                StrokeWidth = windrose.LineWidth,
+                Color = windrose.WindroseColor.ToSKColor(),
+                IsAntialias = true,
+            };
+
+            return windrose;
+        }
+
+        private void UpdateUIWindrose()
+        {
+            if (UIWindrose != null)
+            {
+                UIWindrose.InnerCircles = WindroseInnerCirclesTrack.Value;
+                UIWindrose.InnerRadius = (int)WindroseInnerRadiusUpDown.Value;
+                UIWindrose.FadeOut = WindroseFadeOutCheck.Checked;
+                UIWindrose.LineWidth = (int)WindroseLineWidthUpDown.Value;
+                UIWindrose.OuterRadius = (int)WindroseOuterRadiusUpDown.Value;
+                UIWindrose.WindroseColor = WindroseColorSelectLabel.BackColor;
+                UIWindrose.WindroseColorOpacity = WindroseColorOpacityTrack.Value;
+                UIWindrose.DirectionCount = (int)WindroseDirectionsUpDown.Value;
+
+                UIWindrose.WindrosePaint = new()
+                {
+                    Style = SKPaintStyle.Stroke,
+                    StrokeWidth = UIWindrose.LineWidth,
+                    Color = UIWindrose.WindroseColor.ToSKColor(),
+                    IsAntialias = true,
+                };
+            }
+        }
         /*******************************************************************************************************
         * Ocean Tab Event Handlers 
         *******************************************************************************************************/
@@ -2392,6 +2455,90 @@ namespace MapCreator
         private void OceanColorSelect_Click(object sender, EventArgs e)
         {
             SetColorSelectMode();
+        }
+
+        // windrose
+        private void WindroseButton_Click(object sender, EventArgs e)
+        {
+            if (CURRENT_DRAWING_MODE != DrawingModeEnum.PlaceWindrose)
+            {
+                ClearDrawingMode();
+                CURRENT_DRAWING_MODE = DrawingModeEnum.PlaceWindrose;
+                SetDrawingModeLabel();
+                UIWindrose = CreateWindrose();
+            }
+            else
+            {
+                MapBuilder.ClearLayerCanvas(CURRENT_MAP, MapBuilder.WINDROSELAYER);
+                MapBuilder.ClearLayerBitmap(CURRENT_MAP, MapBuilder.WINDROSELAYER);
+
+                ClearDrawingMode();
+                SetDrawingModeLabel();
+
+                RenderDrawingPanel();
+                MapImageBox.Refresh();
+            }
+        }
+
+        private void WindroseColorSelectLabel_Click(object sender, EventArgs e)
+        {
+            TopMost = true;
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
+            TopMost = false;
+
+            if (selectedColor != Color.Empty)
+            {
+                Color windroseColor = selectedColor;
+                Color argbColor = Color.FromArgb(WindroseColorOpacityTrack.Value, windroseColor);
+
+                WindroseColorSelectLabel.BackColor = argbColor;
+
+                UpdateUIWindrose();
+            }
+        }
+
+        private void WindroseColorOpacityTrack_Scroll(object sender, EventArgs e)
+        {
+            Color windroseColor = WindroseColorSelectLabel.BackColor;
+            Color argbColor = Color.FromArgb(OceanBrushOpacityScroll.Value, windroseColor);
+
+            WindroseColorSelectLabel.BackColor = argbColor;
+
+            WindroseColorOpacityLabel.Text = WindroseColorOpacityTrack.Value.ToString();
+
+            WindroseColorOpacityLabel.Refresh();
+
+            UpdateUIWindrose();
+        }
+
+        private void WindroseDirectionsUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateUIWindrose();
+        }
+
+        private void WindroseLineWidthUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateUIWindrose();
+        }
+
+        private void WindroseInnerRadiusUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateUIWindrose();
+        }
+
+        private void WindroseOuterRadiusUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateUIWindrose();
+        }
+
+        private void WindroseInnerCirclesTrack_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateUIWindrose();
+        }
+
+        private void WindroseFadeOutCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateUIWindrose();
         }
 
         /******************************************************************************************************
@@ -6158,6 +6305,9 @@ namespace MapCreator
                     UISelectedBox = new();
 
                     break;
+                case DrawingModeEnum.PlaceWindrose:
+
+                    break;
             }
         }
 
@@ -6559,6 +6709,22 @@ namespace MapCreator
                     MapImageBox.Refresh();
 
                     break;
+                case DrawingModeEnum.PlaceWindrose:
+                    if (UIWindrose != null)
+                    {
+                        Cmd_AddWindrose cmd = new Cmd_AddWindrose(CURRENT_MAP, UIWindrose);
+                        UndoManager.AddCommand(cmd);
+                        cmd.DoOperation();
+
+                        CURRENT_MAP.IsSaved = false;
+                        UIWindrose = CreateWindrose();
+                    }
+
+                    MapImageBox.Refresh();
+                    RenderDrawingPanel(true);
+                    MapImageBox.Refresh();
+                    break;
+
             }
         }
 
@@ -6946,6 +7112,19 @@ namespace MapCreator
         // NO BUTTON
         private void NoButtonMouseMoveHandler(object sender, MouseEventArgs e, DrawingModeEnum mode)
         {
+            float X = (float)(LAYER_CLICK_POINT.X);
+            float Y = (float)(LAYER_CLICK_POINT.Y);
+
+            if (X >= CURRENT_MAP.MapWidth)
+            {
+                X = CURRENT_MAP.MapWidth - 1;
+            }
+
+            if (Y >= CURRENT_MAP.MapHeight)
+            {
+                Y = CURRENT_MAP.MapHeight - 1;
+            }
+
             switch (CURRENT_DRAWING_MODE)
             {
                 case DrawingModeEnum.PathEdit:
@@ -6970,6 +7149,19 @@ namespace MapCreator
                 case DrawingModeEnum.SymbolPlace:
                     MapImageBox.Refresh();
                     RenderDrawingPanel();
+                    break;
+                case DrawingModeEnum.PlaceWindrose:
+                    if (UIWindrose != null)
+                    {
+                        UIWindrose.X = (uint)X;
+                        UIWindrose.Y = (uint)Y;
+
+                        MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WINDROSELAYER).Clear();
+                        UIWindrose.Render(MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WINDROSELAYER));
+
+                        MapImageBox.Refresh();
+                        RenderDrawingPanel(true);
+                    }
                     break;
             }
         }
@@ -7024,6 +7216,5 @@ namespace MapCreator
 
             return 0;
         }
-
     }
 }

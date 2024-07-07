@@ -83,8 +83,26 @@
             backgroundTxPictureBox = new PictureBox();
             backgroundTxBox = new ComboBox();
             oceanPage = new TabPage();
+            groupBox17 = new GroupBox();
+            WindroseColorOpacityTrack = new TrackBar();
+            WindroseColorOpacityLabel = new Label();
+            label83 = new Label();
+            WindroseFadeOutCheck = new CheckBox();
+            label82 = new Label();
+            WindroseInnerCirclesTrack = new TrackBar();
+            WindroseOuterRadiusUpDown = new NumericUpDown();
+            label79 = new Label();
+            WindroseInnerRadiusUpDown = new NumericUpDown();
+            label76 = new Label();
+            WindroseLineWidthUpDown = new NumericUpDown();
+            label70 = new Label();
+            WindroseDirectionsUpDown = new NumericUpDown();
+            label3 = new Label();
+            label2 = new Label();
+            WindroseColorSelectLabel = new Label();
             OceanPaintTools = new ToolStrip();
             OceanEraseAllButton = new FontAwesome.Sharp.IconToolStripButton();
+            WindroseButton = new FontAwesome.Sharp.IconToolStripButton();
             txGroupBox = new GroupBox();
             OceanTextureClearButton = new FontAwesome.Sharp.IconButton();
             OceanTextureFillButton = new FontAwesome.Sharp.IconButton();
@@ -487,21 +505,6 @@
             LabelBoxStyleTable = new TableLayoutPanel();
             OverlayToolsPanel = new Panel();
             FrameStyleTable = new TableLayoutPanel();
-            WindroseButton = new FontAwesome.Sharp.IconToolStripButton();
-            groupBox17 = new GroupBox();
-            WindroseColorSelectLabel = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            WindroseDirectionsUpDown = new NumericUpDown();
-            WindroseLineWidthUpDown = new NumericUpDown();
-            label70 = new Label();
-            WindroseInnerRadiusUpDown = new NumericUpDown();
-            label76 = new Label();
-            WindroseOuterRadiusUpDown = new NumericUpDown();
-            label79 = new Label();
-            WindroseInnerCirclesTrack = new TrackBar();
-            label82 = new Label();
-            WindroseFadeOutCheck = new CheckBox();
             MainMenu.SuspendLayout();
             ApplicationStatusStrip.SuspendLayout();
             LayerSelectTabControl.SuspendLayout();
@@ -509,6 +512,13 @@
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)backgroundTxPictureBox).BeginInit();
             oceanPage.SuspendLayout();
+            groupBox17.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)WindroseColorOpacityTrack).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)WindroseInnerCirclesTrack).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)WindroseOuterRadiusUpDown).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)WindroseInnerRadiusUpDown).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)WindroseLineWidthUpDown).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)WindroseDirectionsUpDown).BeginInit();
             OceanPaintTools.SuspendLayout();
             txGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)OceanTextureOpacityTrack).BeginInit();
@@ -620,12 +630,6 @@
             LabelsToolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)BoxTintOpacityTrack).BeginInit();
             OverlayToolsPanel.SuspendLayout();
-            groupBox17.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)WindroseDirectionsUpDown).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)WindroseLineWidthUpDown).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)WindroseInnerRadiusUpDown).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)WindroseOuterRadiusUpDown).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)WindroseInnerCirclesTrack).BeginInit();
             SuspendLayout();
             // 
             // MainMenu
@@ -1082,6 +1086,209 @@
             oceanPage.TabIndex = 0;
             oceanPage.Text = "Ocean";
             // 
+            // groupBox17
+            // 
+            groupBox17.Controls.Add(WindroseColorOpacityTrack);
+            groupBox17.Controls.Add(WindroseColorOpacityLabel);
+            groupBox17.Controls.Add(label83);
+            groupBox17.Controls.Add(WindroseFadeOutCheck);
+            groupBox17.Controls.Add(label82);
+            groupBox17.Controls.Add(WindroseInnerCirclesTrack);
+            groupBox17.Controls.Add(WindroseOuterRadiusUpDown);
+            groupBox17.Controls.Add(label79);
+            groupBox17.Controls.Add(WindroseInnerRadiusUpDown);
+            groupBox17.Controls.Add(label76);
+            groupBox17.Controls.Add(WindroseLineWidthUpDown);
+            groupBox17.Controls.Add(label70);
+            groupBox17.Controls.Add(WindroseDirectionsUpDown);
+            groupBox17.Controls.Add(label3);
+            groupBox17.Controls.Add(label2);
+            groupBox17.Controls.Add(WindroseColorSelectLabel);
+            groupBox17.Location = new Point(8, 497);
+            groupBox17.Name = "groupBox17";
+            groupBox17.Size = new Size(120, 436);
+            groupBox17.TabIndex = 15;
+            groupBox17.TabStop = false;
+            groupBox17.Text = "Windrose";
+            // 
+            // WindroseColorOpacityTrack
+            // 
+            WindroseColorOpacityTrack.AutoSize = false;
+            WindroseColorOpacityTrack.Location = new Point(5, 100);
+            WindroseColorOpacityTrack.Maximum = 255;
+            WindroseColorOpacityTrack.Name = "WindroseColorOpacityTrack";
+            WindroseColorOpacityTrack.Size = new Size(108, 20);
+            WindroseColorOpacityTrack.TabIndex = 52;
+            WindroseColorOpacityTrack.TickStyle = TickStyle.None;
+            WindroseColorOpacityTrack.Value = 127;
+            WindroseColorOpacityTrack.Scroll += WindroseColorOpacityTrack_Scroll;
+            // 
+            // WindroseColorOpacityLabel
+            // 
+            WindroseColorOpacityLabel.Font = new Font("Tahoma", 9F);
+            WindroseColorOpacityLabel.Location = new Point(85, 83);
+            WindroseColorOpacityLabel.Name = "WindroseColorOpacityLabel";
+            WindroseColorOpacityLabel.Size = new Size(30, 14);
+            WindroseColorOpacityLabel.TabIndex = 51;
+            WindroseColorOpacityLabel.Text = "127";
+            WindroseColorOpacityLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label83
+            // 
+            label83.AutoSize = true;
+            label83.Font = new Font("Tahoma", 9F);
+            label83.Location = new Point(10, 83);
+            label83.Name = "label83";
+            label83.Size = new Size(48, 14);
+            label83.TabIndex = 50;
+            label83.Text = "Opacity";
+            // 
+            // WindroseFadeOutCheck
+            // 
+            WindroseFadeOutCheck.AutoSize = true;
+            WindroseFadeOutCheck.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            WindroseFadeOutCheck.Location = new Point(10, 404);
+            WindroseFadeOutCheck.Name = "WindroseFadeOutCheck";
+            WindroseFadeOutCheck.Size = new Size(77, 18);
+            WindroseFadeOutCheck.TabIndex = 23;
+            WindroseFadeOutCheck.Text = "Fade Out";
+            WindroseFadeOutCheck.UseVisualStyleBackColor = true;
+            WindroseFadeOutCheck.CheckedChanged += WindroseFadeOutCheck_CheckedChanged;
+            // 
+            // label82
+            // 
+            label82.AutoSize = true;
+            label82.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label82.Location = new Point(11, 348);
+            label82.Name = "label82";
+            label82.Size = new Size(73, 14);
+            label82.TabIndex = 22;
+            label82.Text = "Inner Circles";
+            // 
+            // WindroseInnerCirclesTrack
+            // 
+            WindroseInnerCirclesTrack.AutoSize = false;
+            WindroseInnerCirclesTrack.LargeChange = 1;
+            WindroseInnerCirclesTrack.Location = new Point(5, 365);
+            WindroseInnerCirclesTrack.Maximum = 2;
+            WindroseInnerCirclesTrack.Name = "WindroseInnerCirclesTrack";
+            WindroseInnerCirclesTrack.Size = new Size(109, 24);
+            WindroseInnerCirclesTrack.TabIndex = 21;
+            WindroseInnerCirclesTrack.ValueChanged += WindroseInnerCirclesTrack_ValueChanged;
+            // 
+            // WindroseOuterRadiusUpDown
+            // 
+            WindroseOuterRadiusUpDown.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            WindroseOuterRadiusUpDown.Location = new Point(6, 311);
+            WindroseOuterRadiusUpDown.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
+            WindroseOuterRadiusUpDown.Name = "WindroseOuterRadiusUpDown";
+            WindroseOuterRadiusUpDown.Size = new Size(107, 22);
+            WindroseOuterRadiusUpDown.TabIndex = 20;
+            WindroseOuterRadiusUpDown.TextAlign = HorizontalAlignment.Right;
+            WindroseOuterRadiusUpDown.Value = new decimal(new int[] { 1000, 0, 0, 0 });
+            WindroseOuterRadiusUpDown.ValueChanged += WindroseOuterRadiusUpDown_ValueChanged;
+            // 
+            // label79
+            // 
+            label79.AutoSize = true;
+            label79.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label79.Location = new Point(10, 294);
+            label79.Name = "label79";
+            label79.Size = new Size(77, 14);
+            label79.TabIndex = 19;
+            label79.Text = "Outer Radius";
+            // 
+            // WindroseInnerRadiusUpDown
+            // 
+            WindroseInnerRadiusUpDown.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            WindroseInnerRadiusUpDown.Location = new Point(6, 257);
+            WindroseInnerRadiusUpDown.Maximum = new decimal(new int[] { 1024, 0, 0, 0 });
+            WindroseInnerRadiusUpDown.Name = "WindroseInnerRadiusUpDown";
+            WindroseInnerRadiusUpDown.Size = new Size(108, 22);
+            WindroseInnerRadiusUpDown.TabIndex = 18;
+            WindroseInnerRadiusUpDown.TextAlign = HorizontalAlignment.Right;
+            WindroseInnerRadiusUpDown.ValueChanged += WindroseInnerRadiusUpDown_ValueChanged;
+            // 
+            // label76
+            // 
+            label76.AutoSize = true;
+            label76.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label76.Location = new Point(11, 240);
+            label76.Name = "label76";
+            label76.Size = new Size(74, 14);
+            label76.TabIndex = 17;
+            label76.Text = "Inner Radius";
+            // 
+            // WindroseLineWidthUpDown
+            // 
+            WindroseLineWidthUpDown.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            WindroseLineWidthUpDown.Location = new Point(5, 205);
+            WindroseLineWidthUpDown.Maximum = new decimal(new int[] { 16, 0, 0, 0 });
+            WindroseLineWidthUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            WindroseLineWidthUpDown.Name = "WindroseLineWidthUpDown";
+            WindroseLineWidthUpDown.Size = new Size(108, 22);
+            WindroseLineWidthUpDown.TabIndex = 16;
+            WindroseLineWidthUpDown.TextAlign = HorizontalAlignment.Right;
+            WindroseLineWidthUpDown.Value = new decimal(new int[] { 2, 0, 0, 0 });
+            WindroseLineWidthUpDown.ValueChanged += WindroseLineWidthUpDown_ValueChanged;
+            // 
+            // label70
+            // 
+            label70.AutoSize = true;
+            label70.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label70.Location = new Point(10, 188);
+            label70.Name = "label70";
+            label70.Size = new Size(66, 14);
+            label70.TabIndex = 15;
+            label70.Text = "Line Width";
+            // 
+            // WindroseDirectionsUpDown
+            // 
+            WindroseDirectionsUpDown.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            WindroseDirectionsUpDown.Location = new Point(5, 154);
+            WindroseDirectionsUpDown.Maximum = new decimal(new int[] { 32, 0, 0, 0 });
+            WindroseDirectionsUpDown.Minimum = new decimal(new int[] { 4, 0, 0, 0 });
+            WindroseDirectionsUpDown.Name = "WindroseDirectionsUpDown";
+            WindroseDirectionsUpDown.Size = new Size(108, 22);
+            WindroseDirectionsUpDown.TabIndex = 14;
+            WindroseDirectionsUpDown.TextAlign = HorizontalAlignment.Right;
+            WindroseDirectionsUpDown.Value = new decimal(new int[] { 16, 0, 0, 0 });
+            WindroseDirectionsUpDown.ValueChanged += WindroseDirectionsUpDown_ValueChanged;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Location = new Point(10, 137);
+            label3.Name = "label3";
+            label3.Size = new Size(60, 14);
+            label3.TabIndex = 13;
+            label3.Text = "Directions";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.Location = new Point(10, 31);
+            label2.Name = "label2";
+            label2.Size = new Size(34, 14);
+            label2.TabIndex = 12;
+            label2.Text = "Color";
+            // 
+            // WindroseColorSelectLabel
+            // 
+            WindroseColorSelectLabel.BackColor = Color.FromArgb(127, 61, 55, 40);
+            WindroseColorSelectLabel.BorderStyle = BorderStyle.FixedSingle;
+            WindroseColorSelectLabel.Font = new Font("Tahoma", 8F);
+            WindroseColorSelectLabel.ForeColor = SystemColors.ButtonShadow;
+            WindroseColorSelectLabel.Location = new Point(5, 48);
+            WindroseColorSelectLabel.Name = "WindroseColorSelectLabel";
+            WindroseColorSelectLabel.Size = new Size(108, 28);
+            WindroseColorSelectLabel.TabIndex = 11;
+            WindroseColorSelectLabel.Text = "Click to Select";
+            WindroseColorSelectLabel.TextAlign = ContentAlignment.MiddleCenter;
+            WindroseColorSelectLabel.Click += WindroseColorSelectLabel_Click;
+            // 
             // OceanPaintTools
             // 
             OceanPaintTools.AutoSize = false;
@@ -1114,6 +1321,23 @@
             OceanEraseAllButton.TextImageRelation = TextImageRelation.TextAboveImage;
             OceanEraseAllButton.ToolTipText = "Erase everything that has been painted. Does not erase the background.";
             OceanEraseAllButton.Click += OceanEraseAllButton_Click;
+            // 
+            // WindroseButton
+            // 
+            WindroseButton.AutoSize = false;
+            WindroseButton.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            WindroseButton.IconChar = FontAwesome.Sharp.IconChar.Compass;
+            WindroseButton.IconColor = Color.Black;
+            WindroseButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            WindroseButton.IconSize = 32;
+            WindroseButton.ImageScaling = ToolStripItemImageScaling.None;
+            WindroseButton.ImageTransparentColor = Color.Magenta;
+            WindroseButton.Margin = new Padding(0, 25, 0, 2);
+            WindroseButton.Name = "WindroseButton";
+            WindroseButton.Size = new Size(60, 60);
+            WindroseButton.Text = "Windrose";
+            WindroseButton.TextImageRelation = TextImageRelation.TextAboveImage;
+            WindroseButton.Click += WindroseButton_Click;
             // 
             // txGroupBox
             // 
@@ -6317,179 +6541,6 @@
             FrameStyleTable.Size = new Size(122, 858);
             FrameStyleTable.TabIndex = 73;
             // 
-            // WindroseButton
-            // 
-            WindroseButton.AutoSize = false;
-            WindroseButton.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            WindroseButton.IconChar = FontAwesome.Sharp.IconChar.Compass;
-            WindroseButton.IconColor = Color.Black;
-            WindroseButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            WindroseButton.IconSize = 32;
-            WindroseButton.ImageScaling = ToolStripItemImageScaling.None;
-            WindroseButton.ImageTransparentColor = Color.Magenta;
-            WindroseButton.Margin = new Padding(0, 25, 0, 2);
-            WindroseButton.Name = "WindroseButton";
-            WindroseButton.Size = new Size(60, 60);
-            WindroseButton.Text = "Windrose";
-            WindroseButton.TextImageRelation = TextImageRelation.TextAboveImage;
-            // 
-            // groupBox17
-            // 
-            groupBox17.Controls.Add(WindroseFadeOutCheck);
-            groupBox17.Controls.Add(label82);
-            groupBox17.Controls.Add(WindroseInnerCirclesTrack);
-            groupBox17.Controls.Add(WindroseOuterRadiusUpDown);
-            groupBox17.Controls.Add(label79);
-            groupBox17.Controls.Add(WindroseInnerRadiusUpDown);
-            groupBox17.Controls.Add(label76);
-            groupBox17.Controls.Add(WindroseLineWidthUpDown);
-            groupBox17.Controls.Add(label70);
-            groupBox17.Controls.Add(WindroseDirectionsUpDown);
-            groupBox17.Controls.Add(label3);
-            groupBox17.Controls.Add(label2);
-            groupBox17.Controls.Add(WindroseColorSelectLabel);
-            groupBox17.Location = new Point(8, 497);
-            groupBox17.Name = "groupBox17";
-            groupBox17.Size = new Size(120, 386);
-            groupBox17.TabIndex = 15;
-            groupBox17.TabStop = false;
-            groupBox17.Text = "Windrose";
-            // 
-            // WindroseColorSelectLabel
-            // 
-            WindroseColorSelectLabel.BackColor = Color.FromArgb(127, 61, 55, 40);
-            WindroseColorSelectLabel.BorderStyle = BorderStyle.FixedSingle;
-            WindroseColorSelectLabel.Font = new Font("Tahoma", 8F);
-            WindroseColorSelectLabel.ForeColor = SystemColors.ButtonShadow;
-            WindroseColorSelectLabel.Location = new Point(5, 48);
-            WindroseColorSelectLabel.Name = "WindroseColorSelectLabel";
-            WindroseColorSelectLabel.Size = new Size(108, 28);
-            WindroseColorSelectLabel.TabIndex = 11;
-            WindroseColorSelectLabel.Text = "Click to Select";
-            WindroseColorSelectLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(10, 31);
-            label2.Name = "label2";
-            label2.Size = new Size(34, 14);
-            label2.TabIndex = 12;
-            label2.Text = "Color";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(10, 87);
-            label3.Name = "label3";
-            label3.Size = new Size(60, 14);
-            label3.TabIndex = 13;
-            label3.Text = "Directions";
-            // 
-            // WindroseDirectionsUpDown
-            // 
-            WindroseDirectionsUpDown.Location = new Point(5, 104);
-            WindroseDirectionsUpDown.Maximum = new decimal(new int[] { 32, 0, 0, 0 });
-            WindroseDirectionsUpDown.Minimum = new decimal(new int[] { 4, 0, 0, 0 });
-            WindroseDirectionsUpDown.Name = "WindroseDirectionsUpDown";
-            WindroseDirectionsUpDown.Size = new Size(108, 26);
-            WindroseDirectionsUpDown.TabIndex = 14;
-            WindroseDirectionsUpDown.TextAlign = HorizontalAlignment.Right;
-            WindroseDirectionsUpDown.Value = new decimal(new int[] { 16, 0, 0, 0 });
-            // 
-            // WindroseLineWidthUpDown
-            // 
-            WindroseLineWidthUpDown.Location = new Point(5, 155);
-            WindroseLineWidthUpDown.Maximum = new decimal(new int[] { 16, 0, 0, 0 });
-            WindroseLineWidthUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            WindroseLineWidthUpDown.Name = "WindroseLineWidthUpDown";
-            WindroseLineWidthUpDown.Size = new Size(108, 26);
-            WindroseLineWidthUpDown.TabIndex = 16;
-            WindroseLineWidthUpDown.TextAlign = HorizontalAlignment.Right;
-            WindroseLineWidthUpDown.Value = new decimal(new int[] { 3, 0, 0, 0 });
-            // 
-            // label70
-            // 
-            label70.AutoSize = true;
-            label70.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label70.Location = new Point(10, 138);
-            label70.Name = "label70";
-            label70.Size = new Size(66, 14);
-            label70.TabIndex = 15;
-            label70.Text = "Line Width";
-            // 
-            // WindroseInnerRadiusUpDown
-            // 
-            WindroseInnerRadiusUpDown.Location = new Point(6, 207);
-            WindroseInnerRadiusUpDown.Maximum = new decimal(new int[] { 1024, 0, 0, 0 });
-            WindroseInnerRadiusUpDown.Name = "WindroseInnerRadiusUpDown";
-            WindroseInnerRadiusUpDown.Size = new Size(108, 26);
-            WindroseInnerRadiusUpDown.TabIndex = 18;
-            WindroseInnerRadiusUpDown.TextAlign = HorizontalAlignment.Right;
-            // 
-            // label76
-            // 
-            label76.AutoSize = true;
-            label76.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label76.Location = new Point(11, 190);
-            label76.Name = "label76";
-            label76.Size = new Size(74, 14);
-            label76.TabIndex = 17;
-            label76.Text = "Inner Radius";
-            // 
-            // WindroseOuterRadiusUpDown
-            // 
-            WindroseOuterRadiusUpDown.Location = new Point(6, 261);
-            WindroseOuterRadiusUpDown.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
-            WindroseOuterRadiusUpDown.Name = "WindroseOuterRadiusUpDown";
-            WindroseOuterRadiusUpDown.Size = new Size(107, 26);
-            WindroseOuterRadiusUpDown.TabIndex = 20;
-            WindroseOuterRadiusUpDown.TextAlign = HorizontalAlignment.Right;
-            WindroseOuterRadiusUpDown.Value = new decimal(new int[] { 1000, 0, 0, 0 });
-            // 
-            // label79
-            // 
-            label79.AutoSize = true;
-            label79.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label79.Location = new Point(10, 244);
-            label79.Name = "label79";
-            label79.Size = new Size(77, 14);
-            label79.TabIndex = 19;
-            label79.Text = "Outer Radius";
-            // 
-            // WindroseInnerCirclesTrack
-            // 
-            WindroseInnerCirclesTrack.AutoSize = false;
-            WindroseInnerCirclesTrack.LargeChange = 1;
-            WindroseInnerCirclesTrack.Location = new Point(5, 315);
-            WindroseInnerCirclesTrack.Maximum = 2;
-            WindroseInnerCirclesTrack.Name = "WindroseInnerCirclesTrack";
-            WindroseInnerCirclesTrack.Size = new Size(109, 24);
-            WindroseInnerCirclesTrack.TabIndex = 21;
-            // 
-            // label82
-            // 
-            label82.AutoSize = true;
-            label82.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label82.Location = new Point(11, 298);
-            label82.Name = "label82";
-            label82.Size = new Size(73, 14);
-            label82.TabIndex = 22;
-            label82.Text = "Inner Circles";
-            // 
-            // WindroseFadeOutCheck
-            // 
-            WindroseFadeOutCheck.AutoSize = true;
-            WindroseFadeOutCheck.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            WindroseFadeOutCheck.Location = new Point(10, 354);
-            WindroseFadeOutCheck.Name = "WindroseFadeOutCheck";
-            WindroseFadeOutCheck.Size = new Size(77, 18);
-            WindroseFadeOutCheck.TabIndex = 23;
-            WindroseFadeOutCheck.Text = "Fade Out";
-            WindroseFadeOutCheck.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -6530,6 +6581,14 @@
             groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)backgroundTxPictureBox).EndInit();
             oceanPage.ResumeLayout(false);
+            groupBox17.ResumeLayout(false);
+            groupBox17.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)WindroseColorOpacityTrack).EndInit();
+            ((System.ComponentModel.ISupportInitialize)WindroseInnerCirclesTrack).EndInit();
+            ((System.ComponentModel.ISupportInitialize)WindroseOuterRadiusUpDown).EndInit();
+            ((System.ComponentModel.ISupportInitialize)WindroseInnerRadiusUpDown).EndInit();
+            ((System.ComponentModel.ISupportInitialize)WindroseLineWidthUpDown).EndInit();
+            ((System.ComponentModel.ISupportInitialize)WindroseDirectionsUpDown).EndInit();
             OceanPaintTools.ResumeLayout(false);
             OceanPaintTools.PerformLayout();
             txGroupBox.ResumeLayout(false);
@@ -6674,13 +6733,6 @@
             LabelsToolPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)BoxTintOpacityTrack).EndInit();
             OverlayToolsPanel.ResumeLayout(false);
-            groupBox17.ResumeLayout(false);
-            groupBox17.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)WindroseDirectionsUpDown).EndInit();
-            ((System.ComponentModel.ISupportInitialize)WindroseLineWidthUpDown).EndInit();
-            ((System.ComponentModel.ISupportInitialize)WindroseInnerRadiusUpDown).EndInit();
-            ((System.ComponentModel.ISupportInitialize)WindroseOuterRadiusUpDown).EndInit();
-            ((System.ComponentModel.ISupportInitialize)WindroseInnerCirclesTrack).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -7160,5 +7212,8 @@
         private Label label82;
         private TrackBar WindroseInnerCirclesTrack;
         private CheckBox WindroseFadeOutCheck;
+        private TrackBar WindroseColorOpacityTrack;
+        private Label WindroseColorOpacityLabel;
+        private Label label83;
     }
 }

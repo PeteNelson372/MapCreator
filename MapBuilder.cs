@@ -244,6 +244,12 @@ namespace MapCreator
             layer = ConstructMapLayer("oceandrawing", (ushort)OCEANDRAWINGLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
             map.MapLayers.Add(layer);
 
+            layer = ConstructMapLayer("windrose", (ushort)WINDROSELAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
+            map.MapLayers.Add(layer);
+
+            layer = ConstructMapLayer("aboveoceangridlayer", (ushort)ABOVEOCEANGRIDLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
+            map.MapLayers.Add(layer);
+
             layer = ConstructMapLayer("coastline", (ushort)LANDCOASTLINELAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
             map.MapLayers.Add(layer);
 
@@ -257,6 +263,9 @@ namespace MapCreator
             map.MapLayers.Add(layer);
 
             layer = ConstructMapLayer("waterdrawing", (ushort)WATERDRAWINGLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
+            map.MapLayers.Add(layer);
+
+            layer = ConstructMapLayer("belowsymbolsgrid", (ushort)BELOWSYMBOLSGRIDLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
             map.MapLayers.Add(layer);
 
             layer = ConstructMapLayer("pathlower", (ushort)PATHLOWERLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
@@ -285,6 +294,11 @@ namespace MapCreator
 
             layer = ConstructMapLayer("work", (ushort)WORKLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
             map.MapLayers.Add(layer);
+
+            if (MAP_LAYER_COUNT != map.MapLayers.Count)
+            {
+                throw new Exception("Error constructing map. Map layer count error");
+            }
 
             return map;
         }

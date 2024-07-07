@@ -42,17 +42,13 @@ namespace MapCreator
                 };
 
                 canvas.DrawBitmap(Extensions.ToSKBitmap(BoxBitmap), X, Y, boxPaint);
-            }
-            else
-            {
-                throw new Exception("Null map box bitmap");
-            }
 
-            if (IsSelected)
-            {
-                // draw box around label to show it is selected
-                SKRect selectRect = new(X, Y, X + Width, Y + Height);
-                canvas.DrawRect(selectRect, MapLabelMethods.LABEL_SELECT_PAINT);
+                if (IsSelected)
+                {
+                    // draw box around label to show it is selected
+                    SKRect selectRect = new(X, Y, X + Width, Y + Height);
+                    canvas.DrawRect(selectRect, MapLabelMethods.LABEL_SELECT_PAINT);
+                }
             }
         }
 
