@@ -5388,7 +5388,9 @@ namespace MapCreator
         // map scale object
         private void ScaleButton_Click(object sender, EventArgs e)
         {
-
+            MapScaleCreator scaleCreator = new MapScaleCreator();
+            scaleCreator.Show(this);
+            scaleCreator.Location = this.PointToScreen(new Point(1080, 52));           
         }
 
 
