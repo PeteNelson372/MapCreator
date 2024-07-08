@@ -231,6 +231,52 @@ namespace MapCreator
             map.MapPixelWidth = map.MapAreaWidth / map.MapWidth;
             map.MapPixelHeight = map.MapAreaHeight / map.MapHeight;
 
+            CreateMapLayers(map);
+
+            if (MAP_LAYER_COUNT != map.MapLayers.Count)
+            {
+                throw new Exception("Error constructing map. Map layer count error");
+            }
+
+            return map;
+        }
+
+        internal static MapCreatorMap? CreateMap(string mapPath, string mapName, ushort width, ushort height)
+        {
+            MapCreatorMap map = new()
+            {
+                MapPath = mapPath,
+                MapName = mapName,
+                MapWidth = width,
+                MapHeight = height,
+                IsSaved = true,
+                MapAreaWidth = width,
+                MapAreaHeight = height,
+                MapAreaUnits = string.Empty,
+            };
+
+            map.MapPixelWidth = map.MapAreaWidth / map.MapWidth;
+            map.MapPixelHeight = map.MapAreaHeight / map.MapHeight;
+
+            CreateMapLayers(map);
+
+            if (MAP_LAYER_COUNT != map.MapLayers.Count)
+            {
+                throw new Exception("Error constructing map. Map layer count error");
+            }
+            return map;
+        }
+
+        public static void CreateMapCanvases(MapCreatorMap map)
+        {
+            foreach (var layer in map.MapLayers)
+            {
+                ((MapBitmap)layer.MapLayerComponents[0]).MCanvas = new(((MapBitmap)layer.MapLayerComponents[0]).MBitmap);
+            }
+        }
+
+        private static void CreateMapLayers(MapCreatorMap map)
+        {
             // create the map layers and add them to the map
             MapLayer layer = ConstructMapLayer("base", (ushort)BASELAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.White);
             map.MapLayers.Add(layer);
@@ -294,96 +340,6 @@ namespace MapCreator
 
             layer = ConstructMapLayer("work", (ushort)WORKLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
             map.MapLayers.Add(layer);
-
-            if (MAP_LAYER_COUNT != map.MapLayers.Count)
-            {
-                throw new Exception("Error constructing map. Map layer count error");
-            }
-
-            return map;
-        }
-
-        internal static MapCreatorMap? CreateMap(string mapPath, string mapName, ushort width, ushort height)
-        {
-            MapCreatorMap map = new()
-            {
-                MapPath = mapPath,
-                MapName = mapName,
-                MapWidth = width,
-                MapHeight = height,
-                IsSaved = true,
-                MapAreaWidth = width,
-                MapAreaHeight = height,
-                MapAreaUnits = string.Empty,
-            };
-
-            map.MapPixelWidth = map.MapAreaWidth / map.MapWidth;
-            map.MapPixelHeight = map.MapAreaHeight / map.MapHeight;
-
-            // create the map layers and add them to the map
-            MapLayer layer = ConstructMapLayer("base", (ushort)BASELAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.White);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("oceantexture", (ushort)OCEANTEXTURELAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("oceantextureoverlay", (ushort)OCEANTEXTUREOVERLAYLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("oceandrawing", (ushort)OCEANDRAWINGLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("coastline", (ushort)LANDCOASTLINELAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("landform", (ushort)LANDFORMLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("landdrawing", (ushort)LANDDRAWINGLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("water", (ushort)WATERLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("waterdrawing", (ushort)WATERDRAWINGLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("pathlower", (ushort)PATHLOWERLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("symbols", (ushort)SYMBOLLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("pathupper", (ushort)PATHUPPERLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("grid", (ushort)DEFAULTGRIDLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("boxes", (ushort)BOXLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("labels", (ushort)LABELLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("overlays", (ushort)OVERLAYLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("userdrawing", (ushort)DRAWINGLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            layer = ConstructMapLayer("work", (ushort)WORKLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
-            map.MapLayers.Add(layer);
-
-            return map;
-        }
-
-        public static void CreateMapCanvases(MapCreatorMap map)
-        {
-            foreach (var layer in map.MapLayers)
-            {
-                ((MapBitmap)layer.MapLayerComponents[0]).MCanvas = new(((MapBitmap)layer.MapLayerComponents[0]).MBitmap);
-            }
         }
     }
 }

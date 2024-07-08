@@ -28,146 +28,165 @@
         /// </summary>
         private void InitializeComponent()
         {
-            numericUpDown1 = new NumericUpDown();
-            numericUpDown2 = new NumericUpDown();
-            trackBar1 = new TrackBar();
-            trackBar2 = new TrackBar();
-            SymbolColor3Label = new Label();
-            SymbolColor2Label = new Label();
-            SymbolColor1Label = new Label();
-            numericUpDown3 = new NumericUpDown();
-            checkedListBox1 = new CheckedListBox();
+            ScaleWidthUpDown = new NumericUpDown();
+            ScaleHeightUpDown = new NumericUpDown();
+            ScaleSegmentCountTrack = new TrackBar();
+            ScaleLineWidthTrack = new TrackBar();
+            ScaleColor3Label = new Label();
+            ScaleColor2Label = new Label();
+            ScaleColor1Label = new Label();
+            ScaleSegmentDistanceUpDown = new NumericUpDown();
+            ScaleNumbersDisplayCheckList = new CheckedListBox();
             groupBox12 = new GroupBox();
-            FontColorOpacityTrack = new TrackBar();
-            FontColorOpacityLabel = new Label();
+            ScaleFontColorOpacityTrack = new TrackBar();
+            ScaleFontColorOpacityLabel = new Label();
             label69 = new Label();
             label61 = new Label();
-            FontColorSelectLabel = new Label();
-            SelectLabelFontButton = new Button();
+            ScaleFontColorSelectLabel = new Label();
+            SelectScaleFontButton = new Button();
             groupBox11 = new GroupBox();
-            OutlineColorOpacityTrack = new TrackBar();
-            OutlineColorOpacityLabel = new Label();
+            ScaleOutlineColorOpacityTrack = new TrackBar();
+            ScaleOutlineColorOpacityLabel = new Label();
             label68 = new Label();
             label63 = new Label();
-            OutlineWidthUpDown = new NumericUpDown();
+            ScaleOutlineWidthUpDown = new NumericUpDown();
             label60 = new Label();
-            OutlineColorSelectLabel = new Label();
+            ScaleOutlineColorSelectLabel = new Label();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            numericUpDown4 = new NumericUpDown();
-            numericUpDown5 = new NumericUpDown();
+            ScaleSegmentCountUpDown = new NumericUpDown();
+            ScaleLineWidthUpDown = new NumericUpDown();
             label4 = new Label();
             label5 = new Label();
-            ResetColorsButton = new FontAwesome.Sharp.IconButton();
+            ResetScaleColorsButton = new FontAwesome.Sharp.IconButton();
             label6 = new Label();
             label7 = new Label();
             label8 = new Label();
-            textBox1 = new TextBox();
+            ScaleUnitsTextBox = new TextBox();
             label9 = new Label();
             label10 = new Label();
-            button1 = new Button();
-            button2 = new Button();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown3).BeginInit();
+            CreateScaleButton = new Button();
+            DeleteScaleButton = new Button();
+            CloseButton = new Button();
+            ((System.ComponentModel.ISupportInitialize)ScaleWidthUpDown).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleHeightUpDown).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleSegmentCountTrack).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleLineWidthTrack).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleSegmentDistanceUpDown).BeginInit();
             groupBox12.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)FontColorOpacityTrack).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleFontColorOpacityTrack).BeginInit();
             groupBox11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)OutlineColorOpacityTrack).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)OutlineWidthUpDown).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleOutlineColorOpacityTrack).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleOutlineWidthUpDown).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleSegmentCountUpDown).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleLineWidthUpDown).BeginInit();
             SuspendLayout();
             // 
-            // numericUpDown1
+            // ScaleWidthUpDown
             // 
-            numericUpDown1.Location = new Point(82, 29);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(60, 23);
-            numericUpDown1.TabIndex = 0;
+            ScaleWidthUpDown.Location = new Point(82, 29);
+            ScaleWidthUpDown.Maximum = new decimal(new int[] { 2048, 0, 0, 0 });
+            ScaleWidthUpDown.Minimum = new decimal(new int[] { 64, 0, 0, 0 });
+            ScaleWidthUpDown.Name = "ScaleWidthUpDown";
+            ScaleWidthUpDown.Size = new Size(60, 23);
+            ScaleWidthUpDown.TabIndex = 0;
+            ScaleWidthUpDown.Value = new decimal(new int[] { 256, 0, 0, 0 });
             // 
-            // numericUpDown2
+            // ScaleHeightUpDown
             // 
-            numericUpDown2.Location = new Point(239, 29);
-            numericUpDown2.Name = "numericUpDown2";
-            numericUpDown2.Size = new Size(60, 23);
-            numericUpDown2.TabIndex = 1;
+            ScaleHeightUpDown.Location = new Point(239, 29);
+            ScaleHeightUpDown.Maximum = new decimal(new int[] { 256, 0, 0, 0 });
+            ScaleHeightUpDown.Minimum = new decimal(new int[] { 4, 0, 0, 0 });
+            ScaleHeightUpDown.Name = "ScaleHeightUpDown";
+            ScaleHeightUpDown.Size = new Size(60, 23);
+            ScaleHeightUpDown.TabIndex = 1;
+            ScaleHeightUpDown.Value = new decimal(new int[] { 16, 0, 0, 0 });
             // 
-            // trackBar1
+            // ScaleSegmentCountTrack
             // 
-            trackBar1.AutoSize = false;
-            trackBar1.Location = new Point(82, 67);
-            trackBar1.Maximum = 32;
-            trackBar1.Minimum = 1;
-            trackBar1.Name = "trackBar1";
-            trackBar1.Size = new Size(151, 32);
-            trackBar1.TabIndex = 2;
-            trackBar1.TickStyle = TickStyle.None;
-            trackBar1.Value = 5;
+            ScaleSegmentCountTrack.AutoSize = false;
+            ScaleSegmentCountTrack.Location = new Point(82, 67);
+            ScaleSegmentCountTrack.Maximum = 32;
+            ScaleSegmentCountTrack.Minimum = 1;
+            ScaleSegmentCountTrack.Name = "ScaleSegmentCountTrack";
+            ScaleSegmentCountTrack.Size = new Size(151, 32);
+            ScaleSegmentCountTrack.TabIndex = 2;
+            ScaleSegmentCountTrack.TickStyle = TickStyle.None;
+            ScaleSegmentCountTrack.Value = 5;
             // 
-            // trackBar2
+            // ScaleLineWidthTrack
             // 
-            trackBar2.AutoSize = false;
-            trackBar2.Location = new Point(82, 105);
-            trackBar2.Name = "trackBar2";
-            trackBar2.Size = new Size(151, 32);
-            trackBar2.TabIndex = 3;
-            trackBar2.TickStyle = TickStyle.None;
+            ScaleLineWidthTrack.AutoSize = false;
+            ScaleLineWidthTrack.Location = new Point(82, 105);
+            ScaleLineWidthTrack.Maximum = 8;
+            ScaleLineWidthTrack.Minimum = 2;
+            ScaleLineWidthTrack.Name = "ScaleLineWidthTrack";
+            ScaleLineWidthTrack.Size = new Size(151, 32);
+            ScaleLineWidthTrack.TabIndex = 3;
+            ScaleLineWidthTrack.TickStyle = TickStyle.None;
+            ScaleLineWidthTrack.Value = 3;
             // 
-            // SymbolColor3Label
+            // ScaleColor3Label
             // 
-            SymbolColor3Label.BackColor = Color.Black;
-            SymbolColor3Label.BorderStyle = BorderStyle.FixedSingle;
-            SymbolColor3Label.Location = new Point(166, 140);
-            SymbolColor3Label.Name = "SymbolColor3Label";
-            SymbolColor3Label.Size = new Size(26, 28);
-            SymbolColor3Label.TabIndex = 80;
+            ScaleColor3Label.BackColor = Color.Black;
+            ScaleColor3Label.BorderStyle = BorderStyle.FixedSingle;
+            ScaleColor3Label.Location = new Point(166, 140);
+            ScaleColor3Label.Name = "ScaleColor3Label";
+            ScaleColor3Label.Size = new Size(26, 28);
+            ScaleColor3Label.TabIndex = 80;
+            ScaleColor3Label.Click += ScaleColor3Label_Click;
             // 
-            // SymbolColor2Label
+            // ScaleColor2Label
             // 
-            SymbolColor2Label.BackColor = Color.White;
-            SymbolColor2Label.BorderStyle = BorderStyle.FixedSingle;
-            SymbolColor2Label.Location = new Point(134, 140);
-            SymbolColor2Label.Name = "SymbolColor2Label";
-            SymbolColor2Label.Size = new Size(26, 28);
-            SymbolColor2Label.TabIndex = 79;
+            ScaleColor2Label.BackColor = Color.White;
+            ScaleColor2Label.BorderStyle = BorderStyle.FixedSingle;
+            ScaleColor2Label.Location = new Point(134, 140);
+            ScaleColor2Label.Name = "ScaleColor2Label";
+            ScaleColor2Label.Size = new Size(26, 28);
+            ScaleColor2Label.TabIndex = 79;
+            ScaleColor2Label.Click += ScaleColor2Label_Click;
             // 
-            // SymbolColor1Label
+            // ScaleColor1Label
             // 
-            SymbolColor1Label.BackColor = Color.Black;
-            SymbolColor1Label.BorderStyle = BorderStyle.FixedSingle;
-            SymbolColor1Label.Location = new Point(102, 140);
-            SymbolColor1Label.Name = "SymbolColor1Label";
-            SymbolColor1Label.Size = new Size(26, 28);
-            SymbolColor1Label.TabIndex = 78;
+            ScaleColor1Label.BackColor = Color.Black;
+            ScaleColor1Label.BorderStyle = BorderStyle.FixedSingle;
+            ScaleColor1Label.Location = new Point(102, 140);
+            ScaleColor1Label.Name = "ScaleColor1Label";
+            ScaleColor1Label.Size = new Size(26, 28);
+            ScaleColor1Label.TabIndex = 78;
+            ScaleColor1Label.Click += ScaleColor1Label_Click;
             // 
-            // numericUpDown3
+            // ScaleSegmentDistanceUpDown
             // 
-            numericUpDown3.Location = new Point(82, 193);
-            numericUpDown3.Name = "numericUpDown3";
-            numericUpDown3.Size = new Size(60, 23);
-            numericUpDown3.TabIndex = 81;
+            ScaleSegmentDistanceUpDown.DecimalPlaces = 1;
+            ScaleSegmentDistanceUpDown.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            ScaleSegmentDistanceUpDown.Location = new Point(82, 193);
+            ScaleSegmentDistanceUpDown.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            ScaleSegmentDistanceUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 65536 });
+            ScaleSegmentDistanceUpDown.Name = "ScaleSegmentDistanceUpDown";
+            ScaleSegmentDistanceUpDown.Size = new Size(60, 23);
+            ScaleSegmentDistanceUpDown.TabIndex = 81;
+            ScaleSegmentDistanceUpDown.Value = new decimal(new int[] { 100, 0, 0, 0 });
             // 
-            // checkedListBox1
+            // ScaleNumbersDisplayCheckList
             // 
-            checkedListBox1.FormattingEnabled = true;
-            checkedListBox1.Items.AddRange(new object[] { "None", "Ends", "Every Other", "All" });
-            checkedListBox1.Location = new Point(82, 274);
-            checkedListBox1.Name = "checkedListBox1";
-            checkedListBox1.Size = new Size(217, 76);
-            checkedListBox1.TabIndex = 83;
+            ScaleNumbersDisplayCheckList.CheckOnClick = true;
+            ScaleNumbersDisplayCheckList.FormattingEnabled = true;
+            ScaleNumbersDisplayCheckList.Items.AddRange(new object[] { "None", "Ends", "Every Other", "All" });
+            ScaleNumbersDisplayCheckList.Location = new Point(82, 274);
+            ScaleNumbersDisplayCheckList.Name = "ScaleNumbersDisplayCheckList";
+            ScaleNumbersDisplayCheckList.Size = new Size(217, 76);
+            ScaleNumbersDisplayCheckList.TabIndex = 83;
             // 
             // groupBox12
             // 
-            groupBox12.Controls.Add(FontColorOpacityTrack);
-            groupBox12.Controls.Add(FontColorOpacityLabel);
+            groupBox12.Controls.Add(ScaleFontColorOpacityTrack);
+            groupBox12.Controls.Add(ScaleFontColorOpacityLabel);
             groupBox12.Controls.Add(label69);
             groupBox12.Controls.Add(label61);
-            groupBox12.Controls.Add(FontColorSelectLabel);
-            groupBox12.Controls.Add(SelectLabelFontButton);
+            groupBox12.Controls.Add(ScaleFontColorSelectLabel);
+            groupBox12.Controls.Add(SelectScaleFontButton);
             groupBox12.Location = new Point(82, 364);
             groupBox12.Name = "groupBox12";
             groupBox12.Size = new Size(104, 199);
@@ -175,28 +194,29 @@
             groupBox12.TabStop = false;
             groupBox12.Text = "Font";
             // 
-            // FontColorOpacityTrack
+            // ScaleFontColorOpacityTrack
             // 
-            FontColorOpacityTrack.AutoSize = false;
-            FontColorOpacityTrack.Location = new Point(6, 165);
-            FontColorOpacityTrack.Maximum = 255;
-            FontColorOpacityTrack.Name = "FontColorOpacityTrack";
-            FontColorOpacityTrack.Size = new Size(92, 21);
-            FontColorOpacityTrack.TabIndex = 109;
-            FontColorOpacityTrack.TickStyle = TickStyle.None;
-            FontColorOpacityTrack.Value = 255;
+            ScaleFontColorOpacityTrack.AutoSize = false;
+            ScaleFontColorOpacityTrack.Location = new Point(6, 165);
+            ScaleFontColorOpacityTrack.Maximum = 255;
+            ScaleFontColorOpacityTrack.Name = "ScaleFontColorOpacityTrack";
+            ScaleFontColorOpacityTrack.Size = new Size(92, 21);
+            ScaleFontColorOpacityTrack.TabIndex = 109;
+            ScaleFontColorOpacityTrack.TickStyle = TickStyle.None;
+            ScaleFontColorOpacityTrack.Value = 255;
+            ScaleFontColorOpacityTrack.Scroll += ScaleFontColorOpacityTrack_Scroll;
             // 
-            // FontColorOpacityLabel
+            // ScaleFontColorOpacityLabel
             // 
-            FontColorOpacityLabel.CausesValidation = false;
-            FontColorOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            FontColorOpacityLabel.Location = new Point(68, 148);
-            FontColorOpacityLabel.Name = "FontColorOpacityLabel";
-            FontColorOpacityLabel.Size = new Size(30, 15);
-            FontColorOpacityLabel.TabIndex = 108;
-            FontColorOpacityLabel.Text = "255";
-            FontColorOpacityLabel.TextAlign = ContentAlignment.MiddleRight;
-            FontColorOpacityLabel.UseMnemonic = false;
+            ScaleFontColorOpacityLabel.CausesValidation = false;
+            ScaleFontColorOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ScaleFontColorOpacityLabel.Location = new Point(68, 148);
+            ScaleFontColorOpacityLabel.Name = "ScaleFontColorOpacityLabel";
+            ScaleFontColorOpacityLabel.Size = new Size(30, 15);
+            ScaleFontColorOpacityLabel.TabIndex = 108;
+            ScaleFontColorOpacityLabel.Text = "255";
+            ScaleFontColorOpacityLabel.TextAlign = ContentAlignment.MiddleRight;
+            ScaleFontColorOpacityLabel.UseMnemonic = false;
             // 
             // label69
             // 
@@ -220,37 +240,39 @@
             label61.TabIndex = 75;
             label61.Text = "Color";
             // 
-            // FontColorSelectLabel
+            // ScaleFontColorSelectLabel
             // 
-            FontColorSelectLabel.BackColor = Color.FromArgb(61, 53, 30);
-            FontColorSelectLabel.BorderStyle = BorderStyle.FixedSingle;
-            FontColorSelectLabel.Font = new Font("Tahoma", 8F);
-            FontColorSelectLabel.ForeColor = SystemColors.ButtonShadow;
-            FontColorSelectLabel.Location = new Point(6, 94);
-            FontColorSelectLabel.Name = "FontColorSelectLabel";
-            FontColorSelectLabel.Size = new Size(92, 40);
-            FontColorSelectLabel.TabIndex = 74;
-            FontColorSelectLabel.Text = "Click to Select";
-            FontColorSelectLabel.TextAlign = ContentAlignment.MiddleCenter;
+            ScaleFontColorSelectLabel.BackColor = Color.White;
+            ScaleFontColorSelectLabel.BorderStyle = BorderStyle.FixedSingle;
+            ScaleFontColorSelectLabel.Font = new Font("Tahoma", 8F);
+            ScaleFontColorSelectLabel.ForeColor = SystemColors.ButtonShadow;
+            ScaleFontColorSelectLabel.Location = new Point(6, 94);
+            ScaleFontColorSelectLabel.Name = "ScaleFontColorSelectLabel";
+            ScaleFontColorSelectLabel.Size = new Size(92, 40);
+            ScaleFontColorSelectLabel.TabIndex = 74;
+            ScaleFontColorSelectLabel.Text = "Click to Select";
+            ScaleFontColorSelectLabel.TextAlign = ContentAlignment.MiddleCenter;
+            ScaleFontColorSelectLabel.Click += ScaleFontColorSelectLabel_Click;
             // 
-            // SelectLabelFontButton
+            // SelectScaleFontButton
             // 
-            SelectLabelFontButton.Location = new Point(6, 22);
-            SelectLabelFontButton.Name = "SelectLabelFontButton";
-            SelectLabelFontButton.Size = new Size(92, 41);
-            SelectLabelFontButton.TabIndex = 5;
-            SelectLabelFontButton.Text = "Select Font";
-            SelectLabelFontButton.UseVisualStyleBackColor = true;
+            SelectScaleFontButton.Location = new Point(6, 22);
+            SelectScaleFontButton.Name = "SelectScaleFontButton";
+            SelectScaleFontButton.Size = new Size(92, 41);
+            SelectScaleFontButton.TabIndex = 5;
+            SelectScaleFontButton.Text = "Select Font";
+            SelectScaleFontButton.UseVisualStyleBackColor = true;
+            SelectScaleFontButton.Click += SelectScaleFontButton_Click;
             // 
             // groupBox11
             // 
-            groupBox11.Controls.Add(OutlineColorOpacityTrack);
-            groupBox11.Controls.Add(OutlineColorOpacityLabel);
+            groupBox11.Controls.Add(ScaleOutlineColorOpacityTrack);
+            groupBox11.Controls.Add(ScaleOutlineColorOpacityLabel);
             groupBox11.Controls.Add(label68);
             groupBox11.Controls.Add(label63);
-            groupBox11.Controls.Add(OutlineWidthUpDown);
+            groupBox11.Controls.Add(ScaleOutlineWidthUpDown);
             groupBox11.Controls.Add(label60);
-            groupBox11.Controls.Add(OutlineColorSelectLabel);
+            groupBox11.Controls.Add(ScaleOutlineColorSelectLabel);
             groupBox11.Location = new Point(195, 364);
             groupBox11.Name = "groupBox11";
             groupBox11.Size = new Size(104, 199);
@@ -258,28 +280,29 @@
             groupBox11.TabStop = false;
             groupBox11.Text = "Outline";
             // 
-            // OutlineColorOpacityTrack
+            // ScaleOutlineColorOpacityTrack
             // 
-            OutlineColorOpacityTrack.AutoSize = false;
-            OutlineColorOpacityTrack.Location = new Point(6, 165);
-            OutlineColorOpacityTrack.Maximum = 255;
-            OutlineColorOpacityTrack.Name = "OutlineColorOpacityTrack";
-            OutlineColorOpacityTrack.Size = new Size(92, 21);
-            OutlineColorOpacityTrack.TabIndex = 106;
-            OutlineColorOpacityTrack.TickStyle = TickStyle.None;
-            OutlineColorOpacityTrack.Value = 255;
+            ScaleOutlineColorOpacityTrack.AutoSize = false;
+            ScaleOutlineColorOpacityTrack.Location = new Point(6, 165);
+            ScaleOutlineColorOpacityTrack.Maximum = 255;
+            ScaleOutlineColorOpacityTrack.Name = "ScaleOutlineColorOpacityTrack";
+            ScaleOutlineColorOpacityTrack.Size = new Size(92, 21);
+            ScaleOutlineColorOpacityTrack.TabIndex = 106;
+            ScaleOutlineColorOpacityTrack.TickStyle = TickStyle.None;
+            ScaleOutlineColorOpacityTrack.Value = 255;
+            ScaleOutlineColorOpacityTrack.Scroll += ScaleOutlineColorOpacityTrack_Scroll;
             // 
-            // OutlineColorOpacityLabel
+            // ScaleOutlineColorOpacityLabel
             // 
-            OutlineColorOpacityLabel.CausesValidation = false;
-            OutlineColorOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            OutlineColorOpacityLabel.Location = new Point(68, 148);
-            OutlineColorOpacityLabel.Name = "OutlineColorOpacityLabel";
-            OutlineColorOpacityLabel.Size = new Size(30, 15);
-            OutlineColorOpacityLabel.TabIndex = 105;
-            OutlineColorOpacityLabel.Text = "255";
-            OutlineColorOpacityLabel.TextAlign = ContentAlignment.MiddleRight;
-            OutlineColorOpacityLabel.UseMnemonic = false;
+            ScaleOutlineColorOpacityLabel.CausesValidation = false;
+            ScaleOutlineColorOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ScaleOutlineColorOpacityLabel.Location = new Point(68, 148);
+            ScaleOutlineColorOpacityLabel.Name = "ScaleOutlineColorOpacityLabel";
+            ScaleOutlineColorOpacityLabel.Size = new Size(30, 15);
+            ScaleOutlineColorOpacityLabel.TabIndex = 105;
+            ScaleOutlineColorOpacityLabel.Text = "255";
+            ScaleOutlineColorOpacityLabel.TextAlign = ContentAlignment.MiddleRight;
+            ScaleOutlineColorOpacityLabel.UseMnemonic = false;
             // 
             // label68
             // 
@@ -303,14 +326,16 @@
             label63.TabIndex = 82;
             label63.Text = "Width";
             // 
-            // OutlineWidthUpDown
+            // ScaleOutlineWidthUpDown
             // 
-            OutlineWidthUpDown.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            OutlineWidthUpDown.Location = new Point(52, 32);
-            OutlineWidthUpDown.Name = "OutlineWidthUpDown";
-            OutlineWidthUpDown.Size = new Size(46, 23);
-            OutlineWidthUpDown.TabIndex = 81;
-            OutlineWidthUpDown.TextAlign = HorizontalAlignment.Right;
+            ScaleOutlineWidthUpDown.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ScaleOutlineWidthUpDown.Location = new Point(52, 32);
+            ScaleOutlineWidthUpDown.Maximum = new decimal(new int[] { 32, 0, 0, 0 });
+            ScaleOutlineWidthUpDown.Name = "ScaleOutlineWidthUpDown";
+            ScaleOutlineWidthUpDown.Size = new Size(46, 23);
+            ScaleOutlineWidthUpDown.TabIndex = 81;
+            ScaleOutlineWidthUpDown.TextAlign = HorizontalAlignment.Right;
+            ScaleOutlineWidthUpDown.Value = new decimal(new int[] { 2, 0, 0, 0 });
             // 
             // label60
             // 
@@ -322,18 +347,19 @@
             label60.TabIndex = 80;
             label60.Text = "Color";
             // 
-            // OutlineColorSelectLabel
+            // ScaleOutlineColorSelectLabel
             // 
-            OutlineColorSelectLabel.BackColor = Color.FromArgb(161, 214, 202, 171);
-            OutlineColorSelectLabel.BorderStyle = BorderStyle.FixedSingle;
-            OutlineColorSelectLabel.Font = new Font("Tahoma", 8F);
-            OutlineColorSelectLabel.ForeColor = SystemColors.ButtonShadow;
-            OutlineColorSelectLabel.Location = new Point(6, 94);
-            OutlineColorSelectLabel.Name = "OutlineColorSelectLabel";
-            OutlineColorSelectLabel.Size = new Size(92, 40);
-            OutlineColorSelectLabel.TabIndex = 79;
-            OutlineColorSelectLabel.Text = "Click to Select";
-            OutlineColorSelectLabel.TextAlign = ContentAlignment.MiddleCenter;
+            ScaleOutlineColorSelectLabel.BackColor = Color.Black;
+            ScaleOutlineColorSelectLabel.BorderStyle = BorderStyle.FixedSingle;
+            ScaleOutlineColorSelectLabel.Font = new Font("Tahoma", 8F);
+            ScaleOutlineColorSelectLabel.ForeColor = SystemColors.ButtonShadow;
+            ScaleOutlineColorSelectLabel.Location = new Point(6, 94);
+            ScaleOutlineColorSelectLabel.Name = "ScaleOutlineColorSelectLabel";
+            ScaleOutlineColorSelectLabel.Size = new Size(92, 40);
+            ScaleOutlineColorSelectLabel.TabIndex = 79;
+            ScaleOutlineColorSelectLabel.Text = "Click to Select";
+            ScaleOutlineColorSelectLabel.TextAlign = ContentAlignment.MiddleCenter;
+            ScaleOutlineColorSelectLabel.Click += ScaleOutlineColorSelectLabel_Click;
             // 
             // label1
             // 
@@ -362,19 +388,25 @@
             label3.TabIndex = 104;
             label3.Text = "Segments";
             // 
-            // numericUpDown4
+            // ScaleSegmentCountUpDown
             // 
-            numericUpDown4.Location = new Point(239, 65);
-            numericUpDown4.Name = "numericUpDown4";
-            numericUpDown4.Size = new Size(60, 23);
-            numericUpDown4.TabIndex = 105;
+            ScaleSegmentCountUpDown.Location = new Point(239, 65);
+            ScaleSegmentCountUpDown.Maximum = new decimal(new int[] { 32, 0, 0, 0 });
+            ScaleSegmentCountUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            ScaleSegmentCountUpDown.Name = "ScaleSegmentCountUpDown";
+            ScaleSegmentCountUpDown.Size = new Size(60, 23);
+            ScaleSegmentCountUpDown.TabIndex = 105;
+            ScaleSegmentCountUpDown.Value = new decimal(new int[] { 5, 0, 0, 0 });
             // 
-            // numericUpDown5
+            // ScaleLineWidthUpDown
             // 
-            numericUpDown5.Location = new Point(239, 105);
-            numericUpDown5.Name = "numericUpDown5";
-            numericUpDown5.Size = new Size(60, 23);
-            numericUpDown5.TabIndex = 106;
+            ScaleLineWidthUpDown.Location = new Point(239, 105);
+            ScaleLineWidthUpDown.Maximum = new decimal(new int[] { 8, 0, 0, 0 });
+            ScaleLineWidthUpDown.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
+            ScaleLineWidthUpDown.Name = "ScaleLineWidthUpDown";
+            ScaleLineWidthUpDown.Size = new Size(60, 23);
+            ScaleLineWidthUpDown.TabIndex = 106;
+            ScaleLineWidthUpDown.Value = new decimal(new int[] { 3, 0, 0, 0 });
             // 
             // label4
             // 
@@ -394,18 +426,19 @@
             label5.TabIndex = 108;
             label5.Text = "Colors";
             // 
-            // ResetColorsButton
+            // ResetScaleColorsButton
             // 
-            ResetColorsButton.FlatStyle = FlatStyle.Flat;
-            ResetColorsButton.IconChar = FontAwesome.Sharp.IconChar.RotateBack;
-            ResetColorsButton.IconColor = Color.Black;
-            ResetColorsButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            ResetColorsButton.IconSize = 18;
-            ResetColorsButton.Location = new Point(207, 140);
-            ResetColorsButton.Name = "ResetColorsButton";
-            ResetColorsButton.Size = new Size(26, 28);
-            ResetColorsButton.TabIndex = 109;
-            ResetColorsButton.UseVisualStyleBackColor = true;
+            ResetScaleColorsButton.FlatStyle = FlatStyle.Flat;
+            ResetScaleColorsButton.IconChar = FontAwesome.Sharp.IconChar.RotateBack;
+            ResetScaleColorsButton.IconColor = Color.Black;
+            ResetScaleColorsButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            ResetScaleColorsButton.IconSize = 18;
+            ResetScaleColorsButton.Location = new Point(207, 140);
+            ResetScaleColorsButton.Name = "ResetScaleColorsButton";
+            ResetScaleColorsButton.Size = new Size(26, 28);
+            ResetScaleColorsButton.TabIndex = 109;
+            ResetScaleColorsButton.UseVisualStyleBackColor = true;
+            ResetScaleColorsButton.Click += ResetScaleColorsButton_Click;
             // 
             // label6
             // 
@@ -434,12 +467,12 @@
             label8.TabIndex = 112;
             label8.Text = "Distance";
             // 
-            // textBox1
+            // ScaleUnitsTextBox
             // 
-            textBox1.Location = new Point(82, 230);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(217, 23);
-            textBox1.TabIndex = 113;
+            ScaleUnitsTextBox.Location = new Point(82, 230);
+            ScaleUnitsTextBox.Name = "ScaleUnitsTextBox";
+            ScaleUnitsTextBox.Size = new Size(217, 23);
+            ScaleUnitsTextBox.TabIndex = 113;
             // 
             // label9
             // 
@@ -459,56 +492,69 @@
             label10.TabIndex = 114;
             label10.Text = "Numbers";
             // 
-            // button1
+            // CreateScaleButton
             // 
-            button1.Location = new Point(82, 589);
-            button1.Name = "button1";
-            button1.Size = new Size(104, 48);
-            button1.TabIndex = 116;
-            button1.Text = "&Create";
-            button1.UseVisualStyleBackColor = true;
+            CreateScaleButton.Location = new Point(82, 569);
+            CreateScaleButton.Name = "CreateScaleButton";
+            CreateScaleButton.Size = new Size(60, 60);
+            CreateScaleButton.TabIndex = 116;
+            CreateScaleButton.Text = "C&reate";
+            CreateScaleButton.UseVisualStyleBackColor = true;
+            CreateScaleButton.Click += CreateScaleButton_Click;
             // 
-            // button2
+            // DeleteScaleButton
             // 
-            button2.Location = new Point(195, 589);
-            button2.Name = "button2";
-            button2.Size = new Size(104, 48);
-            button2.TabIndex = 117;
-            button2.Text = "&Delete";
-            button2.UseVisualStyleBackColor = true;
+            DeleteScaleButton.Location = new Point(150, 569);
+            DeleteScaleButton.Name = "DeleteScaleButton";
+            DeleteScaleButton.Size = new Size(60, 60);
+            DeleteScaleButton.TabIndex = 117;
+            DeleteScaleButton.Text = "&Delete";
+            DeleteScaleButton.UseVisualStyleBackColor = true;
+            DeleteScaleButton.Click += DeleteScaleButton_Click;
+            // 
+            // CloseButton
+            // 
+            CloseButton.Location = new Point(239, 569);
+            CloseButton.Name = "CloseButton";
+            CloseButton.Size = new Size(60, 60);
+            CloseButton.TabIndex = 118;
+            CloseButton.Text = "&Close";
+            CloseButton.UseVisualStyleBackColor = true;
+            CloseButton.Click += CloseButton_Click;
             // 
             // MapScaleCreator
             // 
             AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(325, 661);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(CloseButton);
+            Controls.Add(DeleteScaleButton);
+            Controls.Add(CreateScaleButton);
             Controls.Add(label9);
             Controls.Add(label10);
-            Controls.Add(textBox1);
+            Controls.Add(ScaleUnitsTextBox);
             Controls.Add(label8);
             Controls.Add(label7);
             Controls.Add(label6);
-            Controls.Add(ResetColorsButton);
+            Controls.Add(ResetScaleColorsButton);
             Controls.Add(label5);
             Controls.Add(label4);
-            Controls.Add(numericUpDown5);
-            Controls.Add(numericUpDown4);
+            Controls.Add(ScaleLineWidthUpDown);
+            Controls.Add(ScaleSegmentCountUpDown);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(groupBox11);
             Controls.Add(groupBox12);
-            Controls.Add(checkedListBox1);
-            Controls.Add(numericUpDown3);
-            Controls.Add(SymbolColor3Label);
-            Controls.Add(SymbolColor2Label);
-            Controls.Add(SymbolColor1Label);
-            Controls.Add(trackBar2);
-            Controls.Add(trackBar1);
-            Controls.Add(numericUpDown2);
-            Controls.Add(numericUpDown1);
+            Controls.Add(ScaleNumbersDisplayCheckList);
+            Controls.Add(ScaleSegmentDistanceUpDown);
+            Controls.Add(ScaleColor3Label);
+            Controls.Add(ScaleColor2Label);
+            Controls.Add(ScaleColor1Label);
+            Controls.Add(ScaleLineWidthTrack);
+            Controls.Add(ScaleSegmentCountTrack);
+            Controls.Add(ScaleHeightUpDown);
+            Controls.Add(ScaleWidthUpDown);
             Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             HelpButton = true;
@@ -518,65 +564,66 @@
             SizeGripStyle = SizeGripStyle.Hide;
             StartPosition = FormStartPosition.Manual;
             Text = "Map Scale Creator";
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleWidthUpDown).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleHeightUpDown).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleSegmentCountTrack).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleLineWidthTrack).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleSegmentDistanceUpDown).EndInit();
             groupBox12.ResumeLayout(false);
             groupBox12.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)FontColorOpacityTrack).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleFontColorOpacityTrack).EndInit();
             groupBox11.ResumeLayout(false);
             groupBox11.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)OutlineColorOpacityTrack).EndInit();
-            ((System.ComponentModel.ISupportInitialize)OutlineWidthUpDown).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown4).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleOutlineColorOpacityTrack).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleOutlineWidthUpDown).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleSegmentCountUpDown).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ScaleLineWidthUpDown).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private NumericUpDown numericUpDown1;
-        private NumericUpDown numericUpDown2;
-        private TrackBar trackBar1;
-        private TrackBar trackBar2;
-        private Label SymbolColor3Label;
-        private Label SymbolColor2Label;
-        private Label SymbolColor1Label;
-        private NumericUpDown numericUpDown3;
-        private CheckedListBox checkedListBox1;
+        private NumericUpDown ScaleWidthUpDown;
+        private NumericUpDown ScaleHeightUpDown;
+        private TrackBar ScaleSegmentCountTrack;
+        private TrackBar ScaleLineWidthTrack;
+        private Label ScaleColor3Label;
+        private Label ScaleColor2Label;
+        private Label ScaleColor1Label;
+        private NumericUpDown ScaleSegmentDistanceUpDown;
+        private CheckedListBox ScaleNumbersDisplayCheckList;
         private GroupBox groupBox12;
-        private TrackBar FontColorOpacityTrack;
-        private Label FontColorOpacityLabel;
+        private TrackBar ScaleFontColorOpacityTrack;
+        private Label ScaleFontColorOpacityLabel;
         private Label label69;
         private Label label61;
-        private Label FontColorSelectLabel;
-        private Button SelectLabelFontButton;
+        private Label ScaleFontColorSelectLabel;
+        private Button SelectScaleFontButton;
         private GroupBox groupBox11;
-        private TrackBar OutlineColorOpacityTrack;
-        private Label OutlineColorOpacityLabel;
+        private TrackBar ScaleOutlineColorOpacityTrack;
+        private Label ScaleOutlineColorOpacityLabel;
         private Label label68;
         private Label label63;
-        private NumericUpDown OutlineWidthUpDown;
+        private NumericUpDown ScaleOutlineWidthUpDown;
         private Label label60;
-        private Label OutlineColorSelectLabel;
+        private Label ScaleOutlineColorSelectLabel;
         private Label label1;
         private Label label2;
         private Label label3;
-        private NumericUpDown numericUpDown4;
-        private NumericUpDown numericUpDown5;
+        private NumericUpDown ScaleSegmentCountUpDown;
+        private NumericUpDown ScaleLineWidthUpDown;
         private Label label4;
         private Label label5;
-        private FontAwesome.Sharp.IconButton ResetColorsButton;
+        private FontAwesome.Sharp.IconButton ResetScaleColorsButton;
         private Label label6;
         private Label label7;
         private Label label8;
-        private TextBox textBox1;
+        private TextBox ScaleUnitsTextBox;
         private Label label9;
         private Label label10;
-        private Button button1;
-        private Button button2;
+        private Button CreateScaleButton;
+        private Button DeleteScaleButton;
+        private Button CloseButton;
     }
 }

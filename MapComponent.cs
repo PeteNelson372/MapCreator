@@ -22,6 +22,7 @@ namespace MapCreator
         [XmlArrayItem("PlacedMapFrame", Type = typeof(PlacedMapFrame))]
         [XmlArrayItem("MapGrid", Type = typeof(MapGrid))]
         [XmlArrayItem("MapWindrose", Type = typeof(MapWindrose))]
+        [XmlArrayItem("MapScale", Type = typeof(MapScale))]
         public List<MapComponent> MapLayerComponents { get; } = new List<MapComponent>(500);
 
         [XmlAttribute]

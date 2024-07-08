@@ -341,8 +341,8 @@
             SelectFrameTintLabel = new Label();
             EnableFrameCheck = new CheckBox();
             toolStrip4 = new ToolStrip();
-            GridButton = new FontAwesome.Sharp.IconToolStripButton();
             ScaleButton = new FontAwesome.Sharp.IconToolStripButton();
+            GridButton = new FontAwesome.Sharp.IconToolStripButton();
             MeasureButton = new FontAwesome.Sharp.IconToolStripButton();
             drawingPage = new TabPage();
             DrawingLabel = new Label();
@@ -4427,30 +4427,13 @@
             toolStrip4.BackColor = SystemColors.Control;
             toolStrip4.Dock = DockStyle.None;
             toolStrip4.GripStyle = ToolStripGripStyle.Hidden;
-            toolStrip4.Items.AddRange(new ToolStripItem[] { GridButton, ScaleButton, MeasureButton });
+            toolStrip4.Items.AddRange(new ToolStripItem[] { ScaleButton, GridButton, MeasureButton });
             toolStrip4.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
             toolStrip4.Location = new Point(132, 0);
             toolStrip4.Name = "toolStrip4";
             toolStrip4.Size = new Size(76, 1029);
             toolStrip4.TabIndex = 17;
             toolStrip4.Text = "toolStrip4";
-            // 
-            // GridButton
-            // 
-            GridButton.AutoSize = false;
-            GridButton.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            GridButton.IconChar = FontAwesome.Sharp.IconChar.BorderAll;
-            GridButton.IconColor = Color.Black;
-            GridButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            GridButton.IconSize = 36;
-            GridButton.ImageScaling = ToolStripItemImageScaling.None;
-            GridButton.ImageTransparentColor = Color.Magenta;
-            GridButton.Margin = new Padding(0, 25, 0, 2);
-            GridButton.Name = "GridButton";
-            GridButton.Size = new Size(60, 60);
-            GridButton.Text = "Grid";
-            GridButton.TextImageRelation = TextImageRelation.TextAboveImage;
-            GridButton.Click += GridButton_Click;
             // 
             // ScaleButton
             // 
@@ -4469,6 +4452,23 @@
             ScaleButton.TextImageRelation = TextImageRelation.TextAboveImage;
             ScaleButton.Click += ScaleButton_Click;
             // 
+            // GridButton
+            // 
+            GridButton.AutoSize = false;
+            GridButton.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            GridButton.IconChar = FontAwesome.Sharp.IconChar.BorderAll;
+            GridButton.IconColor = Color.Black;
+            GridButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            GridButton.IconSize = 36;
+            GridButton.ImageScaling = ToolStripItemImageScaling.None;
+            GridButton.ImageTransparentColor = Color.Magenta;
+            GridButton.Margin = new Padding(0, 25, 0, 2);
+            GridButton.Name = "GridButton";
+            GridButton.Size = new Size(60, 60);
+            GridButton.Text = "Grid";
+            GridButton.TextImageRelation = TextImageRelation.TextAboveImage;
+            GridButton.Click += GridButton_Click;
+            // 
             // MeasureButton
             // 
             MeasureButton.AutoSize = false;
@@ -4484,6 +4484,7 @@
             MeasureButton.Size = new Size(60, 60);
             MeasureButton.Text = "Measure";
             MeasureButton.TextImageRelation = TextImageRelation.TextAboveImage;
+            MeasureButton.Click += MeasureButton_Click;
             // 
             // drawingPage
             // 

@@ -54,6 +54,7 @@ namespace MapCreator
         private PlacedMapBox? UISelectedBox = null;
         private MapGrid? UIMapGrid = null;
         private MapWindrose? UIWindrose = null;
+        private MapScale? UIMapScale = null;
 
         private Cmd_ColorOcean COLOR_OCEAN_COMMAND;
         private Cmd_EraseOceanColor ERASE_OCEAN_COLOR_COMMAND;
@@ -860,6 +861,9 @@ namespace MapCreator
                     break;
                 case DrawingModeEnum.PlaceWindrose:
                     modeText += "Place Windrose";
+                    break;
+                case DrawingModeEnum.SelectMapScale:
+                    modeText += "Move Map Scale";
                     break;
                 default:
                     modeText += "Undefined";
@@ -5372,7 +5376,6 @@ namespace MapCreator
 
                     RenderDrawingPanel();
                 }
-
             }
         }
 
@@ -5388,12 +5391,20 @@ namespace MapCreator
         // map scale object
         private void ScaleButton_Click(object sender, EventArgs e)
         {
-            MapScaleCreator scaleCreator = new MapScaleCreator();
+#pragma warning disable CS8604 // Possible null reference argument.
+
+            MapScaleCreator scaleCreator = new MapScaleCreator(CURRENT_MAP, MAP_CANVAS);
+
+            scaleCreator.Location = PointToScreen(new Point(1080, 52));
             scaleCreator.Show(this);
-            scaleCreator.Location = this.PointToScreen(new Point(1080, 52));           
+
+#pragma warning restore CS8604 // Possible null reference argument.           
         }
 
-
+        private void MeasureButton_Click(object sender, EventArgs e)
+        {
+            CURRENT_DRAWING_MODE = DrawingModeEnum.DrawMapMeasure;
+        }
 
         /*******************************************************************************************************
          * *****************************************************************************************************
@@ -6073,6 +6084,26 @@ namespace MapCreator
             float X = (float)(LAYER_CLICK_POINT.X + zoomedRadius);
             float Y = (float)(LAYER_CLICK_POINT.Y + zoomedRadius);
 
+            for (int i = 0; i < MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.OVERLAYLAYER).MapLayerComponents.Count; i++)
+            {
+                if (MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.OVERLAYLAYER).MapLayerComponents[i] is MapScale)
+                {
+                    UIMapScale = (MapScale?)MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.OVERLAYLAYER).MapLayerComponents[i];
+                }
+            }
+
+            if (UIMapScale != null)
+            {
+                Rectangle scaleRect = new((int)UIMapScale.X, (int)UIMapScale.Y, (int)UIMapScale.Width, (int)UIMapScale.Height);
+                if (scaleRect.Contains(new Point((int)X, (int)Y)))
+                {
+                    UIMapScale.IsSelected = true;
+                    ClearDrawingMode();
+                    CURRENT_DRAWING_MODE = DrawingModeEnum.SelectMapScale;
+                    SetDrawingModeLabel();
+                }
+            }
+
             switch (CURRENT_DRAWING_MODE)
             {
                 case DrawingModeEnum.OceanPaint:
@@ -6307,7 +6338,7 @@ namespace MapCreator
                     UISelectedBox = new();
 
                     break;
-                case DrawingModeEnum.PlaceWindrose:
+                case DrawingModeEnum.DrawMapMeasure:
 
                     break;
             }
@@ -6726,6 +6757,18 @@ namespace MapCreator
                     RenderDrawingPanel(true);
                     MapImageBox.Refresh();
                     break;
+                case DrawingModeEnum.SelectMapScale:
+                    if (UIMapScale != null)
+                    {
+                        UIMapScale.IsSelected = false;
+                        UIMapScale = null;
+                        ClearDrawingMode();
+
+                        CURRENT_MAP.IsSaved = false;
+                        MapImageBox.Refresh();
+                        RenderDrawingPanel(true);
+                    }
+                    break;
 
             }
         }
@@ -7100,6 +7143,17 @@ namespace MapCreator
                             MapImageBox.Refresh();
                             RenderDrawingPanel(true);
                         }
+                    }
+                    break;
+                case DrawingModeEnum.SelectMapScale:
+                    if (UIMapScale != null)
+                    {
+                        UIMapScale.X = (uint)LAYER_CLICK_POINT.X - UIMapScale.Width / 2;
+                        UIMapScale.Y = (uint)LAYER_CLICK_POINT.Y - UIMapScale.Height / 2;
+
+                        CURRENT_MAP.IsSaved = false;
+                        MapImageBox.Refresh();
+                        RenderDrawingPanel(true);
                     }
                     break;
             }

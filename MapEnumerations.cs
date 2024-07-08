@@ -31,7 +31,9 @@
         DrawArcLabelPath,
         DrawBezierLabelPath,
         DrawBox,
-        PlaceWindrose
+        PlaceWindrose,
+        SelectMapScale,
+        DrawMapMeasure
     }
 
     public enum GradientDirectionEnum
@@ -122,5 +124,13 @@
         Square,
         FlatHex,
         PointedHex
+    }
+
+    public enum ScaleNumbersDisplayEnum
+    {
+        None,
+        Ends,
+        EveryOther,
+        All
     }
 }
