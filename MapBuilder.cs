@@ -27,8 +27,9 @@ namespace MapCreator
         public static readonly int BOXLAYER = 16;
         public static readonly int LABELLAYER = 17;
         public static readonly int OVERLAYLAYER = 18;
-        public static readonly int DRAWINGLAYER = 19;
-        public static readonly int WORKLAYER = 20;
+        public static readonly int MEASURELAYER = 19;
+        public static readonly int DRAWINGLAYER = 20;
+        public static readonly int WORKLAYER = 21;
 
         public static readonly int MAP_LAYER_COUNT = WORKLAYER + 1;
 
@@ -333,6 +334,9 @@ namespace MapCreator
             map.MapLayers.Add(layer);
 
             layer = ConstructMapLayer("overlays", (ushort)OVERLAYLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
+            map.MapLayers.Add(layer);
+
+            layer = ConstructMapLayer("measures", (ushort)MEASURELAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
             map.MapLayers.Add(layer);
 
             layer = ConstructMapLayer("userdrawing", (ushort)DRAWINGLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);

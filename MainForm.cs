@@ -1,20 +1,18 @@
-using OpenTK;
-using OpenTK.Graphics;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
-using System;
 using System.Drawing.Imaging;
-using System.Windows.Media.Media3D;
 using System.Xml.Linq;
 using Application = System.Windows.Forms.Application;
 using Button = System.Windows.Forms.Button;
 using Color = System.Drawing.Color;
 using Control = System.Windows.Forms.Control;
 using Extensions = SkiaSharp.Views.Desktop.Extensions;
+using Image = System.Drawing.Image;
 using KeyPressEventArgs = System.Windows.Forms.KeyPressEventArgs;
 using MessageBox = System.Windows.Forms.MessageBox;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using Point = System.Drawing.Point;
+using TextBox = System.Windows.Forms.TextBox;
 using ToolTip = System.Windows.Forms.ToolTip;
 
 
@@ -55,6 +53,7 @@ namespace MapCreator
         private MapGrid? UIMapGrid = null;
         private MapWindrose? UIWindrose = null;
         private MapScale? UIMapScale = null;
+        private MapMeasure? UIMapMeasure = null;
 
         private Cmd_ColorOcean COLOR_OCEAN_COMMAND;
         private Cmd_EraseOceanColor ERASE_OCEAN_COLOR_COMMAND;
@@ -5098,6 +5097,27 @@ namespace MapCreator
             }
         }
 
+        private MapMeasure? GetCurrentMapMeasure()
+        {
+            MapMeasure? currentMapMeasure = UIMapMeasure;
+
+            if (currentMapMeasure == null)
+            {
+                MapLayer measureLayer = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.MEASURELAYER);
+
+                for (int i = measureLayer.MapLayerComponents.Count - 1; i >= 0; i--)
+                {
+                    if (measureLayer.MapLayerComponents[i] is MapMeasure)
+                    {
+                        currentMapMeasure = (MapMeasure?)measureLayer.MapLayerComponents[i];
+                        break;
+                    }
+                }
+            }
+
+            return currentMapMeasure;
+        }
+
         /*******************************************************************************************************
         * Overlay Tab Event Handlers 
         *******************************************************************************************************/
@@ -5404,6 +5424,83 @@ namespace MapCreator
         private void MeasureButton_Click(object sender, EventArgs e)
         {
             CURRENT_DRAWING_MODE = DrawingModeEnum.DrawMapMeasure;
+        }
+
+        private void MeasureColorLabel_Click(object sender, EventArgs e)
+        {
+            TopMost = true;
+            Color measureColor = MapPaintMethods.SelectColorFromDialog();
+            TopMost = false;
+
+            if (measureColor.ToArgb() != Color.Empty.ToArgb())
+            {
+                MeasureColorLabel.BackColor = measureColor;
+
+                MapMeasure? currentMapMeasure = GetCurrentMapMeasure();
+
+                if (currentMapMeasure != null)
+                {
+                    currentMapMeasure.MeasureLineColor = MeasureColorLabel.BackColor;
+
+                    currentMapMeasure.MeasureLinePaint = new()
+                    {
+                        Style = SKPaintStyle.Stroke,
+                        StrokeWidth = 1,
+                        Color = currentMapMeasure.MeasureLineColor.ToSKColor()
+                    };
+
+                    currentMapMeasure.MeasureAreaPaint = new()
+                    {
+                        Style = SKPaintStyle.StrokeAndFill,
+                        StrokeWidth = 1,
+                        Color = currentMapMeasure.MeasureLineColor.ToSKColor()
+                    };
+
+                    RenderDrawingPanel();
+                    MapImageBox.Refresh();
+                }
+
+            }
+        }
+
+        private void UseScaleUnitsCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            MapMeasure? currentMapMeasure = GetCurrentMapMeasure();
+
+            if (currentMapMeasure != null)
+            {
+                currentMapMeasure.UseMapUnits = UseScaleUnitsCheck.Checked;
+                RenderDrawingPanel();
+                MapImageBox.Refresh();
+            }
+        }
+
+        private void MeasureAreaCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            MapMeasure? currentMapMeasure = GetCurrentMapMeasure();
+
+            if (currentMapMeasure != null)
+            {
+                currentMapMeasure.MeasureArea = MeasureAreaCheck.Checked;
+                RenderDrawingPanel();
+                MapImageBox.Refresh();
+            }
+        }
+
+        private void ClearMeasureObjects_Click(object sender, EventArgs e)
+        {
+            MapLayer measureLayer = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.MEASURELAYER);
+
+            for (int i = measureLayer.MapLayerComponents.Count - 1; i >= 0; i--)
+            {
+                if (measureLayer.MapLayerComponents[i] is MapMeasure)
+                {
+                    measureLayer.MapLayerComponents.RemoveAt(i);
+                }
+            }
+
+            RenderDrawingPanel();
+            MapImageBox.Refresh();
         }
 
         /*******************************************************************************************************
@@ -6339,6 +6436,38 @@ namespace MapCreator
 
                     break;
                 case DrawingModeEnum.DrawMapMeasure:
+                    LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
+
+                    if (UIMapMeasure == null)
+                    {
+                        // make sure there is only one measure object
+                        MapLayer measureLayer = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.MEASURELAYER);
+
+                        for (int i = measureLayer.MapLayerComponents.Count - 1; i >= 0; i--)
+                        {
+                            if (measureLayer.MapLayerComponents[i] is MapMeasure)
+                            {
+                                measureLayer.MapLayerComponents.RemoveAt(i);
+                            }
+                        }
+
+                        UIMapMeasure = new(CURRENT_MAP)
+                        {
+                            UseMapUnits = UseScaleUnitsCheck.Checked,
+                            MeasureArea = MeasureAreaCheck.Checked,
+                            MeasureLineColor = MeasureColorLabel.BackColor
+                        };
+
+                        PREVIOUS_LAYER_CLICK_POINT = LAYER_CLICK_POINT;
+                        MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.MEASURELAYER).MapLayerComponents.Add(UIMapMeasure);
+                    }
+                    else
+                    {
+                        if (!UIMapMeasure.MeasurePoints.Contains(LAYER_CLICK_POINT))
+                        {
+                            UIMapMeasure.MeasurePoints.Add(LAYER_CLICK_POINT);
+                        }
+                    }
 
                     break;
             }
@@ -6391,6 +6520,29 @@ namespace MapCreator
 
                     MapImageBox.Refresh();
                     RenderDrawingPanel();
+
+                    break;
+                case DrawingModeEnum.DrawMapMeasure:
+                    if (UIMapMeasure != null)
+                    {
+                        LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
+                        UIMapMeasure.MeasurePoints.Add(LAYER_CLICK_POINT);
+
+                        float lineLength = SKPoint.Distance(PREVIOUS_LAYER_CLICK_POINT, LAYER_CLICK_POINT);
+                        UIMapMeasure.TotalMeasureLength += lineLength;
+                        UIMapMeasure.RenderValue = true;
+
+                        // reset everything
+                        MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER).Clear();
+                        PREVIOUS_LAYER_CLICK_POINT = SKPoint.Empty;
+                        LAYER_CLICK_POINT = SKPoint.Empty;
+
+                        UIMapMeasure = null;
+                        ClearDrawingMode();
+
+                        MapImageBox.Refresh();
+                        RenderDrawingPanel();
+                    }
 
                     break;
             }
@@ -6745,7 +6897,7 @@ namespace MapCreator
                 case DrawingModeEnum.PlaceWindrose:
                     if (UIWindrose != null)
                     {
-                        Cmd_AddWindrose cmd = new Cmd_AddWindrose(CURRENT_MAP, UIWindrose);
+                        Cmd_AddWindrose cmd = new(CURRENT_MAP, UIWindrose);
                         UndoManager.AddCommand(cmd);
                         cmd.DoOperation();
 
@@ -6768,6 +6920,29 @@ namespace MapCreator
                         MapImageBox.Refresh();
                         RenderDrawingPanel(true);
                     }
+                    break;
+                case DrawingModeEnum.DrawMapMeasure:
+                    IMAGEBOX_CLICK_POINT.X = e.X;
+                    IMAGEBOX_CLICK_POINT.Y = e.Y;
+                    LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
+
+                    if (UIMapMeasure != null)
+                    {
+                        if (!UIMapMeasure.MeasurePoints.Contains(PREVIOUS_LAYER_CLICK_POINT))
+                        {
+                            UIMapMeasure.MeasurePoints.Add(PREVIOUS_LAYER_CLICK_POINT);
+                        }
+
+                        UIMapMeasure.MeasurePoints.Add(LAYER_CLICK_POINT);
+
+                        float lineLength = SKPoint.Distance(PREVIOUS_LAYER_CLICK_POINT, LAYER_CLICK_POINT);
+                        UIMapMeasure.TotalMeasureLength += lineLength;
+                    }
+
+                    PREVIOUS_LAYER_CLICK_POINT = LAYER_CLICK_POINT;
+
+                    MapImageBox.Refresh();
+                    RenderDrawingPanel(true);
                     break;
 
             }
@@ -7116,10 +7291,7 @@ namespace MapCreator
 
                                 using Bitmap resizedBitmap = new(b, (int)boxRect.Width, (int)boxRect.Height);
 
-                                if (UISelectedBox == null)
-                                {
-                                    UISelectedBox = new();
-                                }
+                                UISelectedBox ??= new();
 
                                 UISelectedBox.SetBoxBitmap(new(resizedBitmap));
                                 UISelectedBox.X = (uint)PREVIOUS_LAYER_CLICK_POINT.X;
@@ -7154,6 +7326,66 @@ namespace MapCreator
                         CURRENT_MAP.IsSaved = false;
                         MapImageBox.Refresh();
                         RenderDrawingPanel(true);
+                    }
+                    break;
+                case DrawingModeEnum.DrawMapMeasure:
+                    IMAGEBOX_CLICK_POINT = e.Location;
+                    LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
+
+                    if (UIMapMeasure != null)
+                    {
+                        SKCanvas workCanvas = MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER);
+                        workCanvas.Clear();
+
+                        if (UIMapMeasure.MeasureArea && UIMapMeasure.MeasurePoints.Count > 1)
+                        {
+                            SKPath path = new();
+
+                            path.MoveTo(UIMapMeasure.MeasurePoints.First());
+
+                            for (int i = 1; i < UIMapMeasure.MeasurePoints.Count; i++)
+                            {
+                                path.LineTo(UIMapMeasure.MeasurePoints[i]);
+                            }
+
+                            path.LineTo(LAYER_CLICK_POINT);
+
+                            path.Close();
+
+                            workCanvas.DrawPath(path, UIMapMeasure.MeasureAreaPaint);
+                        }
+                        else
+                        {
+                            workCanvas.DrawLine(PREVIOUS_LAYER_CLICK_POINT, LAYER_CLICK_POINT, UIMapMeasure.MeasureLinePaint);
+                        }
+
+                        // render measure value and units
+                        SKPoint measureValuePoint = new(LAYER_CLICK_POINT.X + 30, LAYER_CLICK_POINT.Y + 20);
+
+                        float lineLength = SKPoint.Distance(PREVIOUS_LAYER_CLICK_POINT, LAYER_CLICK_POINT);
+                        float totalLength = UIMapMeasure.TotalMeasureLength + lineLength;
+
+                        UIMapMeasure.RenderDistanceLabel(workCanvas, measureValuePoint, totalLength);
+
+                        if (UIMapMeasure.MeasureArea && UIMapMeasure.MeasurePoints.Count > 1)
+                        {
+                            // temporarity add the point at the mouse position
+                            UIMapMeasure.MeasurePoints.Add(LAYER_CLICK_POINT);
+
+                            // calculate the polygon area
+                            float area = MapDrawingMethods.CalculatePolygonArea(UIMapMeasure.MeasurePoints);
+
+                            // remove the temporarily added point
+                            UIMapMeasure.MeasurePoints.RemoveAt(UIMapMeasure.MeasurePoints.Count - 1);
+
+                            // display the area label
+                            SKPoint measureAreaPoint = new(LAYER_CLICK_POINT.X + 30, LAYER_CLICK_POINT.Y + 40);
+
+                            UIMapMeasure.RenderAreaLabel(workCanvas, measureAreaPoint, area);
+                        }
+
+                        RenderDrawingPanel(true);
+                        MapImageBox.Refresh();
                     }
                     break;
             }

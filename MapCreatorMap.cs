@@ -34,12 +34,14 @@ namespace MapCreator
         [XmlAttribute]
         public string MapPath { get; set; } = "";
 
+        // MapHeight and MapWidth are the size of the map in pixels (e.g. 1200 x 800)
         [XmlAttribute]
         public ushort MapWidth { get => mapWidth; set => mapWidth = value; }
 
         [XmlAttribute]
         public ushort MapHeight { get => mapHeight; set => mapHeight = value; }
 
+        // MapAreaWidth and MapAreaHeight are the size of the map in MapUnits (e.g. 1000 miles x 500 miles)
         [XmlAttribute]
         public float MapAreaWidth { get => mapAreaWidth; set => mapAreaWidth = value; }
 
@@ -55,6 +57,7 @@ namespace MapCreator
         [XmlIgnore]
         public bool IsSaved { get => isSaved; set => isSaved = value; }
 
+        // MapPixelWidth and MapPixelHeight are the size of one pixel in MapAreaUnits
         [XmlIgnore]
         public float MapPixelWidth { get; set; } = 0F;
 

@@ -309,7 +309,7 @@
             ClearMeasureObjects = new Button();
             UseScaleUnitsCheck = new CheckBox();
             label80 = new Label();
-            label81 = new Label();
+            MeasureColorLabel = new Label();
             groupBox15 = new GroupBox();
             ShowGridSizeCheck = new CheckBox();
             GridSizeLabel = new Label();
@@ -3974,7 +3974,7 @@
             groupBox16.Controls.Add(ClearMeasureObjects);
             groupBox16.Controls.Add(UseScaleUnitsCheck);
             groupBox16.Controls.Add(label80);
-            groupBox16.Controls.Add(label81);
+            groupBox16.Controls.Add(MeasureColorLabel);
             groupBox16.Location = new Point(8, 733);
             groupBox16.Name = "groupBox16";
             groupBox16.Size = new Size(120, 191);
@@ -3992,6 +3992,7 @@
             MeasureAreaCheck.TabIndex = 97;
             MeasureAreaCheck.Text = "Measure Area";
             MeasureAreaCheck.UseVisualStyleBackColor = true;
+            MeasureAreaCheck.CheckedChanged += MeasureAreaCheck_CheckedChanged;
             // 
             // ClearMeasureObjects
             // 
@@ -4002,6 +4003,7 @@
             ClearMeasureObjects.TabIndex = 96;
             ClearMeasureObjects.Text = "Clear";
             ClearMeasureObjects.UseVisualStyleBackColor = true;
+            ClearMeasureObjects.Click += ClearMeasureObjects_Click;
             // 
             // UseScaleUnitsCheck
             // 
@@ -4013,6 +4015,7 @@
             UseScaleUnitsCheck.TabIndex = 95;
             UseScaleUnitsCheck.Text = "Use Scale Units";
             UseScaleUnitsCheck.UseVisualStyleBackColor = true;
+            UseScaleUnitsCheck.CheckedChanged += UseScaleUnitsCheck_CheckedChanged;
             // 
             // label80
             // 
@@ -4024,18 +4027,19 @@
             label80.TabIndex = 94;
             label80.Text = "Color";
             // 
-            // label81
+            // MeasureColorLabel
             // 
-            label81.BackColor = Color.FromArgb(191, 138, 26, 0);
-            label81.BorderStyle = BorderStyle.FixedSingle;
-            label81.Font = new Font("Tahoma", 8F);
-            label81.ForeColor = SystemColors.ButtonShadow;
-            label81.Location = new Point(5, 43);
-            label81.Name = "label81";
-            label81.Size = new Size(108, 28);
-            label81.TabIndex = 93;
-            label81.Text = "Click to Select";
-            label81.TextAlign = ContentAlignment.MiddleCenter;
+            MeasureColorLabel.BackColor = Color.FromArgb(191, 138, 26, 0);
+            MeasureColorLabel.BorderStyle = BorderStyle.FixedSingle;
+            MeasureColorLabel.Font = new Font("Tahoma", 8F);
+            MeasureColorLabel.ForeColor = SystemColors.ButtonShadow;
+            MeasureColorLabel.Location = new Point(5, 43);
+            MeasureColorLabel.Name = "MeasureColorLabel";
+            MeasureColorLabel.Size = new Size(108, 28);
+            MeasureColorLabel.TabIndex = 93;
+            MeasureColorLabel.Text = "Click to Select";
+            MeasureColorLabel.TextAlign = ContentAlignment.MiddleCenter;
+            MeasureColorLabel.Click += MeasureColorLabel_Click;
             // 
             // groupBox15
             // 
@@ -7183,7 +7187,7 @@
         private Button ClearMeasureObjects;
         private CheckBox UseScaleUnitsCheck;
         private Label label80;
-        private Label label81;
+        private Label MeasureColorLabel;
         private TableLayoutPanel FrameStyleTable;
         private ToolStripMenuItem importToolStripMenuItem;
         private ToolStripMenuItem WonderdraftAssetZipFileToolStripMenuItem;

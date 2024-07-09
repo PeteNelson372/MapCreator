@@ -28,6 +28,7 @@
                 map.IsSaved = false;
             }
 
+            // MapHeight and MapWidth are the size of the map in pixels (e.g. 1200 x 800)
             if (map.MapHeight != (ushort)MapHeight.Value)
             {
                 map.MapHeight = (ushort)MapHeight.Value;
@@ -40,6 +41,7 @@
                 map.IsSaved = false;
             }
 
+            // MapAreaWidth and MapAreaHeight are the size of the map in MapAreaUnits (e.g. 1000 miles x 500 miles)
             map.MapAreaWidth = (float)MapAreaWidthUpDown.Value;
             map.MapAreaHeight = float.Parse(MapAreaHeightLabel.Text);
 
@@ -48,6 +50,7 @@
                 map.MapAreaUnits = (string)MapUnitsUpDown.SelectedItem;
             }
 
+            // MapPixelWidth and MapPixelHeight are the size of one pixel in MapAreaUnits
             map.MapPixelWidth = map.MapAreaWidth / map.MapWidth;
             map.MapPixelHeight = map.MapAreaHeight / map.MapHeight;
 

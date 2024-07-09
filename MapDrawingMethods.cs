@@ -940,6 +940,28 @@ namespace MapCreator
             return pointsInCircle;
         }
 
+        internal static float CalculatePolygonArea(List<SKPoint> polygonPoints)
+        {
+            if (polygonPoints.Count < 3)
+            {
+                return 0;
+            }
+
+            // use shoelace algorithm to calculate area of the polygon
+            float area = 0;
+
+            int j = polygonPoints.Count - 1;
+            for (int i = 0; i < polygonPoints.Count; i++)
+            {
+                area += (polygonPoints[j].X + polygonPoints[i].X) * (polygonPoints[j].Y - polygonPoints[i].Y);
+                j = i;  // j is previous vertex to i
+            }
+
+            area = Math.Abs(area / 2.0F);
+
+            return area;
+        }
+
         internal static SKPath GetInnerOrOuterPath(List<SKPoint> pathPoints, float distance, ParallelEnum location)
         {
             int numPoints = pathPoints.Count;
