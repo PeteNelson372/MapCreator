@@ -45,9 +45,13 @@
             map.MapAreaWidth = (float)MapAreaWidthUpDown.Value;
             map.MapAreaHeight = float.Parse(MapAreaHeightLabel.Text);
 
-            if (MapUnitsUpDown.SelectedItem != null)
+            if (MapUnitsCombo.SelectedItem != null)
             {
-                map.MapAreaUnits = (string)MapUnitsUpDown.SelectedItem;
+                map.MapAreaUnits = (string)MapUnitsCombo.SelectedItem;
+            }
+            else
+            {
+                map.MapAreaUnits = MapUnitsCombo.Text;
             }
 
             // MapPixelWidth and MapPixelHeight are the size of one pixel in MapAreaUnits
@@ -69,11 +73,6 @@
             decimal temp = MapWidth.Value;
             MapWidth.Value = MapHeight.Value;
             MapHeight.Value = temp;
-        }
-
-        private void WorldMapButton_CheckedChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void MapWidth_ValueChanged(object sender, EventArgs e)
@@ -212,6 +211,51 @@
         private void MapAreaWidthUpDown_ValueChanged(object sender, EventArgs e)
         {
             MapAreaHeightLabel.Text = ((float)MapAreaWidthUpDown.Value / MapAspectRatio).ToString("F2");
+        }
+
+        private void WorldMapButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RegionMapButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CityMapButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TownMapButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void InteriorMapButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DungeonMapButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void StarMapButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ShipMapButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OtherMapButton_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1282,6 +1282,12 @@ namespace MapCreator
 
         }
 
+        private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UserPreferences preferences = new UserPreferences();
+            preferences.ShowDialog();
+        }
+
         /******************************************************************************************************
         * *****************************************************************************************************
         * Asset Methods

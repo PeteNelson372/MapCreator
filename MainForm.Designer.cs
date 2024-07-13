@@ -77,6 +77,11 @@
             MapOperationProgressBar = new ToolStripProgressBar();
             LayerSelectTabControl = new TabControl();
             backgroundPage = new TabPage();
+            groupBox18 = new GroupBox();
+            VignetteColorSelectionLabel = new Label();
+            label84 = new Label();
+            label1 = new Label();
+            VignetteStrengthScroll = new TrackBar();
             groupBox4 = new GroupBox();
             ClearBackgroundButton = new FontAwesome.Sharp.IconButton();
             FillBackgroundButton = new FontAwesome.Sharp.IconButton();
@@ -505,15 +510,13 @@
             LabelBoxStyleTable = new TableLayoutPanel();
             OverlayToolsPanel = new Panel();
             FrameStyleTable = new TableLayoutPanel();
-            groupBox18 = new GroupBox();
-            VignetteStrengthScroll = new TrackBar();
-            label1 = new Label();
-            VignetteColorSelectionLabel = new Label();
-            label84 = new Label();
+            PreferencesToolStripMenuItem = new ToolStripMenuItem();
             MainMenu.SuspendLayout();
             ApplicationStatusStrip.SuspendLayout();
             LayerSelectTabControl.SuspendLayout();
             backgroundPage.SuspendLayout();
+            groupBox18.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)VignetteStrengthScroll).BeginInit();
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)backgroundTxPictureBox).BeginInit();
             oceanPage.SuspendLayout();
@@ -635,8 +638,6 @@
             LabelsToolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)BoxTintOpacityTrack).BeginInit();
             OverlayToolsPanel.SuspendLayout();
-            groupBox18.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)VignetteStrengthScroll).BeginInit();
             SuspendLayout();
             // 
             // MainMenu
@@ -912,6 +913,7 @@
             // 
             // OptionsToolStripMenuItem
             // 
+            OptionsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { PreferencesToolStripMenuItem });
             OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem";
             OptionsToolStripMenuItem.Size = new Size(62, 20);
             OptionsToolStripMenuItem.Text = "&Options";
@@ -1008,6 +1010,65 @@
             backgroundPage.Size = new Size(208, 1106);
             backgroundPage.TabIndex = 8;
             backgroundPage.Text = "Background";
+            // 
+            // groupBox18
+            // 
+            groupBox18.Controls.Add(VignetteColorSelectionLabel);
+            groupBox18.Controls.Add(label84);
+            groupBox18.Controls.Add(label1);
+            groupBox18.Controls.Add(VignetteStrengthScroll);
+            groupBox18.Location = new Point(8, 433);
+            groupBox18.Name = "groupBox18";
+            groupBox18.Size = new Size(193, 146);
+            groupBox18.TabIndex = 15;
+            groupBox18.TabStop = false;
+            groupBox18.Text = "Vignette";
+            // 
+            // VignetteColorSelectionLabel
+            // 
+            VignetteColorSelectionLabel.BackColor = Color.FromArgb(201, 151, 123);
+            VignetteColorSelectionLabel.BorderStyle = BorderStyle.FixedSingle;
+            VignetteColorSelectionLabel.Font = new Font("Tahoma", 8F);
+            VignetteColorSelectionLabel.ForeColor = SystemColors.ButtonShadow;
+            VignetteColorSelectionLabel.Location = new Point(6, 93);
+            VignetteColorSelectionLabel.Name = "VignetteColorSelectionLabel";
+            VignetteColorSelectionLabel.Size = new Size(181, 28);
+            VignetteColorSelectionLabel.TabIndex = 16;
+            VignetteColorSelectionLabel.Text = "Click to Select";
+            VignetteColorSelectionLabel.TextAlign = ContentAlignment.MiddleCenter;
+            VignetteColorSelectionLabel.Click += VignetteColorSelectionLabel_Click;
+            // 
+            // label84
+            // 
+            label84.AutoSize = true;
+            label84.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label84.Location = new Point(9, 76);
+            label84.Name = "label84";
+            label84.Size = new Size(34, 14);
+            label84.TabIndex = 15;
+            label84.Text = "Color";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(6, 32);
+            label1.Name = "label1";
+            label1.Size = new Size(56, 14);
+            label1.TabIndex = 1;
+            label1.Text = "Strength";
+            // 
+            // VignetteStrengthScroll
+            // 
+            VignetteStrengthScroll.AutoSize = false;
+            VignetteStrengthScroll.Location = new Point(6, 49);
+            VignetteStrengthScroll.Maximum = 255;
+            VignetteStrengthScroll.Name = "VignetteStrengthScroll";
+            VignetteStrengthScroll.Size = new Size(181, 22);
+            VignetteStrengthScroll.TabIndex = 0;
+            VignetteStrengthScroll.TickStyle = TickStyle.None;
+            VignetteStrengthScroll.Value = 64;
+            VignetteStrengthScroll.Scroll += VignetteStrengthScroll_Scroll;
             // 
             // groupBox4
             // 
@@ -6554,64 +6615,12 @@
             FrameStyleTable.Size = new Size(122, 858);
             FrameStyleTable.TabIndex = 73;
             // 
-            // groupBox18
+            // PreferencesToolStripMenuItem
             // 
-            groupBox18.Controls.Add(VignetteColorSelectionLabel);
-            groupBox18.Controls.Add(label84);
-            groupBox18.Controls.Add(label1);
-            groupBox18.Controls.Add(VignetteStrengthScroll);
-            groupBox18.Location = new Point(8, 433);
-            groupBox18.Name = "groupBox18";
-            groupBox18.Size = new Size(193, 146);
-            groupBox18.TabIndex = 15;
-            groupBox18.TabStop = false;
-            groupBox18.Text = "Vignette";
-            // 
-            // VignetteStrengthScroll
-            // 
-            VignetteStrengthScroll.AutoSize = false;
-            VignetteStrengthScroll.Location = new Point(6, 49);
-            VignetteStrengthScroll.Maximum = 255;
-            VignetteStrengthScroll.Name = "VignetteStrengthScroll";
-            VignetteStrengthScroll.Size = new Size(181, 22);
-            VignetteStrengthScroll.TabIndex = 0;
-            VignetteStrengthScroll.TickStyle = TickStyle.None;
-            VignetteStrengthScroll.Value = 64;
-            VignetteStrengthScroll.Scroll += VignetteStrengthScroll_Scroll;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(6, 32);
-            label1.Name = "label1";
-            label1.Size = new Size(56, 14);
-            label1.TabIndex = 1;
-            label1.Text = "Strength";
-            // 
-            // VignetteColorSelectionLabel
-            // 
-            VignetteColorSelectionLabel.BackColor = Color.FromArgb(201, 151, 123);
-            VignetteColorSelectionLabel.BorderStyle = BorderStyle.FixedSingle;
-            VignetteColorSelectionLabel.Font = new Font("Tahoma", 8F);
-            VignetteColorSelectionLabel.ForeColor = SystemColors.ButtonShadow;
-            VignetteColorSelectionLabel.Location = new Point(6, 93);
-            VignetteColorSelectionLabel.Name = "VignetteColorSelectionLabel";
-            VignetteColorSelectionLabel.Size = new Size(181, 28);
-            VignetteColorSelectionLabel.TabIndex = 16;
-            VignetteColorSelectionLabel.Text = "Click to Select";
-            VignetteColorSelectionLabel.TextAlign = ContentAlignment.MiddleCenter;
-            VignetteColorSelectionLabel.Click += VignetteColorSelectionLabel_Click;
-            // 
-            // label84
-            // 
-            label84.AutoSize = true;
-            label84.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label84.Location = new Point(9, 76);
-            label84.Name = "label84";
-            label84.Size = new Size(34, 14);
-            label84.TabIndex = 15;
-            label84.Text = "Color";
+            PreferencesToolStripMenuItem.Name = "PreferencesToolStripMenuItem";
+            PreferencesToolStripMenuItem.Size = new Size(180, 22);
+            PreferencesToolStripMenuItem.Text = "&Preferences";
+            PreferencesToolStripMenuItem.Click += PreferencesToolStripMenuItem_Click;
             // 
             // MainForm
             // 
@@ -6650,6 +6659,9 @@
             ApplicationStatusStrip.PerformLayout();
             LayerSelectTabControl.ResumeLayout(false);
             backgroundPage.ResumeLayout(false);
+            groupBox18.ResumeLayout(false);
+            groupBox18.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)VignetteStrengthScroll).EndInit();
             groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)backgroundTxPictureBox).EndInit();
             oceanPage.ResumeLayout(false);
@@ -6805,9 +6817,6 @@
             LabelsToolPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)BoxTintOpacityTrack).EndInit();
             OverlayToolsPanel.ResumeLayout(false);
-            groupBox18.ResumeLayout(false);
-            groupBox18.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)VignetteStrengthScroll).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -7295,5 +7304,6 @@
         private TrackBar VignetteStrengthScroll;
         private Label VignetteColorSelectionLabel;
         private Label label84;
+        private ToolStripMenuItem PreferencesToolStripMenuItem;
     }
 }

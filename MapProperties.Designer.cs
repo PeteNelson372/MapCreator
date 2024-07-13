@@ -66,12 +66,12 @@
             RegionMapButton = new RadioButton();
             WorldMapButton = new RadioButton();
             groupBox4 = new GroupBox();
+            MapUnitsCombo = new ComboBox();
             label9 = new Label();
             MapAreaHeightLabel = new Label();
             label8 = new Label();
             MapAreaWidthUpDown = new NumericUpDown();
             label7 = new Label();
-            MapUnitsUpDown = new DomainUpDown();
             label6 = new Label();
             ((System.ComponentModel.ISupportInitialize)MapHeight).BeginInit();
             ((System.ComponentModel.ISupportInitialize)MapWidth).BeginInit();
@@ -420,6 +420,7 @@
             InteriorMapButton.TabStop = true;
             InteriorMapButton.Text = "Interior Map";
             InteriorMapButton.UseVisualStyleBackColor = true;
+            InteriorMapButton.CheckedChanged += InteriorMapButton_CheckedChanged;
             // 
             // OtherMapButton
             // 
@@ -431,6 +432,7 @@
             OtherMapButton.TabStop = true;
             OtherMapButton.Text = "Other/Generic Map";
             OtherMapButton.UseVisualStyleBackColor = true;
+            OtherMapButton.CheckedChanged += OtherMapButton_CheckedChanged;
             // 
             // ShipMapButton
             // 
@@ -442,6 +444,7 @@
             ShipMapButton.TabStop = true;
             ShipMapButton.Text = "Ship Map";
             ShipMapButton.UseVisualStyleBackColor = true;
+            ShipMapButton.CheckedChanged += ShipMapButton_CheckedChanged;
             // 
             // StarMapButton
             // 
@@ -453,6 +456,7 @@
             StarMapButton.TabStop = true;
             StarMapButton.Text = "Star Map";
             StarMapButton.UseVisualStyleBackColor = true;
+            StarMapButton.CheckedChanged += StarMapButton_CheckedChanged;
             // 
             // DungeonMapButton
             // 
@@ -464,6 +468,7 @@
             DungeonMapButton.TabStop = true;
             DungeonMapButton.Text = "Dungeon or Underground Map";
             DungeonMapButton.UseVisualStyleBackColor = true;
+            DungeonMapButton.CheckedChanged += DungeonMapButton_CheckedChanged;
             // 
             // TownMapButton
             // 
@@ -475,6 +480,7 @@
             TownMapButton.TabStop = true;
             TownMapButton.Text = "Town or Village Map";
             TownMapButton.UseVisualStyleBackColor = true;
+            TownMapButton.CheckedChanged += TownMapButton_CheckedChanged;
             // 
             // CityMapButton
             // 
@@ -486,6 +492,7 @@
             CityMapButton.TabStop = true;
             CityMapButton.Text = "City Map";
             CityMapButton.UseVisualStyleBackColor = true;
+            CityMapButton.CheckedChanged += CityMapButton_CheckedChanged;
             // 
             // RegionMapButton
             // 
@@ -497,6 +504,7 @@
             RegionMapButton.TabStop = true;
             RegionMapButton.Text = "Region or Area Map";
             RegionMapButton.UseVisualStyleBackColor = true;
+            RegionMapButton.CheckedChanged += RegionMapButton_CheckedChanged;
             // 
             // WorldMapButton
             // 
@@ -512,12 +520,12 @@
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(MapUnitsCombo);
             groupBox4.Controls.Add(label9);
             groupBox4.Controls.Add(MapAreaHeightLabel);
             groupBox4.Controls.Add(label8);
             groupBox4.Controls.Add(MapAreaWidthUpDown);
             groupBox4.Controls.Add(label7);
-            groupBox4.Controls.Add(MapUnitsUpDown);
             groupBox4.Controls.Add(label6);
             groupBox4.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox4.Location = new Point(12, 236);
@@ -526,6 +534,16 @@
             groupBox4.TabIndex = 18;
             groupBox4.TabStop = false;
             groupBox4.Text = "Map Area";
+            // 
+            // MapUnitsCombo
+            // 
+            MapUnitsCombo.FormattingEnabled = true;
+            MapUnitsCombo.Items.AddRange(new object[] { "Centimeters", "Inches", "Feet", "Yards", "Meters", "Kilometers", "Miles", "Astronomical Units (AU)", "Light Years", "Parsecs" });
+            MapUnitsCombo.Location = new Point(10, 56);
+            MapUnitsCombo.Name = "MapUnitsCombo";
+            MapUnitsCombo.Size = new Size(184, 26);
+            MapUnitsCombo.TabIndex = 7;
+            MapUnitsCombo.Text = "Miles";
             // 
             // label9
             // 
@@ -544,7 +562,7 @@
             MapAreaHeightLabel.Name = "MapAreaHeightLabel";
             MapAreaHeightLabel.Size = new Size(188, 26);
             MapAreaHeightLabel.TabIndex = 5;
-            MapAreaHeightLabel.Text = "3.76";
+            MapAreaHeightLabel.Text = "75";
             MapAreaHeightLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label8
@@ -561,11 +579,11 @@
             MapAreaWidthUpDown.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
             MapAreaWidthUpDown.Location = new Point(6, 117);
             MapAreaWidthUpDown.Maximum = new decimal(new int[] { 1000000000, 0, 0, 0 });
-            MapAreaWidthUpDown.Minimum = new decimal(new int[] { 5, 0, 0, 0 });
+            MapAreaWidthUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             MapAreaWidthUpDown.Name = "MapAreaWidthUpDown";
             MapAreaWidthUpDown.Size = new Size(188, 26);
             MapAreaWidthUpDown.TabIndex = 3;
-            MapAreaWidthUpDown.Value = new decimal(new int[] { 5, 0, 0, 0 });
+            MapAreaWidthUpDown.Value = new decimal(new int[] { 100, 0, 0, 0 });
             MapAreaWidthUpDown.ValueChanged += MapAreaWidthUpDown_ValueChanged;
             // 
             // label7
@@ -576,23 +594,6 @@
             label7.Size = new Size(113, 18);
             label7.TabIndex = 2;
             label7.Text = "Map Area Width";
-            // 
-            // MapUnitsUpDown
-            // 
-            MapUnitsUpDown.Items.Add("Centimeters");
-            MapUnitsUpDown.Items.Add("Inches");
-            MapUnitsUpDown.Items.Add("Feet");
-            MapUnitsUpDown.Items.Add("Yards");
-            MapUnitsUpDown.Items.Add("Meters");
-            MapUnitsUpDown.Items.Add("Kilometers");
-            MapUnitsUpDown.Items.Add("Miles");
-            MapUnitsUpDown.Items.Add("Astronomical Units (AU)");
-            MapUnitsUpDown.Items.Add("Light Years");
-            MapUnitsUpDown.Items.Add("Parsecs");
-            MapUnitsUpDown.Location = new Point(6, 56);
-            MapUnitsUpDown.Name = "MapUnitsUpDown";
-            MapUnitsUpDown.Size = new Size(188, 26);
-            MapUnitsUpDown.TabIndex = 1;
             // 
             // label6
             // 
@@ -690,10 +691,10 @@
         private Label label6;
         private NumericUpDown MapAreaWidthUpDown;
         private Label label7;
-        private DomainUpDown MapUnitsUpDown;
         private Label label8;
         private Label label9;
         private Label MapAreaHeightLabel;
         private RadioButton InteriorMapButton;
+        private ComboBox MapUnitsCombo;
     }
 }
