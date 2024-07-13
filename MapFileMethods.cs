@@ -390,5 +390,68 @@ namespace MapCreator
                 }
             }
         }
+        internal static void SerializeLabelPreset(LabelPreset preset)
+        {
+            if (!string.IsNullOrEmpty(preset.PresetXmlFilePath))
+            {
+                TextWriter? writer = new StreamWriter(preset.PresetXmlFilePath);
+                XmlSerializer? serializer = new(typeof(LabelPreset));
+
+                try
+                {
+                    // Serializes the label preset and closes the TextWriter.
+                    serializer.Serialize(writer, preset);
+                }
+                catch (Exception ex)
+                {
+                    Program.LOGGER.Error("Error saving label preset: " + ex.Message);
+
+                    MessageBox.Show("Error saving label preset: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    writer?.Dispose();
+                }
+            }
+        }
+
+        internal static LabelPreset? ReadLabelPreset(string path)
+        {
+            XmlSerializer? serializer = new(typeof(LabelPreset));
+
+            // If the XML document has been altered with unknown
+            // nodes or attributes, handle them with the
+            // UnknownNode and UnknownAttribute events.
+#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
+            serializer.UnknownNode += new XmlNodeEventHandler(serializer_UnknownNode);
+            serializer.UnknownAttribute += new XmlAttributeEventHandler(serializer_UnknownAttribute);
+#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
+
+            // A FileStream is needed to read the XML document.            
+            using FileStream fs = new(path, FileMode.Open);
+
+            // Declares an object variable of the type to be deserialized.            
+            LabelPreset? labelPreset;
+
+            try
+            {
+                // Uses the Deserialize method to restore the object's state
+                // with data from the XML document. */
+                labelPreset = serializer.Deserialize(fs) as LabelPreset;
+                return labelPreset;
+            }
+            catch (Exception ex)
+            {
+                Program.LOGGER.Error("Exception deserializing label preset XML at " + path + " Message: " + ex.Message);
+                labelPreset = null;
+            }
+            finally
+            {
+                serializer = null;
+            }
+
+            return null;
+        }
+
     }
 }

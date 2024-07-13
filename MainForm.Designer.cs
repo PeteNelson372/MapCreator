@@ -67,6 +67,7 @@
             createThemeFromMapSettingsToolStripMenuItem = new ToolStripMenuItem();
             loadThemesToolStripMenuItem1 = new ToolStripMenuItem();
             OptionsToolStripMenuItem = new ToolStripMenuItem();
+            PreferencesToolStripMenuItem = new ToolStripMenuItem();
             HelpToolStripMenuItem = new ToolStripMenuItem();
             HelpContentsToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator7 = new ToolStripSeparator();
@@ -510,7 +511,6 @@
             LabelBoxStyleTable = new TableLayoutPanel();
             OverlayToolsPanel = new Panel();
             FrameStyleTable = new TableLayoutPanel();
-            PreferencesToolStripMenuItem = new ToolStripMenuItem();
             MainMenu.SuspendLayout();
             ApplicationStatusStrip.SuspendLayout();
             LayerSelectTabControl.SuspendLayout();
@@ -918,6 +918,13 @@
             OptionsToolStripMenuItem.Size = new Size(62, 20);
             OptionsToolStripMenuItem.Text = "&Options";
             OptionsToolStripMenuItem.Click += OptionsToolStripMenuItem_Click;
+            // 
+            // PreferencesToolStripMenuItem
+            // 
+            PreferencesToolStripMenuItem.Name = "PreferencesToolStripMenuItem";
+            PreferencesToolStripMenuItem.Size = new Size(142, 22);
+            PreferencesToolStripMenuItem.Text = "&Preferences";
+            PreferencesToolStripMenuItem.Click += PreferencesToolStripMenuItem_Click;
             // 
             // HelpToolStripMenuItem
             // 
@@ -4007,7 +4014,6 @@
             // LabelPresetComboBox
             // 
             LabelPresetComboBox.FormattingEnabled = true;
-            LabelPresetComboBox.Items.AddRange(new object[] { "Village", "Town", "Small City", "Large City", "Capital", "River", "Lake", "Country", "Region/Continent", "Ocean" });
             LabelPresetComboBox.Location = new Point(14, 38);
             LabelPresetComboBox.Name = "LabelPresetComboBox";
             LabelPresetComboBox.Size = new Size(115, 26);
@@ -6614,13 +6620,6 @@
             FrameStyleTable.RowStyles.Add(new RowStyle());
             FrameStyleTable.Size = new Size(122, 858);
             FrameStyleTable.TabIndex = 73;
-            // 
-            // PreferencesToolStripMenuItem
-            // 
-            PreferencesToolStripMenuItem.Name = "PreferencesToolStripMenuItem";
-            PreferencesToolStripMenuItem.Size = new Size(180, 22);
-            PreferencesToolStripMenuItem.Text = "&Preferences";
-            PreferencesToolStripMenuItem.Click += PreferencesToolStripMenuItem_Click;
             // 
             // MainForm
             // 

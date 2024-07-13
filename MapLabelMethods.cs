@@ -5,6 +5,8 @@ namespace MapCreator
 {
     internal class MapLabelMethods
     {
+        public static List<LabelPreset> LABEL_PRESETS = [];
+
         public static List<MapLabel> MAP_LABELS = [];
 
         public static List<PlacedMapBox> MAP_BOXES = [];

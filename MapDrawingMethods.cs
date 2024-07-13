@@ -569,6 +569,25 @@ namespace MapCreator
 
         }
 
+        public static Color RGBtoRGBA(Color rgbColor)
+        {
+            float r = rgbColor.R;
+            float g = rgbColor.G;
+            float b = rgbColor.B;
+
+            float minValue = Math.Min(Math.Min(r, g), b);
+            float scaledValue = (255.0F - minValue) / 255.0F;
+
+            byte A = (byte) scaledValue;
+            byte R = (byte)((r - minValue) / scaledValue);
+            byte G = (byte)((g - minValue) / scaledValue);
+            byte B = (byte)((b - minValue) / scaledValue);
+
+            Color argbColor = Color.FromArgb(A, R, G, B);
+
+            return argbColor;
+        }
+
         public static List<SKPoint> GenerateRandomPolygonPoints(PointF center, float averageRadius, float irregularity, float spikiness, int numVertices, int seed)
         {
             Random random = new(seed);

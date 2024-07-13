@@ -1340,6 +1340,7 @@ namespace MapCreator
                             || file.Contains(".ico")
                             || file.Contains(".mctheme")
                             || file.Contains(".svg")
+                            || file.Contains(".mclblprst")
                         select new
                         {
                             File = file
@@ -1481,6 +1482,34 @@ namespace MapCreator
                     };
 
                     MapLabelMethods.MAP_BOX_TEXTURES.Add(b);
+                }
+                else if (Path.GetDirectoryName(f.File).EndsWith("\\LabelPresets"))
+                {
+                    LabelPreset? preset = MapFileMethods.ReadLabelPreset(path);
+
+                    if (preset != null)
+                    {
+                        MapLabelMethods.LABEL_PRESETS.Add(preset);
+                        LabelPresetComboBox.Items.Add(preset.LabelPresetName);
+
+                        // colors need to be separated into ARGB components so
+                        // opacity values can be set
+                        Color argbLabelColor = MapDrawingMethods.RGBtoRGBA(preset.LabelColor);
+                        preset.LabelColorOpacity = argbLabelColor.A;
+                        preset.LabelColor = argbLabelColor;
+
+                        Color argbOutlineColor = MapDrawingMethods.RGBtoRGBA(preset.LabelOutlineColor);
+                        preset.LabelOutlineColorOpacity = argbOutlineColor.A;
+                        preset.LabelOutlineColor = argbOutlineColor;
+
+                        Color argbGlowColor = MapDrawingMethods.RGBtoRGBA(preset.LabelGlowColor);
+                        preset.LabelGlowColorOpacity = argbGlowColor.A;
+                        preset.LabelGlowColor = argbGlowColor;
+                    }
+
+                    LabelPresetComboBox.SelectedIndex = 0;
+                    LabelPreset selectedPreset = MapLabelMethods.LABEL_PRESETS[0];
+                    SetLabelValuesFromPreset(selectedPreset);
                 }
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
@@ -4671,18 +4700,73 @@ namespace MapCreator
             }
         }
 
+        private void SetLabelValuesFromPreset(LabelPreset preset)
+        {
+            FontColorSelectLabel.BackColor = preset.LabelColor;
+            FontColorOpacityTrack.Value = preset.LabelColorOpacity;
+            OutlineColorSelectLabel.BackColor = preset.LabelOutlineColor;
+            OutlineColorOpacityTrack.Value = preset.LabelOutlineColorOpacity;
+            OutlineWidthUpDown.Value = preset.LabelOutlineWidth;
+            GlowColorSelectLabel.BackColor = preset.LabelGlowColor;
+            GlowColorOpacityTrack.Value = preset.LabelGlowColorOpacity;
+            GlowStrengthUpDown.Value = preset.LabelGlowStrength;
+
+            string fontString = preset.LabelFontString;
+            FontConverter cvt = new();
+            Font? font = (Font?)cvt.ConvertFromString(fontString);
+
+            if (font != null)
+            {
+                MapLabelMethods.SELECTED_FONT = font;
+                SelectLabelFontButton.Font = new Font(font.FontFamily, 14);
+            }
+        }
+
         /*******************************************************************************************************
         * Label Tab Event Handlers 
         *******************************************************************************************************/
 
         private void LabelPresetComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // TODO: set font, font size, color, etc. for label
+            if (LabelPresetComboBox.SelectedIndex >= 0)
+            {
+                LabelPreset selectedPreset = MapLabelMethods.LABEL_PRESETS[LabelPresetComboBox.SelectedIndex];
+                SetLabelValuesFromPreset(selectedPreset);
+            }
         }
 
         private void AddPresetButton_Click(object sender, EventArgs e)
         {
-            // TODO: add a label preset (how are presets stored? as part of theme?)
+            LabelPresetNameEntry presetDialog = new LabelPresetNameEntry();
+            DialogResult result = presetDialog.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                string presetName = presetDialog.PresetNameTextBox.Text;
+                LabelPreset preset = new();
+
+                FontConverter cvt = new();
+                string? fontString = cvt.ConvertToString(MapLabelMethods.SELECTED_FONT);
+
+                if (!string.IsNullOrEmpty(fontString))
+                {
+                    preset.LabelFontString = fontString;
+
+                    preset.LabelColor = FontColorSelectLabel.BackColor;
+                    preset.LabelColorOpacity = (byte)FontColorOpacityTrack.Value;
+                    preset.LabelOutlineColor = OutlineColorSelectLabel.BackColor;
+                    preset.LabelOutlineColorOpacity = (byte)OutlineColorOpacityTrack.Value;
+                    preset.LabelOutlineWidth = (int)OutlineWidthUpDown.Value;
+                    preset.LabelGlowColor = GlowColorSelectLabel.BackColor;
+                    preset.LabelGlowColorOpacity = (byte)GlowColorOpacityTrack.Value;
+                    preset.LabelGlowStrength = (int)GlowStrengthUpDown.Value;
+
+                    string presetFileName = Resources.ASSET_DIRECTORY + Path.DirectorySeparatorChar + "LabelPresets" + Path.DirectorySeparatorChar + presetName + ".mclblprst";
+                    preset.PresetXmlFilePath = presetFileName;
+
+                    MapFileMethods.SerializeLabelPreset(preset);
+                }
+            }
         }
 
         private void RemovePresetButton_Click(object sender, EventArgs e)
