@@ -147,6 +147,11 @@ namespace MapCreator
             SymbolMethods.SetCustomColorAtIndex(Extensions.ToSKColor(SymbolColor4Label.BackColor), 3);
 
             BackgroundToolPanel.Visible = true;
+
+            SKCanvas vignetteCanvas = MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.VIGNETTELAYER);
+
+            SKRect bounds = new(0, 0, CURRENT_MAP.MapWidth, CURRENT_MAP.MapHeight);
+            MapPaintMethods.PaintVignette(vignetteCanvas, bounds, CURRENT_MAP.MapVignetteColor, CURRENT_MAP.MapVignetteStrength);
         }
 
         private void CreateUserDefinedHatchShaders()
@@ -278,22 +283,16 @@ namespace MapCreator
             return selectedBlendMode;
         }
 
-        public void RenderDrawingPanel(bool resetImageBox = true)
+        public void RenderDrawingPanel()
         {
             if (CURRENT_MAP != null && MAP_CANVAS != null && CURRENT_MAP.MapBackingBitmap != null)
             {
                 // render all of the layers onto the MAP_CANVAS,
                 // then display the resulting bitmap as the MapImageBox Image
-                //CURRENT_MAP.MapBackingBitmap.Erase(SKColors.Empty);
-                //MAP_CANVAS.Clear();
                 CURRENT_MAP.Render(MAP_CANVAS);
-                if (resetImageBox)
-                {
-                    //using Graphics g = Graphics.FromImage(MapImageBox.Image);
-                    //g.Clear(Color.White);
-                    MapImageBox.Image = Extensions.ToBitmap(CURRENT_MAP.MapBackingBitmap);
-                    //MapImageBox.Image = Extensions.ToBitmap(GPU_SURFACE.Snapshot());
-                }
+
+                MapImageBox.Image = Extensions.ToBitmap(CURRENT_MAP.MapBackingBitmap);
+                MapImageBox.Refresh();
             }
         }
 
@@ -327,7 +326,6 @@ namespace MapCreator
 
 
                         RenderDrawingPanel();
-                        MapImageBox.Refresh();
 
                         UpdateMapNameAndSize();
                         UpdateViewportStatus();
@@ -356,7 +354,6 @@ namespace MapCreator
             InitializeMap(CURRENT_MAP);
 
             RenderDrawingPanel();
-            MapImageBox.Refresh();
 
             UpdateMapNameAndSize();
             UpdateViewportStatus();
@@ -937,8 +934,7 @@ namespace MapCreator
                 UpdateMapNameAndSize();
                 UpdateViewportStatus();
 
-                RenderDrawingPanel(true);
-                MapImageBox.Refresh();
+                RenderDrawingPanel();
 
             }
             catch (UnauthorizedAccessException uAEx)
@@ -993,8 +989,7 @@ namespace MapCreator
 
             // refresh the form to get everything rendered completely, then render the map
             Refresh();
-            RenderDrawingPanel(true);
-            MapImageBox.Refresh();
+            RenderDrawingPanel();
         }
 
         private void ResetButton_Click(object sender, EventArgs e)
@@ -1072,19 +1067,14 @@ namespace MapCreator
         {
             UndoManager.Undo();
 
-            MapImageBox.Refresh();
-            RenderDrawingPanel(true);
-            MapImageBox.Refresh();
-
+            RenderDrawingPanel();
         }
 
         private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UndoManager.Redo();
 
-            MapImageBox.Refresh();
-            RenderDrawingPanel(true);
-            MapImageBox.Refresh();
+            RenderDrawingPanel();
         }
 
         private void PropertiesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1100,8 +1090,7 @@ namespace MapCreator
         private void ExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            MapImageBox.Refresh();
-            RenderDrawingPanel(true);
+            RenderDrawingPanel();
 
 
             // export the map as a PNG, JPG, or other graphics format
@@ -1960,8 +1949,7 @@ namespace MapCreator
                 UndoManager.AddCommand(cmd);
                 cmd.DoOperation();
 
-                RenderDrawingPanel(true);
-                MapImageBox.Refresh();
+                RenderDrawingPanel();
             }
         }
 
@@ -1976,9 +1964,40 @@ namespace MapCreator
             cmd.DoOperation();
 
             // render the map
-            RenderDrawingPanel(true);
-            MapImageBox?.Refresh();
+            RenderDrawingPanel();
         }
+
+        private void VignetteColorSelectionLabel_Click(object sender, EventArgs e)
+        {
+            TopMost = true;
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
+            TopMost = false;
+
+            if (selectedColor != Color.Empty)
+            {
+                VignetteColorSelectionLabel.BackColor = selectedColor;
+                CURRENT_MAP.MapVignetteColor = selectedColor;
+            }
+
+            SKCanvas vignetteCanvas = MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.VIGNETTELAYER);
+
+            SKRect bounds = new(0, 0, CURRENT_MAP.MapWidth, CURRENT_MAP.MapHeight);
+            MapPaintMethods.PaintVignette(vignetteCanvas, bounds, CURRENT_MAP.MapVignetteColor, CURRENT_MAP.MapVignetteStrength);
+
+            RenderDrawingPanel();
+        }
+
+        private void VignetteStrengthScroll_Scroll(object sender, EventArgs e)
+        {
+            CURRENT_MAP.MapVignetteStrength = VignetteStrengthScroll.Value;
+
+            SKCanvas vignetteCanvas = MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.VIGNETTELAYER);
+
+            SKRect bounds = new(0, 0, CURRENT_MAP.MapWidth, CURRENT_MAP.MapHeight);
+            MapPaintMethods.PaintVignette(vignetteCanvas, bounds, CURRENT_MAP.MapVignetteColor, CURRENT_MAP.MapVignetteStrength);
+            RenderDrawingPanel();
+        }
+
 
         /******************************************************************************************************
         * *****************************************************************************************************
@@ -2111,8 +2130,7 @@ namespace MapCreator
             cmd.DoOperation();
 
             // render the map
-            RenderDrawingPanel(true);
-            MapImageBox.Refresh();
+            RenderDrawingPanel();
         }
 
         private void OceanFillColorButton_Click(object sender, EventArgs e)
@@ -2133,8 +2151,7 @@ namespace MapCreator
             cmd.DoOperation();
 
             // render the map
-            RenderDrawingPanel(true);
-            MapImageBox.Refresh();
+            RenderDrawingPanel();
         }
 
         private void OceanTxList_SelectionChangeCommitted(object sender, EventArgs e)
@@ -2166,8 +2183,7 @@ namespace MapCreator
                     UndoManager.AddCommand(cmd);
                     cmd.DoOperation();
 
-                    RenderDrawingPanel(true);
-                    MapImageBox.Refresh();
+                    RenderDrawingPanel();
                 }
             }
         }
@@ -2180,8 +2196,7 @@ namespace MapCreator
             cmd.DoOperation();
 
             // render the map
-            RenderDrawingPanel(true);
-            MapImageBox.Refresh();
+            RenderDrawingPanel();
         }
 
         private void OceanTxOpacityScroll_Scroll(object sender, EventArgs e)
@@ -2229,8 +2244,7 @@ namespace MapCreator
             Cmd_ClearLayerBitmap cmd = new(CURRENT_MAP, MapBuilder.OCEANDRAWINGLAYER, layerBitmap);
             cmd.DoOperation();
 
-            RenderDrawingPanel(true);
-            MapImageBox.Refresh();
+            RenderDrawingPanel();
         }
 
         private void OceanSoftBrushButton_Click(object sender, EventArgs e)
@@ -2479,7 +2493,6 @@ namespace MapCreator
                 SetDrawingModeLabel();
 
                 RenderDrawingPanel();
-                MapImageBox.Refresh();
             }
         }
 
@@ -2759,9 +2772,7 @@ namespace MapCreator
 
                     CURRENT_MAP.IsSaved = false;
 
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
-                    MapImageBox.Refresh();
+                    RenderDrawingPanel();
                 }
             }
             else
@@ -2800,8 +2811,7 @@ namespace MapCreator
             UndoManager.AddCommand(cmd);
             cmd.DoOperation();
 
-            RenderDrawingPanel(true);
-            MapImageBox.Refresh();
+            RenderDrawingPanel();
         }
 
         private void LandColorButton_Click(object sender, EventArgs e)
@@ -3795,9 +3805,7 @@ namespace MapCreator
                 }
             }
 
-            MapImageBox.Refresh();
             RenderDrawingPanel();
-            MapImageBox.Refresh();
         }
 
         private void DrawPathButton_Click(object sender, EventArgs e)
@@ -3855,9 +3863,7 @@ namespace MapCreator
 
             SetDrawingModeLabel();
 
-            MapImageBox.Refresh();
             RenderDrawingPanel();
-            MapImageBox.Refresh();
         }
 
         private void SolidLinePictureBox_Click(object sender, EventArgs e)
@@ -4070,8 +4076,7 @@ namespace MapCreator
                     UndoManager.AddCommand(cmd);
                     cmd.DoOperation();
 
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
+                    RenderDrawingPanel();
                 }
             }
             else
@@ -4570,8 +4575,7 @@ namespace MapCreator
                 // dispose of the text box, as it isn't needed once the label text has been entered
                 tb.Dispose();
 
-                MapImageBox.Refresh();
-                RenderDrawingPanel(true);
+                RenderDrawingPanel();
             }
         }
 
@@ -4589,7 +4593,6 @@ namespace MapCreator
                 UndoManager.AddCommand(cmd);
                 cmd.DoOperation();
 
-                MapImageBox.Refresh();
                 RenderDrawingPanel();
             }
         }
@@ -4859,7 +4862,6 @@ namespace MapCreator
             {
                 LabelRotationUpDown.Value = LabelRotationTrack.Value;
 
-                MapImageBox.Refresh();
                 RenderDrawingPanel();
             }
         }
@@ -4874,7 +4876,6 @@ namespace MapCreator
 
                 LabelRotationTrack.Value = (int)LabelRotationUpDown.Value;
 
-                MapImageBox.Refresh();
                 RenderDrawingPanel();
             }
         }
@@ -4895,9 +4896,7 @@ namespace MapCreator
                     UndoManager.AddCommand(cmd);
                     cmd.DoOperation();
 
-                    MapImageBox.Refresh();
                     RenderDrawingPanel();
-                    MapImageBox.Refresh();
                 }
             }
         }
@@ -4915,9 +4914,7 @@ namespace MapCreator
                 UndoManager.AddCommand(cmd);
                 cmd.DoOperation();
 
-                MapImageBox.Refresh();
                 RenderDrawingPanel();
-                MapImageBox.Refresh();
             }
         }
 
@@ -4990,9 +4987,7 @@ namespace MapCreator
                             UndoManager.AddCommand(cmd);
                             cmd.DoOperation();
 
-                            MapImageBox.Refresh();
                             RenderDrawingPanel();
-                            MapImageBox.Refresh();
                         }
                         else
                         {
@@ -5181,10 +5176,6 @@ namespace MapCreator
                             Cmd_ChangeFrameColor cmd = new(placedFrame, SelectFrameTintLabel.BackColor);
                             UndoManager.AddCommand(cmd);
                             cmd.DoOperation();
-
-                            MapImageBox.Refresh();
-                            RenderDrawingPanel();
-                            MapImageBox.Refresh();
                         }
 
                         RenderDrawingPanel();
@@ -5212,10 +5203,6 @@ namespace MapCreator
                         Cmd_ChangeFrameColor cmd = new(placedFrame, SelectFrameTintLabel.BackColor);
                         UndoManager.AddCommand(cmd);
                         cmd.DoOperation();
-
-                        MapImageBox.Refresh();
-                        RenderDrawingPanel();
-                        MapImageBox.Refresh();
                     }
 
                     RenderDrawingPanel();
@@ -5457,7 +5444,6 @@ namespace MapCreator
                     };
 
                     RenderDrawingPanel();
-                    MapImageBox.Refresh();
                 }
 
             }
@@ -5471,7 +5457,6 @@ namespace MapCreator
             {
                 currentMapMeasure.UseMapUnits = UseScaleUnitsCheck.Checked;
                 RenderDrawingPanel();
-                MapImageBox.Refresh();
             }
         }
 
@@ -5483,7 +5468,6 @@ namespace MapCreator
             {
                 currentMapMeasure.MeasureArea = MeasureAreaCheck.Checked;
                 RenderDrawingPanel();
-                MapImageBox.Refresh();
             }
         }
 
@@ -5500,7 +5484,6 @@ namespace MapCreator
             }
 
             RenderDrawingPanel();
-            MapImageBox.Refresh();
         }
 
         /*******************************************************************************************************
@@ -5521,6 +5504,8 @@ namespace MapCreator
             {
                 RightButtonMouseDownHandler(sender, e);
             }
+
+            RenderDrawingPanel();
         }
 
         // MOUSE UP
@@ -5536,8 +5521,7 @@ namespace MapCreator
                 RightButtonMouseUpHandler(sender, e);
             }
 
-            MapImageBox.Refresh();
-            RenderDrawingPanel(true);
+            RenderDrawingPanel();
         }
 
         // MOUSE MOVE
@@ -5571,7 +5555,7 @@ namespace MapCreator
                 NoButtonMouseMoveHandler(sender, e, CURRENT_DRAWING_MODE);
             }
 
-            MapImageBox.Refresh();
+            RenderDrawingPanel();
         }
 
         // PAINT
@@ -5596,7 +5580,6 @@ namespace MapCreator
                 case DrawingModeEnum.LandPaint:
                     selectedBrushSize = LandformType2Methods.LAND_BRUSH_SIZE;
                     showCircleAroundCursor = true;
-                    RenderDrawingPanel();
                     break;
                 case DrawingModeEnum.LandErase:
                     selectedBrushSize = LandformType2Methods.LAND_ERASER_SIZE;
@@ -5613,7 +5596,6 @@ namespace MapCreator
                 case DrawingModeEnum.WaterPaint:
                     selectedBrushSize = WaterFeatureMethods.WATER_BRUSH_SIZE;
                     showCircleAroundCursor = true;
-                    RenderDrawingPanel(true);
                     break;
                 case DrawingModeEnum.WaterErase:
                     selectedBrushSize = WaterFeatureMethods.WATER_ERASER_SIZE;
@@ -5622,7 +5604,6 @@ namespace MapCreator
                 case DrawingModeEnum.LakePaint:
                     selectedBrushSize = WaterFeatureMethods.WATER_BRUSH_SIZE;
                     showCircleAroundCursor = true;
-                    RenderDrawingPanel(true);
                     break;
                 case DrawingModeEnum.WaterColor:
                     selectedBrushSize = WaterFeatureMethods.WATER_COLOR_BRUSH_SIZE;
@@ -5936,9 +5917,6 @@ namespace MapCreator
                     CURRENT_MAP.IsSaved = false;
                     UISelectedLabel = null;
 
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel();
-
                     return;
                 }
 
@@ -5950,10 +5928,6 @@ namespace MapCreator
 
                     CURRENT_MAP.IsSaved = false;
                     UISelectedBox = null;
-
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
-                    MapImageBox.Refresh();
 
                     return;
                 }
@@ -5979,9 +5953,6 @@ namespace MapCreator
 
                         TopMost = false;
 
-                        MapImageBox.Refresh();
-                        RenderDrawingPanel();
-                        MapImageBox.Refresh();
                         break;
                     }
                 }
@@ -6005,9 +5976,6 @@ namespace MapCreator
                         }
                         TopMost = false;
 
-                        MapImageBox.Refresh();
-                        RenderDrawingPanel();
-                        MapImageBox.Refresh();
                         break;
                     }
                 }
@@ -6031,9 +5999,6 @@ namespace MapCreator
                         }
                         TopMost = false;
 
-                        MapImageBox.Refresh();
-                        RenderDrawingPanel();
-                        MapImageBox.Refresh();
                         break;
                     }
                 }
@@ -6058,9 +6023,6 @@ namespace MapCreator
                         }
                         TopMost = false;
 
-                        MapImageBox.Refresh();
-                        RenderDrawingPanel();
-                        MapImageBox.Refresh();
                         break;
                     }
                 }
@@ -6076,9 +6038,6 @@ namespace MapCreator
 
                         CURRENT_MAP.IsSaved = false;
 
-                        MapImageBox.Refresh();
-                        RenderDrawingPanel();
-                        MapImageBox.Refresh();
                         break;
                     }
                 }
@@ -6090,9 +6049,6 @@ namespace MapCreator
                 {
                     MoveSelectedSymbolInRenderOrder(SymbolRenderMoveDirectionEnum.Up);
                 }
-
-                MapImageBox.Refresh();
-                RenderDrawingPanel();
             }
 
             if (e.KeyCode == Keys.PageDown)
@@ -6101,9 +6057,6 @@ namespace MapCreator
                 {
                     MoveSelectedSymbolInRenderOrder(SymbolRenderMoveDirectionEnum.Down);
                 }
-
-                MapImageBox.Refresh();
-                RenderDrawingPanel();
             }
 
             if (e.KeyCode == Keys.Down)
@@ -6114,8 +6067,6 @@ namespace MapCreator
                     UISelectedMapSymbol.YLocation++;
 
                     CURRENT_MAP.IsSaved = false;
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
                 }
             }
 
@@ -6127,8 +6078,6 @@ namespace MapCreator
                     UISelectedMapSymbol.YLocation--;
 
                     CURRENT_MAP.IsSaved = false;
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
                 }
             }
 
@@ -6140,8 +6089,6 @@ namespace MapCreator
                     UISelectedMapSymbol.XLocation--;
 
                     CURRENT_MAP.IsSaved = false;
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
                 }
             }
 
@@ -6153,10 +6100,10 @@ namespace MapCreator
                     UISelectedMapSymbol.XLocation++;
 
                     CURRENT_MAP.IsSaved = false;
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
                 }
             }
+
+            RenderDrawingPanel();
         }
 
         /**************************************************************************************************************************
@@ -6221,6 +6168,8 @@ namespace MapCreator
                     Cursor = Cursors.Cross;
                     SetLandformData(LandformType2Methods.GetNewSelectedLandform(CURRENT_MAP));
                     LandformType2Methods.SELECTED_LANDFORM.LandformPath.Reset();
+                    CURRENT_MAP.RenderOnlyLayers.Add(MapBuilder.LANDFORMLAYER);
+                    CURRENT_MAP.RenderOnlyLayers.Add(MapBuilder.LANDCOASTLINELAYER);
                     break;
                 case DrawingModeEnum.LandErase:
                     Cursor = Cursors.Cross;
@@ -6343,9 +6292,6 @@ namespace MapCreator
                     SKPoint eraserCursorPoint = new(LAYER_CLICK_POINT.X + eraserRadius, LAYER_CLICK_POINT.Y + eraserRadius);
 
                     SymbolMethods.RemovePlacedSymbolsFromArea(CURRENT_MAP, eraserCursorPoint, eraserRadius);
-
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
 
                     break;
                 case DrawingModeEnum.DrawLabel:
@@ -6518,9 +6464,6 @@ namespace MapCreator
                         }
                     }
 
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel();
-
                     break;
                 case DrawingModeEnum.DrawMapMeasure:
                     if (UIMapMeasure != null)
@@ -6539,9 +6482,6 @@ namespace MapCreator
 
                         UIMapMeasure = null;
                         ClearDrawingMode();
-
-                        MapImageBox.Refresh();
-                        RenderDrawingPanel();
                     }
 
                     break;
@@ -6566,6 +6506,8 @@ namespace MapCreator
                     break;
                 case DrawingModeEnum.LandPaint:
                     {
+                        CURRENT_MAP.RenderOnlyLayers.Clear();
+
                         Cmd_AddLandform cmd = new(CURRENT_MAP);
                         UndoManager.AddCommand(cmd);
                         cmd.DoOperation();
@@ -6573,9 +6515,6 @@ namespace MapCreator
                         LandformSelectButton.Checked = false;
 
                         CURRENT_MAP.IsSaved = false;
-
-                        RenderDrawingPanel(true);
-                        MapImageBox.Refresh();
                     }
                     break;
                 case DrawingModeEnum.LandErase:
@@ -6595,9 +6534,6 @@ namespace MapCreator
                         cmd.DoOperation();
 
                         CURRENT_MAP.IsSaved = false;
-
-                        RenderDrawingPanel(true);
-                        MapImageBox.Refresh();
                     }
                     break;
                 case DrawingModeEnum.WaterErase:
@@ -6745,9 +6681,6 @@ namespace MapCreator
                     {
                         ClearDrawingMode();
                     }
-
-                    RenderDrawingPanel(true);
-                    MapImageBox.Refresh();
                     break;
                 case DrawingModeEnum.WaterFeatureSelect:
                     if (WaterFeatureSelectButton.Checked)
@@ -6760,9 +6693,6 @@ namespace MapCreator
                     {
                         ClearDrawingMode();
                     }
-
-                    RenderDrawingPanel(true);
-                    MapImageBox.Refresh();
                     break;
                 case DrawingModeEnum.PathSelect:
                     {
@@ -6776,9 +6706,6 @@ namespace MapCreator
                             selectedPath.ShowPathPoints = false;
                             MapPaintMethods.DeselectAllMapComponents(selectedPath);
                         }
-
-                        RenderDrawingPanel(true);
-                        MapImageBox.Refresh();
                     }
                     break;
                 case DrawingModeEnum.PathEdit:
@@ -6793,10 +6720,6 @@ namespace MapCreator
                             UndoManager.AddCommand(cmd);
                             cmd.DoOperation();
                         }
-
-                        MapImageBox.Refresh();
-                        RenderDrawingPanel(true);
-                        MapImageBox.Refresh();
                     }
                     break;
                 case DrawingModeEnum.SymbolSelect:
@@ -6822,9 +6745,6 @@ namespace MapCreator
                                 UISelectedMapSymbol = null;
                             }
                         }
-
-                        MapImageBox.Refresh();
-                        RenderDrawingPanel();
                     }
                     break;
                 case DrawingModeEnum.LabelSelect:
@@ -6871,10 +6791,6 @@ namespace MapCreator
                                 }
                             }
                         }
-
-                        MapImageBox.Refresh();
-                        RenderDrawingPanel(true);
-                        MapImageBox.Refresh();
                     }
                     break;
                 case DrawingModeEnum.DrawBox:
@@ -6889,10 +6805,6 @@ namespace MapCreator
                         UISelectedBox = null;
                     }
 
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
-                    MapImageBox.Refresh();
-
                     break;
                 case DrawingModeEnum.PlaceWindrose:
                     if (UIWindrose != null)
@@ -6904,10 +6816,6 @@ namespace MapCreator
                         CURRENT_MAP.IsSaved = false;
                         UIWindrose = CreateWindrose();
                     }
-
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
-                    MapImageBox.Refresh();
                     break;
                 case DrawingModeEnum.SelectMapScale:
                     if (UIMapScale != null)
@@ -6917,8 +6825,6 @@ namespace MapCreator
                         ClearDrawingMode();
 
                         CURRENT_MAP.IsSaved = false;
-                        MapImageBox.Refresh();
-                        RenderDrawingPanel(true);
                     }
                     break;
                 case DrawingModeEnum.DrawMapMeasure:
@@ -6940,11 +6846,7 @@ namespace MapCreator
                     }
 
                     PREVIOUS_LAYER_CLICK_POINT = LAYER_CLICK_POINT;
-
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
                     break;
-
             }
         }
 
@@ -6958,10 +6860,6 @@ namespace MapCreator
                 LandformSelectButton.Checked = false;
 
                 MapLandformType2? selectedLandform = MapPaintMethods.SelectLandformAtPoint(mapClickPoint);
-
-                MapImageBox.Refresh();
-                RenderDrawingPanel(true);
-                MapImageBox.Refresh();
 
                 if (selectedLandform != null)
                 {
@@ -7036,13 +6934,11 @@ namespace MapCreator
                     COLOR_OCEAN_COMMAND.AddCircle(X, Y, brushRadius, oceanshader);
 
                     CURRENT_MAP.IsSaved = false;
-                    RenderDrawingPanel(true);
                     break;
                 case DrawingModeEnum.OceanErase:
                     ERASE_OCEAN_COLOR_COMMAND.AddCircle(X, Y, brushRadius);
 
                     CURRENT_MAP.IsSaved = false;
-                    RenderDrawingPanel(true);
                     break;
                 case DrawingModeEnum.LandPaint:
                     LandformType2Methods.SELECTED_LANDFORM.LandformPath.AddCircle(X, Y, brushRadius);
@@ -7057,7 +6953,6 @@ namespace MapCreator
                     ERASE_LANDFORM_COMMAND.DoOperation();
 
                     CURRENT_MAP.IsSaved = false;
-                    RenderDrawingPanel(true);
                     break;
                 case DrawingModeEnum.LandColor:
                     if (UseSelectedBlendModeCheck.Checked)
@@ -7075,13 +6970,11 @@ namespace MapCreator
                     COLOR_LANDFORM_COMMAND.AddCircle(X, Y, brushRadius, landshader);
 
                     CURRENT_MAP.IsSaved = false;
-                    RenderDrawingPanel(true);
                     break;
                 case DrawingModeEnum.LandColorErase:
                     ERASE_LANDFORM_COLOR_COMMAND.AddCircle(X, Y, brushRadius);
 
                     CURRENT_MAP.IsSaved = false;
-                    RenderDrawingPanel(true);
                     break;
                 case DrawingModeEnum.WaterPaint:
                     WaterFeatureMethods.WATER_LAYER_DRAW_PATH.AddCircle(X, Y, brushRadius);
@@ -7092,7 +6985,6 @@ namespace MapCreator
                     ERASE_WATERFEATURE_COMMAND.DoOperation();
 
                     CURRENT_MAP.IsSaved = false;
-                    RenderDrawingPanel(true);
                     break;
                 case DrawingModeEnum.WaterColor:
                     SKShader watershader = MapPaintMethods.ConstructColorPaintShader(MapPaintMethods.GetSelectedColorBrushType(),
@@ -7101,13 +6993,11 @@ namespace MapCreator
                     COLOR_WATERFEATURE_COMMAND.AddCircle(X, Y, brushRadius, watershader);
 
                     CURRENT_MAP.IsSaved = false;
-                    RenderDrawingPanel(true);
                     break;
                 case DrawingModeEnum.WaterColorErase:
                     ERASE_WATERFEATURE_COLOR_COMMAND.AddCircle(X, Y, brushRadius);
 
                     CURRENT_MAP.IsSaved = false;
-                    RenderDrawingPanel(true);
                     break;
                 case DrawingModeEnum.PathPaint:
 
@@ -7119,9 +7009,6 @@ namespace MapCreator
                     SKPoint movePoint = Extensions.ToSKPoint(MapImageBox.PointToImage(e.Location));
                     MapPathMethods.MoveSelectedMapPathPoint(movePoint);
                     CURRENT_MAP.IsSaved = false;
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
-                    MapImageBox.Refresh();
                     break;
                 case DrawingModeEnum.PathSelect:
                     IMAGEBOX_CLICK_POINT = e.Location;
@@ -7153,9 +7040,6 @@ namespace MapCreator
 
                     PREVIOUS_LAYER_CLICK_POINT = LAYER_CLICK_POINT;
                     CURRENT_MAP.IsSaved = false;
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
-
                     break;
                 case DrawingModeEnum.RiverPaint:
                     IMAGEBOX_CLICK_POINT = e.Location;
@@ -7174,8 +7058,6 @@ namespace MapCreator
 
                     PREVIOUS_LAYER_CLICK_POINT = LAYER_CLICK_POINT;
                     CURRENT_MAP.IsSaved = false;
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
                     break;
                 case DrawingModeEnum.SymbolErase:
                     int eraserRadius = AreaBrushSizeTrack.Value / 2;
@@ -7184,8 +7066,6 @@ namespace MapCreator
 
                     SymbolMethods.RemovePlacedSymbolsFromArea(CURRENT_MAP, eraserCursorPoint, eraserRadius);
                     CURRENT_MAP.IsSaved = false;
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
                     break;
                 case DrawingModeEnum.SymbolColor:
 
@@ -7196,8 +7076,6 @@ namespace MapCreator
                     Color[] symbolColors = { SymbolColor1Label.BackColor, SymbolColor2Label.BackColor, SymbolColor3Label.BackColor, SymbolColor4Label.BackColor };
                     SymbolMethods.ColorSymbolsInArea(colorCursorPoint, colorBrushRadius, symbolColors);
                     CURRENT_MAP.IsSaved = false;
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
                     break;
                 case DrawingModeEnum.SymbolSelect:
                     if (UISelectedMapSymbol != null)
@@ -7208,8 +7086,6 @@ namespace MapCreator
                         UISelectedMapSymbol.YLocation = (uint)LAYER_CLICK_POINT.Y - UISelectedMapSymbol.Height / 2;
 
                         CURRENT_MAP.IsSaved = false;
-                        MapImageBox.Refresh();
-                        RenderDrawingPanel(true);
                     }
                     break;
                 case DrawingModeEnum.LabelSelect:
@@ -7238,9 +7114,6 @@ namespace MapCreator
                     }
 
                     CURRENT_MAP.IsSaved = false;
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
-
                     break;
                 case DrawingModeEnum.DrawBezierLabelPath:
                     IMAGEBOX_CLICK_POINT = e.Location;
@@ -7249,9 +7122,6 @@ namespace MapCreator
                     MapLabelMethods.LABEL_PATH_POINTS.Add(LAYER_CLICK_POINT);
                     MapLabelMethods.ConstructPathFromPoints();
                     MapLabelMethods.DrawLabelPath(CURRENT_MAP);
-
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
                     break;
                 case DrawingModeEnum.DrawArcLabelPath:
                     IMAGEBOX_CLICK_POINT = e.Location;
@@ -7265,10 +7135,6 @@ namespace MapCreator
                     MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER)?.Clear();
 
                     MapLabelMethods.DrawLabelPath(CURRENT_MAP);
-
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel(true);
-
                     break;
                 case DrawingModeEnum.DrawBox:
                     // draw box as mouse is moved
@@ -7311,9 +7177,6 @@ namespace MapCreator
 
                                 MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.BOXLAYER)?.DrawBitmap(Extensions.ToSKBitmap(resizedBitmap), PREVIOUS_LAYER_CLICK_POINT, boxPaint);
                             }
-
-                            MapImageBox.Refresh();
-                            RenderDrawingPanel(true);
                         }
                     }
                     break;
@@ -7324,8 +7187,6 @@ namespace MapCreator
                         UIMapScale.Y = (uint)LAYER_CLICK_POINT.Y - UIMapScale.Height / 2;
 
                         CURRENT_MAP.IsSaved = false;
-                        MapImageBox.Refresh();
-                        RenderDrawingPanel(true);
                     }
                     break;
                 case DrawingModeEnum.DrawMapMeasure:
@@ -7383,9 +7244,6 @@ namespace MapCreator
 
                             UIMapMeasure.RenderAreaLabel(workCanvas, measureAreaPoint, area);
                         }
-
-                        RenderDrawingPanel(true);
-                        MapImageBox.Refresh();
                     }
                     break;
             }
@@ -7428,15 +7286,10 @@ namespace MapCreator
 
                             PointF mapPoint = MapImageBox.PointToImage(e.Location);
                             MapPathMethods.SelectMapPathPointAtPoint(selectedMapPath, mapPoint);
-
-                            MapImageBox.Refresh();
-                            RenderDrawingPanel();
                         }
                     }
                     break;
                 case DrawingModeEnum.SymbolPlace:
-                    MapImageBox.Refresh();
-                    RenderDrawingPanel();
                     break;
                 case DrawingModeEnum.PlaceWindrose:
                     if (UIWindrose != null)
@@ -7446,9 +7299,6 @@ namespace MapCreator
 
                         MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WINDROSELAYER).Clear();
                         UIWindrose.Render(MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WINDROSELAYER));
-
-                        MapImageBox.Refresh();
-                        RenderDrawingPanel(true);
                     }
                     break;
             }

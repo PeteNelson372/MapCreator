@@ -49,14 +49,8 @@ namespace MapCreator
                 case DrawingModeEnum.WaterPaint:
                     WaterFeatureMethods.PaintWaterPath(map);
                     break;
-                case DrawingModeEnum.WaterErase:
-                    //WaterFeatureMethods.EraseWaterPath(map);
-                    break;
                 case DrawingModeEnum.LakePaint:
                     WaterFeatureMethods.PaintLake(map);
-                    break;
-                case DrawingModeEnum.WaterColor:
-                    //WaterFeatureMethods.ColorWaterFeaturePaths(map);
                     break;
                 case DrawingModeEnum.WaterColorErase:
                     WaterFeatureMethods.EraseWaterFeatureColor(map);
@@ -384,5 +378,44 @@ namespace MapCreator
         * THEME METHODS
         * ************************************************************************************************************************/
 
+        /**************************************************************************************************************************
+        * OVERLAY METHODS
+        * ************************************************************************************************************************/
+
+        public static void PaintVignette(SKCanvas canvas, SKRect bounds, XmlColor mapVignetteColor, int vignetteStrength)
+        {
+            canvas.Clear();
+            SKColor gradientColor = ((Color)mapVignetteColor).ToSKColor();
+
+            int tenthLeftRight = (int)(bounds.Width / 5);
+            int tenthTopBottom = (int)(bounds.Height / 5);
+
+            SKShader linGradLR = SKShader.CreateLinearGradient(new SKPoint(0, bounds.Height / 2), new SKPoint(tenthLeftRight / 2, bounds.Height / 2), [gradientColor.WithAlpha((byte)vignetteStrength), SKColors.Transparent], SKShaderTileMode.Clamp);
+            SKShader linGradTB = SKShader.CreateLinearGradient(new SKPoint(bounds.Width / 2, 0), new SKPoint(bounds.Width / 2, tenthTopBottom), [gradientColor.WithAlpha((byte)vignetteStrength), SKColors.Transparent], SKShaderTileMode.Clamp);
+            SKShader linGradRL = SKShader.CreateLinearGradient(new SKPoint(bounds.Width, bounds.Height / 2), new SKPoint(bounds.Width - tenthLeftRight, bounds.Height / 2), [gradientColor.WithAlpha((byte)vignetteStrength), SKColors.Transparent], SKShaderTileMode.Clamp);
+            SKShader linGradBT = SKShader.CreateLinearGradient(new SKPoint(bounds.Width / 2, bounds.Height), new SKPoint(bounds.Width / 2, bounds.Height - tenthTopBottom), [gradientColor.WithAlpha((byte)vignetteStrength), SKColors.Transparent], SKShaderTileMode.Clamp);
+
+            SKPaint paint = new()
+            {
+                Shader = linGradLR,
+                IsAntialias = true,
+                Color = gradientColor,
+            };
+
+            SKRect rect = new(0, 0, tenthLeftRight, bounds.Height);
+            canvas.DrawRect(rect, paint);
+
+            paint.Shader = linGradTB;
+            rect = new(0, 0, bounds.Width, tenthTopBottom);
+            canvas.DrawRect(rect, paint);
+
+            paint.Shader = linGradRL;
+            rect = new(bounds.Width, 0, bounds.Width - tenthLeftRight, bounds.Height);
+            canvas.DrawRect(rect, paint);
+
+            paint.Shader = linGradBT;
+            rect = new(0, bounds.Height - tenthTopBottom, bounds.Width, bounds.Height);
+            canvas.DrawRect(rect, paint);
+        }
     }
 }

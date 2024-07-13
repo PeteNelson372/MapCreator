@@ -505,6 +505,11 @@
             LabelBoxStyleTable = new TableLayoutPanel();
             OverlayToolsPanel = new Panel();
             FrameStyleTable = new TableLayoutPanel();
+            groupBox18 = new GroupBox();
+            VignetteStrengthScroll = new TrackBar();
+            label1 = new Label();
+            VignetteColorSelectionLabel = new Label();
+            label84 = new Label();
             MainMenu.SuspendLayout();
             ApplicationStatusStrip.SuspendLayout();
             LayerSelectTabControl.SuspendLayout();
@@ -630,6 +635,8 @@
             LabelsToolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)BoxTintOpacityTrack).BeginInit();
             OverlayToolsPanel.SuspendLayout();
+            groupBox18.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)VignetteStrengthScroll).BeginInit();
             SuspendLayout();
             // 
             // MainMenu
@@ -994,6 +1001,7 @@
             // backgroundPage
             // 
             backgroundPage.BackColor = SystemColors.Control;
+            backgroundPage.Controls.Add(groupBox18);
             backgroundPage.Controls.Add(groupBox4);
             backgroundPage.Location = new Point(34, 4);
             backgroundPage.Name = "backgroundPage";
@@ -1011,7 +1019,7 @@
             groupBox4.ForeColor = SystemColors.ControlText;
             groupBox4.Location = new Point(8, 5);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(199, 898);
+            groupBox4.Size = new Size(193, 407);
             groupBox4.TabIndex = 14;
             groupBox4.TabStop = false;
             groupBox4.Text = "Texture";
@@ -1025,7 +1033,7 @@
             ClearBackgroundButton.Location = new Point(6, 329);
             ClearBackgroundButton.Name = "ClearBackgroundButton";
             ClearBackgroundButton.Padding = new Padding(10, 0, 0, 0);
-            ClearBackgroundButton.Size = new Size(187, 57);
+            ClearBackgroundButton.Size = new Size(181, 57);
             ClearBackgroundButton.TabIndex = 7;
             ClearBackgroundButton.Text = "Clear Background";
             ClearBackgroundButton.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -1041,7 +1049,7 @@
             FillBackgroundButton.Location = new Point(6, 266);
             FillBackgroundButton.Name = "FillBackgroundButton";
             FillBackgroundButton.Padding = new Padding(10, 0, 0, 0);
-            FillBackgroundButton.Size = new Size(187, 57);
+            FillBackgroundButton.Size = new Size(181, 57);
             FillBackgroundButton.TabIndex = 6;
             FillBackgroundButton.Text = "Fill Background";
             FillBackgroundButton.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -1055,7 +1063,7 @@
             backgroundTxPictureBox.BorderStyle = BorderStyle.FixedSingle;
             backgroundTxPictureBox.Location = new Point(6, 69);
             backgroundTxPictureBox.Name = "backgroundTxPictureBox";
-            backgroundTxPictureBox.Size = new Size(187, 187);
+            backgroundTxPictureBox.Size = new Size(181, 187);
             backgroundTxPictureBox.TabIndex = 3;
             backgroundTxPictureBox.TabStop = false;
             // 
@@ -1068,7 +1076,7 @@
             backgroundTxBox.Location = new Point(6, 24);
             backgroundTxBox.MaxDropDownItems = 20;
             backgroundTxBox.Name = "backgroundTxBox";
-            backgroundTxBox.Size = new Size(187, 26);
+            backgroundTxBox.Size = new Size(181, 26);
             backgroundTxBox.TabIndex = 2;
             backgroundTxBox.SelectedIndexChanged += BackgroundTxBox_SelectedIndexChanged;
             // 
@@ -6546,6 +6554,65 @@
             FrameStyleTable.Size = new Size(122, 858);
             FrameStyleTable.TabIndex = 73;
             // 
+            // groupBox18
+            // 
+            groupBox18.Controls.Add(VignetteColorSelectionLabel);
+            groupBox18.Controls.Add(label84);
+            groupBox18.Controls.Add(label1);
+            groupBox18.Controls.Add(VignetteStrengthScroll);
+            groupBox18.Location = new Point(8, 433);
+            groupBox18.Name = "groupBox18";
+            groupBox18.Size = new Size(193, 146);
+            groupBox18.TabIndex = 15;
+            groupBox18.TabStop = false;
+            groupBox18.Text = "Vignette";
+            // 
+            // VignetteStrengthScroll
+            // 
+            VignetteStrengthScroll.AutoSize = false;
+            VignetteStrengthScroll.Location = new Point(6, 49);
+            VignetteStrengthScroll.Maximum = 255;
+            VignetteStrengthScroll.Name = "VignetteStrengthScroll";
+            VignetteStrengthScroll.Size = new Size(181, 22);
+            VignetteStrengthScroll.TabIndex = 0;
+            VignetteStrengthScroll.TickStyle = TickStyle.None;
+            VignetteStrengthScroll.Value = 64;
+            VignetteStrengthScroll.Scroll += VignetteStrengthScroll_Scroll;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(6, 32);
+            label1.Name = "label1";
+            label1.Size = new Size(56, 14);
+            label1.TabIndex = 1;
+            label1.Text = "Strength";
+            // 
+            // VignetteColorSelectionLabel
+            // 
+            VignetteColorSelectionLabel.BackColor = Color.FromArgb(201, 151, 123);
+            VignetteColorSelectionLabel.BorderStyle = BorderStyle.FixedSingle;
+            VignetteColorSelectionLabel.Font = new Font("Tahoma", 8F);
+            VignetteColorSelectionLabel.ForeColor = SystemColors.ButtonShadow;
+            VignetteColorSelectionLabel.Location = new Point(6, 93);
+            VignetteColorSelectionLabel.Name = "VignetteColorSelectionLabel";
+            VignetteColorSelectionLabel.Size = new Size(181, 28);
+            VignetteColorSelectionLabel.TabIndex = 16;
+            VignetteColorSelectionLabel.Text = "Click to Select";
+            VignetteColorSelectionLabel.TextAlign = ContentAlignment.MiddleCenter;
+            VignetteColorSelectionLabel.Click += VignetteColorSelectionLabel_Click;
+            // 
+            // label84
+            // 
+            label84.AutoSize = true;
+            label84.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label84.Location = new Point(9, 76);
+            label84.Name = "label84";
+            label84.Size = new Size(34, 14);
+            label84.TabIndex = 15;
+            label84.Text = "Color";
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -6738,6 +6805,9 @@
             LabelsToolPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)BoxTintOpacityTrack).EndInit();
             OverlayToolsPanel.ResumeLayout(false);
+            groupBox18.ResumeLayout(false);
+            groupBox18.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)VignetteStrengthScroll).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -7220,5 +7290,10 @@
         private TrackBar WindroseColorOpacityTrack;
         private Label WindroseColorOpacityLabel;
         private Label label83;
+        private GroupBox groupBox18;
+        private Label label1;
+        private TrackBar VignetteStrengthScroll;
+        private Label VignetteColorSelectionLabel;
+        private Label label84;
     }
 }

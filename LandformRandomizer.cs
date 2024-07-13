@@ -173,7 +173,7 @@ namespace MapCreator
 
 
 
-            main.RenderDrawingPanel(true);
+            main.RenderDrawingPanel();
             main.UpdateProgressBar(0, "Randomization Complete.");
         }
     }
