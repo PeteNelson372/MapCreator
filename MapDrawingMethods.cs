@@ -682,6 +682,25 @@ namespace MapCreator
             return Math.Min(upper, Math.Max(value, lower));
         }
 
+        public static int ClosestNumber(int n, int m)
+        {
+            // find the quotient
+            int q = n / m;
+
+            // 1st possible closest number
+            int n1 = m * q;
+
+            // 2nd possible closest number
+            int n2 = (n * m) > 0 ? (m * (q + 1)) : (m * (q - 1));
+
+            // if true, then n1 is the required closest number
+            if (Math.Abs(n - n1) < Math.Abs(n - n2))
+                return n1;
+
+            // else n2 is the required closest number
+            return n2;
+        }
+
         public static SKPoint PointOnCircle(float radius, float angleInDegrees, SKPoint origin)
         {
             float angleInRadians = angleInDegrees * PI_OVER_180;

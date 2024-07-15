@@ -1,5 +1,6 @@
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
+using System.ComponentModel;
 using System.Drawing.Imaging;
 using System.Xml.Linq;
 using Application = System.Windows.Forms.Application;
@@ -13,6 +14,7 @@ using MessageBox = System.Windows.Forms.MessageBox;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using Point = System.Drawing.Point;
 using TextBox = System.Windows.Forms.TextBox;
+using Timer = System.Timers.Timer;
 using ToolTip = System.Windows.Forms.ToolTip;
 
 
@@ -65,6 +67,12 @@ namespace MapCreator
         private Cmd_ErasePaintedWaterFeature ERASE_WATERFEATURE_COMMAND;
         private Cmd_ColorPaintedWaterFeature COLOR_WATERFEATURE_COMMAND;
         private Cmd_EraseWaterFeatureColor ERASE_WATERFEATURE_COLOR_COMMAND;
+
+        BackgroundWorker CURSOR_POSITION_WORKER = new BackgroundWorker
+        {
+            WorkerReportsProgress = true,
+            WorkerSupportsCancellation = true
+        };
 
         //private static GLControl? GL_CONTROL;
         //private static GRContext? GPU_CONTEXT;
@@ -756,7 +764,8 @@ namespace MapCreator
                 + " , "
                 + mapPoint.Y.ToString();
 
-            ApplicationStatusStrip.Refresh();
+            DrawingPointLabel.Invalidate();
+            //ApplicationStatusStrip.Refresh();
         }
 
         private void UpdateViewportStatus()
@@ -949,6 +958,8 @@ namespace MapCreator
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            CURSOR_POSITION_WORKER.CancelAsync();
+
             SymbolMethods.SaveSymbolTags();
             SymbolMethods.SaveCollections();
 
@@ -976,6 +987,7 @@ namespace MapCreator
             }
         }
 
+
         private void MainForm_Shown(object sender, EventArgs e)
         {
             BackgroundToolPanel.Visible = true;
@@ -987,9 +999,37 @@ namespace MapCreator
             LabelsToolPanel.Visible = false;
             OverlayToolsPanel.Visible = false;
 
+            CURSOR_POSITION_WORKER.DoWork += CursorPositionWorkerDoWork;
+            CURSOR_POSITION_WORKER.RunWorkerCompleted += CursorPositionRunWorkerCompleted;
+
+            CURSOR_POSITION_WORKER.RunWorkerAsync();
+
             // refresh the form to get everything rendered completely, then render the map
             Refresh();
             RenderDrawingPanel();
+        }
+
+        private void CursorPositionWorkerDoWork(object? sender, DoWorkEventArgs e)
+        {
+            Thread.Sleep(33);   // If you need to make a pause between runs
+        }
+
+        private void CursorPositionRunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
+        {
+            if (!MapImageBox.IsDisposed)
+            {
+                SKPoint cursorPosition = MapImageBox.PointToClient(Cursor.Position).ToSKPoint();
+                int brushRadius = SetBrushRadius(CURRENT_DRAWING_MODE);
+
+                SKPoint mapPoint = Extensions.ToSKPoint(MapImageBox.PointToImage(new Point((int)cursorPosition.X - brushRadius, (int)cursorPosition.Y - brushRadius)));
+                UpdateDrawingPointLabel(cursorPosition, mapPoint);
+
+                if (!CURSOR_POSITION_WORKER.CancellationPending)
+                {
+                    // Run again
+                    CURSOR_POSITION_WORKER.RunWorkerAsync();
+                }
+            }
         }
 
         private void ResetButton_Click(object sender, EventArgs e)
@@ -1246,6 +1286,7 @@ namespace MapCreator
 
                 if (selectedTheme != null)
                 {
+                    MapPaintMethods.CURRENT_THEME = selectedTheme;
                     ApplyTheme(selectedTheme, themeFilter);
                 }
             }
@@ -1306,6 +1347,7 @@ namespace MapCreator
             MapPaintMethods.BRUSH_LIST.Clear();
             MapPaintMethods.APPLICATION_ICON_LIST.Clear();
             MapPaintMethods.THEME_LIST.Clear();
+            MapLabelMethods.LABEL_PRESETS.Clear();
 
             backgroundTxBox.Items.Clear();
             OceanTextureList.Items.Clear();
@@ -1313,6 +1355,7 @@ namespace MapCreator
             HatchPatternSelectionBox.Items.Clear();
             PathTextureBox.Items.Clear();
             SymbolCollectionsListBox.Items.Clear();
+            LabelPresetListBox.Items.Clear();
 
             SymbolMethods.ClearSymbolCollections();
         }
@@ -1467,6 +1510,7 @@ namespace MapCreator
                         {
                             ThemeFilter tf = new();
                             ApplyTheme(t, tf);
+                            MapPaintMethods.CURRENT_THEME = t;
                         }
                     }
                 }
@@ -1490,29 +1534,32 @@ namespace MapCreator
                     if (preset != null)
                     {
                         MapLabelMethods.LABEL_PRESETS.Add(preset);
-                        LabelPresetComboBox.Items.Add(preset.LabelPresetName);
-
-                        // colors need to be separated into ARGB components so
-                        // opacity values can be set
-                        Color argbLabelColor = MapDrawingMethods.RGBtoRGBA(preset.LabelColor);
-                        preset.LabelColorOpacity = argbLabelColor.A;
-                        preset.LabelColor = argbLabelColor;
-
-                        Color argbOutlineColor = MapDrawingMethods.RGBtoRGBA(preset.LabelOutlineColor);
-                        preset.LabelOutlineColorOpacity = argbOutlineColor.A;
-                        preset.LabelOutlineColor = argbOutlineColor;
-
-                        Color argbGlowColor = MapDrawingMethods.RGBtoRGBA(preset.LabelGlowColor);
-                        preset.LabelGlowColorOpacity = argbGlowColor.A;
-                        preset.LabelGlowColor = argbGlowColor;
                     }
-
-                    LabelPresetComboBox.SelectedIndex = 0;
-                    LabelPreset selectedPreset = MapLabelMethods.LABEL_PRESETS[0];
-                    SetLabelValuesFromPreset(selectedPreset);
                 }
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
+            }
+
+            foreach (LabelPreset preset in MapLabelMethods.LABEL_PRESETS)
+            {
+                if (!string.IsNullOrEmpty(preset.LabelPresetTheme)
+                    && MapPaintMethods.CURRENT_THEME != null
+                    && preset.LabelPresetTheme == MapPaintMethods.CURRENT_THEME.ThemeName)
+                {
+                    LabelPresetListBox.Items.Add(preset.LabelPresetName);
+                }
+            }
+
+            if (LabelPresetListBox.Items.Count > 0)
+            {
+                LabelPresetListBox.SelectedIndex = 0;
+
+                LabelPreset? selectedPreset = MapLabelMethods.LABEL_PRESETS.Find(x => !string.IsNullOrEmpty((string?)LabelPresetListBox.Items[0]) && x.LabelPresetName == (string?)LabelPresetListBox.Items[0]);
+
+                if (selectedPreset != null)
+                {
+                    SetLabelValuesFromPreset(selectedPreset);
+                }
             }
 
             numAssets += files.Count();
@@ -1536,6 +1583,7 @@ namespace MapCreator
 
             AddMapFramesToFrameTable(OverlayMethods.MAP_FRAME_TEXTURES);
 
+            Refresh();
         }
 
         /******************************************************************************************************
@@ -4702,13 +4750,13 @@ namespace MapCreator
 
         private void SetLabelValuesFromPreset(LabelPreset preset)
         {
-            FontColorSelectLabel.BackColor = preset.LabelColor;
-            FontColorOpacityTrack.Value = preset.LabelColorOpacity;
-            OutlineColorSelectLabel.BackColor = preset.LabelOutlineColor;
-            OutlineColorOpacityTrack.Value = preset.LabelOutlineColorOpacity;
+            FontColorSelectLabel.BackColor = Color.FromArgb(preset.LabelColor);
+            FontColorOpacityTrack.Value = FontColorSelectLabel.BackColor.A;
+            OutlineColorSelectLabel.BackColor = Color.FromArgb(preset.LabelOutlineColor);
+            OutlineColorOpacityTrack.Value = OutlineColorSelectLabel.BackColor.A;
             OutlineWidthUpDown.Value = preset.LabelOutlineWidth;
-            GlowColorSelectLabel.BackColor = preset.LabelGlowColor;
-            GlowColorOpacityTrack.Value = preset.LabelGlowColorOpacity;
+            GlowColorSelectLabel.BackColor = Color.FromArgb(preset.LabelGlowColor);
+            GlowColorOpacityTrack.Value = GlowColorSelectLabel.BackColor.A;
             GlowStrengthUpDown.Value = preset.LabelGlowStrength;
 
             string fontString = preset.LabelFontString;
@@ -4726,52 +4774,143 @@ namespace MapCreator
         * Label Tab Event Handlers 
         *******************************************************************************************************/
 
-        private void LabelPresetComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void LabelPresetListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (LabelPresetComboBox.SelectedIndex >= 0)
+            if (LabelPresetListBox.SelectedIndex >= 0 && LabelPresetListBox.SelectedIndex < MapLabelMethods.LABEL_PRESETS.Count)
             {
-                LabelPreset selectedPreset = MapLabelMethods.LABEL_PRESETS[LabelPresetComboBox.SelectedIndex];
+                LabelPreset selectedPreset = MapLabelMethods.LABEL_PRESETS[LabelPresetListBox.SelectedIndex];
                 SetLabelValuesFromPreset(selectedPreset);
             }
         }
 
         private void AddPresetButton_Click(object sender, EventArgs e)
         {
-            LabelPresetNameEntry presetDialog = new LabelPresetNameEntry();
+            LabelPresetNameEntry presetDialog = new();
             DialogResult result = presetDialog.ShowDialog();
 
             if (result == DialogResult.OK)
             {
                 string presetName = presetDialog.PresetNameTextBox.Text;
-                LabelPreset preset = new();
 
-                FontConverter cvt = new();
-                string? fontString = cvt.ConvertToString(MapLabelMethods.SELECTED_FONT);
+                string currentThemeName = string.Empty;
 
-                if (!string.IsNullOrEmpty(fontString))
+                if (MapPaintMethods.CURRENT_THEME != null && !string.IsNullOrEmpty(MapPaintMethods.CURRENT_THEME.ThemeName))
                 {
-                    preset.LabelFontString = fontString;
+                    currentThemeName = MapPaintMethods.CURRENT_THEME.ThemeName;
+                }
+                else
+                {
+                    currentThemeName = "DEFAULT";
+                }
 
-                    preset.LabelColor = FontColorSelectLabel.BackColor;
-                    preset.LabelColorOpacity = (byte)FontColorOpacityTrack.Value;
-                    preset.LabelOutlineColor = OutlineColorSelectLabel.BackColor;
-                    preset.LabelOutlineColorOpacity = (byte)OutlineColorOpacityTrack.Value;
-                    preset.LabelOutlineWidth = (int)OutlineWidthUpDown.Value;
-                    preset.LabelGlowColor = GlowColorSelectLabel.BackColor;
-                    preset.LabelGlowColorOpacity = (byte)GlowColorOpacityTrack.Value;
-                    preset.LabelGlowStrength = (int)GlowStrengthUpDown.Value;
+                string presetFileName = Resources.ASSET_DIRECTORY + Path.DirectorySeparatorChar + "LabelPresets" + Path.DirectorySeparatorChar + Guid.NewGuid().ToString() + ".mclblprst";
 
-                    string presetFileName = Resources.ASSET_DIRECTORY + Path.DirectorySeparatorChar + "LabelPresets" + Path.DirectorySeparatorChar + presetName + ".mclblprst";
-                    preset.PresetXmlFilePath = presetFileName;
+                bool makeNewPreset = true;
 
-                    MapFileMethods.SerializeLabelPreset(preset);
+                if (File.Exists(presetFileName))
+                {
+                    LabelPreset? existingPreset = MapLabelMethods.LABEL_PRESETS.Find(x => x.LabelPresetName == presetName && x.LabelPresetTheme == currentThemeName);
+                    if (existingPreset != null && existingPreset.IsDefault)
+                    {
+                        makeNewPreset = false;
+                    }
+                    else
+                    {
+                        DialogResult r = MessageBox.Show(this, "A label preset named " + presetName + " for theme " + currentThemeName + " already exists. Replace it?", "Replace Preset", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (r == DialogResult.No)
+                        {
+                            makeNewPreset = false;
+                        }
+                    }
+                }
+
+                if (makeNewPreset)
+                {
+                    LabelPreset preset = new();
+
+                    FontConverter cvt = new();
+                    string? fontString = cvt.ConvertToString(MapLabelMethods.SELECTED_FONT);
+
+                    if (!string.IsNullOrEmpty(fontString))
+                    {
+                        preset.LabelPresetName = presetName;
+                        if (MapPaintMethods.CURRENT_THEME != null && !string.IsNullOrEmpty(MapPaintMethods.CURRENT_THEME.ThemeName))
+                        {
+                            preset.LabelPresetTheme = MapPaintMethods.CURRENT_THEME.ThemeName;
+                        }
+                        else
+                        {
+                            preset.LabelPresetTheme = "DEFAULT";
+                        }
+
+                        preset.LabelFontString = fontString;
+                        preset.LabelColor = FontColorSelectLabel.BackColor.ToArgb();
+                        preset.LabelOutlineColor = OutlineColorSelectLabel.BackColor.ToArgb();
+                        preset.LabelOutlineWidth = (int)OutlineWidthUpDown.Value;
+                        preset.LabelGlowColor = GlowColorSelectLabel.BackColor.ToArgb();
+                        preset.LabelGlowStrength = (int)GlowStrengthUpDown.Value;
+
+                        preset.PresetXmlFilePath = presetFileName;
+
+                        MapFileMethods.SerializeLabelPreset(preset);
+
+                        LoadAllAssets();
+                    }
                 }
             }
         }
 
         private void RemovePresetButton_Click(object sender, EventArgs e)
         {
-            //TODO: remove a preset (prevent default presets from being deleted; can they be changed?)
+            //remove a preset (prevent default presets from being deleted; can they be changed?)
+
+            if (LabelPresetListBox.SelectedIndex >= 0)
+            {
+                string? presetName = (string?)LabelPresetListBox.SelectedItem;
+
+                if (!string.IsNullOrEmpty(presetName))
+                {
+                    string currentThemeName = string.Empty;
+
+                    if (MapPaintMethods.CURRENT_THEME != null && !string.IsNullOrEmpty(MapPaintMethods.CURRENT_THEME.ThemeName))
+                    {
+                        currentThemeName = MapPaintMethods.CURRENT_THEME.ThemeName;
+                    }
+                    else
+                    {
+                        currentThemeName = "DEFAULT";
+                    }
+
+                    LabelPreset? existingPreset = MapLabelMethods.LABEL_PRESETS.Find(x => x.LabelPresetName == presetName && x.LabelPresetTheme == currentThemeName);
+
+                    if (existingPreset != null && !existingPreset.IsDefault)
+                    {
+                        if (!string.IsNullOrEmpty(existingPreset.PresetXmlFilePath))
+                        {
+                            if (File.Exists(existingPreset.PresetXmlFilePath))
+                            {
+                                DialogResult r = MessageBox.Show(this, "The label preset named " + presetName + " for theme " + currentThemeName + " will be deleted. Continue?", "Delete Label Preset", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                if (r == DialogResult.Yes)
+                                {
+                                    try
+                                    {
+                                        File.Delete(existingPreset.PresetXmlFilePath);
+                                        LoadAllAssets();
+                                        MessageBox.Show(this, "The label preset has been deleted.", "Preset Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    } catch (Exception ex)
+                                    {
+                                        Program.LOGGER.Error(ex);
+                                        MessageBox.Show(this, "The label preset could not be deleted.", "Preset Not Deleted", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    }
+                                }
+                            }
+                        }
+                    } else
+                    {
+                        MessageBox.Show(this, "The selected label preset cannot be deleted.", "Preset Not Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
         }
 
         private void SelectLabelFontButton_Click(object sender, EventArgs e)
@@ -5629,8 +5768,6 @@ namespace MapCreator
 
             LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
 
-            UpdateDrawingPointLabel(Extensions.ToSKPoint(e.Location), LAYER_CLICK_POINT);
-
             if (e.Button == MouseButtons.Left)
             {
                 LeftButtonMouseMoveHandler(e, brushRadius);
@@ -5944,19 +6081,6 @@ namespace MapCreator
                 WaterColorEraserSizeLabel.Refresh();
                 MapImageBox.Invalidate(true);
             }
-            else if (ModifierKeys == Keys.Shift)
-            {
-                if (e.Delta < 0)
-                {
-                    MapImageBox.ZoomOut();
-                }
-                else
-                {
-                    MapImageBox.ZoomIn();
-                }
-
-                MapImageBox.Invalidate(true);
-            }
             else if (CURRENT_DRAWING_MODE == DrawingModeEnum.SymbolPlace)
             {
                 int sizeDelta = e.Delta < 0 ? -cursorDelta : cursorDelta;
@@ -5974,7 +6098,27 @@ namespace MapCreator
                 LabelRotationUpDown.Refresh();
                 MapImageBox.Invalidate(true);
             }
+            else if (ModifierKeys == Keys.Shift)
+            {
+                // increase/decrease zoom by 10%, limiting to no less than 10% and no greater than 800%
+                if (e.Delta < 0)
+                {
+                    // make sure zoom value is evenly divisible by 10, minimum 10
+                    int newZoom = Math.Max(10, MapImageBox.Zoom - 10);
+                    MapImageBox.Zoom = MapDrawingMethods.ClosestNumber(newZoom, 10);
+                }
+                else
+                {
+                    // make sure zoom value is evenly divisible by 10, maximum 800
+                    int newZoom = Math.Min(800, MapImageBox.Zoom + 10);
+                    MapImageBox.Zoom = MapDrawingMethods.ClosestNumber(newZoom, 10);
+                }
+
+                MapImageBox.Invalidate(true);
+            }
         }
+
+
 
         // KEY DOWN
         private void MapImageBox_KeyDown(object sender, KeyEventArgs e)

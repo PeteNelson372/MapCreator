@@ -23,6 +23,8 @@ namespace MapCreator
         public static readonly List<MapBrush> BRUSH_LIST = [];
         public static readonly List<MapTheme> THEME_LIST = [];
 
+        public static MapTheme? CURRENT_THEME = null;
+
         public static void PaintMap(ref MapCreatorMap map, DrawingModeEnum drawingMode)
         {
             MapBuilder.ClearLayerCanvas(map, MapBuilder.LANDFORMLAYER);

@@ -271,6 +271,7 @@
             OtherSymbolsButton = new FontAwesome.Sharp.IconToolStripButton();
             EraseSymbolsButton = new FontAwesome.Sharp.IconToolStripButton();
             labelPage = new TabPage();
+            LabelPresetListBox = new ListBox();
             groupBox13 = new GroupBox();
             LabelRotationUpDown = new NumericUpDown();
             LabelRotationTrack = new TrackBar();
@@ -307,7 +308,6 @@
             CreateBoxButton = new FontAwesome.Sharp.IconToolStripButton();
             RemovePresetButton = new FontAwesome.Sharp.IconButton();
             AddPresetButton = new FontAwesome.Sharp.IconButton();
-            LabelPresetComboBox = new ComboBox();
             label58 = new Label();
             overlayPage = new TabPage();
             groupBox16 = new GroupBox();
@@ -3527,6 +3527,7 @@
             // labelPage
             // 
             labelPage.BackColor = SystemColors.Control;
+            labelPage.Controls.Add(LabelPresetListBox);
             labelPage.Controls.Add(groupBox13);
             labelPage.Controls.Add(groupBox12);
             labelPage.Controls.Add(groupBox11);
@@ -3537,13 +3538,25 @@
             labelPage.Controls.Add(toolStrip3);
             labelPage.Controls.Add(RemovePresetButton);
             labelPage.Controls.Add(AddPresetButton);
-            labelPage.Controls.Add(LabelPresetComboBox);
             labelPage.Controls.Add(label58);
             labelPage.Location = new Point(34, 4);
             labelPage.Name = "labelPage";
             labelPage.Size = new Size(208, 1106);
             labelPage.TabIndex = 5;
             labelPage.Text = "Labels";
+            // 
+            // LabelPresetListBox
+            // 
+            LabelPresetListBox.BorderStyle = BorderStyle.FixedSingle;
+            LabelPresetListBox.Font = new Font("Tahoma", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            LabelPresetListBox.FormattingEnabled = true;
+            LabelPresetListBox.ItemHeight = 23;
+            LabelPresetListBox.Location = new Point(13, 40);
+            LabelPresetListBox.Name = "LabelPresetListBox";
+            LabelPresetListBox.ScrollAlwaysVisible = true;
+            LabelPresetListBox.Size = new Size(115, 25);
+            LabelPresetListBox.TabIndex = 101;
+            LabelPresetListBox.SelectedIndexChanged += LabelPresetListBox_SelectedIndexChanged;
             // 
             // groupBox13
             // 
@@ -3878,7 +3891,7 @@
             BezierTextPathButton.IconColor = Color.Black;
             BezierTextPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             BezierTextPathButton.IconSize = 32;
-            BezierTextPathButton.Location = new Point(69, 798);
+            BezierTextPathButton.Location = new Point(75, 798);
             BezierTextPathButton.Name = "BezierTextPathButton";
             BezierTextPathButton.Size = new Size(58, 58);
             BezierTextPathButton.TabIndex = 89;
@@ -4011,20 +4024,11 @@
             AddPresetButton.UseVisualStyleBackColor = true;
             AddPresetButton.Click += AddPresetButton_Click;
             // 
-            // LabelPresetComboBox
-            // 
-            LabelPresetComboBox.FormattingEnabled = true;
-            LabelPresetComboBox.Location = new Point(14, 38);
-            LabelPresetComboBox.Name = "LabelPresetComboBox";
-            LabelPresetComboBox.Size = new Size(115, 26);
-            LabelPresetComboBox.TabIndex = 1;
-            LabelPresetComboBox.SelectedIndexChanged += LabelPresetComboBox_SelectedIndexChanged;
-            // 
             // label58
             // 
             label58.AutoSize = true;
             label58.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label58.Location = new Point(14, 19);
+            label58.Location = new Point(14, 13);
             label58.Name = "label58";
             label58.Size = new Size(56, 18);
             label58.TabIndex = 0;
@@ -7187,7 +7191,6 @@
         private Label AreaBrushSizeLabel;
         internal Cyotek.Windows.Forms.ImageBox MapImageBox;
         private Panel LabelsToolPanel;
-        private ComboBox LabelPresetComboBox;
         private Label label58;
         private FontAwesome.Sharp.IconButton AddPresetButton;
         private FontAwesome.Sharp.IconButton RemovePresetButton;
@@ -7304,5 +7307,6 @@
         private Label VignetteColorSelectionLabel;
         private Label label84;
         private ToolStripMenuItem PreferencesToolStripMenuItem;
+        private ListBox LabelPresetListBox;
     }
 }
