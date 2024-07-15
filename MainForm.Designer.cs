@@ -511,6 +511,7 @@
             LabelBoxStyleTable = new TableLayoutPanel();
             OverlayToolsPanel = new Panel();
             FrameStyleTable = new TableLayoutPanel();
+            ZoomToFitButton = new FontAwesome.Sharp.IconButton();
             MainMenu.SuspendLayout();
             ApplicationStatusStrip.SuspendLayout();
             LayerSelectTabControl.SuspendLayout();
@@ -4626,6 +4627,7 @@
             // 
             // MapImageBox
             // 
+            MapImageBox.AllowDoubleClick = true;
             MapImageBox.AllowFreePan = false;
             MapImageBox.AllowZoom = false;
             MapImageBox.AutoCenter = false;
@@ -4647,6 +4649,7 @@
             MapImageBox.MouseWheel += MapImageBox_MouseWheel;
             MapImageBox.Paint += MapImageBox_Paint;
             MapImageBox.KeyDown += MapImageBox_KeyDown;
+            MapImageBox.MouseDoubleClick += MapImageBox_MouseDoubleClick;
             MapImageBox.MouseDown += MapImageBox_MouseDown;
             MapImageBox.MouseEnter += MapImageBox_MouseEnter;
             MapImageBox.MouseLeave += MapImageBox_MouseLeave;
@@ -5149,11 +5152,11 @@
             ResetButton.IconChar = FontAwesome.Sharp.IconChar.Refresh;
             ResetButton.IconColor = Color.Black;
             ResetButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            ResetButton.IconSize = 24;
-            ResetButton.Location = new Point(1432, 944);
+            ResetButton.IconSize = 32;
+            ResetButton.Location = new Point(1508, 944);
             ResetButton.Margin = new Padding(0);
             ResetButton.Name = "ResetButton";
-            ResetButton.Size = new Size(152, 51);
+            ResetButton.Size = new Size(76, 51);
             ResetButton.TabIndex = 14;
             ResetButton.UseVisualStyleBackColor = false;
             ResetButton.Click += ResetButton_Click;
@@ -6625,12 +6628,30 @@
             FrameStyleTable.Size = new Size(122, 858);
             FrameStyleTable.TabIndex = 73;
             // 
+            // ZoomToFitButton
+            // 
+            ZoomToFitButton.BackColor = SystemColors.InactiveCaption;
+            ZoomToFitButton.FlatAppearance.BorderColor = SystemColors.ControlLight;
+            ZoomToFitButton.FlatStyle = FlatStyle.Popup;
+            ZoomToFitButton.IconChar = FontAwesome.Sharp.IconChar.ArrowsUpDownLeftRight;
+            ZoomToFitButton.IconColor = Color.Black;
+            ZoomToFitButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            ZoomToFitButton.IconSize = 32;
+            ZoomToFitButton.Location = new Point(1432, 944);
+            ZoomToFitButton.Margin = new Padding(0);
+            ZoomToFitButton.Name = "ZoomToFitButton";
+            ZoomToFitButton.Size = new Size(76, 51);
+            ZoomToFitButton.TabIndex = 15;
+            ZoomToFitButton.UseVisualStyleBackColor = false;
+            ZoomToFitButton.Click += ZoomToFitButton_Click;
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             AutoValidate = AutoValidate.Disable;
             BackColor = SystemColors.Control;
             ClientSize = new Size(1584, 1081);
+            Controls.Add(ZoomToFitButton);
             Controls.Add(pictureBox1);
             Controls.Add(ResetButton);
             Controls.Add(MapStatusStrip);
@@ -7308,5 +7329,6 @@
         private Label label84;
         private ToolStripMenuItem PreferencesToolStripMenuItem;
         private ListBox LabelPresetListBox;
+        private FontAwesome.Sharp.IconButton ZoomToFitButton;
     }
 }

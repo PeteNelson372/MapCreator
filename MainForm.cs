@@ -1038,6 +1038,12 @@ namespace MapCreator
             MapImageBox.ScrollTo(0, 0);
         }
 
+        private void ZoomToFitButton_Click(object sender, EventArgs e)
+        {
+            MapImageBox.ZoomToFit();
+            MapImageBox.ScrollTo(0, 0);
+        }
+
         /*******************************************************************************************************
         * Main Menu Event Handlers 
          *******************************************************************************************************/
@@ -4897,7 +4903,8 @@ namespace MapCreator
                                         File.Delete(existingPreset.PresetXmlFilePath);
                                         LoadAllAssets();
                                         MessageBox.Show(this, "The label preset has been deleted.", "Preset Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    } catch (Exception ex)
+                                    }
+                                    catch (Exception ex)
                                     {
                                         Program.LOGGER.Error(ex);
                                         MessageBox.Show(this, "The label preset could not be deleted.", "Preset Not Deleted", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -4905,7 +4912,8 @@ namespace MapCreator
                                 }
                             }
                         }
-                    } else
+                    }
+                    else
                     {
                         MessageBox.Show(this, "The selected label preset cannot be deleted.", "Preset Not Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -5783,6 +5791,15 @@ namespace MapCreator
             }
 
             RenderDrawingPanel();
+        }
+
+        private void MapImageBox_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (ModifierKeys == Keys.Shift)
+            {
+                MapImageBox.ZoomToFit();
+                MapImageBox.ScrollTo(0, 0);
+            }
         }
 
         // PAINT
