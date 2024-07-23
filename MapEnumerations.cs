@@ -33,7 +33,9 @@
         DrawBox,
         PlaceWindrose,
         SelectMapScale,
-        DrawMapMeasure
+        DrawMapMeasure,
+        RegionSelect,
+        RegionPaint
     }
 
     public enum GradientDirectionEnum

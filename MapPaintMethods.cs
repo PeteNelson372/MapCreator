@@ -70,6 +70,8 @@ namespace MapCreator
             MapPathMethods.DrawAllPaths(map);
 
             SymbolMethods.DrawAllSymbols(map);
+
+            //MapRegionMethods.DrawAllRegions(map);
         }
 
         /**************************************************************************************************************************

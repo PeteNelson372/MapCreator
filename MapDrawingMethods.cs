@@ -777,6 +777,43 @@ namespace MapCreator
             return path;
         }
 
+        internal static List<SKPoint> GetParallelSKPoints(List<SKPoint> points, float distance, ParallelEnum location)
+        {
+            List<SKPoint> parallelPoints = [];
+
+            for (int i = 0; i < points.Count - 1; i += 2)
+            {
+                float lineAngle = CalculateLineAngle(points[i], points[i + 1]);
+
+                float angle = (location == ParallelEnum.Below) ? 90 : -90;
+
+                SKPoint p1 = PointOnCircle(distance, lineAngle + angle, points[i]);
+                SKPoint p2 = PointOnCircle(distance, lineAngle + angle, points[i + 1]);
+
+                parallelPoints.Add(p1);
+                parallelPoints.Add(p2);
+            }
+
+            float la = CalculateLineAngle(points.Last(), points.First());
+
+            float a = (location == ParallelEnum.Below) ? 90 : -90;
+
+            SKPoint pL = PointOnCircle(distance, la + a, points.Last());
+            SKPoint pF = PointOnCircle(distance, la + a, points.First());
+
+            if (!parallelPoints.Contains(pL))
+            {
+                parallelPoints.Add(pL);
+            }
+
+            if (!parallelPoints.Contains(pF))
+            {
+                parallelPoints.Add(pF);
+            }
+
+            return parallelPoints;
+        }
+
         internal static List<MapPathPoint> GetParallelPathPoints(List<MapPathPoint> points, float distance, ParallelEnum location)
         {
             List<MapPathPoint> parallelPoints = [];

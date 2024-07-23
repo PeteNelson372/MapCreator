@@ -56,6 +56,7 @@ namespace MapCreator
         private MapWindrose? UIWindrose = null;
         private MapScale? UIMapScale = null;
         private MapMeasure? UIMapMeasure = null;
+        private MapRegion? UIMapRegion = null;
 
         private Cmd_ColorOcean COLOR_OCEAN_COMMAND;
         private Cmd_EraseOceanColor ERASE_OCEAN_COLOR_COMMAND;
@@ -869,6 +870,12 @@ namespace MapCreator
                     break;
                 case DrawingModeEnum.SelectMapScale:
                     modeText += "Move Map Scale";
+                    break;
+                case DrawingModeEnum.RegionPaint:
+                    modeText += "Draw Region";
+                    break;
+                case DrawingModeEnum.RegionSelect:
+                    modeText += "Select Region";
                     break;
                 default:
                     modeText += "Undefined";
@@ -1925,6 +1932,7 @@ namespace MapCreator
             LabelsToolPanel.Visible = false;
             OverlayToolsPanel.Visible = false;
 
+
             switch (LayerSelectTabControl.SelectedIndex)
             {
                 case 0:
@@ -1959,6 +1967,10 @@ namespace MapCreator
                     BackgroundToolPanel.Visible = false;
                     break;
                 case 8:
+                    OverlayToolsPanel.Visible = true;
+                    BackgroundToolPanel.Visible = false;
+                    break;
+                case 9:
                     BackgroundToolPanel.Visible = true;
                     break;
             }
@@ -3717,8 +3729,6 @@ namespace MapCreator
         {
             if (PREVIOUS_PATH_CLICK_POINT != null && PATH_CLICK_POINT != null)
             {
-                CURRENT_MAP.IsSaved = false;
-
                 // clip path painting to landform
                 PATH_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
 
@@ -5723,6 +5733,134 @@ namespace MapCreator
             RenderDrawingPanel();
         }
 
+        /******************************************************************************************************
+        * *****************************************************************************************************
+        * Region Tab Methods
+        * *****************************************************************************************************
+        *******************************************************************************************************/
+
+        internal void SetRegionData(MapRegion mapRegion)
+        {
+            if (mapRegion == null) { return; }
+
+            mapRegion.RegionBorderColor = RegionColorSelectLabel.BackColor;
+            mapRegion.RegionBorderWidth = RegionBorderWidthTrack.Value;
+            mapRegion.RegionInnerOpacity = RegionOpacityTrack.Value;
+            mapRegion.SnapToCoastline = SnapCoastlineCheck.Checked;
+
+            if (RegionSolidBorderRadio.Checked)
+            {
+                mapRegion.RegionBorderType = PathTypeEnum.SolidLinePath;
+            }
+
+            SKPathEffect? regionBorderEffect = null;
+            if (RegionDottedBorderRadio.Checked)
+            {
+                mapRegion.RegionBorderType = PathTypeEnum.DottedLinePath;
+                float[] intervals = [0, mapRegion.RegionBorderWidth];
+                regionBorderEffect = SKPathEffect.CreateDash(intervals, 0);
+            }
+
+            if (RegionDashBorderRadio.Checked)
+            {
+                mapRegion.RegionBorderType = PathTypeEnum.DashedLinePath;
+                float[] intervals = [mapRegion.RegionBorderWidth, mapRegion.RegionBorderWidth * 2];
+                regionBorderEffect = SKPathEffect.CreateDash(intervals, 0);
+            }
+
+            if (RegionDashDotBorderRadio.Checked)
+            {
+                mapRegion.RegionBorderType = PathTypeEnum.DashDotLinePath;
+                float[] intervals = [mapRegion.RegionBorderWidth, mapRegion.RegionBorderWidth * 2, 0, mapRegion.RegionBorderWidth * 2];
+                regionBorderEffect = SKPathEffect.CreateDash(intervals, 0);
+            }
+
+            if (RegionDashDotDotBorderRadio.Checked)
+            {
+                mapRegion.RegionBorderType = PathTypeEnum.DashDotDotLinePath;
+                float[] intervals = [mapRegion.RegionBorderWidth, mapRegion.RegionBorderWidth * 2, 0, mapRegion.RegionBorderWidth * 2, 0, mapRegion.RegionBorderWidth * 2];
+                regionBorderEffect = SKPathEffect.CreateDash(intervals, 0);
+            }
+
+            if (RegionDoubleSolidBorderRadio.Checked)
+            {
+                mapRegion.RegionBorderType = PathTypeEnum.DoubleSolidBorderPath;
+            }
+
+            if (RegionSolidAndDashesBorderRadio.Checked)
+            {
+                mapRegion.RegionBorderType = PathTypeEnum.LineAndDashesPath;
+
+                float ldWidth = Math.Max(1, mapRegion.RegionBorderWidth / 2.0F);
+
+                string svgPath = "M 0 0"
+                    + " h" + (mapRegion.RegionBorderWidth).ToString()
+                    + " v" + Math.Max(1, ldWidth / 2.0F).ToString()
+                    + " h" + (-mapRegion.RegionBorderWidth).ToString()
+                    + " M0" + "," + (mapRegion.RegionBorderWidth - 1.0F).ToString()
+                    + " h" + (ldWidth).ToString()
+                    + " v2"
+                    + " h" + (-ldWidth).ToString();
+
+                regionBorderEffect = SKPathEffect.Create1DPath(SKPath.ParseSvgPathData(svgPath),
+                    mapRegion.RegionBorderWidth, 0, SKPath1DPathEffectStyle.Morph);
+            }
+
+            if (RegionBorderedGradientRadio.Checked)
+            {
+                mapRegion.RegionBorderType = PathTypeEnum.BorderedGradientPath;
+            }
+
+            if (RegionBorderedLightSolidRadio.Checked)
+            {
+                mapRegion.RegionBorderType = PathTypeEnum.BorderedLightSolidPath;
+            }
+
+            mapRegion.RegionBorderPaint = new SKPaint()
+            {
+                StrokeWidth = mapRegion.RegionBorderWidth,
+                Color = mapRegion.RegionBorderColor.ToSKColor(),
+                Style = SKPaintStyle.Stroke,
+                StrokeCap = SKStrokeCap.Round,
+                StrokeJoin = SKStrokeJoin.Round,
+                IsAntialias = true,
+                PathEffect = SKPathEffect.CreateCorner(20)  // TODO: add smoothing trackbar to region UI for corner size
+            };
+
+            Color innerColor = Color.FromArgb(mapRegion.RegionInnerOpacity, mapRegion.RegionBorderColor.R, mapRegion.RegionBorderColor.G, mapRegion.RegionBorderColor.B);
+
+            mapRegion.RegionInnerPaint = new SKPaint()
+            {
+                Color = Extensions.ToSKColor(innerColor),
+                Style = SKPaintStyle.Fill,
+                PathEffect = SKPathEffect.CreateCorner(20)  // TODO: add smoothing trackbar to region UI for corner size
+            };
+
+            if (regionBorderEffect != null)
+            {
+                mapRegion.RegionBorderPaint.PathEffect = SKPathEffect.CreateCompose(regionBorderEffect, SKPathEffect.CreateCorner(20));
+            }
+        }
+
+        /*******************************************************************************************************
+        * Region Tab Event Handlers 
+        *******************************************************************************************************/
+
+        private void PaintRegionButton_Click(object sender, EventArgs e)
+        {
+            ClearDrawingMode();
+            CURRENT_DRAWING_MODE = DrawingModeEnum.RegionPaint;
+            SetDrawingModeLabel();
+
+        }
+
+        private void SelectRegionButton_Click(object sender, EventArgs e)
+        {
+            ClearDrawingMode();
+            CURRENT_DRAWING_MODE = DrawingModeEnum.RegionSelect;
+            SetDrawingModeLabel();
+        }
+
         /*******************************************************************************************************
          * *****************************************************************************************************
          * IMAGE BOX EVENT HANDLERS
@@ -5787,7 +5925,7 @@ namespace MapCreator
 
             if (e.Button == MouseButtons.None)
             {
-                NoButtonMouseMoveHandler(sender, e, CURRENT_DRAWING_MODE);
+                NoButtonMouseMoveHandler(sender, e, brushRadius);
             }
 
             RenderDrawingPanel();
@@ -6667,6 +6805,26 @@ namespace MapCreator
                     }
 
                     break;
+                case DrawingModeEnum.RegionPaint:
+                    Cursor = Cursors.Cross;
+
+                    IMAGEBOX_CLICK_POINT.X = e.X;
+                    IMAGEBOX_CLICK_POINT.Y = e.Y;
+
+                    //LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
+                    LAYER_CLICK_POINT = Extensions.ToSKPoint(IMAGEBOX_CLICK_POINT);
+
+
+                    // initialize region
+                    if (UIMapRegion == null)
+                    {
+                        UIMapRegion = new(CURRENT_MAP);
+                        SetRegionData(UIMapRegion);                        
+                    }
+
+                    UIMapRegion.RegionPoints.Add(LAYER_CLICK_POINT);
+                    PREVIOUS_LAYER_CLICK_POINT = LAYER_CLICK_POINT;
+                    break;
             }
         }
 
@@ -6733,6 +6891,37 @@ namespace MapCreator
 
                         UIMapMeasure = null;
                         ClearDrawingMode();
+                    }
+
+                    break;
+                case DrawingModeEnum.RegionPaint:
+                    if (UIMapRegion != null)
+                    {
+                        IMAGEBOX_CLICK_POINT.X = e.X;
+                        IMAGEBOX_CLICK_POINT.Y = e.Y;
+
+                        LAYER_CLICK_POINT = Extensions.ToSKPoint(IMAGEBOX_CLICK_POINT);
+
+                        UIMapRegion.RegionPoints.Add(LAYER_CLICK_POINT);
+                        CURRENT_MAP.IsSaved = false;
+
+                        SKCanvas workCanvas = MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER);
+                        workCanvas.Clear();
+
+                        MapBuilder.ClearLayerCanvas(CURRENT_MAP, MapBuilder.REGIONLAYER);
+                        MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.REGIONLAYER).MapLayerComponents.Add(UIMapRegion);
+
+                        UIMapRegion.IsSelected = false;
+
+                        // reset everything
+                        MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER).Clear();
+                        PREVIOUS_LAYER_CLICK_POINT = SKPoint.Empty;
+                        LAYER_CLICK_POINT = SKPoint.Empty;
+
+                        UIMapRegion = null;
+                        ClearDrawingMode();
+
+                        RenderDrawingPanel();
                     }
 
                     break;
@@ -7097,6 +7286,37 @@ namespace MapCreator
                     }
 
                     PREVIOUS_LAYER_CLICK_POINT = LAYER_CLICK_POINT;
+                    break;
+                case DrawingModeEnum.RegionPaint:
+                    {
+                        IMAGEBOX_CLICK_POINT.X = e.X;
+                        IMAGEBOX_CLICK_POINT.Y = e.Y;
+                        //LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
+
+                        if (LAYER_CLICK_POINT.X > 0
+                            && LAYER_CLICK_POINT.Y > 0
+                            && LAYER_CLICK_POINT.X < CURRENT_MAP.MapWidth
+                            && LAYER_CLICK_POINT.Y < CURRENT_MAP.MapHeight)
+                        {
+                            if (UIMapRegion != null)
+                            {
+                                //if (!UIMapRegion.RegionPoints.Contains(PREVIOUS_LAYER_CLICK_POINT))
+                                //{
+                                //    UIMapRegion.RegionPoints.Add(PREVIOUS_LAYER_CLICK_POINT);
+                                //}
+
+                                //if (!UIMapRegion.RegionPoints.Contains(LAYER_CLICK_POINT))
+                                //{
+                                //    UIMapRegion.RegionPoints.Add(LAYER_CLICK_POINT);
+                                //}
+
+                                //PREVIOUS_LAYER_CLICK_POINT = LAYER_CLICK_POINT;
+                                //UIMapRegion.RegionPoints.Add(LAYER_CLICK_POINT);
+                            }
+                        }
+
+                        //CURRENT_MAP.IsSaved = false;
+                    }
                     break;
             }
         }
@@ -7497,6 +7717,37 @@ namespace MapCreator
                         }
                     }
                     break;
+                case DrawingModeEnum.RegionPaint:
+                    IMAGEBOX_CLICK_POINT = e.Location;
+                    //SKPoint tempPoint = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
+
+                    SKPoint tempPoint = Extensions.ToSKPoint(IMAGEBOX_CLICK_POINT);
+
+                    //SKPoint tempPoint = new(rX, rY);
+
+                    if (UIMapRegion != null)
+                    {
+                        SKCanvas workCanvas = MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER);
+                        workCanvas.Clear();
+
+                        if (UIMapRegion.RegionPoints.Count > 1)
+                        {
+                            // temporarily add the layer click point for rendering
+                            UIMapRegion.RegionPoints.Add(tempPoint);
+
+                            // render
+                            UIMapRegion.Render(workCanvas);
+
+                            // remove it
+                            UIMapRegion.RegionPoints.RemoveAt(UIMapRegion.RegionPoints.Count - 1);
+                        }
+                        else
+                        {
+                            workCanvas.DrawLine(PREVIOUS_LAYER_CLICK_POINT, LAYER_CLICK_POINT, UIMapRegion.RegionBorderPaint);
+                        }
+                    }
+
+                    break;
             }
         }
 
@@ -7507,7 +7758,7 @@ namespace MapCreator
         }
 
         // NO BUTTON
-        private void NoButtonMouseMoveHandler(object sender, MouseEventArgs e, DrawingModeEnum mode)
+        private void NoButtonMouseMoveHandler(object sender, MouseEventArgs e, float brushRadius)
         {
             float X = (float)(LAYER_CLICK_POINT.X);
             float Y = (float)(LAYER_CLICK_POINT.Y);
@@ -7550,6 +7801,38 @@ namespace MapCreator
 
                         MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WINDROSELAYER).Clear();
                         UIWindrose.Render(MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WINDROSELAYER));
+                    }
+                    break;
+                case DrawingModeEnum.RegionPaint:
+                    {
+                        IMAGEBOX_CLICK_POINT = e.Location;
+                        //SKPoint tempPoint = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
+
+                        SKPoint tempPoint = Extensions.ToSKPoint(IMAGEBOX_CLICK_POINT);
+
+                        //SKPoint tempPoint = new(rX, rY);
+
+                        if (UIMapRegion != null)
+                        {
+                            SKCanvas workCanvas = MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER);
+                            workCanvas.Clear();
+
+                            if (UIMapRegion.RegionPoints.Count > 1)
+                            {
+                                // temporarily add the layer click point for rendering
+                                UIMapRegion.RegionPoints.Add(tempPoint);
+
+                                // render
+                                UIMapRegion.Render(workCanvas);
+
+                                // remove it
+                                UIMapRegion.RegionPoints.RemoveAt(UIMapRegion.RegionPoints.Count - 1);
+                            }
+                            else
+                            {
+                                workCanvas.DrawLine(PREVIOUS_LAYER_CLICK_POINT, LAYER_CLICK_POINT, UIMapRegion.RegionBorderPaint);
+                            }
+                        }
                     }
                     break;
             }

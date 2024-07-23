@@ -23,14 +23,15 @@ namespace MapCreator
         public static readonly int PATHLOWERLAYER = 12;
         public static readonly int SYMBOLLAYER = 13;
         public static readonly int PATHUPPERLAYER = 14;
-        public static readonly int DEFAULTGRIDLAYER = 15;
-        public static readonly int BOXLAYER = 16;
-        public static readonly int LABELLAYER = 17;
-        public static readonly int OVERLAYLAYER = 18;
-        public static readonly int MEASURELAYER = 19;
-        public static readonly int DRAWINGLAYER = 20;
-        public static readonly int VIGNETTELAYER = 21;
-        public static readonly int WORKLAYER = 22;
+        public static readonly int REGIONLAYER = 15;
+        public static readonly int DEFAULTGRIDLAYER = 16;
+        public static readonly int BOXLAYER = 17;
+        public static readonly int LABELLAYER = 18;
+        public static readonly int OVERLAYLAYER = 19;
+        public static readonly int MEASURELAYER = 20;
+        public static readonly int DRAWINGLAYER = 21;
+        public static readonly int VIGNETTELAYER = 22;
+        public static readonly int WORKLAYER = 23;
 
         public static readonly int MAP_LAYER_COUNT = WORKLAYER + 1;
 
@@ -323,6 +324,9 @@ namespace MapCreator
             map.MapLayers.Add(layer);
 
             layer = ConstructMapLayer("pathupper", (ushort)PATHUPPERLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
+            map.MapLayers.Add(layer);
+
+            layer = ConstructMapLayer("region", (ushort)REGIONLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
             map.MapLayers.Add(layer);
 
             layer = ConstructMapLayer("grid", (ushort)DEFAULTGRIDLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
