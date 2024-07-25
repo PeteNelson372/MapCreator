@@ -1,6 +1,7 @@
 ﻿using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using System.Drawing;
+using System.Runtime.ConstrainedExecution;
 
 namespace MapCreator
 {
@@ -105,7 +106,7 @@ namespace MapCreator
                             StrokeCap = SKStrokeCap.Round,
                             StrokeJoin = SKStrokeJoin.Round,
                             IsAntialias = true,
-                            PathEffect = SKPathEffect.CreateCorner(20)  // TODO: add smoothing trackbar to region UI for corner size
+                            PathEffect = SKPathEffect.CreateCorner(region.RegionBorderSmoothing)
                         };
 
                         c.DrawPath(path, region.RegionInnerPaint);
@@ -141,6 +142,64 @@ namespace MapCreator
                         parallelPoints = MapDrawingMethods.GetParallelSKPoints(region.RegionPoints, region.RegionBorderPaint.StrokeWidth, ParallelEnum.Below);
                         using SKPath p4 = GetLinePathFromPoints(parallelPoints);
                         c.DrawPath(p4, gradientPaint);
+                    }
+                    break;
+                case PathTypeEnum.BorderedLightSolidPath:
+                    {
+                        c.DrawPath(path, region.RegionInnerPaint);
+
+                        using SKPaint borderPaint = new()
+                        {
+                            Color = SKColors.Black,
+                            StrokeWidth = region.RegionBorderWidth * 0.2F,
+                            Style = SKPaintStyle.Stroke,
+                            StrokeCap = SKStrokeCap.Round,
+                            StrokeJoin = SKStrokeJoin.Round,
+                            IsAntialias = true,
+                            PathEffect = SKPathEffect.CreateCorner(region.RegionBorderSmoothing)
+                        };
+
+                        c.DrawPath(path, borderPaint);
+
+                        using SKPaint linePaint1 = new()
+                        {
+                            StrokeWidth = region.RegionBorderWidth * 0.8F,
+                            Style = SKPaintStyle.Stroke,
+                            StrokeCap = SKStrokeCap.Round,
+                            StrokeJoin = SKStrokeJoin.Round,
+                            IsAntialias = true,
+                            PathEffect = SKPathEffect.CreateCorner(region.RegionBorderSmoothing)
+                        };
+
+                        Color clr = Color.FromArgb(102, region.RegionBorderPaint.Color.ToDrawingColor());
+                        linePaint1.Color = Extensions.ToSKColor(clr);
+
+                        List<SKPoint> parallelPoints = MapDrawingMethods.GetParallelSKPoints(region.RegionPoints, region.RegionBorderPaint.StrokeWidth * 0.2F, ParallelEnum.Below);
+                        using SKPath p1 = GetLinePathFromPoints(parallelPoints);
+                        c.DrawPath(p1, linePaint1);
+                    }
+                    break;
+                case PathTypeEnum.DoubleSolidBorderPath:
+                    {
+                        c.DrawPath(path, region.RegionInnerPaint);
+
+                        using SKPaint borderPaint = new()
+                        {
+                            Color = SKColors.Black,
+                            StrokeWidth = region.RegionBorderWidth * 0.2F,
+                            Style = SKPaintStyle.Stroke,
+                            StrokeCap = SKStrokeCap.Round,
+                            StrokeJoin = SKStrokeJoin.Round,
+                            IsAntialias = true,
+                            PathEffect = SKPathEffect.CreateCorner(region.RegionBorderSmoothing)
+                        };
+
+                        c.DrawPath(path, borderPaint);
+
+                        List<SKPoint> points = [.. path.Points];
+                        List<SKPoint> parallelPoints = MapDrawingMethods.GetParallelSKPoints(points, region.RegionBorderPaint.StrokeWidth, ParallelEnum.Below);
+                        using SKPath p1 = GetLinePathFromPoints(parallelPoints);
+                        c.DrawPath(p1, borderPaint);
                     }
                     break;
 

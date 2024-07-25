@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using Extensions = SkiaSharp.Views.Desktop.Extensions;
 using Point = System.Drawing.Point;
+using Clipper2Lib;
 
 namespace MapCreator
 {
@@ -777,41 +778,73 @@ namespace MapCreator
             return path;
         }
 
+        internal static float signedMod(float a, float n)
+        {
+            return (float)(a - Math.Floor(a / n) * n);
+        }
+
+        internal static float GetAngleDifference(float angle1, float angle2)
+        {
+            //float a1 = (float)((angle1 % 360.0F) * (Math.PI / 180.0F));
+            //float a2 = (float)((angle2 % 360.0F) * (Math.PI / 180.0F));
+
+            // angles are in degrees and returned difference is in degrees
+            //float diffRadians = (float)Math.Atan2(Math.Sin(a1 - a2), Math.Cos(a1 - a2));
+
+            //float diffDegrees = (float)(diffRadians * (180.0F / Math.PI));
+
+            float a = angle1 - angle2;
+            float diffDegrees = signedMod(a + 180, 360) - 180;
+
+            return diffDegrees;
+        }
+
+        internal static SKPoint GetPointAtDistanceOnAngle(SKPoint p, float distance, float angle)
+        {
+            // angle is in degrees, convert it to radians
+            float a = (float)(angle * (Math.PI / 180));
+            float x = (float)(p.X + distance * Math.Cos(a));
+            float y = (float)(p.Y + distance * Math.Sin(a));
+
+            return new SKPoint(x, y);
+        }
+
         internal static List<SKPoint> GetParallelSKPoints(List<SKPoint> points, float distance, ParallelEnum location)
         {
-            List<SKPoint> parallelPoints = [];
+            PathD clipperPath = [];
 
-            for (int i = 0; i < points.Count - 1; i += 2)
+            foreach (SKPoint point in points)
             {
-                float lineAngle = CalculateLineAngle(points[i], points[i + 1]);
-
-                float angle = (location == ParallelEnum.Below) ? 90 : -90;
-
-                SKPoint p1 = PointOnCircle(distance, lineAngle + angle, points[i]);
-                SKPoint p2 = PointOnCircle(distance, lineAngle + angle, points[i + 1]);
-
-                parallelPoints.Add(p1);
-                parallelPoints.Add(p2);
+                clipperPath.Add(new PointD(point.X, point.Y));
             }
 
-            float la = CalculateLineAngle(points.Last(), points.First());
+            PathsD clipperPaths = [];
+            PathsD inflatedPaths = [];
 
-            float a = (location == ParallelEnum.Below) ? 90 : -90;
+            clipperPaths.Add(clipperPath);
 
-            SKPoint pL = PointOnCircle(distance, la + a, points.Last());
-            SKPoint pF = PointOnCircle(distance, la + a, points.First());
+            float d = (location == ParallelEnum.Below) ? -distance : distance;
 
-            if (!parallelPoints.Contains(pL))
+            // offset polyline
+            inflatedPaths = Clipper.InflatePaths(clipperPaths, d, JoinType.Square, EndType.Polygon);
+
+            if (inflatedPaths.Count > 0)
             {
-                parallelPoints.Add(pL);
-            }
+                PathD inflatedPathD = inflatedPaths.First();
 
-            if (!parallelPoints.Contains(pF))
+                List<SKPoint> inflatedPath = [];
+
+                foreach (PointD p in inflatedPathD)
+                {
+                    inflatedPath.Add(new SKPoint((float)p.x, (float)p.y));
+                }
+
+                return inflatedPath;
+            }
+            else
             {
-                parallelPoints.Add(pF);
+                return points;
             }
-
-            return parallelPoints;
         }
 
         internal static List<MapPathPoint> GetParallelPathPoints(List<MapPathPoint> points, float distance, ParallelEnum location)

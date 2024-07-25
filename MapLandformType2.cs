@@ -36,7 +36,7 @@ namespace MapCreator
 
         public SKPath LandformContourPath { get; set; } = new SKPath();
 
-        public List<SKPoint> LandformContourPoints { get; set; } = new List<SKPoint>();
+        public List<SKPoint> LandformContourPoints { get; set; } = [];
 
         // inner paths are used to paint the gradient shading around the inside of the landform
         public SKPath InnerPath1 { get; set; } = new SKPath();

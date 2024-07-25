@@ -18,6 +18,7 @@ namespace MapCreator
         public Color RegionBorderColor { get; set; } = ColorTranslator.FromHtml("#0056b3");
         public int RegionBorderWidth { get; set; } = 10;
         public int RegionInnerOpacity { get; set; } = 64;
+        public int RegionBorderSmoothing { get; set; } = 20;
         public bool SnapToCoastline { get; set; } = true;
         public PathTypeEnum RegionBorderType { get; set; } = PathTypeEnum.SolidLinePath;
 

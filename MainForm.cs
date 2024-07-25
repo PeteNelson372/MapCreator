@@ -1,6 +1,7 @@
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using System.ComponentModel;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Xml.Linq;
 using Application = System.Windows.Forms.Application;
@@ -1005,6 +1006,7 @@ namespace MapCreator
             SymbolsToolPanel.Visible = false;
             LabelsToolPanel.Visible = false;
             OverlayToolsPanel.Visible = false;
+            RegionsToolPanel.Visible = false;
 
             CURSOR_POSITION_WORKER.DoWork += CursorPositionWorkerDoWork;
             CURSOR_POSITION_WORKER.RunWorkerCompleted += CursorPositionRunWorkerCompleted;
@@ -1931,6 +1933,7 @@ namespace MapCreator
             SymbolsToolPanel.Visible = false;
             LabelsToolPanel.Visible = false;
             OverlayToolsPanel.Visible = false;
+            RegionsToolPanel.Visible = false;
 
 
             switch (LayerSelectTabControl.SelectedIndex)
@@ -1967,7 +1970,7 @@ namespace MapCreator
                     BackgroundToolPanel.Visible = false;
                     break;
                 case 8:
-                    OverlayToolsPanel.Visible = true;
+                    RegionsToolPanel.Visible = true;
                     BackgroundToolPanel.Visible = false;
                     break;
                 case 9:
@@ -5746,6 +5749,7 @@ namespace MapCreator
             mapRegion.RegionBorderColor = RegionColorSelectLabel.BackColor;
             mapRegion.RegionBorderWidth = RegionBorderWidthTrack.Value;
             mapRegion.RegionInnerOpacity = RegionOpacityTrack.Value;
+            mapRegion.RegionBorderSmoothing = RegionBorderSmoothingTrack.Value;
             mapRegion.SnapToCoastline = SnapCoastlineCheck.Checked;
 
             if (RegionSolidBorderRadio.Checked)
@@ -5757,7 +5761,7 @@ namespace MapCreator
             if (RegionDottedBorderRadio.Checked)
             {
                 mapRegion.RegionBorderType = PathTypeEnum.DottedLinePath;
-                float[] intervals = [0, mapRegion.RegionBorderWidth];
+                float[] intervals = [0, mapRegion.RegionBorderWidth * 2];
                 regionBorderEffect = SKPathEffect.CreateDash(intervals, 0);
             }
 
@@ -5824,7 +5828,7 @@ namespace MapCreator
                 StrokeCap = SKStrokeCap.Round,
                 StrokeJoin = SKStrokeJoin.Round,
                 IsAntialias = true,
-                PathEffect = SKPathEffect.CreateCorner(20)  // TODO: add smoothing trackbar to region UI for corner size
+                PathEffect = SKPathEffect.CreateCorner(mapRegion.RegionBorderSmoothing)
             };
 
             Color innerColor = Color.FromArgb(mapRegion.RegionInnerOpacity, mapRegion.RegionBorderColor.R, mapRegion.RegionBorderColor.G, mapRegion.RegionBorderColor.B);
@@ -5833,7 +5837,7 @@ namespace MapCreator
             {
                 Color = Extensions.ToSKColor(innerColor),
                 Style = SKPaintStyle.Fill,
-                PathEffect = SKPathEffect.CreateCorner(20)  // TODO: add smoothing trackbar to region UI for corner size
+                PathEffect = SKPathEffect.CreateCorner(mapRegion.RegionBorderSmoothing)
             };
 
             if (regionBorderEffect != null)
@@ -5859,6 +5863,98 @@ namespace MapCreator
             ClearDrawingMode();
             CURRENT_DRAWING_MODE = DrawingModeEnum.RegionSelect;
             SetDrawingModeLabel();
+        }
+
+        private void RegionColorSelectLabel_Click(object sender, EventArgs e)
+        {
+            TopMost = true;
+            Color regionColor = MapPaintMethods.SelectColorFromDialog();
+            TopMost = false;
+
+            if (regionColor.ToArgb() != Color.Empty.ToArgb())
+            {
+                RegionColorSelectLabel.BackColor = regionColor;
+
+                if (UIMapRegion != null)
+                {
+                    SetRegionData(UIMapRegion);
+                }
+            }
+        }
+
+        private void RegionBorderWidthTrack_Scroll(object sender, EventArgs e)
+        {
+            RegionBorderWidthLabel.Text = RegionBorderWidthTrack.Value.ToString();
+
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
+        }
+
+        private void RegionOpacityTrack_Scroll(object sender, EventArgs e)
+        {
+            RegionInnerOpacityLabel.Text = RegionOpacityTrack.Value.ToString();
+
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
+        }
+
+        private void RegionBorderSmoothingTrack_Scroll(object sender, EventArgs e)
+        {
+            RegionBorderSmoothingLabel.Text = RegionBorderSmoothingTrack.Value.ToString();
+
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
+        }
+
+        private void SolidRegionBorderPicture_Click(object sender, EventArgs e)
+        {
+            RegionSolidBorderRadio.Checked = true;
+        }
+
+        private void DottedRegionBorderPicture_Click(object sender, EventArgs e)
+        {
+            RegionDottedBorderRadio.Checked = true;
+        }
+
+        private void DashedRegionBorderPicture_Click(object sender, EventArgs e)
+        {
+            RegionDashBorderRadio.Checked = true;
+        }
+
+        private void DashDotRegionBorderPicture_Click(object sender, EventArgs e)
+        {
+            RegionDashDotBorderRadio.Checked = true;
+        }
+
+        private void DashDotDotRegionBorderPicture_Click(object sender, EventArgs e)
+        {
+            RegionDashDotDotBorderRadio.Checked = true;
+        }
+
+        private void DoubleSolidRegionBorderPicture_Click(object sender, EventArgs e)
+        {
+            RegionDoubleSolidBorderRadio.Checked = true;
+        }
+
+        private void SolidAndDashRegionBorderPicture_Click(object sender, EventArgs e)
+        {
+            RegionSolidAndDashesBorderRadio.Checked = true;
+        }
+
+        private void GradientRegionBorderPicture_Click(object sender, EventArgs e)
+        {
+            RegionBorderedGradientRadio.Checked = true;
+        }
+
+        private void LightSolidRegionBorderPicture_Click(object sender, EventArgs e)
+        {
+            RegionBorderedLightSolidRadio.Checked = true;
         }
 
         /*******************************************************************************************************
@@ -6811,18 +6907,136 @@ namespace MapCreator
                     IMAGEBOX_CLICK_POINT.X = e.X;
                     IMAGEBOX_CLICK_POINT.Y = e.Y;
 
-                    //LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
-                    LAYER_CLICK_POINT = Extensions.ToSKPoint(IMAGEBOX_CLICK_POINT);
-
+                    LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
 
                     // initialize region
                     if (UIMapRegion == null)
                     {
                         UIMapRegion = new(CURRENT_MAP);
-                        SetRegionData(UIMapRegion);                        
+                        SetRegionData(UIMapRegion);
                     }
 
-                    UIMapRegion.RegionPoints.Add(LAYER_CLICK_POINT);
+                    if (ModifierKeys == Keys.Shift)
+                    {
+                        // find the closest point to the current point
+                        // on the contour path of a coastline;
+                        // if the nearest point on the coastline
+                        // is within 20 pixels of the current point,
+                        // then set the region point to be the point
+                        // on the coastline
+                        // then check the *previous* region point; if the previous
+                        // region point is on the coastline of the same landform
+                        // then add all of the points on the coastline contour
+                        // to the region points
+
+                        int coastlinePointIndex = -1;
+                        SKPoint coastlinePoint = SKPoint.Empty;
+                        MapLandformType2? landform1 = null;
+                        MapLandformType2? landform2 = null;
+
+                        foreach (MapLandformType2 lf in LandformType2Methods.LANDFORM_LIST)
+                        {
+                            for (int i = 0; i < lf.LandformContourPoints.Count; i++)                            
+                            {
+                                SKPoint p = lf.LandformContourPoints[i];
+                                if (SKPoint.Distance(LAYER_CLICK_POINT, p) < 5)
+                                {
+                                    landform1 = lf;
+                                    coastlinePointIndex = i;
+                                    coastlinePoint = p;
+                                    break;
+                                }
+                            }
+
+                            if (coastlinePointIndex >= 0) break;
+                        }
+
+
+                        int previousCoastlinePointIndex = -1;
+
+                        if (landform1 != null && coastlinePointIndex >= 0)
+                        {
+                            UIMapRegion.RegionPoints.Add(landform1.LandformContourPoints[coastlinePointIndex]);
+
+                            if (UIMapRegion.RegionPoints.Count > 1 && coastlinePointIndex > 1)
+                            {
+                                SKPoint previousPoint = UIMapRegion.RegionPoints[UIMapRegion.RegionPoints.Count - 2];
+
+                                foreach (MapLandformType2 lf in LandformType2Methods.LANDFORM_LIST)
+                                {
+                                    for (int i = 0; i < lf.LandformContourPoints.Count; i++)
+                                    {
+                                        SKPoint p = lf.LandformContourPoints[i];
+                                        if (SKPoint.Distance(previousPoint, p) < 20 && !coastlinePoint.Equals(previousPoint))
+                                        {
+                                            landform2 = lf;
+                                            previousCoastlinePointIndex = i;
+                                            break;
+                                        }
+                                    }
+
+                                    if (previousCoastlinePointIndex >= 0) break;
+                                }
+                            }
+                        }
+
+                        if (landform1 != null && landform2 != null
+                            && landform1.LandformGuid.ToString() == landform2.LandformGuid.ToString()
+                            && coastlinePointIndex >= 0 && previousCoastlinePointIndex >= 0)
+                        {
+                            UIMapRegion.RegionPoints.Clear();
+
+                            // swap 
+                            //if (coastlinePointIndex < previousCoastlinePointIndex)
+                            //{
+                            //    int temp = coastlinePointIndex;
+                            //    coastlinePointIndex = previousCoastlinePointIndex;
+                            //    previousCoastlinePointIndex = temp;
+                            //}
+
+                            landform1.LandformContourPath.GetTightBounds(out SKRect boundingRect);
+                            float xCenter = boundingRect.MidX;
+
+                            //if (landform1.LandformContourPoints[coastlinePointIndex].X < xCenter)
+                            if (LAYER_CLICK_POINT.Y < PREVIOUS_LAYER_CLICK_POINT.Y)
+                            {
+                                // drag mouse up to snap to west coast of landform
+                                for (int i = previousCoastlinePointIndex; i < landform1.LandformContourPoints.Count - 1; i++)
+                                {
+                                    UIMapRegion.RegionPoints.Add(landform1.LandformContourPoints[i]);
+                                }
+
+                                for (int i = 0; i <= coastlinePointIndex; i++)
+                                {
+                                    UIMapRegion.RegionPoints.Add(landform1.LandformContourPoints[i]);
+                                }
+                            }
+                            else
+                            {
+                                // drag mouse down to snap region to east coast of landform
+                                if (coastlinePointIndex > previousCoastlinePointIndex)
+                                {
+                                    for (int i = previousCoastlinePointIndex; i <= coastlinePointIndex; i++)
+                                    {
+                                        UIMapRegion.RegionPoints.Add(landform1.LandformContourPoints[i]);
+                                    }
+                                }
+                                else
+                                {
+                                    for (int i = coastlinePointIndex; i <= previousCoastlinePointIndex; i++)
+                                    {
+                                        UIMapRegion.RegionPoints.Add(landform1.LandformContourPoints[i]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        UIMapRegion.RegionPoints.Add(LAYER_CLICK_POINT);
+                    }
+
+
                     PREVIOUS_LAYER_CLICK_POINT = LAYER_CLICK_POINT;
                     break;
             }
@@ -6900,7 +7114,7 @@ namespace MapCreator
                         IMAGEBOX_CLICK_POINT.X = e.X;
                         IMAGEBOX_CLICK_POINT.Y = e.Y;
 
-                        LAYER_CLICK_POINT = Extensions.ToSKPoint(IMAGEBOX_CLICK_POINT);
+                        LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
 
                         UIMapRegion.RegionPoints.Add(LAYER_CLICK_POINT);
                         CURRENT_MAP.IsSaved = false;
@@ -7286,37 +7500,6 @@ namespace MapCreator
                     }
 
                     PREVIOUS_LAYER_CLICK_POINT = LAYER_CLICK_POINT;
-                    break;
-                case DrawingModeEnum.RegionPaint:
-                    {
-                        IMAGEBOX_CLICK_POINT.X = e.X;
-                        IMAGEBOX_CLICK_POINT.Y = e.Y;
-                        //LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
-
-                        if (LAYER_CLICK_POINT.X > 0
-                            && LAYER_CLICK_POINT.Y > 0
-                            && LAYER_CLICK_POINT.X < CURRENT_MAP.MapWidth
-                            && LAYER_CLICK_POINT.Y < CURRENT_MAP.MapHeight)
-                        {
-                            if (UIMapRegion != null)
-                            {
-                                //if (!UIMapRegion.RegionPoints.Contains(PREVIOUS_LAYER_CLICK_POINT))
-                                //{
-                                //    UIMapRegion.RegionPoints.Add(PREVIOUS_LAYER_CLICK_POINT);
-                                //}
-
-                                //if (!UIMapRegion.RegionPoints.Contains(LAYER_CLICK_POINT))
-                                //{
-                                //    UIMapRegion.RegionPoints.Add(LAYER_CLICK_POINT);
-                                //}
-
-                                //PREVIOUS_LAYER_CLICK_POINT = LAYER_CLICK_POINT;
-                                //UIMapRegion.RegionPoints.Add(LAYER_CLICK_POINT);
-                            }
-                        }
-
-                        //CURRENT_MAP.IsSaved = false;
-                    }
                     break;
             }
         }
@@ -7719,11 +7902,7 @@ namespace MapCreator
                     break;
                 case DrawingModeEnum.RegionPaint:
                     IMAGEBOX_CLICK_POINT = e.Location;
-                    //SKPoint tempPoint = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
-
-                    SKPoint tempPoint = Extensions.ToSKPoint(IMAGEBOX_CLICK_POINT);
-
-                    //SKPoint tempPoint = new(rX, rY);
+                    SKPoint tempPoint = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
 
                     if (UIMapRegion != null)
                     {
@@ -7806,11 +7985,7 @@ namespace MapCreator
                 case DrawingModeEnum.RegionPaint:
                     {
                         IMAGEBOX_CLICK_POINT = e.Location;
-                        //SKPoint tempPoint = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
-
-                        SKPoint tempPoint = Extensions.ToSKPoint(IMAGEBOX_CLICK_POINT);
-
-                        //SKPoint tempPoint = new(rX, rY);
+                        SKPoint tempPoint = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
 
                         if (UIMapRegion != null)
                         {
@@ -7888,5 +8063,7 @@ namespace MapCreator
 
             return 0;
         }
+
+ 
     }
 }
