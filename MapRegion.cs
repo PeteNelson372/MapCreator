@@ -12,6 +12,8 @@ namespace MapCreator
             Map = parentMap;
         }
 
+        public Guid RegionGuid { get; set; } = Guid.NewGuid();
+
         public MapCreatorMap Map { get; set; }
 
         public List<SKPoint> RegionPoints { get; set; } = [];

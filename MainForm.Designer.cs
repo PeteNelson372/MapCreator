@@ -4662,7 +4662,7 @@
             // 
             RegionHelpRichText.BorderStyle = BorderStyle.None;
             RegionHelpRichText.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            RegionHelpRichText.Location = new Point(15, 255);
+            RegionHelpRichText.Location = new Point(15, 288);
             RegionHelpRichText.Name = "RegionHelpRichText";
             RegionHelpRichText.ReadOnly = true;
             RegionHelpRichText.ScrollBars = RichTextBoxScrollBars.None;

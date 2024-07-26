@@ -181,11 +181,43 @@ namespace MapCreator
                     using SKPath boundsPath = new();
                     boundsPath.AddRect(boundRect);
 
-                    MapBuilder.GetLayerCanvas(map, MapBuilder.WORKLAYER)?.DrawPath(boundsPath, REGION_SELECT_PAINT);
+                    MapBuilder.GetLayerCanvas(map, MapBuilder.REGIONLAYER).DrawPath(boundsPath, REGION_SELECT_PAINT);
 
                     // draw dots on region vertices
                 }
             }
+        }
+
+        internal static MapRegion? SelectRegionAtPoint(Point mapClickPoint)
+        {
+            MapRegion? selectedRegion = null;
+            List<MapRegion> regions = MAP_REGION_LIST;
+
+            for (int i = 0; i < regions.Count; i++)
+            {
+                MapRegion region = regions[i];
+                SKPath? boundaryPath = region.BoundaryPath;
+
+                if (boundaryPath != null && boundaryPath.PointCount > 0)
+                {
+                    if (boundaryPath.Contains(mapClickPoint.X, mapClickPoint.Y))
+                    {
+                        region.IsSelected = !region.IsSelected;
+
+                        if (region.IsSelected)
+                        {
+                            selectedRegion = region;
+                        }
+                        break;
+                    }
+                }
+            }
+
+#pragma warning disable CS8604 // Possible null reference argument.
+            MapPaintMethods.DeselectAllMapComponents(selectedRegion);
+#pragma warning restore CS8604 // Possible null reference argument.
+
+            return selectedRegion;
         }
     }
 }

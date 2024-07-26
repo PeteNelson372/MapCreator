@@ -219,6 +219,12 @@ namespace MapCreator
                 if (selectedComponent != null && selectedComponent is PlacedMapBox mapBox && mapBox == b) continue;
                 b.IsSelected = false;
             }
+
+            foreach (MapRegion r in MapRegionMethods.MAP_REGION_LIST)
+            {
+                if (selectedComponent != null && selectedComponent is MapRegion region && region == r) continue;
+                r.IsSelected = false;
+            }
         }
 
         /**************************************************************************************************************************

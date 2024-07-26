@@ -6318,6 +6318,32 @@ namespace MapCreator
                     return;
                 }
 
+                if (CURRENT_DRAWING_MODE == DrawingModeEnum.RegionSelect && UIMapRegion != null)
+                {
+                    //TODO: undo/redo
+                    MapRegionMethods.MAP_REGION_LIST.Remove(UIMapRegion);
+
+                    for (int i = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.REGIONLAYER).MapLayerComponents.Count - 1; i > 0; i--)
+                    {
+                        if (MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.REGIONLAYER).MapLayerComponents[i] is MapRegion r)
+                        {
+                            if (r.RegionGuid.ToString() == UIMapRegion.RegionGuid.ToString())
+                            {
+                                MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.REGIONLAYER).MapLayerComponents.RemoveAt(i);
+                                break;
+                            }
+                        }
+                    }
+
+                    CURRENT_MAP.IsSaved = false;
+                    UIMapRegion = null;
+
+                    MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.REGIONLAYER).Clear();
+                    RenderDrawingPanel();
+
+                    return;
+                }
+
                 List<MapLandformType2> landformList = LandformType2Methods.LANDFORM_LIST;
                 for (int i = 0; i < landformList.Count; i++)
                 {
@@ -7014,6 +7040,7 @@ namespace MapCreator
 
                         MapBuilder.ClearLayerCanvas(CURRENT_MAP, MapBuilder.REGIONLAYER);
                         MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.REGIONLAYER).MapLayerComponents.Add(UIMapRegion);
+                        MapRegionMethods.MAP_REGION_LIST.Add(UIMapRegion);
 
                         UIMapRegion.IsSelected = false;
 
@@ -7380,6 +7407,22 @@ namespace MapCreator
                     }
 
                     PREVIOUS_LAYER_CLICK_POINT = LAYER_CLICK_POINT;
+                    break;
+                case DrawingModeEnum.RegionSelect:
+                    {
+                        MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.REGIONLAYER).Clear();
+
+                        Point clickPoint = new(e.X, e.Y);
+                        Point mapClickPoint = MapImageBox.PointToImage(clickPoint);
+                        MapRegion? selectedRegion = MapRegionMethods.SelectRegionAtPoint(mapClickPoint);
+
+                        if (selectedRegion != null)
+                        {
+                            UIMapRegion = selectedRegion;
+                        }
+
+                        RenderDrawingPanel();
+                    }
                     break;
             }
         }
