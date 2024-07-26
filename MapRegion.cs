@@ -19,7 +19,7 @@ namespace MapCreator
         public int RegionBorderWidth { get; set; } = 10;
         public int RegionInnerOpacity { get; set; } = 64;
         public int RegionBorderSmoothing { get; set; } = 20;
-        public bool SnapToCoastline { get; set; } = true;
+
         public PathTypeEnum RegionBorderType { get; set; } = PathTypeEnum.SolidLinePath;
 
         public bool IsSelected { get; set; } = false;

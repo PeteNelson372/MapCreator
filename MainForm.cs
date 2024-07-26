@@ -1,7 +1,7 @@
+using FontAwesome.Sharp;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using System.ComponentModel;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.Xml.Linq;
 using Application = System.Windows.Forms.Application;
@@ -15,7 +15,6 @@ using MessageBox = System.Windows.Forms.MessageBox;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using Point = System.Drawing.Point;
 using TextBox = System.Windows.Forms.TextBox;
-using Timer = System.Timers.Timer;
 using ToolTip = System.Windows.Forms.ToolTip;
 
 
@@ -76,6 +75,9 @@ namespace MapCreator
             WorkerSupportsCancellation = true
         };
 
+        private static readonly List<object> DRAWING_MODE_BUTTONS = [];
+
+
         //private static GLControl? GL_CONTROL;
         //private static GRContext? GPU_CONTEXT;
         //private static SKSurface? GPU_SURFACE;
@@ -105,6 +107,38 @@ namespace MapCreator
             ERASE_WATERFEATURE_COMMAND = new(CURRENT_MAP);
             COLOR_WATERFEATURE_COMMAND = new(CURRENT_MAP);
             ERASE_WATERFEATURE_COLOR_COMMAND = new(CURRENT_MAP);
+
+            DRAWING_MODE_BUTTONS.Add(WindroseButton);
+            DRAWING_MODE_BUTTONS.Add(OceanPaintButton);
+            DRAWING_MODE_BUTTONS.Add(OceanColorEraseButton);
+            DRAWING_MODE_BUTTONS.Add(OceanColorSelectButton);
+            DRAWING_MODE_BUTTONS.Add(LandformSelectButton);
+            DRAWING_MODE_BUTTONS.Add(LandformPaintButton);
+            DRAWING_MODE_BUTTONS.Add(LandEraseButton);            
+            DRAWING_MODE_BUTTONS.Add(LandColorButton);
+            DRAWING_MODE_BUTTONS.Add(LandColorEraseButton);
+            DRAWING_MODE_BUTTONS.Add(LandColorSelectButton);
+            DRAWING_MODE_BUTTONS.Add(WaterFeatureSelectButton);
+            DRAWING_MODE_BUTTONS.Add(WaterFeaturePaintButton);
+            DRAWING_MODE_BUTTONS.Add(WaterFeatureLakeButton);
+            DRAWING_MODE_BUTTONS.Add(WaterFeatureRiverButton);
+            DRAWING_MODE_BUTTONS.Add(WaterFeatureEraseButton);
+            DRAWING_MODE_BUTTONS.Add(WaterColorButton);
+            DRAWING_MODE_BUTTONS.Add(WaterColorEraseButton);
+            DRAWING_MODE_BUTTONS.Add(WaterColorSelectButton);
+            DRAWING_MODE_BUTTONS.Add(SelectPathButton);
+            DRAWING_MODE_BUTTONS.Add(DrawPathButton);
+            DRAWING_MODE_BUTTONS.Add(SelectSymbolButton);
+            DRAWING_MODE_BUTTONS.Add(ColorSymbolsButton);
+            DRAWING_MODE_BUTTONS.Add(EraseSymbolsButton);
+            DRAWING_MODE_BUTTONS.Add(SelectLabelButton);
+            DRAWING_MODE_BUTTONS.Add(PlaceLabelButton);
+            DRAWING_MODE_BUTTONS.Add(CreateBoxButton);
+            DRAWING_MODE_BUTTONS.Add(CircleTextPathButton);
+            DRAWING_MODE_BUTTONS.Add(BezierTextPathButton);
+            DRAWING_MODE_BUTTONS.Add(MeasureButton);
+            DRAWING_MODE_BUTTONS.Add(SelectRegionButton);
+            DRAWING_MODE_BUTTONS.Add(PaintRegionButton);
 
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8601 // Possible null reference assignment.
@@ -707,41 +741,6 @@ namespace MapCreator
         /******************************************************************************************************* 
          * MAIN FORM
          *******************************************************************************************************/
-        private void ClearDrawingMode()
-        {
-            LandformPaintButton.Checked = false;
-            LandEraseButton.Checked = false;
-
-            WaterFeaturePaintButton.Checked = false;
-            WaterFeatureEraseButton.Checked = false;
-
-            WaterFeatureLakeButton.Checked = false;
-            WaterFeatureRiverButton.Checked = false;
-
-            OceanColorEraseButton.BackColor = Color.White;
-            OceanColorEraseButton.IconColor = Color.Black;
-            OceanColorEraseButton.ForeColor = Color.Black;
-
-            LandColorEraseButton.BackColor = Color.White;
-            LandColorEraseButton.IconColor = Color.Black;
-            LandColorEraseButton.ForeColor = Color.Black;
-
-            WaterColorEraseButton.BackColor = Color.White;
-            WaterColorEraseButton.IconColor = Color.Black;
-            WaterColorEraseButton.ForeColor = Color.Black;
-
-            CircleTextPathButton.FlatAppearance.BorderColor = Color.LightGray;
-            BezierTextPathButton.FlatAppearance.BorderColor = Color.LightGray;
-
-            SelectLabelButton.BackColor = SystemColors.Control;
-            PlaceLabelButton.BackColor = SystemColors.Control;
-            CreateBoxButton.BackColor = SystemColors.Control;
-
-            CURRENT_DRAWING_MODE = DrawingModeEnum.None;
-            MapLabelMethods.CreatingLabel = false;
-
-            SetDrawingModeLabel();
-        }
 
         public void SetStatusText(string text)
         {
@@ -872,6 +871,9 @@ namespace MapCreator
                 case DrawingModeEnum.SelectMapScale:
                     modeText += "Move Map Scale";
                     break;
+                case DrawingModeEnum.DrawMapMeasure:
+                    modeText += "Draw Map Measure";
+                    break;
                 case DrawingModeEnum.RegionPaint:
                     modeText += "Draw Region";
                     break;
@@ -904,23 +906,97 @@ namespace MapCreator
             ApplicationStatusStrip.Refresh();
         }
 
-        private void SetColorSelectMode()
+        private void ClearDrawingModeButtons()
         {
-            if (CURRENT_DRAWING_MODE != DrawingModeEnum.ColorSelect)
+            foreach (object o in DRAWING_MODE_BUTTONS)
             {
-                ClearDrawingMode();
-                CURRENT_DRAWING_MODE = DrawingModeEnum.ColorSelect;
-                Cursor = MapPaintMethods.EYEDROPPER_CURSOR;
-                SetDrawingModeLabel();
+                if (o is IconToolStripButton toolstripButton)
+                {
+                    toolstripButton.Checked = false;
+                    toolstripButton.BackColor = SystemColors.Control;
+                    toolstripButton.IconColor = Color.Black;
+                    toolstripButton.ForeColor = Color.Black;
+
+                }
+                else if (o is IconButton iconButton)
+                {
+                    if (iconButton.FlatStyle == FlatStyle.Flat)
+                    {
+                        iconButton.BackColor = SystemColors.ControlLightLight;
+                        iconButton.IconColor = Color.Black;
+                        iconButton.ForeColor = Color.Black;
+                    }
+                    else if (iconButton.FlatStyle == FlatStyle.Standard)
+                    {
+                        iconButton.BackColor = SystemColors.Control;
+                        iconButton.IconColor = Color.Black;
+                        iconButton.ForeColor = Color.Black;
+                    }
+                    else
+                    {
+                        iconButton.BackColor = SystemColors.Control;
+                        iconButton.IconColor = Color.Black;
+                        iconButton.ForeColor = Color.Black;
+                    }
+                }
+            }
+
+            MapLabelMethods.CreatingLabel = false;
+        }
+
+        private void SetDrawingMode(DrawingModeEnum newMode, object? modeButton)
+        {
+            ClearDrawingModeButtons();
+
+            if (CURRENT_DRAWING_MODE != newMode)
+            {
+                CURRENT_DRAWING_MODE = newMode;
+
+                if (CURRENT_DRAWING_MODE == DrawingModeEnum.ColorSelect)
+                {
+                    Cursor = MapPaintMethods.EYEDROPPER_CURSOR;
+                }
+
+                if (modeButton != null)
+                {
+                    Color selectColor = ColorTranslator.FromHtml("#D2F1C1");
+
+                    if (modeButton is IconToolStripButton toolstripButton)
+                    {
+                        toolstripButton.Checked = false;
+                        toolstripButton.BackColor = selectColor;
+                        toolstripButton.IconColor = Color.Black;
+                        toolstripButton.ForeColor = Color.Black;                        
+                    }
+                    else if (modeButton is IconButton iconButton)
+                    {
+                        if (iconButton.FlatStyle == FlatStyle.Flat)
+                        {
+                            iconButton.BackColor = selectColor;
+                            iconButton.IconColor = Color.Black;
+                            iconButton.ForeColor = Color.Black;
+                        }
+                        else if (iconButton.FlatStyle == FlatStyle.Standard)
+                        {
+                            iconButton.BackColor = selectColor;
+                            iconButton.IconColor = Color.Black;
+                            iconButton.ForeColor = Color.Black;
+                        }
+                        else
+                        {
+                            iconButton.BackColor = selectColor;
+                            iconButton.IconColor = Color.Black;
+                            iconButton.ForeColor = Color.Black;
+                        }
+                    }
+                }
             }
             else
             {
-                ClearDrawingMode();
-                Cursor = Cursors.Default;
-                SetDrawingModeLabel();
+                CURRENT_DRAWING_MODE = DrawingModeEnum.None;
             }
 
-            ApplicationStatusStrip.Refresh();
+            SetDrawingModeLabel();
         }
 
         public void UpdateProgressBar(int newValue, string? progressState)
@@ -1923,7 +1999,7 @@ namespace MapCreator
         private void LayerSelectTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             // clear the drawing mode (and uncheck all drawing, paint, and erase buttons) when switching tabs
-            ClearDrawingMode();
+            SetDrawingMode(DrawingModeEnum.None, null);
 
             BackgroundToolPanel.Visible = true;
             OceanColorToolPanel.Visible = false;
@@ -2198,35 +2274,18 @@ namespace MapCreator
 
         private void OceanPaintButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-
-            CURRENT_DRAWING_MODE = DrawingModeEnum.OceanPaint;
-            SetDrawingModeLabel();
+            SetDrawingMode(DrawingModeEnum.OceanPaint, sender);
         }
 
         private void OceanEraseButton_Click(object sender, EventArgs e)
         {
-            if (CURRENT_DRAWING_MODE != DrawingModeEnum.OceanErase)
-            {
-                ClearDrawingMode();
-
-                OceanColorEraseButton.BackColor = Color.Gainsboro;
-                OceanColorEraseButton.IconColor = Color.IndianRed;
-                OceanColorEraseButton.ForeColor = Color.IndianRed;
-
-                CURRENT_DRAWING_MODE = DrawingModeEnum.OceanErase;
-                SetDrawingModeLabel();
-            }
-            else
-            {
-                ClearDrawingMode();
-            }
+            SetDrawingMode(DrawingModeEnum.OceanErase, sender);
         }
 
         private void OceanClearColorButton_Click(object sender, EventArgs e)
         {
             // clear the ocean texture overlay layer
-            ClearDrawingMode();
+            SetDrawingMode(DrawingModeEnum.None, sender);
 
             SKBitmap layerBitmap = MapBuilder.GetLayerBitmap(CURRENT_MAP, MapBuilder.OCEANTEXTUREOVERLAYLAYER);
 
@@ -2239,7 +2298,7 @@ namespace MapCreator
 
         private void OceanFillColorButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
+            SetDrawingMode(DrawingModeEnum.None, sender);
 
             // get the user-selected ocean color
             Color fillColor = OceanColorSelectionLabel.BackColor;
@@ -2342,7 +2401,8 @@ namespace MapCreator
 
         private void OceanEraseAllButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
+            SetDrawingMode(DrawingModeEnum.None, sender);
+
             SKBitmap layerBitmap = MapBuilder.GetLayerBitmap(CURRENT_MAP, MapBuilder.OCEANDRAWINGLAYER);
 
             Cmd_ClearLayerBitmap cmd = new(CURRENT_MAP, MapBuilder.OCEANDRAWINGLAYER, layerBitmap);
@@ -2575,26 +2635,23 @@ namespace MapCreator
 
         private void OceanColorSelect_Click(object sender, EventArgs e)
         {
-            SetColorSelectMode();
+            SetDrawingMode(DrawingModeEnum.ColorSelect, sender);
         }
 
         // windrose
         private void WindroseButton_Click(object sender, EventArgs e)
         {
-            if (CURRENT_DRAWING_MODE != DrawingModeEnum.PlaceWindrose)
+            SetDrawingMode(DrawingModeEnum.PlaceWindrose, sender);
+
+            if (CURRENT_DRAWING_MODE == DrawingModeEnum.PlaceWindrose)
             {
-                ClearDrawingMode();
-                CURRENT_DRAWING_MODE = DrawingModeEnum.PlaceWindrose;
-                SetDrawingModeLabel();
+
                 UIWindrose = CreateWindrose();
             }
             else
             {
                 MapBuilder.ClearLayerCanvas(CURRENT_MAP, MapBuilder.WINDROSELAYER);
                 MapBuilder.ClearLayerBitmap(CURRENT_MAP, MapBuilder.WINDROSELAYER);
-
-                ClearDrawingMode();
-                SetDrawingModeLabel();
 
                 RenderDrawingPanel();
             }
@@ -2830,20 +2887,12 @@ namespace MapCreator
 
         private void LandPaintButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-            LandformPaintButton.Checked = true;
-            LandformSelectButton.Checked = false;
-            CURRENT_DRAWING_MODE = DrawingModeEnum.LandPaint;
-            SetDrawingModeLabel();
+            SetDrawingMode(DrawingModeEnum.LandPaint, sender);
         }
 
         private void LandEraseButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-            LandEraseButton.Checked = true;
-            LandformSelectButton.Checked = false;
-            CURRENT_DRAWING_MODE = DrawingModeEnum.LandErase;
-            SetDrawingModeLabel();
+            SetDrawingMode(DrawingModeEnum.LandErase, sender);
         }
 
         private void LandBrushSizeScroll_ValueChanged(object sender, EventArgs e)
@@ -2856,7 +2905,8 @@ namespace MapCreator
 
         private void LandFillButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
+            SetDrawingMode(DrawingModeEnum.None, sender);
+
             LandformSelectButton.Checked = false;
 
             if (LandformTextureBox.SelectedIndex > 0)
@@ -2900,7 +2950,7 @@ namespace MapCreator
             }
             TopMost = false;
 
-            ClearDrawingMode();
+            SetDrawingMode(DrawingModeEnum.None, sender);
 
             Cmd_ClearAllLandforms cmd = new()
             {
@@ -2920,10 +2970,7 @@ namespace MapCreator
 
         private void LandColorButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-
-            CURRENT_DRAWING_MODE = DrawingModeEnum.LandColor;
-            SetDrawingModeLabel();
+            SetDrawingMode(DrawingModeEnum.LandColor, sender);
         }
 
         private void FractalizeButton_Click(object sender, EventArgs e)
@@ -2933,7 +2980,8 @@ namespace MapCreator
 
             if (result == DialogResult.Yes)
             {
-                ClearDrawingMode();
+                SetDrawingMode(DrawingModeEnum.None, sender);
+
                 LandformSelectButton.Checked = false;
 
                 UpdateProgressBar(0, "");
@@ -3084,21 +3132,7 @@ namespace MapCreator
 
         private void LandColorEraseButton_Click(object sender, EventArgs e)
         {
-            if (CURRENT_DRAWING_MODE != DrawingModeEnum.LandColorErase)
-            {
-                ClearDrawingMode();
-
-                LandColorEraseButton.BackColor = Color.Gainsboro;
-                LandColorEraseButton.IconColor = Color.IndianRed;
-                LandColorEraseButton.ForeColor = Color.IndianRed;
-
-                CURRENT_DRAWING_MODE = DrawingModeEnum.LandColorErase;
-                SetDrawingModeLabel();
-            }
-            else
-            {
-                ClearDrawingMode();
-            }
+            SetDrawingMode(DrawingModeEnum.LandColorErase, sender);
         }
 
         private void LandAddColorPresetButton_Click(object sender, EventArgs e)
@@ -3233,22 +3267,13 @@ namespace MapCreator
 
         private void LandColorSelectButton_Click(object sender, EventArgs e)
         {
-            SetColorSelectMode();
+            SetDrawingMode(DrawingModeEnum.ColorSelect, sender);
         }
 
         private void LandformSelectButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-
-            if (LandformSelectButton.Checked)
-            {
-                CURRENT_DRAWING_MODE = DrawingModeEnum.LandformSelect;
-            }
-
-            SetDrawingModeLabel();
+            SetDrawingMode(DrawingModeEnum.LandformSelect, sender);
         }
-
-
 
         /******************************************************************************************************
         * *****************************************************************************************************
@@ -3341,15 +3366,12 @@ namespace MapCreator
         *******************************************************************************************************/
         private void WaterColorSelectButton_Click(object sender, EventArgs e)
         {
-            SetColorSelectMode();
+            SetDrawingMode(DrawingModeEnum.ColorSelect, sender);
         }
 
         private void WaterFeaturePaintButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-            WaterFeaturePaintButton.Checked = true;
-            CURRENT_DRAWING_MODE = DrawingModeEnum.WaterPaint;
-            SetDrawingModeLabel();
+            SetDrawingMode(DrawingModeEnum.WaterPaint, sender);
         }
 
         private void WaterBrushSizeTrack_ValueChanged(object sender, EventArgs e)
@@ -3432,37 +3454,22 @@ namespace MapCreator
 
         private void WaterFeatureSelectButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-
-            if (WaterFeatureSelectButton.Checked)
-            {
-                CURRENT_DRAWING_MODE = DrawingModeEnum.WaterFeatureSelect;
-            }
-
-            SetDrawingModeLabel();
+            SetDrawingMode(DrawingModeEnum.WaterFeatureSelect, sender);
         }
 
         private void WaterFeatureEraseButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-            WaterFeatureEraseButton.Checked = true;
-            WaterFeatureSelectButton.Checked = false;
-            CURRENT_DRAWING_MODE = DrawingModeEnum.WaterErase;
-            SetDrawingModeLabel();
+            SetDrawingMode(DrawingModeEnum.WaterErase, sender);
         }
 
         private void WaterFeatureLakeButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-            CURRENT_DRAWING_MODE = DrawingModeEnum.LakePaint;
-            SetDrawingModeLabel();
+            SetDrawingMode(DrawingModeEnum.LakePaint, sender);
         }
 
         private void WaterFeatureRiverButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-            CURRENT_DRAWING_MODE = DrawingModeEnum.RiverPaint;
-            SetDrawingModeLabel();
+            SetDrawingMode(DrawingModeEnum.RiverPaint, sender);
         }
 
 
@@ -3480,6 +3487,7 @@ namespace MapCreator
 
         private void WaterHardBrushButton_Click(object sender, EventArgs e)
         {
+            // TODO: refactor to handle all brush setting in one method
             MapPaintMethods.SetSelectedColorBrushType(ColorPaintBrush.HardBrush);
             WaterHardBrushButton.FlatAppearance.BorderColor = Color.DarkSeaGreen;
             WaterSoftBrushButton.FlatAppearance.BorderColor = Color.LightGray;
@@ -3492,10 +3500,7 @@ namespace MapCreator
 
         private void WaterColorButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-
-            CURRENT_DRAWING_MODE = DrawingModeEnum.WaterColor;
-            SetDrawingModeLabel();
+            SetDrawingMode(DrawingModeEnum.WaterColor, sender);
         }
 
         private void WaterColorBrushSizeTrack_Scroll(object sender, EventArgs e)
@@ -3527,21 +3532,7 @@ namespace MapCreator
 
         private void WaterColorEraseButton_Click(object sender, EventArgs e)
         {
-            if (CURRENT_DRAWING_MODE != DrawingModeEnum.WaterColorErase)
-            {
-                ClearDrawingMode();
-
-                WaterColorEraseButton.BackColor = Color.Gainsboro;
-                WaterColorEraseButton.IconColor = Color.IndianRed;
-                WaterColorEraseButton.ForeColor = Color.IndianRed;
-
-                CURRENT_DRAWING_MODE = DrawingModeEnum.WaterColorErase;
-                SetDrawingModeLabel();
-            }
-            else
-            {
-                ClearDrawingMode();
-            }
+            SetDrawingMode(DrawingModeEnum.WaterColorErase, sender);
         }
 
         private void WaterColorSelectionButton_Click(object sender, EventArgs e)
@@ -3875,30 +3866,27 @@ namespace MapCreator
         private void SelectPathButton_Click(object sender, EventArgs e)
         {
             SelectPathButton.Checked = !SelectPathButton.Checked;
-            DrawPathButton.Checked = false;
 
-            if (SelectPathButton.Checked)
+
+            if (CURRENT_DRAWING_MODE != DrawingModeEnum.PathEdit && CURRENT_DRAWING_MODE != DrawingModeEnum.PathSelect)
             {
-                ClearDrawingMode();
+
                 if (EditPathPointsCheck.Checked)
                 {
-                    CURRENT_DRAWING_MODE = DrawingModeEnum.PathEdit;
+                    SetDrawingMode(DrawingModeEnum.PathEdit, sender);
                 }
                 else
                 {
-                    CURRENT_DRAWING_MODE = DrawingModeEnum.PathSelect;
+                    SetDrawingMode(DrawingModeEnum.PathSelect, sender);
                     foreach (MapPath mp in MapPathMethods.GetMapPathList())
                     {
                         mp.ShowPathPoints = false;
                     }
                 }
-
-                SetDrawingModeLabel();
             }
             else
             {
-                ClearDrawingMode();
-                SetDrawingModeLabel();
+                SetDrawingMode(DrawingModeEnum.None, sender);
 
                 foreach (MapPath mp in MapPathMethods.GetMapPathList())
                 {
@@ -3912,31 +3900,16 @@ namespace MapCreator
 
         private void DrawPathButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-            DrawPathButton.Checked = !DrawPathButton.Checked;
-            SelectPathButton.Checked = false;
-
-            if (DrawPathButton.Checked)
-            {
-
-                CURRENT_DRAWING_MODE = DrawingModeEnum.PathPaint;
-                SetDrawingModeLabel();
-            }
-            else
-            {
-                SetDrawingModeLabel();
-            }
+            SetDrawingMode(DrawingModeEnum.PathPaint, sender);
         }
 
         private void EditPathPointsCheck_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-
             if (EditPathPointsCheck.Checked)
             {
-                if (SelectPathButton.Checked)
+                if (CURRENT_DRAWING_MODE == DrawingModeEnum.PathSelect)
                 {
-                    CURRENT_DRAWING_MODE = DrawingModeEnum.PathEdit;
+                    SetDrawingMode(DrawingModeEnum.PathEdit, sender);
 
                     foreach (MapPath mp in MapPathMethods.GetMapPathList())
                     {
@@ -3949,16 +3922,11 @@ namespace MapCreator
             }
             else
             {
-                if (SelectPathButton.Checked)
+                foreach (MapPath mp in MapPathMethods.GetMapPathList())
                 {
-                    CURRENT_DRAWING_MODE = DrawingModeEnum.PathSelect;
-
-                    foreach (MapPath mp in MapPathMethods.GetMapPathList())
+                    if (mp.IsSelected)
                     {
-                        if (mp.IsSelected)
-                        {
-                            mp.ShowPathPoints = false;
-                        }
+                        mp.ShowPathPoints = false;
                     }
                 }
             }
@@ -4083,8 +4051,7 @@ namespace MapCreator
 
         private void SelectSymbolButton_Click(object sender, EventArgs e)
         {
-            CURRENT_DRAWING_MODE = DrawingModeEnum.SymbolSelect;
-            SetDrawingModeLabel();
+            SetDrawingMode(DrawingModeEnum.SymbolSelect, sender);
         }
 
         private void StructureSymbolsButton_Click(object sender, EventArgs e)
@@ -4120,7 +4087,7 @@ namespace MapCreator
 
         private void EraseSymbolsButton_Click(object sender, EventArgs e)
         {
-            CURRENT_DRAWING_MODE = DrawingModeEnum.SymbolErase;
+            SetDrawingMode(DrawingModeEnum.SymbolErase, sender);
         }
 
         private void PlacementRateTrack_Scroll(object sender, EventArgs e)
@@ -4183,16 +4150,7 @@ namespace MapCreator
             }
             else
             {
-                if (CURRENT_DRAWING_MODE != DrawingModeEnum.SymbolColor)
-                {
-                    CURRENT_DRAWING_MODE = DrawingModeEnum.SymbolColor;
-                }
-                else
-                {
-                    CURRENT_DRAWING_MODE = DrawingModeEnum.None;
-                }
-
-                SetDrawingModeLabel();
+                SetDrawingMode(DrawingModeEnum.SymbolColor, sender);
             }
         }
 
@@ -4246,6 +4204,7 @@ namespace MapCreator
 
         private void ResetSymbolColorsButton_Click(object sender, EventArgs e)
         {
+            // TODO: default symbol colors are set from theme?
             SymbolColor1Label.BackColor = Color.FromArgb(255, 85, 44, 36);
             SymbolColor2Label.BackColor = Color.FromArgb(255, 53, 45, 32);
             SymbolColor3Label.BackColor = Color.FromArgb(161, 214, 202, 171);
@@ -4387,9 +4346,8 @@ namespace MapCreator
                 }
                 else if (ModifierKeys == Keys.None)
                 {
-                    // primarysymbol selection
-                    CURRENT_DRAWING_MODE = DrawingModeEnum.SymbolPlace;
-                    SetDrawingModeLabel();
+                    // primary symbol selection
+                    SetDrawingMode(DrawingModeEnum.SymbolPlace, sender);
 
                     PictureBox pb = (PictureBox)sender;
 
@@ -4669,10 +4627,7 @@ namespace MapCreator
                     UISelectedLabel = MapLabelMethods.MAP_LABELS.Last();
                 }
 
-                ClearDrawingMode();
-                SelectLabelButton.BackColor = SystemColors.ControlLightLight;
-                CURRENT_DRAWING_MODE = DrawingModeEnum.LabelSelect;
-                SetDrawingModeLabel();
+                SetDrawingMode(DrawingModeEnum.LabelSelect, sender);
 
                 // dispose of the text box, as it isn't needed once the label text has been entered
                 tb.Dispose();
@@ -5034,76 +4989,27 @@ namespace MapCreator
 
         private void CircleTextPathButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-
-            CircleTextPathButton.FlatAppearance.BorderColor = Color.DarkSeaGreen;
-
-            CircleTextPathButton.Refresh();
-            BezierTextPathButton.Refresh();
-
-            CURRENT_DRAWING_MODE = DrawingModeEnum.DrawArcLabelPath;
-            SetDrawingModeLabel();
+            SetDrawingMode(DrawingModeEnum.DrawArcLabelPath, sender);
         }
 
         private void BezierTextPathButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-
-            BezierTextPathButton.FlatAppearance.BorderColor = Color.DarkSeaGreen;
-
-            CircleTextPathButton.Refresh();
-            BezierTextPathButton.Refresh();
-
-            CURRENT_DRAWING_MODE = DrawingModeEnum.DrawBezierLabelPath;
-            SetDrawingModeLabel();
+            SetDrawingMode(DrawingModeEnum.DrawBezierLabelPath, sender);
         }
 
         private void SelectLabelButton_Click(object sender, EventArgs e)
         {
-            if (CURRENT_DRAWING_MODE != DrawingModeEnum.LabelSelect)
-            {
-                ClearDrawingMode();
-                SelectLabelButton.BackColor = SystemColors.ControlLightLight;
-                CURRENT_DRAWING_MODE = DrawingModeEnum.LabelSelect;
-                SetDrawingModeLabel();
-            }
-            else
-            {
-                ClearDrawingMode();
-                SetDrawingModeLabel();
-            }
+            SetDrawingMode(DrawingModeEnum.LabelSelect, sender);
         }
 
         private void PlaceLabelButton_Click(object sender, EventArgs e)
         {
-            if (CURRENT_DRAWING_MODE != DrawingModeEnum.DrawLabel)
-            {
-                ClearDrawingMode();
-                PlaceLabelButton.BackColor = SystemColors.ControlLightLight;
-                CURRENT_DRAWING_MODE = DrawingModeEnum.DrawLabel;
-                SetDrawingModeLabel();
-            }
-            else
-            {
-                ClearDrawingMode();
-                SetDrawingModeLabel();
-            }
+            SetDrawingMode(DrawingModeEnum.DrawLabel, sender);
         }
 
         private void CreateBoxButton_Click(object sender, EventArgs e)
         {
-            if (CURRENT_DRAWING_MODE != DrawingModeEnum.DrawBox)
-            {
-                ClearDrawingMode();
-                CreateBoxButton.BackColor = SystemColors.ControlLightLight;
-                CURRENT_DRAWING_MODE = DrawingModeEnum.DrawBox;
-                SetDrawingModeLabel();
-            }
-            else
-            {
-                ClearDrawingMode();
-                SetDrawingModeLabel();
-            }
+            SetDrawingMode(DrawingModeEnum.DrawBox, sender);
         }
 
         private void LabelRotationTrack_Scroll(object sender, EventArgs e)
@@ -5652,6 +5558,7 @@ namespace MapCreator
 
             MapScaleCreator scaleCreator = new MapScaleCreator(CURRENT_MAP, MAP_CANVAS);
 
+            // TODO: fix hardcoded location
             scaleCreator.Location = PointToScreen(new Point(1080, 52));
             scaleCreator.Show(this);
 
@@ -5660,7 +5567,7 @@ namespace MapCreator
 
         private void MeasureButton_Click(object sender, EventArgs e)
         {
-            CURRENT_DRAWING_MODE = DrawingModeEnum.DrawMapMeasure;
+            SetDrawingMode(DrawingModeEnum.DrawMapMeasure, sender);
         }
 
         private void MeasureColorLabel_Click(object sender, EventArgs e)
@@ -5750,7 +5657,6 @@ namespace MapCreator
             mapRegion.RegionBorderWidth = RegionBorderWidthTrack.Value;
             mapRegion.RegionInnerOpacity = RegionOpacityTrack.Value;
             mapRegion.RegionBorderSmoothing = RegionBorderSmoothingTrack.Value;
-            mapRegion.SnapToCoastline = SnapCoastlineCheck.Checked;
 
             if (RegionSolidBorderRadio.Checked)
             {
@@ -5852,17 +5758,12 @@ namespace MapCreator
 
         private void PaintRegionButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-            CURRENT_DRAWING_MODE = DrawingModeEnum.RegionPaint;
-            SetDrawingModeLabel();
-
+            SetDrawingMode(DrawingModeEnum.RegionPaint, sender);
         }
 
         private void SelectRegionButton_Click(object sender, EventArgs e)
         {
-            ClearDrawingMode();
-            CURRENT_DRAWING_MODE = DrawingModeEnum.RegionSelect;
-            SetDrawingModeLabel();
+            SetDrawingMode(DrawingModeEnum.RegionSelect, sender);
         }
 
         private void RegionColorSelectLabel_Click(object sender, EventArgs e)
@@ -6627,9 +6528,7 @@ namespace MapCreator
                 if (scaleRect.Contains(new Point((int)X, (int)Y)))
                 {
                     UIMapScale.IsSelected = true;
-                    ClearDrawingMode();
-                    CURRENT_DRAWING_MODE = DrawingModeEnum.SelectMapScale;
-                    SetDrawingModeLabel();
+                    SetDrawingMode(DrawingModeEnum.SelectMapScale, null);
                 }
             }
 
@@ -6986,18 +6885,9 @@ namespace MapCreator
                         {
                             UIMapRegion.RegionPoints.Clear();
 
-                            // swap 
-                            //if (coastlinePointIndex < previousCoastlinePointIndex)
-                            //{
-                            //    int temp = coastlinePointIndex;
-                            //    coastlinePointIndex = previousCoastlinePointIndex;
-                            //    previousCoastlinePointIndex = temp;
-                            //}
-
                             landform1.LandformContourPath.GetTightBounds(out SKRect boundingRect);
                             float xCenter = boundingRect.MidX;
 
-                            //if (landform1.LandformContourPoints[coastlinePointIndex].X < xCenter)
                             if (LAYER_CLICK_POINT.Y < PREVIOUS_LAYER_CLICK_POINT.Y)
                             {
                                 // drag mouse up to snap to west coast of landform
@@ -7104,7 +6994,7 @@ namespace MapCreator
                         LAYER_CLICK_POINT = SKPoint.Empty;
 
                         UIMapMeasure = null;
-                        ClearDrawingMode();
+                        SetDrawingMode(DrawingModeEnum.None, null);
                     }
 
                     break;
@@ -7133,7 +7023,7 @@ namespace MapCreator
                         LAYER_CLICK_POINT = SKPoint.Empty;
 
                         UIMapRegion = null;
-                        ClearDrawingMode();
+                        SetDrawingMode(DrawingModeEnum.None, null);
 
                         RenderDrawingPanel();
                     }
@@ -7279,7 +7169,7 @@ namespace MapCreator
                 case DrawingModeEnum.ColorSelect:
                     // eyedropper color select function
                     Cursor = Cursors.Default;
-                    ClearDrawingMode();
+                    SetDrawingMode(DrawingModeEnum.None, null);
 
                     IMAGEBOX_CLICK_POINT.X = e.X;
                     IMAGEBOX_CLICK_POINT.Y = e.Y;
@@ -7325,27 +7215,17 @@ namespace MapCreator
                     }
                     break;
                 case DrawingModeEnum.LandformSelect:
-                    if (LandformSelectButton.Checked)
                     {
                         Point clickPoint = new(e.X, e.Y);
                         Point mapClickPoint = MapImageBox.PointToImage(clickPoint);
                         MapPaintMethods.SelectLandformAtPoint(mapClickPoint);
                     }
-                    else
-                    {
-                        ClearDrawingMode();
-                    }
                     break;
                 case DrawingModeEnum.WaterFeatureSelect:
-                    if (WaterFeatureSelectButton.Checked)
                     {
                         Point clickPoint = new(e.X, e.Y);
                         Point mapClickPoint = MapImageBox.PointToImage(clickPoint);
                         MapPaintMethods.SelectWaterFeatureAtPoint(mapClickPoint);
-                    }
-                    else
-                    {
-                        ClearDrawingMode();
                     }
                     break;
                 case DrawingModeEnum.PathSelect:
@@ -7476,7 +7356,7 @@ namespace MapCreator
                     {
                         UIMapScale.IsSelected = false;
                         UIMapScale = null;
-                        ClearDrawingMode();
+                        SetDrawingMode(DrawingModeEnum.None, null);
 
                         CURRENT_MAP.IsSaved = false;
                     }

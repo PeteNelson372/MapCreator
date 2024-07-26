@@ -1,7 +1,5 @@
 ﻿using SkiaSharp;
 using SkiaSharp.Views.Desktop;
-using System.Drawing;
-using System.Runtime.ConstrainedExecution;
 
 namespace MapCreator
 {
@@ -9,7 +7,6 @@ namespace MapCreator
     {
         public static List<MapRegion> MAP_REGION_LIST { get; set; }  = [];
         public static MapRegion? NEW_REGION { get; set; }
-        public static List<MapRegionPoint> REGION_POINT_LIST { get; set; } = [];
         public static MapPathPoint? SELECTED_REGION_POINT { get; set; } = null;
 
         private static readonly SKPaint REGION_SELECT_PAINT = new()
@@ -20,41 +17,6 @@ namespace MapCreator
             StrokeWidth = 2,
             PathEffect = SKPathEffect.CreateDash([5F, 5F], 10F),
         };
-
-        public static SKPath GenerateRegionBoundaryPath(List<MapRegionPoint> points)
-        {
-            SKPath path = new();
-
-            path.MoveTo(points[0].RegionPoint);
-
-            for (int j = 0; j < points.Count; j += 3)
-            {
-                if (j < points.Count - 2)
-                {
-                    path.CubicTo(points[j].RegionPoint, points[j + 1].RegionPoint, points[j + 2].RegionPoint);
-                }
-            }
-
-            path.Close();
-
-            return path;
-        }
-
-        public static void DrawLinePathFromPoints(List<SKPoint> points, SKCanvas c, SKPaint paint)
-        {
-            using SKPath path = new();
-
-            path.MoveTo(points.First());
-
-            for (int i = 1; i < points.Count; i++)
-            {
-                path.LineTo(points[i]);
-            }
-
-            path.Close();
-
-            c.DrawPath(path, paint);
-        }
 
         public static SKPath GetLinePathFromPoints(List<SKPoint> points)
         {
@@ -219,60 +181,10 @@ namespace MapCreator
                     using SKPath boundsPath = new();
                     boundsPath.AddRect(boundRect);
 
-                    MapBuilder.GetLayerCanvas(map, MapBuilder.REGIONLAYER)?.DrawPath(boundsPath, REGION_SELECT_PAINT);
+                    MapBuilder.GetLayerCanvas(map, MapBuilder.WORKLAYER)?.DrawPath(boundsPath, REGION_SELECT_PAINT);
+
+                    // draw dots on region vertices
                 }
-            }
-        }
-
-        private static void DrawBezierCurvesFromPoints(SKCanvas canvas, List<MapRegionPoint> curvePoints, SKPaint paint)
-        {
-            if (curvePoints.Count == 2)
-            {
-                canvas.DrawLine(curvePoints[0].RegionPoint, curvePoints[1].RegionPoint, paint);
-            }
-            else if (curvePoints.Count > 2)
-            {
-                using SKPath path = new();
-                path.MoveTo(curvePoints[0].RegionPoint);
-
-                for (int j = 0; j < curvePoints.Count; j += 3)
-                {
-                    if (j < curvePoints.Count - 2)
-                    {
-                        path.CubicTo(curvePoints[j].RegionPoint, curvePoints[j + 1].RegionPoint, curvePoints[j + 2].RegionPoint);
-                    }
-                }
-
-                canvas.DrawPath(path, paint);
-            }
-        }
-
-        internal static List<MapRegionPoint> GetParallelRegionPoints(List<MapRegionPoint> points, float distance, ParallelEnum location)
-        {
-            List<MapRegionPoint> parallelPoints = [];
-
-            for (int i = 0; i < points.Count - 1; i += 2)
-            {
-                float lineAngle = MapDrawingMethods.CalculateLineAngle(points[i].RegionPoint, points[i + 1].RegionPoint);
-
-                float angle = (location == ParallelEnum.Below) ? 90 : -90;
-
-                SKPoint p1 = MapDrawingMethods.PointOnCircle(distance, lineAngle + angle, points[i].RegionPoint);
-                SKPoint p2 = MapDrawingMethods.PointOnCircle(distance, lineAngle + angle, points[i + 1].RegionPoint);
-
-                parallelPoints.Add(new MapRegionPoint(p1));
-                parallelPoints.Add(new MapRegionPoint(p2));
-            }
-
-            return parallelPoints;
-        }
-
-        public static void DrawAllRegions(MapCreatorMap map)
-        {
-            foreach (MapRegion r in MAP_REGION_LIST)
-            {
-                //SKCanvas c = MapBuilder.GetLayerCanvas(map, MapBuilder.REGIONLAYER);
-                //DrawRegion(map, r, c);
             }
         }
     }
