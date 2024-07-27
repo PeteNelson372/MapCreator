@@ -51,12 +51,6 @@ namespace MapCreator
         [XmlAttribute]
         public string MapAreaUnits { get; set; } = string.Empty;
 
-        [XmlAttribute]
-        public int MapVignetteStrength { get; set; } = 64;
-
-        [XmlAttribute]
-        public XmlColor MapVignetteColor { get; set; } = new XmlColor(ColorTranslator.FromHtml("#C9977B"));
-
         [XmlArray("MapLayers")]
         public List<MapLayer> MapLayers = new(MapBuilder.MAP_LAYER_COUNT);
 
@@ -75,16 +69,13 @@ namespace MapCreator
 
         public void Render(SKCanvas canvas)
         {
-            if (MapLayers != null)
+            foreach (MapLayer mapLayer in MapLayers)
             {
-                foreach (var mapLayer in MapLayers)
+                if (RenderOnlyLayers.Count == 0 || RenderOnlyLayers.Contains(mapLayer.MapLayerOrder))
                 {
-                    if (RenderOnlyLayers.Count == 0 || RenderOnlyLayers.Contains(mapLayer.MapLayerOrder))
-                    {
-                        mapLayer?.Render(canvas);
-                    }
+                    mapLayer.Render(canvas);
                 }
-            };
+            }
         }
     }
 }

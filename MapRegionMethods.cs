@@ -9,6 +9,8 @@ namespace MapCreator
         public static MapRegion? NEW_REGION { get; set; }
         public static MapPathPoint? SELECTED_REGION_POINT { get; set; } = null;
 
+        public static int POINT_CIRCLE_RADIUS = 5;
+
         private static readonly SKPaint REGION_SELECT_PAINT = new()
         {
             Style = SKPaintStyle.Stroke,
@@ -18,7 +20,57 @@ namespace MapCreator
             PathEffect = SKPathEffect.CreateDash([5F, 5F], 10F),
         };
 
-        public static SKPath GetLinePathFromPoints(List<SKPoint> points)
+        public static readonly SKPaint REGION_POINT_FILL_PAINT = new()
+        {
+            Style = SKPaintStyle.StrokeAndFill,
+            IsAntialias = true,
+            Color = SKColors.White,
+            StrokeWidth = 1,
+        };
+
+        public static readonly SKPaint REGION_POINT_SELECTED_FILL_PAINT = new()
+        {
+            Style = SKPaintStyle.StrokeAndFill,
+            IsAntialias = true,
+            Color = SKColors.Blue,
+            StrokeWidth = 1,
+        };
+
+        public static readonly SKPaint REGION_NEW_POINT_FILL_PAINT = new()
+        {
+            Style = SKPaintStyle.StrokeAndFill,
+            IsAntialias = true,
+            Color = SKColors.Yellow,
+            StrokeWidth = 1,
+        };
+
+        public static readonly SKPaint REGION_POINT_OUTLINE_PAINT = new()
+        {
+            Style = SKPaintStyle.Stroke,
+            IsAntialias = true,
+            Color = SKColors.Black,
+            StrokeWidth = 1,
+        };
+
+        public static SKPath GetLinePathFromRegionPoints(List<MapRegionPoint> points)
+        {
+            SKPath path = new();
+
+            path.MoveTo(points.First().RegionPoint);
+
+            for (int i = 1; i < points.Count; i++)
+            {
+                path.LineTo(points[i].RegionPoint);
+            }
+
+            path.LineTo(points.First().RegionPoint);
+
+            path.Close();
+
+            return path;
+        }
+
+        public static SKPath GetLinePathFromSKPoints(List<SKPoint> points)
         {
             SKPath path = new();
 
@@ -36,18 +88,20 @@ namespace MapCreator
             return path;
         }
 
-        public static void DrawRegion(MapCreatorMap map, MapRegion region, SKCanvas c)
+        public static void DrawRegion(MapCreatorMap? map, MapRegion region, SKCanvas c)
         {
+            if (map == null) return;
+
             SKPath path = new();
 
-            path.MoveTo(region.RegionPoints.First());
+            path.MoveTo(region.MapRegionPoints.First().RegionPoint);
 
-            for (int i = 1; i < region.RegionPoints.Count; i++)
+            for (int i = 1; i < region.MapRegionPoints.Count; i++)
             {
-                path.LineTo(region.RegionPoints[i]);
+                path.LineTo(region.MapRegionPoints[i].RegionPoint);
             }
 
-            path.LineTo(region.RegionPoints.First());
+            path.LineTo(region.MapRegionPoints.First().RegionPoint);
 
             path.Close();
 
@@ -80,29 +134,29 @@ namespace MapCreator
                         Color clr = Color.FromArgb(154, region.RegionBorderPaint.Color.ToDrawingColor());
                         gradientPaint.Color = Extensions.ToSKColor(clr);
 
-                        List<SKPoint> parallelPoints = MapDrawingMethods.GetParallelSKPoints(region.RegionPoints, region.RegionBorderPaint.StrokeWidth * 0.4F, ParallelEnum.Below);
-                        using SKPath p1 = GetLinePathFromPoints(parallelPoints);
+                        List<MapRegionPoint> parallelPoints = MapDrawingMethods.GetParallelRegionPoints(region.MapRegionPoints, region.RegionBorderPaint.StrokeWidth * 0.4F, ParallelEnum.Below);
+                        using SKPath p1 = GetLinePathFromRegionPoints(parallelPoints);
                         c.DrawPath(p1, gradientPaint);
 
                         clr = Color.FromArgb(102, region.RegionBorderPaint.Color.ToDrawingColor());
                         gradientPaint.Color = Extensions.ToSKColor(clr);
 
-                        parallelPoints = MapDrawingMethods.GetParallelSKPoints(region.RegionPoints, region.RegionBorderPaint.StrokeWidth * 0.6F, ParallelEnum.Below);
-                        using SKPath p2 = GetLinePathFromPoints(parallelPoints);
+                        parallelPoints = MapDrawingMethods.GetParallelRegionPoints(region.MapRegionPoints, region.RegionBorderPaint.StrokeWidth * 0.6F, ParallelEnum.Below);
+                        using SKPath p2 = GetLinePathFromRegionPoints(parallelPoints);
                         c.DrawPath(p2, gradientPaint);
 
                         clr = Color.FromArgb(51, region.RegionBorderPaint.Color.ToDrawingColor());
                         gradientPaint.Color = Extensions.ToSKColor(clr);
 
-                        parallelPoints = MapDrawingMethods.GetParallelSKPoints(region.RegionPoints, region.RegionBorderPaint.StrokeWidth * 0.8F, ParallelEnum.Below);
-                        using SKPath p3 = GetLinePathFromPoints(parallelPoints);
+                        parallelPoints = MapDrawingMethods.GetParallelRegionPoints(region.MapRegionPoints, region.RegionBorderPaint.StrokeWidth * 0.8F, ParallelEnum.Below);
+                        using SKPath p3 = GetLinePathFromRegionPoints(parallelPoints);
                         c.DrawPath(p3, gradientPaint);
 
                         clr = Color.FromArgb(25, region.RegionBorderPaint.Color.ToDrawingColor());
                         gradientPaint.Color = Extensions.ToSKColor(clr);
 
-                        parallelPoints = MapDrawingMethods.GetParallelSKPoints(region.RegionPoints, region.RegionBorderPaint.StrokeWidth, ParallelEnum.Below);
-                        using SKPath p4 = GetLinePathFromPoints(parallelPoints);
+                        parallelPoints = MapDrawingMethods.GetParallelRegionPoints(region.MapRegionPoints, region.RegionBorderPaint.StrokeWidth, ParallelEnum.Below);
+                        using SKPath p4 = GetLinePathFromRegionPoints(parallelPoints);
                         c.DrawPath(p4, gradientPaint);
                     }
                     break;
@@ -136,8 +190,8 @@ namespace MapCreator
                         Color clr = Color.FromArgb(102, region.RegionBorderPaint.Color.ToDrawingColor());
                         linePaint1.Color = Extensions.ToSKColor(clr);
 
-                        List<SKPoint> parallelPoints = MapDrawingMethods.GetParallelSKPoints(region.RegionPoints, region.RegionBorderPaint.StrokeWidth * 0.2F, ParallelEnum.Below);
-                        using SKPath p1 = GetLinePathFromPoints(parallelPoints);
+                        List<MapRegionPoint> parallelPoints = MapDrawingMethods.GetParallelRegionPoints(region.MapRegionPoints, region.RegionBorderPaint.StrokeWidth * 0.2F, ParallelEnum.Below);
+                        using SKPath p1 = GetLinePathFromRegionPoints(parallelPoints);
                         c.DrawPath(p1, linePaint1);
                     }
                     break;
@@ -160,7 +214,7 @@ namespace MapCreator
 
                         List<SKPoint> points = [.. path.Points];
                         List<SKPoint> parallelPoints = MapDrawingMethods.GetParallelSKPoints(points, region.RegionBorderPaint.StrokeWidth, ParallelEnum.Below);
-                        using SKPath p1 = GetLinePathFromPoints(parallelPoints);
+                        using SKPath p1 = GetLinePathFromSKPoints(parallelPoints);
                         c.DrawPath(p1, borderPaint);
                     }
                     break;
@@ -184,6 +238,11 @@ namespace MapCreator
                     MapBuilder.GetLayerCanvas(map, MapBuilder.REGIONLAYER).DrawPath(boundsPath, REGION_SELECT_PAINT);
 
                     // draw dots on region vertices
+
+                    foreach (MapRegionPoint p in region.MapRegionPoints)
+                    {
+                        p.Render(MapBuilder.GetLayerCanvas(map, MapBuilder.REGIONLAYER));
+                    }
                 }
             }
         }

@@ -11,7 +11,6 @@ namespace MapCreator
         public Guid PointGuid { get; set; } = Guid.NewGuid();
         public SKPoint RegionPoint { get; set; }
 
-        [XmlIgnore]
         public bool IsSelected { get; set; } = false;
 
         public MapRegionPoint() { }
@@ -19,6 +18,20 @@ namespace MapCreator
         public MapRegionPoint(SKPoint point)
         {
             RegionPoint = point;
+        }
+
+        public void Render(SKCanvas canvas)
+        {
+            if (IsSelected)
+            {
+                canvas.DrawCircle(RegionPoint, MapRegionMethods.POINT_CIRCLE_RADIUS, MapRegionMethods.REGION_POINT_SELECTED_FILL_PAINT);
+            }
+            else
+            {
+                canvas.DrawCircle(RegionPoint, MapRegionMethods.POINT_CIRCLE_RADIUS, MapRegionMethods.REGION_POINT_FILL_PAINT);
+            }
+
+            canvas.DrawCircle(RegionPoint, MapRegionMethods.POINT_CIRCLE_RADIUS, MapRegionMethods.REGION_POINT_OUTLINE_PAINT);
         }
 
         public XmlSchema? GetSchema()

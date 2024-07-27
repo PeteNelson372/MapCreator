@@ -257,28 +257,28 @@ namespace MapCreator
             if (frameCenterLeftElem.First() != null)
             {
                 string? frameCenterLeft = mapFrameDoc.Descendants().Select(x => x.Element(ns + "FrameCenterLeft").Value).FirstOrDefault();
-                FrameCenterLeft = int.Parse(frameCenterLeft);
+                FrameCenterLeft = float.Parse(frameCenterLeft);
             }
 
             IEnumerable<XElement?> frameCenterTopElem = mapFrameDoc.Descendants().Select(x => x.Element(ns + "FrameCenterTop"));
             if (frameCenterTopElem.First() != null)
             {
                 string? frameCenterTop = mapFrameDoc.Descendants().Select(x => x.Element(ns + "FrameCenterTop").Value).FirstOrDefault();
-                FrameCenterTop = int.Parse(frameCenterTop);
+                FrameCenterTop = float.Parse(frameCenterTop);
             }
 
             IEnumerable<XElement?> frameCenterRightElem = mapFrameDoc.Descendants().Select(x => x.Element(ns + "FrameCenterRight"));
             if (frameCenterRightElem.First() != null)
             {
                 string? frameCenterRight = mapFrameDoc.Descendants().Select(x => x.Element(ns + "FrameCenterRight").Value).FirstOrDefault();
-                FrameCenterRight = int.Parse(frameCenterRight);
+                FrameCenterRight = float.Parse(frameCenterRight);
             }
 
             IEnumerable<XElement?> frameCenterBottomElem = mapFrameDoc.Descendants().Select(x => x.Element(ns + "FrameCenterBottom"));
             if (frameCenterBottomElem.First() != null)
             {
                 string? frameCenterBottom = mapFrameDoc.Descendants().Select(x => x.Element(ns + "FrameCenterBottom").Value).FirstOrDefault();
-                FrameCenterBottom = int.Parse(frameCenterBottom);
+                FrameCenterBottom = float.Parse(frameCenterBottom);
             }
 
             Width = (uint)MapWidth;

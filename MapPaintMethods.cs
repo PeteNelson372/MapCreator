@@ -70,8 +70,6 @@ namespace MapCreator
             MapPathMethods.DrawAllPaths(map);
 
             SymbolMethods.DrawAllSymbols(map);
-
-            //MapRegionMethods.DrawAllRegions(map);
         }
 
         /**************************************************************************************************************************
@@ -392,10 +390,9 @@ namespace MapCreator
         * OVERLAY METHODS
         * ************************************************************************************************************************/
 
-        public static void PaintVignette(SKCanvas canvas, SKRect bounds, XmlColor mapVignetteColor, int vignetteStrength)
+        public static void PaintVignette(SKCanvas canvas, SKRect bounds, Color mapVignetteColor, int vignetteStrength)
         {
-            canvas.Clear();
-            SKColor gradientColor = ((Color)mapVignetteColor).ToSKColor();
+            SKColor gradientColor = (mapVignetteColor).ToSKColor();
 
             int tenthLeftRight = (int)(bounds.Width / 5);
             int tenthTopBottom = (int)(bounds.Height / 5);
@@ -405,13 +402,14 @@ namespace MapCreator
             SKShader linGradRL = SKShader.CreateLinearGradient(new SKPoint(bounds.Width, bounds.Height / 2), new SKPoint(bounds.Width - tenthLeftRight, bounds.Height / 2), [gradientColor.WithAlpha((byte)vignetteStrength), SKColors.Transparent], SKShaderTileMode.Clamp);
             SKShader linGradBT = SKShader.CreateLinearGradient(new SKPoint(bounds.Width / 2, bounds.Height), new SKPoint(bounds.Width / 2, bounds.Height - tenthTopBottom), [gradientColor.WithAlpha((byte)vignetteStrength), SKColors.Transparent], SKShaderTileMode.Clamp);
 
-            SKPaint paint = new()
+            using SKPaint paint = new()
             {
                 Shader = linGradLR,
                 IsAntialias = true,
                 Color = gradientColor,
             };
-
+         
+            canvas.Clear();
             SKRect rect = new(0, 0, tenthLeftRight, bounds.Height);
             canvas.DrawRect(rect, paint);
 
@@ -426,6 +424,7 @@ namespace MapCreator
             paint.Shader = linGradBT;
             rect = new(0, bounds.Height - tenthTopBottom, bounds.Width, bounds.Height);
             canvas.DrawRect(rect, paint);
+            
         }
     }
 }

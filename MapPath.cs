@@ -165,8 +165,6 @@ namespace MapCreator
             writer.WriteStartElement("DrawOverSymbols");
             writer.WriteValue(DrawOverSymbols);
             writer.WriteEndElement();
-
-            //writer.WriteEndElement();
         }
 
         public override void Render(SKCanvas canvas)

@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 using Extensions = SkiaSharp.Views.Desktop.Extensions;
 using Point = System.Drawing.Point;
 using Clipper2Lib;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
+using Color = System.Drawing.Color;
 
 namespace MapCreator
 {
@@ -809,6 +811,55 @@ namespace MapCreator
             return new SKPoint(x, y);
         }
 
+        private const double SELECTION_FUZZINESS = 3;
+
+        internal static bool LineContainsPoint(SKPoint pointToCheck, SKPoint lineStartPoint, SKPoint lineEndPoint)
+        {
+            SKPoint leftPoint;
+            SKPoint rightPoint;
+
+            // Normalize start/end to left right to make the offset calc simpler.
+            if (lineStartPoint.X <= lineEndPoint.X)
+            {
+                leftPoint = lineStartPoint;
+                rightPoint = lineEndPoint;
+            }
+            else
+            {
+                leftPoint = lineEndPoint;
+                rightPoint = lineStartPoint;
+            }
+
+            // If point is out of bounds, no need to do further checks.                  
+            if (pointToCheck.X + SELECTION_FUZZINESS < leftPoint.X || rightPoint.X < pointToCheck.X - SELECTION_FUZZINESS)
+            {
+                return false;
+            }
+            else if (pointToCheck.Y + SELECTION_FUZZINESS < Math.Min(leftPoint.Y, rightPoint.Y) || Math.Max(leftPoint.Y, rightPoint.Y) < pointToCheck.Y - SELECTION_FUZZINESS)
+            {
+                return false;
+            }
+
+            double deltaX = rightPoint.X - leftPoint.X;
+            double deltaY = rightPoint.Y - leftPoint.Y;
+
+            // If the line is straight, the earlier boundary check is enough to determine that the point is on the line.
+            // Also prevents division by zero exceptions.
+            if (deltaX == 0 || deltaY == 0)
+            {
+                return true;
+            }
+
+            double slope = deltaY / deltaX;
+            double offset = leftPoint.Y - leftPoint.X * slope;
+            double calculatedY = pointToCheck.X * slope + offset;
+
+            // Check calculated Y matches the points Y coord with some easing.
+            bool lineContains = pointToCheck.Y - SELECTION_FUZZINESS <= calculatedY && calculatedY <= pointToCheck.Y + SELECTION_FUZZINESS;
+
+            return lineContains;
+        }
+
         internal static List<SKPoint> GetParallelSKPoints(List<SKPoint> points, float distance, ParallelEnum location)
         {
             PathD clipperPath = [];
@@ -837,6 +888,44 @@ namespace MapCreator
                 foreach (PointD p in inflatedPathD)
                 {
                     inflatedPath.Add(new SKPoint((float)p.x, (float)p.y));
+                }
+
+                return inflatedPath;
+            }
+            else
+            {
+                return points;
+            }
+        }
+
+        internal static List<MapRegionPoint> GetParallelRegionPoints(List<MapRegionPoint> points, float distance, ParallelEnum location)
+        {
+            PathD clipperPath = [];
+
+            foreach (MapRegionPoint point in points)
+            {
+                clipperPath.Add(new PointD(point.RegionPoint.X, point.RegionPoint.Y));
+            }
+
+            PathsD clipperPaths = [];
+            PathsD inflatedPaths = [];
+
+            clipperPaths.Add(clipperPath);
+
+            float d = (location == ParallelEnum.Below) ? -distance : distance;
+
+            // offset polyline
+            inflatedPaths = Clipper.InflatePaths(clipperPaths, d, JoinType.Square, EndType.Polygon);
+
+            if (inflatedPaths.Count > 0)
+            {
+                PathD inflatedPathD = inflatedPaths.First();
+
+                List<MapRegionPoint> inflatedPath = [];
+
+                foreach (PointD p in inflatedPathD)
+                {
+                    inflatedPath.Add(new MapRegionPoint(new SKPoint((float)p.x, (float)p.y)));
                 }
 
                 return inflatedPath;

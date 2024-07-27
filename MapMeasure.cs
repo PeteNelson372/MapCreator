@@ -5,7 +5,7 @@ namespace MapCreator
 {
     internal class MapMeasure : MapComponent
     {
-        private MapCreatorMap Map;
+        private readonly MapCreatorMap Map;
 
         public MapMeasure(MapCreatorMap map)
         {
