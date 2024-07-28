@@ -123,25 +123,25 @@ namespace MapCreator
             XAttribute? xAttr = mapRoseDoc.Root.Attribute("X");
             if (xAttr != null)
             {
-                X = uint.Parse(xAttr.Value);
+                X = int.Parse(xAttr.Value);
             }
 
             XAttribute? yAttr = mapRoseDoc.Root.Attribute("Y");
             if (yAttr != null)
             {
-                Y = uint.Parse(yAttr.Value);
+                Y = int.Parse(yAttr.Value);
             }
 
             XAttribute? wAttr = mapRoseDoc.Root.Attribute("Width");
             if (wAttr != null)
             {
-                Width = uint.Parse(wAttr.Value);
+                Width = int.Parse(wAttr.Value);
             }
 
             XAttribute? hAttr = mapRoseDoc.Root.Attribute("Height");
             if (hAttr != null)
             {
-                Height = uint.Parse(hAttr.Value);
+                Height = int.Parse(hAttr.Value);
             }
 
             IEnumerable<XElement?> guidElemEnum = mapRoseDoc.Descendants().Select(x => x.Element(ns + "WindroseGuid"));

@@ -181,11 +181,14 @@ namespace MapCreator
 
             MapBitmap component = (MapBitmap)layer.MapLayerComponents[0];
 
-            component.MCanvas?.Clear();
+            //component.MCanvas?.Clear();
         }
 
-        private static MapLayer ConstructMapLayer(string layerName, ushort layerOrder, uint x, uint y, uint width, uint height, SKColor clearColor)
+        private static MapLayer ConstructMapLayer(string layerName, ushort layerOrder, uint x, uint y, int width, int height, SKColor clearColor)
         {
+            SKImageInfo imageInfo = new(width, height);
+            SKSurface layerSurface = SKSurface.Create(imageInfo);
+
             MapLayer ml = new()
             {
                 MapLayerName = layerName,
@@ -195,6 +198,7 @@ namespace MapCreator
                 Width = width,
                 Height = height,
                 ShowLayer = true,
+                LayerSurface = layerSurface,
             };
 
             MapBitmap layerMapBitmap = new()

@@ -18,9 +18,10 @@ namespace MapCreator
         public ushort MapLayerOrder { get => mapLayerOrder; set => mapLayerOrder = value; }
 
         [XmlIgnore]
-        public bool ShowLayer { get; set; } = true;
+        public SKSurface? LayerSurface { get; set; }
 
-        public MapLayer() { }
+        [XmlIgnore]
+        public bool ShowLayer { get; set; } = true;
 
         public override void Render(SKCanvas canvas)
         {
@@ -28,11 +29,15 @@ namespace MapCreator
             {
                 if (MapLayerComponents != null)
                 {
+                    //LayerSurface.Canvas.Clear();
+
                     foreach (var component in MapLayerComponents)
                     {
-                        if (component.RenderComponent)
+                        if (component.RenderComponent && LayerSurface != null)
                         {
                             component.Render(canvas);
+                            //canvas.DrawSurface(LayerSurface, 0, 0);
+                            //component.Render(canvas);
                         }
                     }
                 }

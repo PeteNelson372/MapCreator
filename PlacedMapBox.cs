@@ -70,25 +70,25 @@ namespace MapCreator
             XAttribute? xAttr = mapBoxDoc.Root.Attribute("X");
             if (xAttr != null)
             {
-                X = uint.Parse(xAttr.Value);
+                X = int.Parse(xAttr.Value);
             }
 
             XAttribute? yAttr = mapBoxDoc.Root.Attribute("Y");
             if (yAttr != null)
             {
-                Y = uint.Parse(yAttr.Value);
+                Y = int.Parse(yAttr.Value);
             }
 
             XAttribute? wAttr = mapBoxDoc.Root.Attribute("Width");
             if (wAttr != null)
             {
-                Width = uint.Parse(wAttr.Value);
+                Width = int.Parse(wAttr.Value);
             }
 
             XAttribute? hAttr = mapBoxDoc.Root.Attribute("Height");
             if (hAttr != null)
             {
-                Height = uint.Parse(hAttr.Value);
+                Height = int.Parse(hAttr.Value);
             }
 
             IEnumerable<XElement?> guidElemEnum = mapBoxDoc.Descendants().Select(x => x.Element(ns + "BoxGuid"));

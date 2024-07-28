@@ -1147,6 +1147,11 @@
             // 
             // ClearBackgroundButton
             // 
+            ClearBackgroundButton.BackColor = SystemColors.ControlLightLight;
+            ClearBackgroundButton.FlatAppearance.BorderColor = SystemColors.ControlDark;
+            ClearBackgroundButton.FlatAppearance.MouseDownBackColor = SystemColors.ControlLightLight;
+            ClearBackgroundButton.FlatAppearance.MouseOverBackColor = SystemColors.ControlLightLight;
+            ClearBackgroundButton.FlatStyle = FlatStyle.Flat;
             ClearBackgroundButton.IconChar = FontAwesome.Sharp.IconChar.Square;
             ClearBackgroundButton.IconColor = Color.Black;
             ClearBackgroundButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
@@ -1163,6 +1168,11 @@
             // 
             // FillBackgroundButton
             // 
+            FillBackgroundButton.BackColor = SystemColors.ControlLightLight;
+            FillBackgroundButton.FlatAppearance.BorderColor = SystemColors.ControlDark;
+            FillBackgroundButton.FlatAppearance.MouseDownBackColor = SystemColors.ControlLightLight;
+            FillBackgroundButton.FlatAppearance.MouseOverBackColor = SystemColors.ControlLightLight;
+            FillBackgroundButton.FlatStyle = FlatStyle.Flat;
             FillBackgroundButton.IconChar = FontAwesome.Sharp.IconChar.Fill;
             FillBackgroundButton.IconColor = Color.Black;
             FillBackgroundButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
@@ -7290,15 +7300,15 @@
             Controls.Add(mapPanel);
             Controls.Add(ApplicationStatusStrip);
             Controls.Add(MainMenu);
+            Controls.Add(SymbolsToolPanel);
+            Controls.Add(OverlayToolsPanel);
+            Controls.Add(RegionsToolPanel);
+            Controls.Add(BackgroundToolPanel);
             Controls.Add(LandColorToolPanel);
             Controls.Add(LabelsToolPanel);
             Controls.Add(OceanColorToolPanel);
             Controls.Add(WaterColorToolPanel);
             Controls.Add(PathPanel);
-            Controls.Add(SymbolsToolPanel);
-            Controls.Add(OverlayToolsPanel);
-            Controls.Add(RegionsToolPanel);
-            Controls.Add(BackgroundToolPanel);
             DoubleBuffered = true;
             HelpButton = true;
             KeyPreview = true;

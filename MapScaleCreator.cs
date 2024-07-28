@@ -124,8 +124,8 @@ namespace MapCreator
         {
             MapScale mapScale = new()
             {
-                Width = (uint)ScaleWidthUpDown.Value,
-                Height = (uint)ScaleHeightUpDown.Value,
+                Width = (int)ScaleWidthUpDown.Value,
+                Height = (int)ScaleHeightUpDown.Value,
                 ScaleSegmentCount = (int)ScaleSegmentCountUpDown.Value,
                 ScaleLineWidth = (int)ScaleLineWidthUpDown.Value,
                 ScaleColor1 = ScaleColor1Label.BackColor,
@@ -165,8 +165,8 @@ namespace MapCreator
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
             }
             
-            mapScale.X = ((uint)map.MapWidth / 2) - (mapScale.Width / 2);
-            mapScale.Y = ((uint)map.MapHeight / 2) - (mapScale.Height / 2);
+            mapScale.X = (map.MapWidth / 2) - (mapScale.Width / 2);
+            mapScale.Y = (map.MapHeight / 2) - (mapScale.Height / 2);
 
             // make sure there is only one scale - remove any existing scale
             for (int i = MapBuilder.GetMapLayerByIndex(map, MapBuilder.OVERLAYLAYER).MapLayerComponents.Count - 1; i > 0; i--)

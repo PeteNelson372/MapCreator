@@ -19,7 +19,7 @@
             if (Label.LabelPaint != null)
             {
                 Label.LabelText = LabelText;
-                Label.Width = (uint)Label.LabelPaint.MeasureText(Label.LabelText);
+                Label.Width = (int)Label.LabelPaint.MeasureText(Label.LabelText);
             }
         }
 
@@ -28,7 +28,7 @@
             if (Label.LabelPaint != null)
             {
                 Label.LabelText = PreviousLabelText;
-                Label.Width = (uint)Label.LabelPaint.MeasureText(Label.LabelText);
+                Label.Width = (int)Label.LabelPaint.MeasureText(Label.LabelText);
             }
         }
     }

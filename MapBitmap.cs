@@ -43,8 +43,8 @@ namespace MapCreator
                 {
                     MBitmap = SKBitmap.Decode(ms);
 
-                    Width = (uint)MBitmap.Width;
-                    Height = (uint)MBitmap.Height;
+                    Width = MBitmap.Width;
+                    Height = MBitmap.Height;
                 }
             }
 
@@ -71,6 +71,7 @@ namespace MapCreator
         {
             if (MBitmap != null && Show)
             {
+                MBitmap.SetImmutable();
                 canvas.DrawBitmap(MBitmap, 0, 0);
             }
         }

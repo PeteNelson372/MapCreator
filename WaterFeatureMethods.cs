@@ -371,9 +371,7 @@ namespace MapCreator
 
                 using SKRegion waterPathRegion = new(waterDrawingRegion);
 
-                // if the outer path of the landform intersects the water layer path,
                 // clip the water feature drawing to the outer path of the landform
-                // MapBuilder.LANDLAYER_OUTLINE_PATH is the outer path of the landform
                 // waterFeature.GetWaterFeaturePath() returns the path of the water feature
 
                 List<MapLandformType2> landformList = LandformType2Methods.LANDFORM_LIST;
@@ -385,21 +383,14 @@ namespace MapCreator
 
                     if (landformOutlinePath != null && landformOutlinePath.PointCount > 0 && waterFeaturePath != null && waterFeaturePath.PointCount > 0)
                     {
-                        SKPath diffPath = landformOutlinePath.Op(waterFeaturePath, SKPathOp.Intersect);
+                        waterPathRegion.SetPath(landformOutlinePath);
 
-                        if (diffPath != null && diffPath.PointCount > 0)
-                        {
-                            diffPath.Dispose();
+                        waterDrawingCanvas.Save();
+                        waterDrawingCanvas.ClipRegion(waterPathRegion);
 
-                            waterPathRegion.SetPath(landformOutlinePath);
+                        DrawWaterFeatureWithGradient(map, waterFeature);
 
-                            waterDrawingCanvas.Save();
-                            waterDrawingCanvas.ClipRegion(waterPathRegion);
-
-                            DrawWaterFeatureWithGradient(map, waterFeature);
-
-                            waterDrawingCanvas.Restore();
-                        }
+                        waterDrawingCanvas.Restore();
                     }
                 }
             }
@@ -539,11 +530,11 @@ namespace MapCreator
                             {
                                 SKPath waterOutlinePath = PAINTED_WATERFEATURE_LIST[i].GetWaterFeaturePath();
 
-                                SKPath diffPath = waterOutlinePath.Op(ColorPath, SKPathOp.Difference);
+                                //SKPath diffPath = waterOutlinePath.Op(ColorPath, SKPathOp.Difference);
 
-                                if (diffPath != null && diffPath.PointCount > 0)
-                                {
-                                    diffPath.Dispose();
+                                //if (diffPath != null && diffPath.PointCount > 0)
+                                //{
+                                    //diffPath.Dispose();
 
                                     waterPathRegion.SetPath(waterOutlinePath);
 
@@ -553,7 +544,7 @@ namespace MapCreator
                                     waterDrawingCanvas.Restore();
 
                                     PAINTED_WATERFEATURE_LIST[i].AddWaterFeatureColorPath(new(ColorPath));
-                                }
+                                //}
                             }
 
                             // TODO: clipping to the river boundary path may not work; a contour path may need to be calculated for rivers
@@ -564,11 +555,11 @@ namespace MapCreator
 
                                 if (riverOutlinePath != null && riverOutlinePath.PointCount > 0)
                                 {
-                                    SKPath diffPath = riverOutlinePath.Op(ColorPath, SKPathOp.Difference);
+                                    //SKPath diffPath = riverOutlinePath.Op(ColorPath, SKPathOp.Difference);
 
-                                    if (diffPath != null && diffPath.PointCount > 0)
-                                    {
-                                        diffPath.Dispose();
+                                    //if (diffPath != null && diffPath.PointCount > 0)
+                                    //{
+                                        //diffPath.Dispose();
 
                                         waterPathRegion.SetPath(riverOutlinePath);
 
@@ -578,7 +569,7 @@ namespace MapCreator
                                         waterDrawingCanvas.Restore();
 
                                         MAP_RIVER_LIST[i].RiverColorPaths.Add(new(ColorPath));
-                                    }
+                                    //}
                                 }
                             }
                         }

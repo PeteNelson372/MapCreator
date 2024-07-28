@@ -357,7 +357,6 @@ namespace MapCreator
 
                         if (ColorPath.PointCount > 0)
                         {
-                            // if the outer path of the landform intersects the painted path,
                             // clip painting to the outer path of the landform
                             // LandformPath is the outer path of the landform
 
@@ -365,17 +364,12 @@ namespace MapCreator
                             {
                                 SKPath landformOutlinePath = LANDFORM_LIST[i].LandformPath;
 
-                                using SKPath diffPath = landformOutlinePath.Op(ColorPath, SKPathOp.Difference);
+                                landPathRegion.SetPath(landformOutlinePath);
 
-                                if (diffPath != null && diffPath.PointCount > 0)
-                                {
-                                    landPathRegion.SetPath(landformOutlinePath);
-
-                                    landDrawingCanvas.Save();
-                                    landDrawingCanvas.ClipRegion(landPathRegion);
-                                    landDrawingCanvas.DrawPath(ColorPath, LAND_COLOR_PAINT);
-                                    landDrawingCanvas.Restore();
-                                }
+                                landDrawingCanvas.Save();
+                                landDrawingCanvas.ClipRegion(landPathRegion);
+                                landDrawingCanvas.DrawPath(ColorPath, LAND_COLOR_PAINT);
+                                landDrawingCanvas.Restore();
                             }
                         }
                     }
@@ -505,7 +499,7 @@ namespace MapCreator
         *** LANDFORM DRAW METHODS
         ***************************************************************************************************************************/
 
-        private static void DrawLandform(MapCreatorMap map, MapLandformType2 landform)
+        public static void DrawLandform(MapCreatorMap map, MapLandformType2 landform)
         {
             if (landform == null || landform.CoastlineStyleName == null || landform.CoastlineStyleName.Length == 0) return;
 

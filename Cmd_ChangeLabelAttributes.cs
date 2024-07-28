@@ -50,7 +50,7 @@ namespace MapCreator
             SKPaint paint = MapLabelMethods.CreateLabelPaint(Label.LabelFont, LabelColor);
 
             Label.LabelPaint = paint;
-            Label.Width = (uint)paint.MeasureText(Label.LabelText);
+            Label.Width = (int)paint.MeasureText(Label.LabelText);
         }
 
         public void UndoOperation()
@@ -65,7 +65,7 @@ namespace MapCreator
             SKPaint paint = MapLabelMethods.CreateLabelPaint(Label.LabelFont, LabelColor);
 
             Label.LabelPaint = paint;
-            Label.Width = (uint)paint.MeasureText(Label.LabelText);
+            Label.Width = (int)paint.MeasureText(Label.LabelText);
         }
     }
 }

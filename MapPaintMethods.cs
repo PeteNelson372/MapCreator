@@ -27,8 +27,8 @@ namespace MapCreator
 
         public static void PaintMap(ref MapCreatorMap map, DrawingModeEnum drawingMode)
         {
-            MapBuilder.ClearLayerCanvas(map, MapBuilder.LANDFORMLAYER);
-            MapBuilder.ClearLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER);
+            //MapBuilder.ClearLayerCanvas(map, MapBuilder.LANDFORMLAYER);
+            //MapBuilder.ClearLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER);
             MapBuilder.ClearLayerCanvas(map, MapBuilder.WATERLAYER);
             MapBuilder.ClearLayerCanvas(map, MapBuilder.PATHLOWERLAYER);
             MapBuilder.ClearLayerCanvas(map, MapBuilder.PATHUPPERLAYER);
@@ -397,10 +397,10 @@ namespace MapCreator
             int tenthLeftRight = (int)(bounds.Width / 5);
             int tenthTopBottom = (int)(bounds.Height / 5);
 
-            SKShader linGradLR = SKShader.CreateLinearGradient(new SKPoint(0, bounds.Height / 2), new SKPoint(tenthLeftRight / 2, bounds.Height / 2), [gradientColor.WithAlpha((byte)vignetteStrength), SKColors.Transparent], SKShaderTileMode.Clamp);
-            SKShader linGradTB = SKShader.CreateLinearGradient(new SKPoint(bounds.Width / 2, 0), new SKPoint(bounds.Width / 2, tenthTopBottom), [gradientColor.WithAlpha((byte)vignetteStrength), SKColors.Transparent], SKShaderTileMode.Clamp);
-            SKShader linGradRL = SKShader.CreateLinearGradient(new SKPoint(bounds.Width, bounds.Height / 2), new SKPoint(bounds.Width - tenthLeftRight, bounds.Height / 2), [gradientColor.WithAlpha((byte)vignetteStrength), SKColors.Transparent], SKShaderTileMode.Clamp);
-            SKShader linGradBT = SKShader.CreateLinearGradient(new SKPoint(bounds.Width / 2, bounds.Height), new SKPoint(bounds.Width / 2, bounds.Height - tenthTopBottom), [gradientColor.WithAlpha((byte)vignetteStrength), SKColors.Transparent], SKShaderTileMode.Clamp);
+            using SKShader linGradLR = SKShader.CreateLinearGradient(new SKPoint(0, bounds.Height / 2), new SKPoint(tenthLeftRight / 2, bounds.Height / 2), [gradientColor.WithAlpha((byte)vignetteStrength), SKColors.Transparent], SKShaderTileMode.Clamp);
+            using SKShader linGradTB = SKShader.CreateLinearGradient(new SKPoint(bounds.Width / 2, 0), new SKPoint(bounds.Width / 2, tenthTopBottom), [gradientColor.WithAlpha((byte)vignetteStrength), SKColors.Transparent], SKShaderTileMode.Clamp);
+            using SKShader linGradRL = SKShader.CreateLinearGradient(new SKPoint(bounds.Width, bounds.Height / 2), new SKPoint(bounds.Width - tenthLeftRight, bounds.Height / 2), [gradientColor.WithAlpha((byte)vignetteStrength), SKColors.Transparent], SKShaderTileMode.Clamp);
+            using SKShader linGradBT = SKShader.CreateLinearGradient(new SKPoint(bounds.Width / 2, bounds.Height), new SKPoint(bounds.Width / 2, bounds.Height - tenthTopBottom), [gradientColor.WithAlpha((byte)vignetteStrength), SKColors.Transparent], SKShaderTileMode.Clamp);
 
             using SKPaint paint = new()
             {

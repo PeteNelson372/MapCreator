@@ -42,21 +42,14 @@ namespace MapCreator
                     {
                         SKPath waterOutlinePath = WaterFeatureMethods.PAINTED_WATERFEATURE_LIST[i].GetWaterFeaturePath();
 
-                        SKPath diffPath = waterOutlinePath.Op(ColorPath, SKPathOp.Difference);
+                        waterPathRegion.SetPath(waterOutlinePath);
 
-                        if (diffPath != null && diffPath.PointCount > 0)
-                        {
-                            diffPath.Dispose();
+                        waterDrawingCanvas.Save();
+                        waterDrawingCanvas.ClipRegion(waterPathRegion);
+                        waterDrawingCanvas.DrawPath(ColorPath, WaterFeatureMethods.WATER_COLOR_PAINT);
+                        waterDrawingCanvas.Restore();
 
-                            waterPathRegion.SetPath(waterOutlinePath);
-
-                            waterDrawingCanvas.Save();
-                            waterDrawingCanvas.ClipRegion(waterPathRegion);
-                            waterDrawingCanvas.DrawPath(ColorPath, WaterFeatureMethods.WATER_COLOR_PAINT);
-                            waterDrawingCanvas.Restore();
-
-                            WaterFeatureMethods.PAINTED_WATERFEATURE_LIST[i].AddWaterFeatureColorPath(new(ColorPath));
-                        }
+                        WaterFeatureMethods.PAINTED_WATERFEATURE_LIST[i].AddWaterFeatureColorPath(new(ColorPath));
                     }
 
                     for (int i = 0; i < WaterFeatureMethods.MAP_RIVER_LIST.Count; i++)
@@ -65,21 +58,15 @@ namespace MapCreator
 
                         if (riverOutlinePath != null && riverOutlinePath.PointCount > 0)
                         {
-                            SKPath diffPath = riverOutlinePath.Op(ColorPath, SKPathOp.Difference);
+                            waterPathRegion.SetPath(riverOutlinePath);
 
-                            if (diffPath != null && diffPath.PointCount > 0)
-                            {
-                                diffPath.Dispose();
+                            waterDrawingCanvas.Save();
+                            waterDrawingCanvas.ClipRegion(waterPathRegion);
+                            waterDrawingCanvas.DrawPath(ColorPath, WaterFeatureMethods.WATER_COLOR_PAINT);
+                            waterDrawingCanvas.Restore();
 
-                                waterPathRegion.SetPath(riverOutlinePath);
+                            WaterFeatureMethods.MAP_RIVER_LIST[i].RiverColorPaths.Add(new(ColorPath));
 
-                                waterDrawingCanvas.Save();
-                                waterDrawingCanvas.ClipRegion(waterPathRegion);
-                                waterDrawingCanvas.DrawPath(ColorPath, WaterFeatureMethods.WATER_COLOR_PAINT);
-                                waterDrawingCanvas.Restore();
-
-                                WaterFeatureMethods.MAP_RIVER_LIST[i].RiverColorPaths.Add(new(ColorPath));
-                            }
                         }
                     }
                 }

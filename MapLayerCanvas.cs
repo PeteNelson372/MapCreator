@@ -45,8 +45,8 @@ namespace MapCreator
                 {
                     LayerCanvasBitmap = SKBitmap.Decode(ms);
 
-                    Width = (uint)LayerCanvasBitmap.Width;
-                    Height = (uint)LayerCanvasBitmap.Height;
+                    Width = LayerCanvasBitmap.Width;
+                    Height = LayerCanvasBitmap.Height;
                 }
             }
 

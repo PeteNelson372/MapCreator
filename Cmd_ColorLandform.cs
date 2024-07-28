@@ -36,7 +36,6 @@ namespace MapCreator
 
                 if (ColorPath.PointCount > 0)
                 {
-                    // if the outer path of the landform intersects the painted path,
                     // clip painting to the outer path of the landform
                     // LandformPath is the outer path of the landform
 
@@ -44,17 +43,12 @@ namespace MapCreator
                     {
                         SKPath landformOutlinePath = LandformType2Methods.LANDFORM_LIST[i].LandformPath;
 
-                        using SKPath diffPath = landformOutlinePath.Op(ColorPath, SKPathOp.Difference);
+                        landPathRegion.SetPath(landformOutlinePath);
 
-                        if (diffPath != null && diffPath.PointCount > 0)
-                        {
-                            landPathRegion.SetPath(landformOutlinePath);
-
-                            landDrawingCanvas.Save();
-                            landDrawingCanvas.ClipRegion(landPathRegion);
-                            landDrawingCanvas.DrawPath(ColorPath, LandformType2Methods.LAND_COLOR_PAINT);
-                            landDrawingCanvas.Restore();
-                        }
+                        landDrawingCanvas.Save();
+                        landDrawingCanvas.ClipRegion(landPathRegion);
+                        landDrawingCanvas.DrawPath(ColorPath, LandformType2Methods.LAND_COLOR_PAINT);
+                        landDrawingCanvas.Restore();
                     }
                 }
             }

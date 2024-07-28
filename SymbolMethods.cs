@@ -262,14 +262,14 @@ namespace MapCreator
 
                 MapSymbol placedSymbol = new(mapSymbol)
                 {
-                    X = (uint)cursorPoint.X,
-                    XLocation = (uint)cursorPoint.X,
-                    Y = (uint)cursorPoint.Y,
-                    YLocation = (uint)cursorPoint.Y,
-                    Width = (uint)bitmap.Width,
-                    SymbolWidth = (uint)bitmap.Width,
-                    Height = (uint)bitmap.Height,
-                    SymbolHeight = (uint)bitmap.Height,
+                    X = (int)cursorPoint.X,
+                    XLocation = (int)cursorPoint.X,
+                    Y = (int)cursorPoint.Y,
+                    YLocation = (int)cursorPoint.Y,
+                    Width = bitmap.Width,
+                    SymbolWidth = bitmap.Width,
+                    Height = bitmap.Height,
+                    SymbolHeight = bitmap.Height,
                 };
 
                 for (int i = 0; i < CustomColors.Length; i++)

@@ -56,25 +56,25 @@ namespace MapCreator
             XAttribute? xAttr = mapLabelDoc.Root.Attribute("X");
             if (xAttr != null)
             {
-                X = uint.Parse(xAttr.Value);
+                X = int.Parse(xAttr.Value);
             }
 
             XAttribute? yAttr = mapLabelDoc.Root.Attribute("Y");
             if (yAttr != null)
             {
-                Y = uint.Parse(yAttr.Value);
+                Y = int.Parse(yAttr.Value);
             }
 
             XAttribute? wAttr = mapLabelDoc.Root.Attribute("Width");
             if (wAttr != null)
             {
-                Width = uint.Parse(wAttr.Value);
+                Width = int.Parse(wAttr.Value);
             }
 
             XAttribute? hAttr = mapLabelDoc.Root.Attribute("Height");
             if (hAttr != null)
             {
-                Height = uint.Parse(hAttr.Value);
+                Height = int.Parse(hAttr.Value);
             }
 
             IEnumerable<XElement?> guidElemEnum = mapLabelDoc.Descendants().Select(x => x.Element(ns + "LabelGuid"));
@@ -284,10 +284,10 @@ namespace MapCreator
                         using SKTextBlob sKTextBlob = SKTextBlob.CreatePathPositioned(LabelText, LabelSKFont, LabelPath, LabelPaint.TextAlign, new SKPoint(0, 0));
                         SKRect boundsRect = sKTextBlob.Bounds;
 
-                        X = (uint)boundsRect.Left;
-                        Y = (uint)boundsRect.Top;
-                        Width = (uint)boundsRect.Width;
-                        Height = (uint)boundsRect.Height;
+                        X = (int)boundsRect.Left;
+                        Y = (int)boundsRect.Top;
+                        Width = (int)boundsRect.Width;
+                        Height = (int)boundsRect.Height;
 
                         // do any transformations
                         canvas.RotateDegrees(LabelRotationDegrees, X + Width / 2, Y + Height / 2);

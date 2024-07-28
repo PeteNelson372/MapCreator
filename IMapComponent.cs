@@ -4,10 +4,10 @@ namespace MapCreator
 {
     public interface IMapComponent
     {
-        public uint X { get; set; }
-        public uint Y { get; set; }
-        public uint Width { get; set; }
-        public uint Height { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
 
         public void Render(SKCanvas canvas);
     }

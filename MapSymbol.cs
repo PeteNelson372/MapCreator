@@ -10,13 +10,13 @@ namespace MapCreator
     public class MapSymbol : MapComponent, IXmlSerializable
     {
         // TODO: refactor to use public attributes with { get; set; } and remove accessor methods
-        public uint XLocation { get; set; }
+        public int XLocation { get; set; }
 
-        public uint YLocation { get; set; }
+        public int YLocation { get; set; }
 
-        public uint SymbolWidth { get; set; }
+        public int SymbolWidth { get; set; }
 
-        public uint SymbolHeight { get; set; }
+        public int SymbolHeight { get; set; }
 
         private bool IsSelected = false;
 
@@ -245,8 +245,8 @@ namespace MapCreator
         public void SetPlacedBitmap(SKBitmap placedBitmap)
         {
             PlacedBitmap = placedBitmap;
-            Width = (uint)PlacedBitmap.Width;
-            Height = (uint)PlacedBitmap.Height;
+            Width = PlacedBitmap.Width;
+            Height = PlacedBitmap.Height;
         }
 
         public SKBitmap? GetColorMappedBitmap()
@@ -322,25 +322,25 @@ namespace MapCreator
             XAttribute? xAttr = mapSymbolDoc.Root.Attribute("X");
             if (xAttr != null)
             {
-                X = uint.Parse(xAttr.Value);
+                X = int.Parse(xAttr.Value);
             }
 
             XAttribute? yAttr = mapSymbolDoc.Root.Attribute("Y");
             if (yAttr != null)
             {
-                Y = uint.Parse(yAttr.Value);
+                Y = int.Parse(yAttr.Value);
             }
 
             XAttribute? wAttr = mapSymbolDoc.Root.Attribute("Width");
             if (wAttr != null)
             {
-                Width = uint.Parse(wAttr.Value);
+                Width = int.Parse(wAttr.Value);
             }
 
             XAttribute? hAttr = mapSymbolDoc.Root.Attribute("Height");
             if (hAttr != null)
             {
-                Height = uint.Parse(hAttr.Value);
+                Height = int.Parse(hAttr.Value);
             }
 
             IEnumerable<XElement?> xElemEnum = mapSymbolDoc.Descendants().Select(x => x.Element(ns + "XLocation"));
@@ -350,7 +350,7 @@ namespace MapCreator
 
                 if (!string.IsNullOrEmpty(xLocation))
                 {
-                    XLocation = uint.Parse(xLocation);
+                    XLocation = int.Parse(xLocation);
                 }
             }
 
@@ -361,7 +361,7 @@ namespace MapCreator
 
                 if (!string.IsNullOrEmpty(yLocation))
                 {
-                    YLocation = uint.Parse(yLocation);
+                    YLocation = int.Parse(yLocation);
                 }
             }
 
@@ -372,7 +372,7 @@ namespace MapCreator
 
                 if (!string.IsNullOrEmpty(symboWidth))
                 {
-                    SymbolWidth = uint.Parse(symboWidth);
+                    SymbolWidth = int.Parse(symboWidth);
                 }
             }
 
@@ -383,7 +383,7 @@ namespace MapCreator
 
                 if (!string.IsNullOrEmpty(symbolHeight))
                 {
-                    SymbolHeight = uint.Parse(symbolHeight);
+                    SymbolHeight = int.Parse(symbolHeight);
                 }
             }
 

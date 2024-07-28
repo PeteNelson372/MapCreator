@@ -28,16 +28,16 @@ namespace MapCreator
         public List<MapComponent> MapLayerComponents { get; } = new List<MapComponent>(500);
 
         [XmlAttribute]
-        public uint X { get; set; }
+        public int X { get; set; }
 
         [XmlAttribute]
-        public uint Y { get; set; }
+        public int Y { get; set; }
 
         [XmlAttribute]
-        public uint Width { get; set; }
+        public int Width { get; set; }
 
         [XmlAttribute]
-        public uint Height { get; set; }
+        public int Height { get; set; }
 
         public abstract void Render(SKCanvas canvas);
     }

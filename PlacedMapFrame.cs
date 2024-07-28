@@ -281,8 +281,8 @@ namespace MapCreator
                 FrameCenterBottom = float.Parse(frameCenterBottom);
             }
 
-            Width = (uint)MapWidth;
-            Height = (uint)MapHeight;
+            Width = MapWidth;
+            Height = MapHeight;
 
             OverlayMethods.CompletePlacedFrame(this);
         }

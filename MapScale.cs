@@ -208,25 +208,25 @@ namespace MapCreator
             XAttribute? xAttr = mapScaleDoc.Root.Attribute("X");
             if (xAttr != null)
             {
-                X = uint.Parse(xAttr.Value);
+                X = int.Parse(xAttr.Value);
             }
 
             XAttribute? yAttr = mapScaleDoc.Root.Attribute("Y");
             if (yAttr != null)
             {
-                Y = uint.Parse(yAttr.Value);
+                Y = int.Parse(yAttr.Value);
             }
 
             XAttribute? wAttr = mapScaleDoc.Root.Attribute("Width");
             if (wAttr != null)
             {
-                Width = uint.Parse(wAttr.Value);
+                Width = int.Parse(wAttr.Value);
             }
 
             XAttribute? hAttr = mapScaleDoc.Root.Attribute("Height");
             if (hAttr != null)
             {
-                Height = uint.Parse(hAttr.Value);
+                Height = int.Parse(hAttr.Value);
             }
 
             IEnumerable<XElement?> guidElemEnum = mapScaleDoc.Descendants().Select(x => x.Element(ns + "ScaleGuid"));
