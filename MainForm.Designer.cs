@@ -548,6 +548,7 @@
             RegionDashBorderRadio = new RadioButton();
             RegionDottedBorderRadio = new RadioButton();
             RegionSolidBorderRadio = new RadioButton();
+            ClearWindroseButton = new Button();
             MainMenu.SuspendLayout();
             ApplicationStatusStrip.SuspendLayout();
             LayerSelectTabControl.SuspendLayout();
@@ -1227,6 +1228,7 @@
             // 
             // groupBox17
             // 
+            groupBox17.Controls.Add(ClearWindroseButton);
             groupBox17.Controls.Add(WindroseColorOpacityTrack);
             groupBox17.Controls.Add(WindroseColorOpacityLabel);
             groupBox17.Controls.Add(label83);
@@ -1245,7 +1247,7 @@
             groupBox17.Controls.Add(WindroseColorSelectLabel);
             groupBox17.Location = new Point(8, 497);
             groupBox17.Name = "groupBox17";
-            groupBox17.Size = new Size(120, 436);
+            groupBox17.Size = new Size(120, 488);
             groupBox17.TabIndex = 15;
             groupBox17.TabStop = false;
             groupBox17.Text = "Windrose";
@@ -7285,6 +7287,17 @@
             RegionSolidBorderRadio.TabStop = true;
             RegionSolidBorderRadio.UseVisualStyleBackColor = true;
             // 
+            // ClearWindroseButton
+            // 
+            ClearWindroseButton.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ClearWindroseButton.Location = new Point(22, 449);
+            ClearWindroseButton.Name = "ClearWindroseButton";
+            ClearWindroseButton.Size = new Size(75, 23);
+            ClearWindroseButton.TabIndex = 97;
+            ClearWindroseButton.Text = "Clear";
+            ClearWindroseButton.UseVisualStyleBackColor = true;
+            ClearWindroseButton.Click += ClearWindroseButton_Click;
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -8025,5 +8038,6 @@
         private TrackBar RegionBorderSmoothingTrack;
         private Label RegionBorderSmoothingLabel;
         private RichTextBox RegionHelpRichText;
+        private Button ClearWindroseButton;
     }
 }

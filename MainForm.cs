@@ -142,7 +142,7 @@ namespace MapCreator
             DRAWING_MODE_BUTTONS.Add(OceanColorSelectButton);
             DRAWING_MODE_BUTTONS.Add(LandformSelectButton);
             DRAWING_MODE_BUTTONS.Add(LandformPaintButton);
-            DRAWING_MODE_BUTTONS.Add(LandEraseButton);            
+            DRAWING_MODE_BUTTONS.Add(LandEraseButton);
             DRAWING_MODE_BUTTONS.Add(LandColorButton);
             DRAWING_MODE_BUTTONS.Add(LandColorEraseButton);
             DRAWING_MODE_BUTTONS.Add(LandColorSelectButton);
@@ -703,7 +703,7 @@ namespace MapCreator
 
 
                 MapLayer regionLayer = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.REGIONLAYER);
-                for (int i = 0;i < regionLayer.MapLayerComponents.Count; i++)
+                for (int i = 0; i < regionLayer.MapLayerComponents.Count; i++)
                 {
                     if (regionLayer.MapLayerComponents[i] is MapRegion region)
                     {
@@ -1047,7 +1047,7 @@ namespace MapCreator
                         toolstripButton.Checked = false;
                         toolstripButton.BackColor = selectColor;
                         toolstripButton.IconColor = Color.Black;
-                        toolstripButton.ForeColor = Color.Black;                        
+                        toolstripButton.ForeColor = Color.Black;
                     }
                     else if (modeButton is IconButton iconButton)
                     {
@@ -2818,6 +2818,18 @@ namespace MapCreator
         private void WindroseFadeOutCheck_CheckedChanged(object sender, EventArgs e)
         {
             UpdateUIWindrose();
+        }
+
+        private void ClearWindroseButton_Click(object sender, EventArgs e)
+        {
+            for (int i = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.WINDROSELAYER).MapLayerComponents.Count - 1; i > 0; i--)
+            {
+                if (MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.WINDROSELAYER).MapLayerComponents[i] is MapWindrose)
+                {
+                    MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.WINDROSELAYER).MapLayerComponents.RemoveAt(i);
+                    break;
+                }
+            }
         }
 
         /******************************************************************************************************
@@ -5908,7 +5920,7 @@ namespace MapCreator
             if (CURRENT_DRAWING_MODE != DrawingModeEnum.RegionSelect)
             {
                 // unselect all regions
-                foreach(MapRegion r in MapRegionMethods.MAP_REGION_LIST)
+                foreach (MapRegion r in MapRegionMethods.MAP_REGION_LIST)
                 {
                     r.IsSelected = false;
                 }
@@ -7033,7 +7045,7 @@ namespace MapCreator
 
                         foreach (MapLandformType2 lf in LandformType2Methods.LANDFORM_LIST)
                         {
-                            for (int i = 0; i < lf.LandformContourPoints.Count; i++)                            
+                            for (int i = 0; i < lf.LandformContourPoints.Count; i++)
                             {
                                 SKPoint p = lf.LandformContourPoints[i];
                                 if (SKPoint.Distance(LAYER_CLICK_POINT, p) < 5)
@@ -7238,7 +7250,7 @@ namespace MapCreator
                         MapBuilder.ClearLayerCanvas(CURRENT_MAP, MapBuilder.REGIONLAYER);
 
                         Cmd_AddMapRegion cmd = new(CURRENT_MAP, UIMapRegion);
-                        UndoManager.AddCommand(cmd);                       
+                        UndoManager.AddCommand(cmd);
                         cmd.DoOperation();
 
                         UIMapRegion.IsSelected = false;
@@ -8318,7 +8330,5 @@ namespace MapCreator
 
             return 0;
         }
-
- 
     }
 }
