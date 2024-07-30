@@ -179,7 +179,7 @@ namespace MapCreator
         ***************************************************************************************************************************/
         private void InitializeMap(MapCreatorMap map)
         {
-            map.MapBackingBitmap = new(map.MapWidth, map.MapHeight);
+            //map.MapBackingBitmap = new(map.MapWidth, map.MapHeight);
 
             //if (GPU_CONTEXT == null)
             //{
@@ -363,13 +363,14 @@ namespace MapCreator
 
         public void RenderDrawingPanel()
         {
-            if (CURRENT_MAP != null && MAP_CANVAS != null && CURRENT_MAP.MapBackingBitmap != null)
+            if (CURRENT_MAP != null && MAP_CANVAS != null)
             {
                 // render all of the layers onto the MAP_CANVAS,
-                // then display the resulting bitmap as the MapImageBox Image
+                // then display the resulting MAP_SURFACE snapshot as the MapImageBox Image
                 CURRENT_MAP.Render(MAP_CANVAS);
 
-                MapImageBox.Image = MAP_SURFACE?.Snapshot().ToBitmap();
+                using SKImage snap = MAP_SURFACE?.Snapshot();
+                MapImageBox.Image = snap.ToBitmap();
             }
         }
 
@@ -4759,9 +4760,9 @@ namespace MapCreator
                     {
                         SKPoint point = p;
 
-                        // 10% randomization of point location
-                        point.X += Random.Shared.Next(-rotatedAndScaledBitmap.Width, rotatedAndScaledBitmap.Width);
-                        point.Y += Random.Shared.Next(-rotatedAndScaledBitmap.Height, rotatedAndScaledBitmap.Height);
+                        // 1% randomization of point location
+                        point.X = Random.Shared.Next((int)(p.X * 0.99F), (int)(p.X * 1.01F));
+                        point.Y = Random.Shared.Next((int)(p.Y * 0.99F), (int)(p.Y * 1.01F));
 
                         PlaceSelectedMapSymbolAtPoint(point, PREVIOUS_LAYER_CLICK_POINT);
                     }
@@ -7082,7 +7083,7 @@ namespace MapCreator
 
                     if (AreaBrushCheck.Checked)
                     {
-                        PlaceSelectedSymbolInArea(LAYER_CLICK_POINT);
+                        PlaceSelectedSymbolInArea(new SKPoint(X, Y));
                     }
                     else
                     {
@@ -8064,6 +8065,9 @@ namespace MapCreator
 
                     break;
                 case DrawingModeEnum.SymbolPlace:
+                    IMAGEBOX_CLICK_POINT = e.Location;
+                    LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
+
                     if (AreaBrushCheck.Checked)
                     {
                         PlaceSelectedSymbolInArea(LAYER_CLICK_POINT);

@@ -48,9 +48,6 @@ namespace MapCreator
         [XmlIgnore]
         private bool isSaved = false;
 
-        [XmlIgnore]
-        public SKBitmap? MapBackingBitmap { get; set; } = null;
-
         [XmlAttribute]
         public string MapName { get; set; } = "";
 

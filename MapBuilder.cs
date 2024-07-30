@@ -232,7 +232,7 @@ namespace MapCreator
                 Y = 0,
                 Width = width,
                 Height = height,
-                MBitmap = new SKBitmap((int)width, (int)height),
+                MBitmap = new SKBitmap(width, height),
             };
 
             // construct and fill the layer canvas with clear color
