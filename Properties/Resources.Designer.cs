@@ -72,16 +72,6 @@ namespace MapCreator {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap DrawingCursor {
-            get {
-                object obj = ResourceManager.GetObject("DrawingCursor", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap ZeroSum {
             get {
                 object obj = ResourceManager.GetObject("ZeroSum", resourceCulture);

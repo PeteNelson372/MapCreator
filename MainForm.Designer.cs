@@ -90,6 +90,7 @@
             backgroundTxBox = new ComboBox();
             oceanPage = new TabPage();
             groupBox17 = new GroupBox();
+            ClearWindroseButton = new Button();
             WindroseColorOpacityTrack = new TrackBar();
             WindroseColorOpacityLabel = new Label();
             label83 = new Label();
@@ -548,7 +549,6 @@
             RegionDashBorderRadio = new RadioButton();
             RegionDottedBorderRadio = new RadioButton();
             RegionSolidBorderRadio = new RadioButton();
-            ClearWindroseButton = new Button();
             MainMenu.SuspendLayout();
             ApplicationStatusStrip.SuspendLayout();
             LayerSelectTabControl.SuspendLayout();
@@ -1251,6 +1251,17 @@
             groupBox17.TabIndex = 15;
             groupBox17.TabStop = false;
             groupBox17.Text = "Windrose";
+            // 
+            // ClearWindroseButton
+            // 
+            ClearWindroseButton.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ClearWindroseButton.Location = new Point(22, 449);
+            ClearWindroseButton.Name = "ClearWindroseButton";
+            ClearWindroseButton.Size = new Size(75, 23);
+            ClearWindroseButton.TabIndex = 97;
+            ClearWindroseButton.Text = "Clear";
+            ClearWindroseButton.UseVisualStyleBackColor = true;
+            ClearWindroseButton.Click += ClearWindroseButton_Click;
             // 
             // WindroseColorOpacityTrack
             // 
@@ -6460,6 +6471,7 @@
             SymbolTable.RowStyles.Add(new RowStyle());
             SymbolTable.Size = new Size(122, 800);
             SymbolTable.TabIndex = 71;
+            SymbolTable.Scroll += SymbolTable_Scroll;
             // 
             // PathPanel
             // 
@@ -7030,6 +7042,7 @@
             FrameStyleTable.RowStyles.Add(new RowStyle());
             FrameStyleTable.Size = new Size(122, 858);
             FrameStyleTable.TabIndex = 73;
+            FrameStyleTable.Scroll += FrameStyleTable_Scroll;
             // 
             // ZoomToFitButton
             // 
@@ -7287,17 +7300,6 @@
             RegionSolidBorderRadio.TabStop = true;
             RegionSolidBorderRadio.UseVisualStyleBackColor = true;
             // 
-            // ClearWindroseButton
-            // 
-            ClearWindroseButton.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            ClearWindroseButton.Location = new Point(22, 449);
-            ClearWindroseButton.Name = "ClearWindroseButton";
-            ClearWindroseButton.Size = new Size(75, 23);
-            ClearWindroseButton.TabIndex = 97;
-            ClearWindroseButton.Text = "Clear";
-            ClearWindroseButton.UseVisualStyleBackColor = true;
-            ClearWindroseButton.Click += ClearWindroseButton_Click;
-            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -7313,7 +7315,6 @@
             Controls.Add(mapPanel);
             Controls.Add(ApplicationStatusStrip);
             Controls.Add(MainMenu);
-            Controls.Add(SymbolsToolPanel);
             Controls.Add(OverlayToolsPanel);
             Controls.Add(RegionsToolPanel);
             Controls.Add(BackgroundToolPanel);
@@ -7322,6 +7323,7 @@
             Controls.Add(OceanColorToolPanel);
             Controls.Add(WaterColorToolPanel);
             Controls.Add(PathPanel);
+            Controls.Add(SymbolsToolPanel);
             DoubleBuffered = true;
             HelpButton = true;
             KeyPreview = true;

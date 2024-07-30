@@ -58,9 +58,9 @@ namespace MapCreator
                     {
                         if (component.RenderComponent && LayerSurface != null)
                         {
-                            component.Render(canvas);
+                            //component.Render(LayerSurface.Canvas);
                             //canvas.DrawSurface(LayerSurface, 0, 0);
-                            //component.Render(canvas);
+                            component.Render(canvas);
                         }
                     }
                 }

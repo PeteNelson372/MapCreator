@@ -50,8 +50,6 @@ namespace MapCreator
 
         public static void PaintMap(ref MapCreatorMap map, DrawingModeEnum drawingMode)
         {
-            //MapBuilder.ClearLayerCanvas(map, MapBuilder.LANDFORMLAYER);
-            //MapBuilder.ClearLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER);
             MapBuilder.ClearLayerCanvas(map, MapBuilder.WATERLAYER);
             MapBuilder.ClearLayerCanvas(map, MapBuilder.PATHLOWERLAYER);
             MapBuilder.ClearLayerCanvas(map, MapBuilder.PATHUPPERLAYER);
@@ -66,6 +64,8 @@ namespace MapCreator
                     LandformType2Methods.PaintLandForm(map);
                     break;
                 case DrawingModeEnum.LandErase:
+                    MapBuilder.ClearLayerCanvas(map, MapBuilder.LANDFORMLAYER);
+                    MapBuilder.ClearLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER);
                     LandformType2Methods.PaintLandForm(map);
                     break;
                 case DrawingModeEnum.LandColorErase:

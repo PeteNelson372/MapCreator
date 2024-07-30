@@ -59,7 +59,10 @@ namespace MapCreator
                     Title = "Choose Wonderdraft Asset Zip File",
                     DefaultExt = "zip",
                     Filter = "zip files (*.zip)|*.zip|All files (*.*)|*.*",
-                    CheckFileExists = true
+                    CheckFileExists = true,
+                    Multiselect = false,
+                    RestoreDirectory = true,
+                    ShowHelp = false,
                 };
 
                 if (ofd.ShowDialog() == DialogResult.OK)

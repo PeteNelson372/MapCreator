@@ -22,6 +22,7 @@
 *
 ***************************************************************************************************************************/
 using SkiaSharp;
+using System.Windows.Media.Media3D;
 
 namespace MapCreator
 {
@@ -204,7 +205,7 @@ namespace MapCreator
 
             MapBitmap component = (MapBitmap)layer.MapLayerComponents[0];
 
-            //component.MCanvas?.Clear();
+            component.MCanvas?.Clear();
         }
 
         private static MapLayer ConstructMapLayer(string layerName, ushort layerOrder, uint x, uint y, int width, int height, SKColor clearColor)
@@ -302,6 +303,11 @@ namespace MapCreator
             foreach (var layer in map.MapLayers)
             {
                 ((MapBitmap)layer.MapLayerComponents[0]).MCanvas = new(((MapBitmap)layer.MapLayerComponents[0]).MBitmap);
+                
+                SKImageInfo imageInfo = new(map.MapWidth, map.MapHeight);
+                SKSurface layerSurface = SKSurface.Create(imageInfo);
+                layer.LayerSurface = layerSurface;
+
             }
         }
 
