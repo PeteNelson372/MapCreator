@@ -8117,8 +8117,8 @@ namespace MapCreator
                     {
                         if (UISelectedLabel.LabelPath != null)
                         {
-                            float dx = LAYER_CLICK_POINT.X - PREVIOUS_LAYER_CLICK_POINT.X;
-                            float dy = LAYER_CLICK_POINT.Y - PREVIOUS_LAYER_CLICK_POINT.Y;
+                            float dx = LAYER_CLICK_POINT.X - (UISelectedLabel.X + (UISelectedLabel.Width / 2));
+                            float dy = LAYER_CLICK_POINT.Y - (UISelectedLabel.Y + (UISelectedLabel.Height / 2));
                             UISelectedLabel.LabelPath.Transform(SKMatrix.CreateTranslation(dx, dy));
                         }
                         else
