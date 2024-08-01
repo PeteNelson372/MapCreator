@@ -68,9 +68,6 @@ namespace MapCreator
         private SKPoint RIVER_CLICK_POINT;
         private SKPoint PREVIOUS_RIVER_CLICK_POINT;
 
-        // get a random seed to use for random number generation
-        private readonly int RANDOM_SEED = Guid.NewGuid().GetHashCode();
-
         private SymbolTypeEnum SELECTED_SYMBOL_TYPE = SymbolTypeEnum.NotSet;
         private MapSymbol? UISelectedMapSymbol = null;
         private MapLabel? UISelectedLabel = null;
@@ -105,8 +102,9 @@ namespace MapCreator
         private static int PREVIOUS_REGION_POINT_INDEX = -1;
         private static int NEXT_REGION_POINT_INDEX = -1;
 
-        private static SKSurface? MAP_SURFACE;
-
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        private static SKSurface MAP_SURFACE;
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         //private static GLControl? GL_CONTROL;
         //private static GRContext? GPU_CONTEXT;
@@ -170,6 +168,16 @@ namespace MapCreator
             DRAWING_MODE_BUTTONS.Add(SelectRegionButton);
             DRAWING_MODE_BUTTONS.Add(PaintRegionButton);
 
+            SKImageInfo imageInfo = new(1, 1);
+
+            MAP_SURFACE = SKSurface.Create(imageInfo);
+
+            if (MAP_SURFACE == null)
+            {
+                MessageBox.Show(this, "Could not create map graphics surface. Exiting.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
+
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8601 // Possible null reference assignment.
         }
@@ -179,7 +187,6 @@ namespace MapCreator
         ***************************************************************************************************************************/
         private void InitializeMap(MapCreatorMap map)
         {
-            //map.MapBackingBitmap = new(map.MapWidth, map.MapHeight);
 
             //if (GPU_CONTEXT == null)
             //{
@@ -192,7 +199,7 @@ namespace MapCreator
             //MAP_CANVAS = GPU_SURFACE.Canvas;
             //MapImageBox.Image = Extensions.ToBitmap(GPU_SURFACE.Snapshot());
 
-            //MAP_SURFACE.Dispose();
+            MAP_SURFACE.Dispose();
 
             SKImageInfo imageInfo = new(map.MapWidth, map.MapHeight);
 
@@ -204,14 +211,11 @@ namespace MapCreator
             //MAP_CANVAS = new SKCanvas(map.MapBackingBitmap);
             MAP_CANVAS = MAP_SURFACE.Canvas;
 
-            //MapImageBox.Image = Extensions.ToBitmap(map.MapBackingBitmap);
             MapImageBox.Image = MAP_SURFACE.Snapshot().ToBitmap();
 
             WaterFeatureMethods.WATER_LAYER_PATH.Reset();
             WaterFeatureMethods.WATER_LAYER_DRAW_PATH.Reset();
             WaterFeatureMethods.WATER_LAYER_ERASER_PATH.Reset();
-
-            RandomSeedValueText.Text = RANDOM_SEED.ToString();
 
             // the cursor overlay bitmap is drawn on top of (in front of) the map in the MapImageBox
             // it holds the dashed circle that follows the cross cursor on the ocean tab and the land tab
@@ -369,7 +373,7 @@ namespace MapCreator
                 // then display the resulting MAP_SURFACE snapshot as the MapImageBox Image
                 CURRENT_MAP.Render(MAP_CANVAS);
 
-                using SKImage snap = MAP_SURFACE?.Snapshot();
+                using SKImage snap = MAP_SURFACE.Snapshot();
                 MapImageBox.Image = snap.ToBitmap();
             }
         }
@@ -430,6 +434,7 @@ namespace MapCreator
 
             InitializeMap(CURRENT_MAP);
 
+            // remove any existing vignette and create a new one
             for (int i = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents.Count - 1; i > 0; i--)
             {
                 if (MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents[i] is MapVignette)
@@ -998,7 +1003,7 @@ namespace MapCreator
             ApplicationStatusStrip.Refresh();
         }
 
-        private void ClearDrawingModeButtons()
+        private static void ClearDrawingModeButtons()
         {
             foreach (object o in DRAWING_MODE_BUTTONS)
             {
@@ -1030,6 +1035,8 @@ namespace MapCreator
                         iconButton.IconColor = Color.Black;
                         iconButton.ForeColor = Color.Black;
                     }
+
+                    iconButton.Refresh();
                 }
             }
 
@@ -1447,11 +1454,6 @@ namespace MapCreator
             dlg.ShowDialog(this);
         }
 
-        private void ThemeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // set or change the map theme (colors, fonts, textures, etc.)
-        }
-
         private void OptionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // show application options dialog
@@ -1474,7 +1476,13 @@ namespace MapCreator
             // show the theme dialog
             ThemeList themeList = new();
 
+            // get the current state of the UI as a theme
+            // and send it to the ThemeList dialog
+            MapTheme settingsTheme = SaveCurentSettingsToTheme();
+
             themeList.SetThemes([.. MapPaintMethods.THEME_LIST]);
+            themeList.SettingsTheme = settingsTheme;
+
             DialogResult result = themeList.ShowDialog();
 
             if (result == DialogResult.OK)
@@ -1489,37 +1497,6 @@ namespace MapCreator
                     ApplyTheme(selectedTheme, themeFilter);
                 }
             }
-        }
-
-        private void NewThemeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MapTheme newTheme = new();
-            ThemeDialog themeDialog = new();
-
-            themeDialog.InitializeValues(MapPaintMethods.GetBackgroundTextureList(), WaterFeatureMethods.WATER_TEXTURE_LIST, LandformType2Methods.LAND_TEXTURE_LIST);
-            themeDialog.SetTheme(ref newTheme);
-
-            themeDialog.ShowDialog();
-        }
-
-        private void CreateFromCurrentMapSettingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MapTheme newTheme = new();
-
-            SaveCurentSettingsToTheme(ref newTheme);
-
-            ThemeDialog themeDialog = new();
-
-            themeDialog.InitializeValues(MapPaintMethods.GetBackgroundTextureList(), WaterFeatureMethods.WATER_TEXTURE_LIST, LandformType2Methods.LAND_TEXTURE_LIST);
-
-            themeDialog.SetTheme(ref newTheme);
-
-            themeDialog.ShowDialog();
-        }
-
-        private void LoadThemesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1554,7 +1531,7 @@ namespace MapCreator
             HatchPatternSelectionBox.Items.Clear();
             PathTextureBox.Items.Clear();
             SymbolCollectionsListBox.Items.Clear();
-            LabelPresetListBox.Items.Clear();
+            LabelPresetCombo.Items.Clear();
 
             SymbolMethods.ClearSymbolCollections();
         }
@@ -1745,15 +1722,15 @@ namespace MapCreator
                     && MapPaintMethods.CURRENT_THEME != null
                     && preset.LabelPresetTheme == MapPaintMethods.CURRENT_THEME.ThemeName)
                 {
-                    LabelPresetListBox.Items.Add(preset.LabelPresetName);
+                    LabelPresetCombo.Items.Add(preset.LabelPresetName);
                 }
             }
 
-            if (LabelPresetListBox.Items.Count > 0)
+            if (LabelPresetCombo.Items.Count > 0)
             {
-                LabelPresetListBox.SelectedIndex = 0;
+                LabelPresetCombo.SelectedIndex = 0;
 
-                LabelPreset? selectedPreset = MapLabelMethods.LABEL_PRESETS.Find(x => !string.IsNullOrEmpty((string?)LabelPresetListBox.Items[0]) && x.LabelPresetName == (string?)LabelPresetListBox.Items[0]);
+                LabelPreset? selectedPreset = MapLabelMethods.LABEL_PRESETS.Find(x => !string.IsNullOrEmpty((string?)LabelPresetCombo.Items[0]) && x.LabelPresetName == (string?)LabelPresetCombo.Items[0]);
 
                 if (selectedPreset != null)
                 {
@@ -1791,15 +1768,24 @@ namespace MapCreator
         * *****************************************************************************************************
         *******************************************************************************************************/
 
-        private void SaveCurentSettingsToTheme(ref MapTheme theme)
+        private MapTheme SaveCurentSettingsToTheme()
         {
+            MapTheme theme = new();
+
+            // label presets for the theme are serialized to a file at the time they are created
+            // and loaded when the theme is loaded/selected; they are not stored with the theme
+
+            // background
             if (backgroundTxBox.SelectedIndex > -1)
             {
                 theme.BackgroundTexture = MapPaintMethods.GetBackgroundTextureList()[backgroundTxBox.SelectedIndex];
             }
 
-            theme.BackGroundTextureOpacity = 100;
+            // vignette color and strength
+            theme.VignetteColor = (XmlColor) VignetteColorSelectionLabel.BackColor;
+            theme.VignetteStrength = VignetteStrengthScroll.Value;
 
+            // ocean
             if (OceanTextureList.SelectedIndex > -1)
             {
                 theme.OceanTexture = WaterFeatureMethods.WATER_TEXTURE_LIST[OceanTextureList.SelectedIndex];
@@ -1809,6 +1795,17 @@ namespace MapCreator
             theme.OceanColor = OceanColorSelectionLabel.BackColor;
             theme.OceanColorOpacity = OceanColorOpacityTrack.Value;
 
+            // save ocean custom colors
+            theme.OceanColorPalette.Add(OceanCustomColorButton1.BackColor);
+            theme.OceanColorPalette.Add(OceanCustomColorButton2.BackColor);
+            theme.OceanColorPalette.Add(OceanCustomColorButton3.BackColor);
+            theme.OceanColorPalette.Add(OceanCustomColorButton4.BackColor);
+            theme.OceanColorPalette.Add(OceanCustomColorButton5.BackColor);
+            theme.OceanColorPalette.Add(OceanCustomColorButton6.BackColor);
+            theme.OceanColorPalette.Add(OceanCustomColorButton7.BackColor);
+            theme.OceanColorPalette.Add(OceanCustomColorButton8.BackColor);
+
+            // landform
             theme.LandformOutlineColor = LandOutlineColorSelectionLabel.BackColor;
             theme.LandformOutlineWidth = LandOutlineWidthScroll.Value;
 
@@ -1831,44 +1828,87 @@ namespace MapCreator
                 theme.LandformCoastlineStyle = (string?)CoastStyleSelectionBox.Items[CoastStyleSelectionBox.SelectedIndex];
             }
 
+            // save land custom colors
+            theme.LandformColorPalette.Add(LandCustomColorButton1.BackColor);
+            theme.LandformColorPalette.Add(LandCustomColorButton2.BackColor);
+            theme.LandformColorPalette.Add(LandCustomColorButton3.BackColor);
+            theme.LandformColorPalette.Add(LandCustomColorButton4.BackColor);
+            theme.LandformColorPalette.Add(LandCustomColorButton5.BackColor);
+            theme.LandformColorPalette.Add(LandCustomColorButton6.BackColor);
+
+            // freshwater
             theme.FreshwaterColor = WaterColorSelectionLabel.BackColor;
             theme.FreshwaterColorOpacity = WaterColorOpacityTrack.Value;
             theme.FreshwaterShorelineColor = ShorelineColorSelectionLabel.BackColor;
             theme.FreshwaterShorelineColorOpacity = ShorelineColorOpacityTrack.Value;
-            theme.FreshwaterSegmentSize = WaterSegmentSizeTrack.Value;
-            theme.FreshwaterVariance = WaterVarianceTrack.Value;
 
             theme.RiverWidth = RiverWidthTrack.Value;
             theme.RiverSourceFadeIn = RiverSourceFadeInCheck.Checked;
 
+            // save freshwater custom colors
+            theme.FreshwaterColorPalette.Add(WaterCustomColor1.BackColor);
+            theme.FreshwaterColorPalette.Add(WaterCustomColor2.BackColor);
+            theme.FreshwaterColorPalette.Add(WaterCustomColor3.BackColor);
+            theme.FreshwaterColorPalette.Add(WaterCustomColor4.BackColor);
+            theme.FreshwaterColorPalette.Add(WaterCustomColor5.BackColor);
+            theme.FreshwaterColorPalette.Add(WaterCustomColor6.BackColor);
+            theme.FreshwaterColorPalette.Add(WaterCustomColor7.BackColor);
+            theme.FreshwaterColorPalette.Add(WaterCustomColor8.BackColor);
+
+            // path
             theme.PathColor = PathColorSelectionLabel.BackColor;
             theme.PathColorOpacity = PathColorOpacityTrack.Value;
             theme.PathWidth = PathWidthTrack.Value;
 
+            // symbols
             theme.SymbolCustomColors[0] = (XmlColor)SymbolColor1Label.BackColor;
             theme.SymbolCustomColors[1] = (XmlColor)SymbolColor2Label.BackColor;
             theme.SymbolCustomColors[2] = (XmlColor)SymbolColor3Label.BackColor;
             theme.SymbolCustomColors[3] = (XmlColor)SymbolColor4Label.BackColor;
 
-            // TODO: save settings from Water, Path, and other tabs to the theme as they are defined
+            return theme;
         }
 
         private void ApplyTheme(MapTheme theme, ThemeFilter themeFilter)
         {
             if (theme == null || themeFilter == null) return;
 
-            if (themeFilter.ApplyBackgroundSettings && theme.BackgroundTexture != null)
+            if (themeFilter.ApplyBackgroundSettings)
             {
-                for (int i = 0; i < MapPaintMethods.GetBackgroundTextureList().Count; i++)
+                if (theme.BackgroundTexture != null)
                 {
-                    if (MapPaintMethods.GetBackgroundTextureList()[i].TextureName == theme.BackgroundTexture.TextureName)
+                    for (int i = 0; i < MapPaintMethods.GetBackgroundTextureList().Count; i++)
                     {
-                        backgroundTxBox.SelectedIndex = i;
-                        break;
+                        if (MapPaintMethods.GetBackgroundTextureList()[i].TextureName == theme.BackgroundTexture.TextureName)
+                        {
+                            backgroundTxBox.SelectedIndex = i;
+                            break;
+                        }
                     }
+
+                    backgroundTxBox.Refresh();
                 }
 
-                backgroundTxBox.Refresh();
+                if (theme.VignetteColor != null)
+                {
+                    VignetteColorSelectionLabel.BackColor = (Color)theme.VignetteColor;
+                    VignetteColorSelectionLabel.Refresh();
+                }
+
+                if (theme.VignetteStrength != null)
+                {
+                    VignetteStrengthScroll.Value = (int)theme.VignetteStrength;
+                    VignetteStrengthScroll.Refresh();
+                }
+
+                for (int i = 0; i < MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents.Count; i++)
+                {
+                    if (MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents[i] is MapVignette v)
+                    {
+                        v.VignetteColor = VignetteColorSelectionLabel.BackColor;
+                        v.VignetteStrength = VignetteStrengthScroll.Value;
+                    }
+                }
             }
 
             if (themeFilter.ApplyOceanSettings)
@@ -1903,7 +1943,81 @@ namespace MapCreator
                     OceanOpacityLabel.Text = theme.OceanColorOpacity.ToString();
                     OceanOpacityLabel.Refresh();
                 }
+            }
 
+            if (themeFilter.ApplyOceanColorPaletteSettings)
+            {
+                if (theme.OceanColorPalette.Count > 0)
+                {
+                    OceanCustomColorButton1.BackColor = theme.OceanColorPalette[0];
+                    OceanCustomColorButton1.ForeColor = SystemColors.ControlDark;
+                    OceanCustomColorButton1.Text = ColorTranslator.ToHtml(OceanCustomColorButton1.BackColor);
+
+                    OceanCustomColorButton1.Refresh();
+                }
+
+                if (theme.OceanColorPalette.Count > 1)
+                {
+                    OceanCustomColorButton2.BackColor = theme.OceanColorPalette[1];
+                    OceanCustomColorButton2.ForeColor = SystemColors.ControlDark;
+                    OceanCustomColorButton2.Text = ColorTranslator.ToHtml(OceanCustomColorButton2.BackColor);
+
+                    OceanCustomColorButton2.Refresh();
+                }
+
+                if (theme.OceanColorPalette.Count > 2)
+                {
+                    OceanCustomColorButton3.BackColor = theme.OceanColorPalette[2];
+                    OceanCustomColorButton3.ForeColor = SystemColors.ControlDark;
+                    OceanCustomColorButton3.Text = ColorTranslator.ToHtml(OceanCustomColorButton3.BackColor);
+
+                    OceanCustomColorButton3.Refresh();
+                }
+
+                if (theme.OceanColorPalette.Count > 3)
+                {
+                    OceanCustomColorButton4.BackColor = theme.OceanColorPalette[3];
+                    OceanCustomColorButton4.ForeColor = SystemColors.ControlDark;
+                    OceanCustomColorButton4.Text = ColorTranslator.ToHtml(OceanCustomColorButton4.BackColor);
+
+                    OceanCustomColorButton4.Refresh();
+                }
+
+                if (theme.OceanColorPalette.Count > 4)
+                {
+                    OceanCustomColorButton5.BackColor = theme.OceanColorPalette[4];
+                    OceanCustomColorButton5.ForeColor = SystemColors.ControlDark;
+                    OceanCustomColorButton5.Text = ColorTranslator.ToHtml(OceanCustomColorButton5.BackColor);
+
+                    OceanCustomColorButton5.Refresh();
+                }
+
+                if (theme.OceanColorPalette.Count > 5)
+                {
+                    OceanCustomColorButton6.BackColor = theme.OceanColorPalette[5];
+                    OceanCustomColorButton6.ForeColor = SystemColors.ControlDark;
+                    OceanCustomColorButton6.Text = ColorTranslator.ToHtml(OceanCustomColorButton6.BackColor);
+
+                    OceanCustomColorButton6.Refresh();
+                }
+
+                if (theme.OceanColorPalette.Count > 6)
+                {
+                    OceanCustomColorButton7.BackColor = theme.OceanColorPalette[6];
+                    OceanCustomColorButton7.ForeColor = SystemColors.ControlDark;
+                    OceanCustomColorButton7.Text = ColorTranslator.ToHtml(OceanCustomColorButton7.BackColor);
+
+                    OceanCustomColorButton7.Refresh();
+                }
+
+                if (theme.OceanColorPalette.Count > 7)
+                {
+                    OceanCustomColorButton8.BackColor = theme.OceanColorPalette[7];
+                    OceanCustomColorButton8.ForeColor = SystemColors.ControlDark;
+                    OceanCustomColorButton8.Text = ColorTranslator.ToHtml(OceanCustomColorButton8.BackColor);
+
+                    OceanCustomColorButton8.Refresh();
+                }
             }
 
             if (themeFilter.ApplyLandSettings)
@@ -2005,6 +2119,63 @@ namespace MapCreator
                 }
             }
 
+            if (themeFilter.ApplyLandformColorPaletteSettings)
+            {
+                if (theme.LandformColorPalette.Count > 0)
+                {
+                    LandCustomColorButton1.BackColor = theme.LandformColorPalette[0];
+                    LandCustomColorButton1.ForeColor = SystemColors.ControlDark;
+                    LandCustomColorButton1.Text = ColorTranslator.ToHtml(LandCustomColorButton1.BackColor);
+
+                    LandCustomColorButton1.Refresh();
+                }
+
+                if (theme.LandformColorPalette.Count > 1)
+                {
+                    LandCustomColorButton2.BackColor = theme.LandformColorPalette[1];
+                    LandCustomColorButton2.ForeColor = SystemColors.ControlDark;
+                    LandCustomColorButton2.Text = ColorTranslator.ToHtml(LandCustomColorButton2.BackColor);
+
+                    LandCustomColorButton2.Refresh();
+                }
+
+                if (theme.LandformColorPalette.Count > 2)
+                {
+                    LandCustomColorButton3.BackColor = theme.LandformColorPalette[2];
+                    LandCustomColorButton3.ForeColor = SystemColors.ControlDark;
+                    LandCustomColorButton3.Text = ColorTranslator.ToHtml(LandCustomColorButton3.BackColor);
+
+                    LandCustomColorButton3.Refresh();
+                }
+
+                if (theme.LandformColorPalette.Count > 3)
+                {
+                    LandCustomColorButton4.BackColor = theme.LandformColorPalette[3];
+                    LandCustomColorButton4.ForeColor = SystemColors.ControlDark;
+                    LandCustomColorButton4.Text = ColorTranslator.ToHtml(LandCustomColorButton4.BackColor);
+
+                    LandCustomColorButton4.Refresh();
+                }
+
+                if (theme.LandformColorPalette.Count > 4)
+                {
+                    LandCustomColorButton5.BackColor = theme.LandformColorPalette[4];
+                    LandCustomColorButton5.ForeColor = SystemColors.ControlDark;
+                    LandCustomColorButton5.Text = ColorTranslator.ToHtml(LandCustomColorButton5.BackColor);
+
+                    LandCustomColorButton5.Refresh();
+                }
+
+                if (theme.LandformColorPalette.Count > 5)
+                {
+                    LandCustomColorButton6.BackColor = theme.LandformColorPalette[5];
+                    LandCustomColorButton6.ForeColor = SystemColors.ControlDark;
+                    LandCustomColorButton6.Text = ColorTranslator.ToHtml(LandCustomColorButton6.BackColor);
+
+                    LandCustomColorButton6.Refresh();
+                }
+            }
+
             if (themeFilter.ApplyFreshwaterSettings)
             {
                 if (theme.FreshwaterColor != null && theme.FreshwaterColorOpacity != null)
@@ -2045,24 +2216,6 @@ namespace MapCreator
                     ShorelineColorSelectionLabel.Refresh();
                 }
 
-                if (theme.FreshwaterSegmentSize != null)
-                {
-                    WaterSegmentSizeTrack.Value = (int)theme.FreshwaterSegmentSize;
-                    WaterSegmentSizeTrack.Refresh();
-
-                    WaterSegmentSizeLabel.Text = theme.FreshwaterSegmentSize.ToString();
-                    WaterSegmentSizeLabel.Refresh();
-                }
-
-                if (theme.FreshwaterVariance != null)
-                {
-                    WaterVarianceTrack.Value = (int)theme.FreshwaterVariance;
-                    WaterVarianceTrack.Refresh();
-
-                    WaterVarianceLabel.Text = (theme.FreshwaterVariance / 100F).ToString();
-                    WaterVarianceLabel.Refresh();
-                }
-
                 if (theme.RiverWidth != null)
                 {
                     RiverWidthTrack.Value = (int)theme.RiverWidth;
@@ -2084,6 +2237,81 @@ namespace MapCreator
 
                 WaterColorSelectionLabel.BackColor = WaterFeatureMethods.DEFAULT_WATER_COLOR;
                 WaterColorSelectionLabel.Refresh();
+            }
+
+            if (themeFilter.ApplyFreshwaterColorPaletteSettings)
+            {
+                if (theme.FreshwaterColorPalette.Count > 0)
+                {
+                    WaterCustomColor1.BackColor = theme.FreshwaterColorPalette[0];
+                    WaterCustomColor1.ForeColor = SystemColors.ControlDark;
+                    WaterCustomColor1.Text = ColorTranslator.ToHtml(WaterCustomColor1.BackColor);
+
+                    WaterCustomColor1.Refresh();
+                }
+
+                if (theme.FreshwaterColorPalette.Count > 1)
+                {
+                    WaterCustomColor2.BackColor = theme.FreshwaterColorPalette[1];
+                    WaterCustomColor2.ForeColor = SystemColors.ControlDark;
+                    WaterCustomColor2.Text = ColorTranslator.ToHtml(WaterCustomColor2.BackColor);
+
+                    WaterCustomColor2.Refresh();
+                }
+
+                if (theme.FreshwaterColorPalette.Count > 2)
+                {
+                    WaterCustomColor3.BackColor = theme.FreshwaterColorPalette[2];
+                    WaterCustomColor3.ForeColor = SystemColors.ControlDark;
+                    WaterCustomColor3.Text = ColorTranslator.ToHtml(WaterCustomColor3.BackColor);
+
+                    WaterCustomColor3.Refresh();
+                }
+
+                if (theme.FreshwaterColorPalette.Count > 3)
+                {
+                    WaterCustomColor4.BackColor = theme.FreshwaterColorPalette[3];
+                    WaterCustomColor4.ForeColor = SystemColors.ControlDark;
+                    WaterCustomColor4.Text = ColorTranslator.ToHtml(WaterCustomColor4.BackColor);
+
+                    WaterCustomColor4.Refresh();
+                }
+
+                if (theme.FreshwaterColorPalette.Count > 4)
+                {
+                    WaterCustomColor5.BackColor = theme.FreshwaterColorPalette[4];
+                    WaterCustomColor5.ForeColor = SystemColors.ControlDark;
+                    WaterCustomColor5.Text = ColorTranslator.ToHtml(WaterCustomColor5.BackColor);
+
+                    WaterCustomColor5.Refresh();
+                }
+
+                if (theme.FreshwaterColorPalette.Count > 5)
+                {
+                    WaterCustomColor6.BackColor = theme.FreshwaterColorPalette[5];
+                    WaterCustomColor6.ForeColor = SystemColors.ControlDark;
+                    WaterCustomColor6.Text = ColorTranslator.ToHtml(WaterCustomColor6.BackColor);
+
+                    WaterCustomColor6.Refresh();
+                }
+
+                if (theme.FreshwaterColorPalette.Count > 6)
+                {
+                    WaterCustomColor7.BackColor = theme.FreshwaterColorPalette[6];
+                    WaterCustomColor7.ForeColor = SystemColors.ControlDark;
+                    WaterCustomColor7.Text = ColorTranslator.ToHtml(WaterCustomColor7.BackColor);
+
+                    WaterCustomColor7.Refresh();
+                }
+
+                if (theme.FreshwaterColorPalette.Count > 7)
+                {
+                    WaterCustomColor8.BackColor = theme.FreshwaterColorPalette[7];
+                    WaterCustomColor8.ForeColor = SystemColors.ControlDark;
+                    WaterCustomColor8.Text = ColorTranslator.ToHtml(WaterCustomColor8.BackColor);
+
+                    WaterCustomColor8.Refresh();
+                }
             }
 
             if (themeFilter.ApplyPathSetSettings)
@@ -2142,19 +2370,29 @@ namespace MapCreator
                 }
             }
 
-            if (themeFilter.ApplyFrameSettings)
+            if (themeFilter.ApplyLabelPresetSettings)
             {
+                foreach (LabelPreset preset in MapLabelMethods.LABEL_PRESETS)
+                {
+                    if (!string.IsNullOrEmpty(preset.LabelPresetTheme)
+                        && MapPaintMethods.CURRENT_THEME != null
+                        && preset.LabelPresetTheme == MapPaintMethods.CURRENT_THEME.ThemeName)
+                    {
+                        LabelPresetCombo.Items.Add(preset.LabelPresetName);
+                    }
+                }
 
-            }
+                if (LabelPresetCombo.Items.Count > 0)
+                {
+                    LabelPresetCombo.SelectedIndex = 0;
 
-            if (themeFilter.ApplyLabelSettings)
-            {
+                    LabelPreset? selectedPreset = MapLabelMethods.LABEL_PRESETS.Find(x => !string.IsNullOrEmpty((string?)LabelPresetCombo.Items[0]) && x.LabelPresetName == (string?)LabelPresetCombo.Items[0]);
 
-            }
-
-            if (themeFilter.ApplyOverlaySettings)
-            {
-
+                    if (selectedPreset != null)
+                    {
+                        SetLabelValuesFromPreset(selectedPreset);
+                    }
+                }
             }
         }
 
@@ -2331,6 +2569,7 @@ namespace MapCreator
             if (selectedColor != Color.Empty)
             {
                 VignetteColorSelectionLabel.BackColor = selectedColor;
+                VignetteColorSelectionLabel.Refresh();
 
                 for (int i = 0; i < MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents.Count; i++)
                 {
@@ -2809,16 +3048,6 @@ namespace MapCreator
         }
 
         private void OceanCustomColorButton8_Click(object sender, MouseEventArgs e)
-        {
-            ColorPresetButtonMouseClickHandler(sender, e);
-        }
-
-        private void OceanCustomColorButton9_Click(object sender, MouseEventArgs e)
-        {
-            ColorPresetButtonMouseClickHandler(sender, e);
-        }
-
-        private void OceanCustomColorButton10_Click(object sender, MouseEventArgs e)
         {
             ColorPresetButtonMouseClickHandler(sender, e);
         }
@@ -3501,11 +3730,6 @@ namespace MapCreator
             waterFeature.WaterFeatureShorelineColor = ShorelineColorSelectionLabel.BackColor;
             waterFeature.WaterFeatureShorelineColorOpacity = ShorelineColorOpacityTrack.Value;
 
-            waterFeature.WaterFeaturePathSegmentLength = WaterSegmentSizeTrack.Value;
-            waterFeature.WaterFeaturePathVariance = (WaterVarianceTrack.Value / 100F);
-
-            waterFeature.WaterFeatureVarianceSeed = (uint)Math.Abs(int.Parse(RandomSeedValueText.Text.Trim()));
-
             WaterFeatureMethods.ConstructWaterFeaturePaintObjects(waterFeature);
         }
 
@@ -3635,18 +3859,6 @@ namespace MapCreator
 
             ShorelineColorSelectionLabel.Refresh();
             ShorelineColorOpacityLabel.Refresh();
-        }
-
-        private void WaterBrushRoughnessTrack_Scroll(object sender, EventArgs e)
-        {
-            WaterSegmentSizeLabel.Text = WaterSegmentSizeTrack.Value.ToString();
-            WaterSegmentSizeLabel.Refresh();
-        }
-
-        private void WaterVarianceTrack_Scroll(object sender, EventArgs e)
-        {
-            WaterVarianceLabel.Text = (WaterVarianceTrack.Value / 100F).ToString();
-            WaterVarianceLabel.Refresh();
         }
 
         private void RiverWidthTrack_Scroll(object sender, EventArgs e)
@@ -5029,12 +5241,11 @@ namespace MapCreator
         /*******************************************************************************************************
         * Label Tab Event Handlers 
         *******************************************************************************************************/
-
-        private void LabelPresetListBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void LabelPresetCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (LabelPresetListBox.SelectedIndex >= 0 && LabelPresetListBox.SelectedIndex < MapLabelMethods.LABEL_PRESETS.Count)
+            if (LabelPresetCombo.SelectedIndex >= 0 && LabelPresetCombo.SelectedIndex < MapLabelMethods.LABEL_PRESETS.Count)
             {
-                LabelPreset selectedPreset = MapLabelMethods.LABEL_PRESETS[LabelPresetListBox.SelectedIndex];
+                LabelPreset selectedPreset = MapLabelMethods.LABEL_PRESETS[LabelPresetCombo.SelectedIndex];
                 SetLabelValuesFromPreset(selectedPreset);
             }
         }
@@ -5120,9 +5331,9 @@ namespace MapCreator
         {
             //remove a preset (prevent default presets from being deleted; can they be changed?)
 
-            if (LabelPresetListBox.SelectedIndex >= 0)
+            if (LabelPresetCombo.SelectedIndex >= 0)
             {
-                string? presetName = (string?)LabelPresetListBox.SelectedItem;
+                string? presetName = (string?)LabelPresetCombo.SelectedItem;
 
                 if (!string.IsNullOrEmpty(presetName))
                 {
@@ -5207,7 +5418,7 @@ namespace MapCreator
             }
         }
 
-        private void FontColorOpacityTrack_Scroll(object sender, EventArgs e)
+        private void FontColorOpacityTrack_ValueChanged(object sender, EventArgs e)
         {
             FontColorOpacityLabel.Text = FontColorOpacityTrack.Value.ToString();
             FontColorOpacityLabel.Refresh();
@@ -5235,7 +5446,7 @@ namespace MapCreator
             }
         }
 
-        private void OutlineColorOpacityTrack_Scroll(object sender, EventArgs e)
+        private void OutlineColorOpacityTrack_ValueChanged(object sender, EventArgs e)
         {
             OutlineColorOpacityLabel.Text = OutlineColorOpacityTrack.Value.ToString();
             OutlineColorOpacityLabel.Refresh();
@@ -5268,7 +5479,7 @@ namespace MapCreator
             }
         }
 
-        private void GlowColorOpacityTrack_Scroll(object sender, EventArgs e)
+        private void GlowColorOpacityTrack_ValueChanged(object sender, EventArgs e)
         {
             GlowColorOpacityLabel.Text = GlowColorOpacityTrack.Value.ToString();
             GlowColorOpacityLabel.Refresh();
@@ -5313,6 +5524,7 @@ namespace MapCreator
 
         private void LabelRotationTrack_Scroll(object sender, EventArgs e)
         {
+            // triggers on value change
             if (UISelectedLabel != null)
             {
                 LabelRotationUpDown.Value = LabelRotationTrack.Value;
@@ -5321,6 +5533,7 @@ namespace MapCreator
                 MapImageBox.Refresh();
             }
         }
+
 
         private void LabelRotationUpDown_ValueChanged(object sender, EventArgs e)
         {

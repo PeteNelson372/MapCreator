@@ -47,9 +47,6 @@ namespace MapCreator
         public int? WaterFeatureColorOpacity { get; set; }
         public Color? WaterFeatureShorelineColor { get; set; } = ColorTranslator.FromHtml("#A19076");
         public int? WaterFeatureShorelineColorOpacity { get; set; } = 255;
-        public float WaterFeaturePathSegmentLength { get; set; }
-        public float WaterFeaturePathVariance { get; set; }
-        public uint WaterFeatureVarianceSeed { get; set; }
 
         [XmlIgnore]
         public SKPaint? WaterFeatureBackgroundPaint { get; set; } = null;
@@ -200,27 +197,6 @@ namespace MapCreator
                 WaterFeatureShorelineColorOpacity = Convert.ToInt32(waterFeatureShorelineColorOpacity);
             }
 
-            IEnumerable<XElement?> segLengthElemEnum = mapWaterFeatureDoc.Descendants().Select(x => x.Element(ns + "WaterFeaturePathSegmentLength"));
-            if (segLengthElemEnum.First() != null)
-            {
-                string? waterFeaturePathSegmentLength = mapWaterFeatureDoc.Descendants().Select(x => x.Element(ns + "WaterFeaturePathSegmentLength").Value).FirstOrDefault();
-                WaterFeaturePathSegmentLength = Convert.ToSingle(waterFeaturePathSegmentLength);
-            }
-
-            IEnumerable<XElement?> pathVarElemEnum = mapWaterFeatureDoc.Descendants().Select(x => x.Element(ns + "WaterFeaturePathVariance"));
-            if (pathVarElemEnum.First() != null)
-            {
-                string? waterFeaturePathVariance = mapWaterFeatureDoc.Descendants().Select(x => x.Element(ns + "WaterFeaturePathVariance").Value).FirstOrDefault();
-                WaterFeaturePathVariance = Convert.ToSingle(waterFeaturePathVariance);
-            }
-
-            IEnumerable<XElement?> varSeedElemEnum = mapWaterFeatureDoc.Descendants().Select(x => x.Element(ns + "WaterFeatureVarianceSeed"));
-            if (varSeedElemEnum.First() != null)
-            {
-                string? waterFeatureVarianceSeed = mapWaterFeatureDoc.Descendants().Select(x => x.Element(ns + "WaterFeatureVarianceSeed").Value).FirstOrDefault();
-                WaterFeatureVarianceSeed = Convert.ToUInt32(waterFeatureVarianceSeed);
-            }
-
             IEnumerable<XElement?> pathElemEnum = mapWaterFeatureDoc.Descendants().Select(x => x.Element(ns + "WaterFeaturePath"));
             if (pathElemEnum.First() != null)
             {
@@ -289,21 +265,6 @@ namespace MapCreator
                 writer.WriteValue(WaterFeatureColorOpacity);
                 writer.WriteEndElement();
             }
-
-            // path segment length
-            writer.WriteStartElement("WaterFeaturePathSegmentLength");
-            writer.WriteValue(WaterFeaturePathSegmentLength);
-            writer.WriteEndElement();
-
-            // path variance
-            writer.WriteStartElement("WaterFeaturePathVariance");
-            writer.WriteValue(WaterFeaturePathVariance);
-            writer.WriteEndElement();
-
-            // path variance seed
-            writer.WriteStartElement("WaterFeatureVarianceSeed");
-            writer.WriteValue(WaterFeatureVarianceSeed);
-            writer.WriteEndElement();
 
             // water feature path
             string pathSvg = WaterFeaturePath.ToSvgPathData();

@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             PresetNameTextBox = new TextBox();
-            OKButton = new Button();
-            CancelButton = new Button();
+            PresetOKButton = new Button();
+            PresetCancelButton = new Button();
             SuspendLayout();
             // 
             // PresetNameTextBox
@@ -40,36 +40,35 @@
             PresetNameTextBox.Size = new Size(214, 23);
             PresetNameTextBox.TabIndex = 0;
             // 
-            // OKButton
+            // PresetOKButton
             // 
-            OKButton.DialogResult = DialogResult.OK;
-            OKButton.Location = new Point(100, 47);
-            OKButton.Name = "OKButton";
-            OKButton.Size = new Size(60, 60);
-            OKButton.TabIndex = 1;
-            OKButton.Text = "&OK";
-            OKButton.UseVisualStyleBackColor = true;
+            PresetOKButton.DialogResult = DialogResult.OK;
+            PresetOKButton.Location = new Point(100, 47);
+            PresetOKButton.Name = "PresetOKButton";
+            PresetOKButton.Size = new Size(60, 30);
+            PresetOKButton.TabIndex = 1;
+            PresetOKButton.Text = "&OK";
+            PresetOKButton.UseVisualStyleBackColor = true;
             // 
-            // CancelButton
+            // PresetCancelButton
             // 
-            CancelButton.DialogResult = DialogResult.Cancel;
-            CancelButton.Location = new Point(166, 47);
-            CancelButton.Name = "CancelButton";
-            CancelButton.Size = new Size(60, 60);
-            CancelButton.TabIndex = 2;
-            CancelButton.Text = "&Cancel";
-            CancelButton.UseVisualStyleBackColor = true;
+            PresetCancelButton.DialogResult = DialogResult.Cancel;
+            PresetCancelButton.Location = new Point(166, 47);
+            PresetCancelButton.Name = "PresetCancelButton";
+            PresetCancelButton.Size = new Size(60, 30);
+            PresetCancelButton.TabIndex = 2;
+            PresetCancelButton.Text = "&Cancel";
+            PresetCancelButton.UseVisualStyleBackColor = true;
             // 
             // LabelPresetNameEntry
             // 
-            AcceptButton = OKButton;
+            AcceptButton = PresetOKButton;
             AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
-            CancelButton = CancelButton;
-            ClientSize = new Size(238, 119);
+            ClientSize = new Size(238, 91);
             ControlBox = false;
-            Controls.Add(CancelButton);
-            Controls.Add(OKButton);
+            Controls.Add(PresetCancelButton);
+            Controls.Add(PresetOKButton);
             Controls.Add(PresetNameTextBox);
             Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -87,8 +86,8 @@
         }
 
         #endregion
-        private Button OKButton;
-        private Button CancelButton;
+        private Button PresetOKButton;
+        private Button PresetCancelButton;
         public TextBox PresetNameTextBox;
     }
 }

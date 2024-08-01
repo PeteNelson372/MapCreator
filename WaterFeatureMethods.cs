@@ -260,14 +260,6 @@ namespace MapCreator
 
         internal static void ConstructWaterFeaturePaintObjects(MapPaintedWaterFeature waterFeature)
         {
-            // TODO: is this combined effect actually needed?
-            SKPathEffect JitterEffect = SKPathEffect.CreateDiscrete(waterFeature.WaterFeaturePathSegmentLength,
-                waterFeature.WaterFeaturePathVariance,
-                waterFeature.WaterFeatureVarianceSeed);
-
-            // the COMBINED_EFFECT combines jitter and rounding
-            SKPathEffect CombinedEffect = SKPathEffect.CreateCompose(ROUND_EFFECT, JitterEffect);
-
 #pragma warning disable CS8629 // Nullable value type may be null.
             SKShader colorShader = SKShader.CreateColor(Extensions.ToSKColor((Color)waterFeature.WaterFeatureColor));
 
@@ -282,7 +274,6 @@ namespace MapCreator
                 Shader = colorShader,
                 BlendMode = SKBlendMode.Src,
                 Color = Extensions.ToSKColor(Color.FromArgb((int)waterFeature.WaterFeatureColorOpacity, (Color)waterFeature.WaterFeatureColor)),
-                //PathEffect = CombinedEffect,
                 IsAntialias = true,
             };
 
@@ -293,7 +284,6 @@ namespace MapCreator
                 Color = Extensions.ToSKColor(Color.FromArgb((int)waterFeature.WaterFeatureShorelineColorOpacity, (Color)waterFeature.WaterFeatureShorelineColor)),
                 StrokeWidth = 3,
                 IsAntialias = true,
-                //PathEffect = CombinedEffect
             };
 
             waterFeature.ShallowWaterPaint = new()
@@ -318,9 +308,6 @@ namespace MapCreator
 
             mapWaterFeature1.WaterFeatureColor = mapWaterFeature2.WaterFeatureColor;
             mapWaterFeature1.WaterFeatureColorOpacity = mapWaterFeature2.WaterFeatureColorOpacity;
-            mapWaterFeature1.WaterFeaturePathSegmentLength = mapWaterFeature2.WaterFeaturePathSegmentLength;
-            mapWaterFeature1.WaterFeaturePathVariance = mapWaterFeature2.WaterFeaturePathVariance;
-            mapWaterFeature1.WaterFeatureVarianceSeed = mapWaterFeature2.WaterFeatureVarianceSeed;
 
             mapWaterFeature1.WaterFeatureBackgroundPaint = mapWaterFeature2.WaterFeatureBackgroundPaint;
             mapWaterFeature1.WaterFeatureShorelinePaint = mapWaterFeature2.WaterFeatureShorelinePaint;

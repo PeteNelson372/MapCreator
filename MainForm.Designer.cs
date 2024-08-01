@@ -62,10 +62,6 @@
             WonderdraftUserFolderToolStripMenuItem = new ToolStripMenuItem();
             loadToolStripMenuItem = new ToolStripMenuItem();
             themeToolStripMenuItem1 = new ToolStripMenuItem();
-            newThemeToolStripMenuItem1 = new ToolStripMenuItem();
-            applyThemeToolStripMenuItem1 = new ToolStripMenuItem();
-            createThemeFromMapSettingsToolStripMenuItem = new ToolStripMenuItem();
-            loadThemesToolStripMenuItem1 = new ToolStripMenuItem();
             OptionsToolStripMenuItem = new ToolStripMenuItem();
             PreferencesToolStripMenuItem = new ToolStripMenuItem();
             HelpToolStripMenuItem = new ToolStripMenuItem();
@@ -191,14 +187,6 @@
             label39 = new Label();
             label37 = new Label();
             ShorelineColorSelectionLabel = new Label();
-            WaterVarianceTrack = new TrackBar();
-            WaterVarianceLabel = new Label();
-            label44 = new Label();
-            label27 = new Label();
-            RandomSeedValueText = new TextBox();
-            WaterSegmentSizeTrack = new TrackBar();
-            WaterSegmentSizeLabel = new Label();
-            label34 = new Label();
             WaterColorOpacityTrack = new TrackBar();
             WaterColorOpacityLabel = new Label();
             label29 = new Label();
@@ -228,7 +216,7 @@
             label47 = new Label();
             label48 = new Label();
             PathColorSelectionLabel = new Label();
-            toolStrip2 = new ToolStrip();
+            PathTools = new ToolStrip();
             SelectPathButton = new FontAwesome.Sharp.IconToolStripButton();
             DrawPathButton = new FontAwesome.Sharp.IconToolStripButton();
             symbolPage = new TabPage();
@@ -264,7 +252,7 @@
             SymbolColor3Label = new Label();
             SymbolColor2Label = new Label();
             SymbolColor1Label = new Label();
-            toolStrip1 = new ToolStrip();
+            SymbolTools = new ToolStrip();
             SelectSymbolButton = new FontAwesome.Sharp.IconToolStripButton();
             StructureSymbolsButton = new FontAwesome.Sharp.IconToolStripButton();
             VegetationSymbolsButton = new FontAwesome.Sharp.IconToolStripButton();
@@ -272,7 +260,7 @@
             OtherSymbolsButton = new FontAwesome.Sharp.IconToolStripButton();
             EraseSymbolsButton = new FontAwesome.Sharp.IconToolStripButton();
             labelPage = new TabPage();
-            LabelPresetListBox = new ListBox();
+            LabelPresetCombo = new ComboBox();
             groupBox13 = new GroupBox();
             LabelRotationUpDown = new NumericUpDown();
             LabelRotationTrack = new TrackBar();
@@ -303,7 +291,7 @@
             BezierTextPathButton = new FontAwesome.Sharp.IconButton();
             CircleTextPathButton = new FontAwesome.Sharp.IconButton();
             label40 = new Label();
-            toolStrip3 = new ToolStrip();
+            LabelTools = new ToolStrip();
             SelectLabelButton = new FontAwesome.Sharp.IconToolStripButton();
             PlaceLabelButton = new FontAwesome.Sharp.IconToolStripButton();
             CreateBoxButton = new FontAwesome.Sharp.IconToolStripButton();
@@ -347,7 +335,7 @@
             label67 = new Label();
             SelectFrameTintLabel = new Label();
             EnableFrameCheck = new CheckBox();
-            toolStrip4 = new ToolStrip();
+            OverlayTools = new ToolStrip();
             ScaleButton = new FontAwesome.Sharp.IconToolStripButton();
             GridButton = new FontAwesome.Sharp.IconToolStripButton();
             MeasureButton = new FontAwesome.Sharp.IconToolStripButton();
@@ -362,7 +350,7 @@
             RegionOpacityTrack = new TrackBar();
             RegionInnerOpacityLabel = new Label();
             label89 = new Label();
-            toolStrip5 = new ToolStrip();
+            RegionTools = new ToolStrip();
             SelectRegionButton = new FontAwesome.Sharp.IconToolStripButton();
             PaintRegionButton = new FontAwesome.Sharp.IconToolStripButton();
             label85 = new Label();
@@ -592,8 +580,6 @@
             ((System.ComponentModel.ISupportInitialize)RiverWidthTrack).BeginInit();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)ShorelineColorOpacityTrack).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)WaterVarianceTrack).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)WaterSegmentSizeTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)WaterColorOpacityTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)WaterBrushSizeTrack).BeginInit();
             WaterPaintTools.SuspendLayout();
@@ -602,7 +588,7 @@
             ((System.ComponentModel.ISupportInitialize)PathTexturePreviewBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PathWidthTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PathColorOpacityTrack).BeginInit();
-            toolStrip2.SuspendLayout();
+            PathTools.SuspendLayout();
             symbolPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)AreaBrushSizeTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PlacementDensityUpDown).BeginInit();
@@ -613,7 +599,7 @@
             ((System.ComponentModel.ISupportInitialize)SymbolRotationTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)SymbolScaleUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)SymbolScaleTrack).BeginInit();
-            toolStrip1.SuspendLayout();
+            SymbolTools.SuspendLayout();
             labelPage.SuspendLayout();
             groupBox13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)LabelRotationUpDown).BeginInit();
@@ -626,7 +612,7 @@
             groupBox10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)GlowColorOpacityTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GlowStrengthUpDown).BeginInit();
-            toolStrip3.SuspendLayout();
+            LabelTools.SuspendLayout();
             overlayPage.SuspendLayout();
             groupBox16.SuspendLayout();
             groupBox15.SuspendLayout();
@@ -637,12 +623,12 @@
             ((System.ComponentModel.ISupportInitialize)FrameScaleUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)FrameScaleTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)FrameTintOpacityTrack).BeginInit();
-            toolStrip4.SuspendLayout();
+            OverlayTools.SuspendLayout();
             regionsPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)RegionBorderSmoothingTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)RegionBorderWidthTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)RegionOpacityTrack).BeginInit();
-            toolStrip5.SuspendLayout();
+            RegionTools.SuspendLayout();
             drawingPage.SuspendLayout();
             mapPanel.SuspendLayout();
             LandColorToolPanel.SuspendLayout();
@@ -931,38 +917,10 @@
             // 
             // themeToolStripMenuItem1
             // 
-            themeToolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { newThemeToolStripMenuItem1, applyThemeToolStripMenuItem1, createThemeFromMapSettingsToolStripMenuItem, loadThemesToolStripMenuItem1 });
             themeToolStripMenuItem1.Name = "themeToolStripMenuItem1";
             themeToolStripMenuItem1.Size = new Size(59, 20);
             themeToolStripMenuItem1.Text = "&Theme";
-            // 
-            // newThemeToolStripMenuItem1
-            // 
-            newThemeToolStripMenuItem1.Name = "newThemeToolStripMenuItem1";
-            newThemeToolStripMenuItem1.Size = new Size(265, 22);
-            newThemeToolStripMenuItem1.Text = "&New Theme";
-            newThemeToolStripMenuItem1.Click += NewThemeToolStripMenuItem_Click;
-            // 
-            // applyThemeToolStripMenuItem1
-            // 
-            applyThemeToolStripMenuItem1.Name = "applyThemeToolStripMenuItem1";
-            applyThemeToolStripMenuItem1.Size = new Size(265, 22);
-            applyThemeToolStripMenuItem1.Text = "&Apply Theme";
-            applyThemeToolStripMenuItem1.Click += ApplyThemeToolStripMenuItem_Click;
-            // 
-            // createThemeFromMapSettingsToolStripMenuItem
-            // 
-            createThemeFromMapSettingsToolStripMenuItem.Name = "createThemeFromMapSettingsToolStripMenuItem";
-            createThemeFromMapSettingsToolStripMenuItem.Size = new Size(265, 22);
-            createThemeFromMapSettingsToolStripMenuItem.Text = "&Create Theme from Map Settings";
-            createThemeFromMapSettingsToolStripMenuItem.Click += CreateFromCurrentMapSettingsToolStripMenuItem_Click;
-            // 
-            // loadThemesToolStripMenuItem1
-            // 
-            loadThemesToolStripMenuItem1.Name = "loadThemesToolStripMenuItem1";
-            loadThemesToolStripMenuItem1.Size = new Size(265, 22);
-            loadThemesToolStripMenuItem1.Text = "&Load Themes";
-            loadThemesToolStripMenuItem1.Click += LoadThemesToolStripMenuItem_Click;
+            themeToolStripMenuItem1.Click += ApplyThemeToolStripMenuItem_Click;
             // 
             // OptionsToolStripMenuItem
             // 
@@ -1507,7 +1465,7 @@
             txGroupBox.Size = new Size(120, 276);
             txGroupBox.TabIndex = 13;
             txGroupBox.TabStop = false;
-            txGroupBox.Text = "Texture Fill";
+            txGroupBox.Text = "Texture";
             // 
             // OceanTextureClearButton
             // 
@@ -1610,7 +1568,7 @@
             groupBox3.Size = new Size(120, 180);
             groupBox3.TabIndex = 12;
             groupBox3.TabStop = false;
-            groupBox3.Text = "Color Fill";
+            groupBox3.Text = "Color";
             // 
             // OceanColorClearButton
             // 
@@ -1793,7 +1751,7 @@
             CoastColorOpacityScroll.TabIndex = 48;
             CoastColorOpacityScroll.TickStyle = TickStyle.None;
             CoastColorOpacityScroll.Value = 187;
-            CoastColorOpacityScroll.Scroll += CoastColorOpacityScroll_ValueChanged;
+            CoastColorOpacityScroll.ValueChanged += CoastColorOpacityScroll_ValueChanged;
             // 
             // PaintGradientCheck
             // 
@@ -2100,7 +2058,7 @@
             LandOutlineWidthScroll.TickFrequency = 2;
             LandOutlineWidthScroll.TickStyle = TickStyle.None;
             LandOutlineWidthScroll.Value = 2;
-            LandOutlineWidthScroll.Scroll += LandOutlineWidthScroll_ValueChanged;
+            LandOutlineWidthScroll.ValueChanged += LandOutlineWidthScroll_ValueChanged;
             // 
             // label18
             // 
@@ -2358,7 +2316,7 @@
             groupBox7.Controls.Add(WaterEraserSizeTrack);
             groupBox7.Controls.Add(WaterEraserSizeLabel);
             groupBox7.Controls.Add(label43);
-            groupBox7.Location = new Point(8, 595);
+            groupBox7.Location = new Point(8, 428);
             groupBox7.Name = "groupBox7";
             groupBox7.Size = new Size(132, 74);
             groupBox7.TabIndex = 23;
@@ -2404,7 +2362,7 @@
             groupBox2.Controls.Add(RiverSourceFadeInCheck);
             groupBox2.Controls.Add(label36);
             groupBox2.Controls.Add(RiverWidthTrack);
-            groupBox2.Location = new Point(8, 473);
+            groupBox2.Location = new Point(8, 306);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(132, 105);
             groupBox2.TabIndex = 21;
@@ -2464,14 +2422,6 @@
             groupBox1.Controls.Add(label39);
             groupBox1.Controls.Add(label37);
             groupBox1.Controls.Add(ShorelineColorSelectionLabel);
-            groupBox1.Controls.Add(WaterVarianceTrack);
-            groupBox1.Controls.Add(WaterVarianceLabel);
-            groupBox1.Controls.Add(label44);
-            groupBox1.Controls.Add(label27);
-            groupBox1.Controls.Add(RandomSeedValueText);
-            groupBox1.Controls.Add(WaterSegmentSizeTrack);
-            groupBox1.Controls.Add(WaterSegmentSizeLabel);
-            groupBox1.Controls.Add(label34);
             groupBox1.Controls.Add(WaterColorOpacityTrack);
             groupBox1.Controls.Add(WaterColorOpacityLabel);
             groupBox1.Controls.Add(label29);
@@ -2482,7 +2432,7 @@
             groupBox1.Controls.Add(WaterColorSelectionLabel);
             groupBox1.Location = new Point(8, 5);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(132, 451);
+            groupBox1.Size = new Size(132, 283);
             groupBox1.TabIndex = 20;
             groupBox1.TabStop = false;
             groupBox1.Text = "Appearance";
@@ -2541,88 +2491,6 @@
             ShorelineColorSelectionLabel.Text = "Click to Select";
             ShorelineColorSelectionLabel.TextAlign = ContentAlignment.MiddleCenter;
             ShorelineColorSelectionLabel.Click += ShorelineColorSelectionLabel_Click;
-            // 
-            // WaterVarianceTrack
-            // 
-            WaterVarianceTrack.AutoSize = false;
-            WaterVarianceTrack.Location = new Point(5, 345);
-            WaterVarianceTrack.Maximum = 300;
-            WaterVarianceTrack.Name = "WaterVarianceTrack";
-            WaterVarianceTrack.Size = new Size(108, 20);
-            WaterVarianceTrack.TabIndex = 63;
-            WaterVarianceTrack.TickStyle = TickStyle.None;
-            WaterVarianceTrack.Value = 60;
-            WaterVarianceTrack.Scroll += WaterVarianceTrack_Scroll;
-            // 
-            // WaterVarianceLabel
-            // 
-            WaterVarianceLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            WaterVarianceLabel.Location = new Point(87, 328);
-            WaterVarianceLabel.Name = "WaterVarianceLabel";
-            WaterVarianceLabel.Size = new Size(30, 14);
-            WaterVarianceLabel.TabIndex = 62;
-            WaterVarianceLabel.Text = "0.6";
-            WaterVarianceLabel.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label44
-            // 
-            label44.AutoSize = true;
-            label44.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label44.Location = new Point(13, 328);
-            label44.Name = "label44";
-            label44.Size = new Size(48, 13);
-            label44.TabIndex = 61;
-            label44.Text = "Variance";
-            // 
-            // label27
-            // 
-            label27.AutoSize = true;
-            label27.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label27.Location = new Point(10, 382);
-            label27.Name = "label27";
-            label27.Size = new Size(73, 13);
-            label27.TabIndex = 60;
-            label27.Text = "Random Seed";
-            // 
-            // RandomSeedValueText
-            // 
-            RandomSeedValueText.Location = new Point(5, 401);
-            RandomSeedValueText.Name = "RandomSeedValueText";
-            RandomSeedValueText.Size = new Size(115, 26);
-            RandomSeedValueText.TabIndex = 59;
-            // 
-            // WaterSegmentSizeTrack
-            // 
-            WaterSegmentSizeTrack.AutoSize = false;
-            WaterSegmentSizeTrack.Location = new Point(5, 299);
-            WaterSegmentSizeTrack.Maximum = 20;
-            WaterSegmentSizeTrack.Minimum = 1;
-            WaterSegmentSizeTrack.Name = "WaterSegmentSizeTrack";
-            WaterSegmentSizeTrack.Size = new Size(108, 20);
-            WaterSegmentSizeTrack.TabIndex = 57;
-            WaterSegmentSizeTrack.TickStyle = TickStyle.None;
-            WaterSegmentSizeTrack.Value = 8;
-            WaterSegmentSizeTrack.Scroll += WaterBrushRoughnessTrack_Scroll;
-            // 
-            // WaterSegmentSizeLabel
-            // 
-            WaterSegmentSizeLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            WaterSegmentSizeLabel.Location = new Point(84, 282);
-            WaterSegmentSizeLabel.Name = "WaterSegmentSizeLabel";
-            WaterSegmentSizeLabel.Size = new Size(30, 14);
-            WaterSegmentSizeLabel.TabIndex = 56;
-            WaterSegmentSizeLabel.Text = "8";
-            WaterSegmentSizeLabel.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label34
-            // 
-            label34.AutoSize = true;
-            label34.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label34.Location = new Point(10, 282);
-            label34.Name = "label34";
-            label34.Size = new Size(71, 13);
-            label34.TabIndex = 55;
-            label34.Text = "Segment Size";
             // 
             // WaterColorOpacityTrack
             // 
@@ -2825,7 +2693,7 @@
             // 
             pathPage.BackColor = SystemColors.Control;
             pathPage.Controls.Add(groupBox5);
-            pathPage.Controls.Add(toolStrip2);
+            pathPage.Controls.Add(PathTools);
             pathPage.Location = new Point(34, 4);
             pathPage.Name = "pathPage";
             pathPage.Size = new Size(208, 1106);
@@ -3007,20 +2875,20 @@
             PathColorSelectionLabel.TextAlign = ContentAlignment.MiddleCenter;
             PathColorSelectionLabel.Click += PathColorSelectionLabel_Click;
             // 
-            // toolStrip2
+            // PathTools
             // 
-            toolStrip2.AutoSize = false;
-            toolStrip2.BackColor = SystemColors.Control;
-            toolStrip2.Dock = DockStyle.None;
-            toolStrip2.GripStyle = ToolStripGripStyle.Hidden;
-            toolStrip2.Items.AddRange(new ToolStripItem[] { SelectPathButton, DrawPathButton });
-            toolStrip2.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
-            toolStrip2.Location = new Point(138, 3);
-            toolStrip2.Name = "toolStrip2";
-            toolStrip2.Padding = new Padding(0, 25, 1, 0);
-            toolStrip2.Size = new Size(76, 1100);
-            toolStrip2.TabIndex = 20;
-            toolStrip2.Text = "Water Tools";
+            PathTools.AutoSize = false;
+            PathTools.BackColor = SystemColors.Control;
+            PathTools.Dock = DockStyle.None;
+            PathTools.GripStyle = ToolStripGripStyle.Hidden;
+            PathTools.Items.AddRange(new ToolStripItem[] { SelectPathButton, DrawPathButton });
+            PathTools.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
+            PathTools.Location = new Point(138, 3);
+            PathTools.Name = "PathTools";
+            PathTools.Padding = new Padding(0, 25, 1, 0);
+            PathTools.Size = new Size(76, 1100);
+            PathTools.TabIndex = 20;
+            PathTools.Text = "Water Tools";
             // 
             // SelectPathButton
             // 
@@ -3094,7 +2962,7 @@
             symbolPage.Controls.Add(SymbolColor3Label);
             symbolPage.Controls.Add(SymbolColor2Label);
             symbolPage.Controls.Add(SymbolColor1Label);
-            symbolPage.Controls.Add(toolStrip1);
+            symbolPage.Controls.Add(SymbolTools);
             symbolPage.Location = new Point(34, 4);
             symbolPage.Name = "symbolPage";
             symbolPage.Size = new Size(208, 1106);
@@ -3478,19 +3346,19 @@
             SymbolColor1Label.TabIndex = 75;
             SymbolColor1Label.Click += SymbolColor1Label_Click;
             // 
-            // toolStrip1
+            // SymbolTools
             // 
-            toolStrip1.AutoSize = false;
-            toolStrip1.BackColor = SystemColors.Control;
-            toolStrip1.Dock = DockStyle.None;
-            toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
-            toolStrip1.Items.AddRange(new ToolStripItem[] { SelectSymbolButton, StructureSymbolsButton, VegetationSymbolsButton, TerrainSymbolsButton, OtherSymbolsButton, EraseSymbolsButton });
-            toolStrip1.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
-            toolStrip1.Location = new Point(132, 0);
-            toolStrip1.Name = "toolStrip1";
-            toolStrip1.Padding = new Padding(0, 25, 1, 0);
-            toolStrip1.Size = new Size(76, 1100);
-            toolStrip1.TabIndex = 20;
+            SymbolTools.AutoSize = false;
+            SymbolTools.BackColor = SystemColors.Control;
+            SymbolTools.Dock = DockStyle.None;
+            SymbolTools.GripStyle = ToolStripGripStyle.Hidden;
+            SymbolTools.Items.AddRange(new ToolStripItem[] { SelectSymbolButton, StructureSymbolsButton, VegetationSymbolsButton, TerrainSymbolsButton, OtherSymbolsButton, EraseSymbolsButton });
+            SymbolTools.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
+            SymbolTools.Location = new Point(132, 0);
+            SymbolTools.Name = "SymbolTools";
+            SymbolTools.Padding = new Padding(0, 25, 1, 0);
+            SymbolTools.Size = new Size(76, 1100);
+            SymbolTools.TabIndex = 20;
             // 
             // SelectSymbolButton
             // 
@@ -3611,7 +3479,7 @@
             // labelPage
             // 
             labelPage.BackColor = SystemColors.Control;
-            labelPage.Controls.Add(LabelPresetListBox);
+            labelPage.Controls.Add(LabelPresetCombo);
             labelPage.Controls.Add(groupBox13);
             labelPage.Controls.Add(groupBox12);
             labelPage.Controls.Add(groupBox11);
@@ -3619,7 +3487,7 @@
             labelPage.Controls.Add(BezierTextPathButton);
             labelPage.Controls.Add(CircleTextPathButton);
             labelPage.Controls.Add(label40);
-            labelPage.Controls.Add(toolStrip3);
+            labelPage.Controls.Add(LabelTools);
             labelPage.Controls.Add(RemovePresetButton);
             labelPage.Controls.Add(AddPresetButton);
             labelPage.Controls.Add(label58);
@@ -3629,18 +3497,17 @@
             labelPage.TabIndex = 5;
             labelPage.Text = "Labels";
             // 
-            // LabelPresetListBox
+            // LabelPresetCombo
             // 
-            LabelPresetListBox.BorderStyle = BorderStyle.FixedSingle;
-            LabelPresetListBox.Font = new Font("Tahoma", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            LabelPresetListBox.FormattingEnabled = true;
-            LabelPresetListBox.ItemHeight = 23;
-            LabelPresetListBox.Location = new Point(13, 40);
-            LabelPresetListBox.Name = "LabelPresetListBox";
-            LabelPresetListBox.ScrollAlwaysVisible = true;
-            LabelPresetListBox.Size = new Size(115, 25);
-            LabelPresetListBox.TabIndex = 101;
-            LabelPresetListBox.SelectedIndexChanged += LabelPresetListBox_SelectedIndexChanged;
+            LabelPresetCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            LabelPresetCombo.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            LabelPresetCombo.FormattingEnabled = true;
+            LabelPresetCombo.Location = new Point(14, 35);
+            LabelPresetCombo.MaxDropDownItems = 12;
+            LabelPresetCombo.Name = "LabelPresetCombo";
+            LabelPresetCombo.Size = new Size(115, 24);
+            LabelPresetCombo.TabIndex = 102;
+            LabelPresetCombo.SelectedIndexChanged += LabelPresetCombo_SelectedIndexChanged;
             // 
             // groupBox13
             // 
@@ -3675,7 +3542,7 @@
             LabelRotationTrack.TabIndex = 95;
             LabelRotationTrack.TickStyle = TickStyle.None;
             LabelRotationTrack.Value = 4;
-            LabelRotationTrack.Scroll += LabelRotationTrack_Scroll;
+            LabelRotationTrack.ValueChanged += LabelRotationTrack_Scroll;
             // 
             // label42
             // 
@@ -3712,7 +3579,7 @@
             FontColorOpacityTrack.TabIndex = 109;
             FontColorOpacityTrack.TickStyle = TickStyle.None;
             FontColorOpacityTrack.Value = 255;
-            FontColorOpacityTrack.Scroll += FontColorOpacityTrack_Scroll;
+            FontColorOpacityTrack.ValueChanged += FontColorOpacityTrack_ValueChanged;
             // 
             // FontColorOpacityLabel
             // 
@@ -3798,7 +3665,7 @@
             OutlineColorOpacityTrack.TabIndex = 106;
             OutlineColorOpacityTrack.TickStyle = TickStyle.None;
             OutlineColorOpacityTrack.Value = 255;
-            OutlineColorOpacityTrack.Scroll += OutlineColorOpacityTrack_Scroll;
+            OutlineColorOpacityTrack.ValueChanged += OutlineColorOpacityTrack_ValueChanged;
             // 
             // OutlineColorOpacityLabel
             // 
@@ -3895,7 +3762,7 @@
             GlowColorOpacityTrack.TabIndex = 103;
             GlowColorOpacityTrack.TickStyle = TickStyle.None;
             GlowColorOpacityTrack.Value = 255;
-            GlowColorOpacityTrack.Scroll += GlowColorOpacityTrack_Scroll;
+            GlowColorOpacityTrack.ValueChanged += GlowColorOpacityTrack_ValueChanged;
             // 
             // GlowColorOpacityLabel
             // 
@@ -4013,19 +3880,19 @@
             label40.TabIndex = 87;
             label40.Text = "Label Path";
             // 
-            // toolStrip3
+            // LabelTools
             // 
-            toolStrip3.AutoSize = false;
-            toolStrip3.BackColor = SystemColors.Control;
-            toolStrip3.Dock = DockStyle.None;
-            toolStrip3.GripStyle = ToolStripGripStyle.Hidden;
-            toolStrip3.Items.AddRange(new ToolStripItem[] { SelectLabelButton, PlaceLabelButton, CreateBoxButton });
-            toolStrip3.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
-            toolStrip3.Location = new Point(132, 0);
-            toolStrip3.Name = "toolStrip3";
-            toolStrip3.Padding = new Padding(0, 25, 1, 0);
-            toolStrip3.Size = new Size(76, 1100);
-            toolStrip3.TabIndex = 74;
+            LabelTools.AutoSize = false;
+            LabelTools.BackColor = SystemColors.Control;
+            LabelTools.Dock = DockStyle.None;
+            LabelTools.GripStyle = ToolStripGripStyle.Hidden;
+            LabelTools.Items.AddRange(new ToolStripItem[] { SelectLabelButton, PlaceLabelButton, CreateBoxButton });
+            LabelTools.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
+            LabelTools.Location = new Point(132, 0);
+            LabelTools.Name = "LabelTools";
+            LabelTools.Padding = new Padding(0, 25, 1, 0);
+            LabelTools.Size = new Size(76, 1100);
+            LabelTools.TabIndex = 74;
             // 
             // SelectLabelButton
             // 
@@ -4128,7 +3995,7 @@
             overlayPage.Controls.Add(groupBox16);
             overlayPage.Controls.Add(groupBox15);
             overlayPage.Controls.Add(groupBox14);
-            overlayPage.Controls.Add(toolStrip4);
+            overlayPage.Controls.Add(OverlayTools);
             overlayPage.Location = new Point(34, 4);
             overlayPage.Name = "overlayPage";
             overlayPage.Size = new Size(208, 1106);
@@ -4594,19 +4461,19 @@
             EnableFrameCheck.UseVisualStyleBackColor = true;
             EnableFrameCheck.CheckedChanged += EnableFrameCheck_CheckedChanged;
             // 
-            // toolStrip4
+            // OverlayTools
             // 
-            toolStrip4.AutoSize = false;
-            toolStrip4.BackColor = SystemColors.Control;
-            toolStrip4.Dock = DockStyle.None;
-            toolStrip4.GripStyle = ToolStripGripStyle.Hidden;
-            toolStrip4.Items.AddRange(new ToolStripItem[] { ScaleButton, GridButton, MeasureButton });
-            toolStrip4.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
-            toolStrip4.Location = new Point(132, 0);
-            toolStrip4.Name = "toolStrip4";
-            toolStrip4.Size = new Size(76, 1029);
-            toolStrip4.TabIndex = 17;
-            toolStrip4.Text = "toolStrip4";
+            OverlayTools.AutoSize = false;
+            OverlayTools.BackColor = SystemColors.Control;
+            OverlayTools.Dock = DockStyle.None;
+            OverlayTools.GripStyle = ToolStripGripStyle.Hidden;
+            OverlayTools.Items.AddRange(new ToolStripItem[] { ScaleButton, GridButton, MeasureButton });
+            OverlayTools.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
+            OverlayTools.Location = new Point(132, 0);
+            OverlayTools.Name = "OverlayTools";
+            OverlayTools.Size = new Size(76, 1029);
+            OverlayTools.TabIndex = 17;
+            OverlayTools.Text = "toolStrip4";
             // 
             // ScaleButton
             // 
@@ -4672,7 +4539,7 @@
             regionsPage.Controls.Add(RegionOpacityTrack);
             regionsPage.Controls.Add(RegionInnerOpacityLabel);
             regionsPage.Controls.Add(label89);
-            regionsPage.Controls.Add(toolStrip5);
+            regionsPage.Controls.Add(RegionTools);
             regionsPage.Controls.Add(label85);
             regionsPage.Controls.Add(RegionColorSelectLabel);
             regionsPage.Location = new Point(34, 4);
@@ -4802,19 +4669,19 @@
             label89.Text = "Inner Opacity";
             label89.UseMnemonic = false;
             // 
-            // toolStrip5
+            // RegionTools
             // 
-            toolStrip5.AutoSize = false;
-            toolStrip5.BackColor = SystemColors.Control;
-            toolStrip5.Dock = DockStyle.None;
-            toolStrip5.GripStyle = ToolStripGripStyle.Hidden;
-            toolStrip5.Items.AddRange(new ToolStripItem[] { SelectRegionButton, PaintRegionButton });
-            toolStrip5.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
-            toolStrip5.Location = new Point(126, 0);
-            toolStrip5.Name = "toolStrip5";
-            toolStrip5.Padding = new Padding(0, 25, 1, 0);
-            toolStrip5.Size = new Size(76, 1100);
-            toolStrip5.TabIndex = 96;
+            RegionTools.AutoSize = false;
+            RegionTools.BackColor = SystemColors.Control;
+            RegionTools.Dock = DockStyle.None;
+            RegionTools.GripStyle = ToolStripGripStyle.Hidden;
+            RegionTools.Items.AddRange(new ToolStripItem[] { SelectRegionButton, PaintRegionButton });
+            RegionTools.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
+            RegionTools.Location = new Point(126, 0);
+            RegionTools.Name = "RegionTools";
+            RegionTools.Padding = new Padding(0, 25, 1, 0);
+            RegionTools.Size = new Size(76, 1100);
+            RegionTools.TabIndex = 96;
             // 
             // SelectRegionButton
             // 
@@ -7315,15 +7182,15 @@
             Controls.Add(mapPanel);
             Controls.Add(ApplicationStatusStrip);
             Controls.Add(MainMenu);
+            Controls.Add(WaterColorToolPanel);
+            Controls.Add(PathPanel);
+            Controls.Add(SymbolsToolPanel);
             Controls.Add(OverlayToolsPanel);
             Controls.Add(RegionsToolPanel);
             Controls.Add(BackgroundToolPanel);
             Controls.Add(LandColorToolPanel);
             Controls.Add(LabelsToolPanel);
             Controls.Add(OceanColorToolPanel);
-            Controls.Add(WaterColorToolPanel);
-            Controls.Add(PathPanel);
-            Controls.Add(SymbolsToolPanel);
             DoubleBuffered = true;
             HelpButton = true;
             KeyPreview = true;
@@ -7390,8 +7257,6 @@
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)ShorelineColorOpacityTrack).EndInit();
-            ((System.ComponentModel.ISupportInitialize)WaterVarianceTrack).EndInit();
-            ((System.ComponentModel.ISupportInitialize)WaterSegmentSizeTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)WaterColorOpacityTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)WaterBrushSizeTrack).EndInit();
             WaterPaintTools.ResumeLayout(false);
@@ -7402,8 +7267,8 @@
             ((System.ComponentModel.ISupportInitialize)PathTexturePreviewBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)PathWidthTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)PathColorOpacityTrack).EndInit();
-            toolStrip2.ResumeLayout(false);
-            toolStrip2.PerformLayout();
+            PathTools.ResumeLayout(false);
+            PathTools.PerformLayout();
             symbolPage.ResumeLayout(false);
             symbolPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)AreaBrushSizeTrack).EndInit();
@@ -7415,8 +7280,8 @@
             ((System.ComponentModel.ISupportInitialize)SymbolRotationTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)SymbolScaleUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)SymbolScaleTrack).EndInit();
-            toolStrip1.ResumeLayout(false);
-            toolStrip1.PerformLayout();
+            SymbolTools.ResumeLayout(false);
+            SymbolTools.PerformLayout();
             labelPage.ResumeLayout(false);
             labelPage.PerformLayout();
             groupBox13.ResumeLayout(false);
@@ -7434,8 +7299,8 @@
             groupBox10.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)GlowColorOpacityTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)GlowStrengthUpDown).EndInit();
-            toolStrip3.ResumeLayout(false);
-            toolStrip3.PerformLayout();
+            LabelTools.ResumeLayout(false);
+            LabelTools.PerformLayout();
             overlayPage.ResumeLayout(false);
             groupBox16.ResumeLayout(false);
             groupBox16.PerformLayout();
@@ -7449,15 +7314,15 @@
             ((System.ComponentModel.ISupportInitialize)FrameScaleUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)FrameScaleTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)FrameTintOpacityTrack).EndInit();
-            toolStrip4.ResumeLayout(false);
-            toolStrip4.PerformLayout();
+            OverlayTools.ResumeLayout(false);
+            OverlayTools.PerformLayout();
             regionsPage.ResumeLayout(false);
             regionsPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)RegionBorderSmoothingTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)RegionBorderWidthTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)RegionOpacityTrack).EndInit();
-            toolStrip5.ResumeLayout(false);
-            toolStrip5.PerformLayout();
+            RegionTools.ResumeLayout(false);
+            RegionTools.PerformLayout();
             drawingPage.ResumeLayout(false);
             drawingPage.PerformLayout();
             mapPanel.ResumeLayout(false);
@@ -7754,14 +7619,6 @@
         private Label WaterBrushSizeLabel;
         private Label label45;
         private Label RiverWidthLabel;
-        private TrackBar WaterSegmentSizeTrack;
-        private Label WaterSegmentSizeLabel;
-        private Label label34;
-        private Label label27;
-        private TextBox RandomSeedValueText;
-        private TrackBar WaterVarianceTrack;
-        private Label WaterVarianceLabel;
-        private Label label44;
         private Label label37;
         private Label ShorelineColorSelectionLabel;
         private TrackBar ShorelineColorOpacityTrack;
@@ -7769,14 +7626,14 @@
         private Label label39;
         private Label WaterColorBrushSizeLabel;
         private Label WaterColorBrushOpacityLabel;
-        private ToolStrip toolStrip1;
+        private ToolStrip SymbolTools;
         private FontAwesome.Sharp.IconToolStripButton SelectSymbolButton;
         private FontAwesome.Sharp.IconToolStripButton StructureSymbolsButton;
         private FontAwesome.Sharp.IconToolStripButton VegetationSymbolsButton;
         private FontAwesome.Sharp.IconToolStripButton EraseSymbolsButton;
         private FontAwesome.Sharp.IconToolStripButton TerrainSymbolsButton;
         private Panel SymbolsToolPanel;
-        private ToolStrip toolStrip2;
+        private ToolStrip PathTools;
         private FontAwesome.Sharp.IconToolStripButton SelectPathButton;
         private FontAwesome.Sharp.IconToolStripButton DrawPathButton;
         private Panel PathPanel;
@@ -7858,10 +7715,6 @@
         private TextBox textBox1;
         private TableLayoutPanel SymbolTable;
         private ToolStripMenuItem themeToolStripMenuItem1;
-        private ToolStripMenuItem newThemeToolStripMenuItem1;
-        private ToolStripMenuItem applyThemeToolStripMenuItem1;
-        private ToolStripMenuItem createThemeFromMapSettingsToolStripMenuItem;
-        private ToolStripMenuItem loadThemesToolStripMenuItem1;
         private ToolStripMenuItem assetsToolStripMenuItem1;
         private ToolStripMenuItem loadToolStripMenuItem;
         private ToolStripMenuItem CreateCollectionToolStripMenuItem;
@@ -7889,7 +7742,7 @@
         private Label label58;
         private FontAwesome.Sharp.IconButton AddPresetButton;
         private FontAwesome.Sharp.IconButton RemovePresetButton;
-        private ToolStrip toolStrip3;
+        private ToolStrip LabelTools;
         private FontAwesome.Sharp.IconToolStripButton SelectLabelButton;
         private FontAwesome.Sharp.IconToolStripButton PlaceLabelButton;
         private FontAwesome.Sharp.IconToolStripButton CreateBoxButton;
@@ -7930,7 +7783,7 @@
         private Label SelectBoxTintLabel;
         public NumericUpDown LabelRotationUpDown;
         private Panel OverlayToolsPanel;
-        private ToolStrip toolStrip4;
+        private ToolStrip OverlayTools;
         private FontAwesome.Sharp.IconToolStripButton GridButton;
         private FontAwesome.Sharp.IconToolStripButton ScaleButton;
         private FontAwesome.Sharp.IconToolStripButton MeasureButton;
@@ -8002,11 +7855,10 @@
         private Label VignetteColorSelectionLabel;
         private Label label84;
         private ToolStripMenuItem PreferencesToolStripMenuItem;
-        private ListBox LabelPresetListBox;
         private FontAwesome.Sharp.IconButton ZoomToFitButton;
         private TabPage regionsPage;
         private Label RegionColorSelectLabel;
-        private ToolStrip toolStrip5;
+        private ToolStrip RegionTools;
         private FontAwesome.Sharp.IconToolStripButton SelectRegionButton;
         private FontAwesome.Sharp.IconToolStripButton PaintRegionButton;
         private Label label85;
@@ -8041,5 +7893,6 @@
         private Label RegionBorderSmoothingLabel;
         private RichTextBox RegionHelpRichText;
         private Button ClearWindroseButton;
+        private ComboBox LabelPresetCombo;
     }
 }

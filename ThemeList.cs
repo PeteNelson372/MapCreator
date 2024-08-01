@@ -21,23 +21,15 @@
 * contact@brookmonte.com
 *
 ***************************************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace MapCreator
 {
     public partial class ThemeList : Form
     {
-        MapTheme? selectedTheme = null;
-        MapTheme[]? mapThemes = null;
-        ThemeFilter themeFilter = new();
+        private MapTheme? selectedTheme = null;
+        private MapTheme[]? mapThemes = null;
+        private readonly ThemeFilter themeFilter = new();
+
+        public MapTheme? SettingsTheme { get; set; } = null;
 
         public ThemeList()
         {
@@ -48,7 +40,7 @@ namespace MapCreator
         {
             mapThemes = themes;
 
-            for (int i = 0; i <  themes.Length; i++)
+            for (int i = 0; i < themes.Length; i++)
             {
 #pragma warning disable CS8604 // Possible null reference argument.
                 ThemeListComboBox.Items.Add(themes[i].ThemeName);
@@ -71,13 +63,14 @@ namespace MapCreator
         {
             themeFilter.ApplyBackgroundSettings = ApplyBackgroundSettingsCheck.Checked;
             themeFilter.ApplyOceanSettings = ApplyOceanSettingsCheck.Checked;
+            themeFilter.ApplyOceanColorPaletteSettings = ApplyOceanColorPaletteSettingsCheck.Checked;
             themeFilter.ApplyLandSettings = ApplyLandformSettingsCheck.Checked;
+            themeFilter.ApplyLandformColorPaletteSettings = ApplyLandformColorPaletteSettingsCheck.Checked;
             themeFilter.ApplyFreshwaterSettings = ApplyWaterSettingsCheck.Checked;
+            themeFilter.ApplyFreshwaterColorPaletteSettings = ApplyFreshwaterColorPaletteSettingsCheck.Checked;
             themeFilter.ApplyPathSetSettings = ApplyPathSettingsCheck.Checked;
             themeFilter.ApplySymbolSettings = ApplySymbolSettingsCheck.Checked;
-            themeFilter.ApplyFrameSettings = ApplyFrameSettingsCheck.Checked;
-            themeFilter.ApplyLabelSettings = ApplyLabelSettingsCheck.Checked;
-            themeFilter.ApplyOverlaySettings = ApplyOverlaySettingsCheck.Checked;
+            themeFilter.ApplyLabelPresetSettings = ApplyLabelPresetSettingsCheck.Checked;
 
             return themeFilter;
         }
@@ -96,13 +89,66 @@ namespace MapCreator
         {
             ApplyBackgroundSettingsCheck.Checked = CheckAllCheck.Checked;
             ApplyOceanSettingsCheck.Checked = CheckAllCheck.Checked;
+            ApplyOceanColorPaletteSettingsCheck.Checked = CheckAllCheck.Checked;
             ApplyLandformSettingsCheck.Checked = CheckAllCheck.Checked;
+            ApplyLandformColorPaletteSettingsCheck.Checked = CheckAllCheck.Checked;
             ApplyWaterSettingsCheck.Checked = CheckAllCheck.Checked;
+            ApplyFreshwaterColorPaletteSettingsCheck.Checked = CheckAllCheck.Checked;
             ApplyPathSettingsCheck.Checked = CheckAllCheck.Checked;
             ApplySymbolSettingsCheck.Checked = CheckAllCheck.Checked;
-            ApplyFrameSettingsCheck.Checked = CheckAllCheck.Checked;
-            ApplyLabelSettingsCheck.Checked = CheckAllCheck.Checked;
-            ApplyOverlaySettingsCheck.Checked = CheckAllCheck.Checked;
+            ApplyLabelPresetSettingsCheck.Checked = CheckAllCheck.Checked;
+        }
+
+        private void SaveThemeButton_Click(object sender, EventArgs e)
+        {
+            // TODO: apply changes made in UI to theme
+
+            if (SettingsTheme != null)
+            {
+                ThemeNameEntry nameEntryDlg = new();
+                DialogResult result = nameEntryDlg.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    string themeName = nameEntryDlg.ThemeNameTextBox.Text;
+                    SettingsTheme.ThemeName = themeName;
+
+                    string assetDirectory = Resources.ASSET_DIRECTORY;
+                    string themePath = assetDirectory + Path.DirectorySeparatorChar + "Themes" + Path.DirectorySeparatorChar + themeName + ".mctheme";
+                    SettingsTheme.ThemePath = themePath;
+
+                    if (!File.Exists(themePath))
+                    {
+                        ThemeMethods.SaveTheme(SettingsTheme);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            MapTheme? t = MapFileMethods.ReadThemeFromXml(themePath);
+
+                            if (t != null)
+                            {
+                                if (!t.IsSystemTheme)
+                                {
+                                    if (MessageBox.Show(this, "A theme with name " + themeName + " already exists. Replace it?", "Theme Exists", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                    {
+                                        ThemeMethods.SaveTheme(SettingsTheme);
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show(this, "The theme named " + themeName + " is a default theme. It cannot be replaced.", "Default Theme", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            Program.LOGGER.Error(ex);
+                        }
+                    }
+                }
+            }
         }
     }
 }
