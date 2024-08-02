@@ -32,7 +32,7 @@ namespace MapCreator
         {
             MapRegionMethods.MAP_REGION_LIST.Remove(NewMapRegion);
 
-            for (int i = MapBuilder.GetMapLayerByIndex(Map, MapBuilder.REGIONLAYER).MapLayerComponents.Count - 1; i > 0; i--)
+            for (int i = MapBuilder.GetMapLayerByIndex(Map, MapBuilder.REGIONLAYER).MapLayerComponents.Count - 1; i >= 0; i--)
             {
                 if (MapBuilder.GetMapLayerByIndex(Map, MapBuilder.REGIONLAYER).MapLayerComponents[i] is MapRegion r)
                 {
@@ -45,6 +45,7 @@ namespace MapCreator
             }
 
             MapBuilder.GetLayerCanvas(Map, MapBuilder.REGIONLAYER).Clear();
+            MapBuilder.GetLayerCanvas(Map, MapBuilder.REGIONOVERLAYLAYER).Clear();
         }
 
         public void UndoOperation()

@@ -258,13 +258,39 @@ namespace MapCreator
                     using SKPath boundsPath = new();
                     boundsPath.AddRect(boundRect);
 
-                    MapBuilder.GetLayerCanvas(map, MapBuilder.REGIONLAYER).DrawPath(boundsPath, REGION_SELECT_PAINT);
+                    MapBuilder.GetLayerCanvas(map, MapBuilder.REGIONOVERLAYLAYER).DrawPath(boundsPath, REGION_SELECT_PAINT);
 
                     // draw dots on region vertices
 
-                    foreach (MapRegionPoint p in region.MapRegionPoints)
+                    float minDistance = 20;
+                    float totalDistance = 0;
+
+                    for (int i = 0;  i < region.MapRegionPoints.Count; i++)
                     {
-                        p.Render(MapBuilder.GetLayerCanvas(map, MapBuilder.REGIONLAYER));
+                        MapRegionPoint p = region.MapRegionPoints[i];
+
+                        bool renderPoint = false;
+
+                        if (i < region.MapRegionPoints.Count - 1)
+                        {
+                            float distance = SKPoint.Distance(p.RegionPoint, region.MapRegionPoints[i + 1].RegionPoint);
+                            totalDistance += distance;
+
+                            if (totalDistance > minDistance)
+                            {
+                                renderPoint = true;
+                                totalDistance = 0;
+                            }
+                        }
+                        else
+                        {
+                            renderPoint = true;
+                        }
+
+                        if (renderPoint)
+                        {
+                            p.Render(MapBuilder.GetLayerCanvas(map, MapBuilder.REGIONOVERLAYLAYER));
+                        }
                     }
                 }
             }

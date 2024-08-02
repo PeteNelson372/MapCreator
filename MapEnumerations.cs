@@ -131,7 +131,7 @@ namespace MapCreator
         Other
     }
 
-    public enum SymbolRenderMoveDirectionEnum
+    public enum ComponentMoveDirectionEnum
     {
         Up, Down
     }

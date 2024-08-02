@@ -52,11 +52,11 @@ namespace MapCreator
             {
                 if (MapLayerComponents != null)
                 {
-                    //LayerSurface.Canvas.Clear();
+                    //LayerSurface?.Canvas.Clear();
 
                     foreach (var component in MapLayerComponents)
                     {
-                        if (component.RenderComponent && LayerSurface != null)
+                        if (component.RenderComponent)
                         {
                             //component.Render(LayerSurface.Canvas);
                             //canvas.DrawSurface(LayerSurface, 0, 0);

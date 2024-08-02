@@ -74,6 +74,7 @@
             MapOperationProgressBar = new ToolStripProgressBar();
             LayerSelectTabControl = new TabControl();
             backgroundPage = new TabPage();
+            ShowBackgroundLayerCheck = new CheckBox();
             groupBox18 = new GroupBox();
             VignetteColorSelectionLabel = new Label();
             label84 = new Label();
@@ -85,6 +86,7 @@
             backgroundTxPictureBox = new PictureBox();
             backgroundTxBox = new ComboBox();
             oceanPage = new TabPage();
+            ShowOceanLayerCheck = new CheckBox();
             groupBox17 = new GroupBox();
             ClearWindroseButton = new Button();
             WindroseColorOpacityTrack = new TrackBar();
@@ -122,6 +124,7 @@
             label6 = new Label();
             OceanColorSelectionLabel = new Label();
             landPage = new TabPage();
+            ShowLandLayerCheck = new CheckBox();
             groupBox8 = new GroupBox();
             LandEraserSizeScroll = new TrackBar();
             LandEraserSizeLabel = new Label();
@@ -172,6 +175,7 @@
             FractalizeButton = new FontAwesome.Sharp.IconToolStripButton();
             GenerateLandFormButton = new FontAwesome.Sharp.IconToolStripButton();
             waterPage = new TabPage();
+            ShowWaterLayerCheck = new CheckBox();
             groupBox7 = new GroupBox();
             WaterEraserSizeTrack = new TrackBar();
             WaterEraserSizeLabel = new Label();
@@ -202,6 +206,7 @@
             WaterFeatureRiverButton = new FontAwesome.Sharp.IconToolStripButton();
             WaterFeatureEraseButton = new FontAwesome.Sharp.IconToolStripButton();
             pathPage = new TabPage();
+            ShowPathLayerCheck = new CheckBox();
             groupBox5 = new GroupBox();
             PathTexturePreviewBox = new PictureBox();
             label49 = new Label();
@@ -220,6 +225,7 @@
             SelectPathButton = new FontAwesome.Sharp.IconToolStripButton();
             DrawPathButton = new FontAwesome.Sharp.IconToolStripButton();
             symbolPage = new TabPage();
+            ShowSymbolLayerCheck = new CheckBox();
             AreaBrushSizeLabel = new Label();
             label57 = new Label();
             AreaBrushSizeTrack = new TrackBar();
@@ -260,7 +266,11 @@
             OtherSymbolsButton = new FontAwesome.Sharp.IconToolStripButton();
             EraseSymbolsButton = new FontAwesome.Sharp.IconToolStripButton();
             labelPage = new TabPage();
+            ShowLabelLayerCheck = new CheckBox();
+            groupBox19 = new GroupBox();
             LabelPresetCombo = new ComboBox();
+            RemovePresetButton = new FontAwesome.Sharp.IconButton();
+            AddPresetButton = new FontAwesome.Sharp.IconButton();
             groupBox13 = new GroupBox();
             LabelRotationUpDown = new NumericUpDown();
             LabelRotationTrack = new TrackBar();
@@ -295,10 +305,8 @@
             SelectLabelButton = new FontAwesome.Sharp.IconToolStripButton();
             PlaceLabelButton = new FontAwesome.Sharp.IconToolStripButton();
             CreateBoxButton = new FontAwesome.Sharp.IconToolStripButton();
-            RemovePresetButton = new FontAwesome.Sharp.IconButton();
-            AddPresetButton = new FontAwesome.Sharp.IconButton();
-            label58 = new Label();
             overlayPage = new TabPage();
+            ShowOverlayLayerCheck = new CheckBox();
             groupBox16 = new GroupBox();
             MeasureAreaCheck = new CheckBox();
             ClearMeasureObjects = new Button();
@@ -340,6 +348,7 @@
             GridButton = new FontAwesome.Sharp.IconToolStripButton();
             MeasureButton = new FontAwesome.Sharp.IconToolStripButton();
             regionsPage = new TabPage();
+            ShowRegionLayerCheck = new CheckBox();
             RegionHelpRichText = new RichTextBox();
             label86 = new Label();
             RegionBorderSmoothingTrack = new TrackBar();
@@ -356,6 +365,7 @@
             label85 = new Label();
             RegionColorSelectLabel = new Label();
             drawingPage = new TabPage();
+            ShowDrawingLayerCheck = new CheckBox();
             DrawingLabel = new Label();
             mapPanel = new Panel();
             iconToolStripButton6 = new FontAwesome.Sharp.IconToolStripButton();
@@ -601,6 +611,7 @@
             ((System.ComponentModel.ISupportInitialize)SymbolScaleTrack).BeginInit();
             SymbolTools.SuspendLayout();
             labelPage.SuspendLayout();
+            groupBox19.SuspendLayout();
             groupBox13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)LabelRotationUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)LabelRotationTrack).BeginInit();
@@ -1022,6 +1033,7 @@
             // backgroundPage
             // 
             backgroundPage.BackColor = SystemColors.Control;
+            backgroundPage.Controls.Add(ShowBackgroundLayerCheck);
             backgroundPage.Controls.Add(groupBox18);
             backgroundPage.Controls.Add(groupBox4);
             backgroundPage.Location = new Point(34, 4);
@@ -1030,13 +1042,27 @@
             backgroundPage.TabIndex = 8;
             backgroundPage.Text = "Background";
             // 
+            // ShowBackgroundLayerCheck
+            // 
+            ShowBackgroundLayerCheck.AutoSize = true;
+            ShowBackgroundLayerCheck.Checked = true;
+            ShowBackgroundLayerCheck.CheckState = CheckState.Checked;
+            ShowBackgroundLayerCheck.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ShowBackgroundLayerCheck.Location = new Point(8, 6);
+            ShowBackgroundLayerCheck.Name = "ShowBackgroundLayerCheck";
+            ShowBackgroundLayerCheck.Size = new Size(52, 17);
+            ShowBackgroundLayerCheck.TabIndex = 17;
+            ShowBackgroundLayerCheck.Text = "Show";
+            ShowBackgroundLayerCheck.UseVisualStyleBackColor = true;
+            ShowBackgroundLayerCheck.CheckedChanged += ShowBackgroundLayerCheck_CheckedChanged;
+            // 
             // groupBox18
             // 
             groupBox18.Controls.Add(VignetteColorSelectionLabel);
             groupBox18.Controls.Add(label84);
             groupBox18.Controls.Add(label1);
             groupBox18.Controls.Add(VignetteStrengthScroll);
-            groupBox18.Location = new Point(8, 433);
+            groupBox18.Location = new Point(8, 451);
             groupBox18.Name = "groupBox18";
             groupBox18.Size = new Size(193, 146);
             groupBox18.TabIndex = 15;
@@ -1097,7 +1123,7 @@
             groupBox4.Controls.Add(backgroundTxPictureBox);
             groupBox4.Controls.Add(backgroundTxBox);
             groupBox4.ForeColor = SystemColors.ControlText;
-            groupBox4.Location = new Point(8, 5);
+            groupBox4.Location = new Point(8, 28);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(193, 407);
             groupBox4.TabIndex = 14;
@@ -1173,6 +1199,7 @@
             // oceanPage
             // 
             oceanPage.BackColor = SystemColors.Control;
+            oceanPage.Controls.Add(ShowOceanLayerCheck);
             oceanPage.Controls.Add(groupBox17);
             oceanPage.Controls.Add(OceanPaintTools);
             oceanPage.Controls.Add(txGroupBox);
@@ -1183,6 +1210,20 @@
             oceanPage.Size = new Size(208, 1106);
             oceanPage.TabIndex = 0;
             oceanPage.Text = "Ocean";
+            // 
+            // ShowOceanLayerCheck
+            // 
+            ShowOceanLayerCheck.AutoSize = true;
+            ShowOceanLayerCheck.Checked = true;
+            ShowOceanLayerCheck.CheckState = CheckState.Checked;
+            ShowOceanLayerCheck.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ShowOceanLayerCheck.Location = new Point(8, 6);
+            ShowOceanLayerCheck.Name = "ShowOceanLayerCheck";
+            ShowOceanLayerCheck.Size = new Size(52, 17);
+            ShowOceanLayerCheck.TabIndex = 16;
+            ShowOceanLayerCheck.Text = "Show";
+            ShowOceanLayerCheck.UseVisualStyleBackColor = true;
+            ShowOceanLayerCheck.CheckedChanged += ShowOceanLayerCheck_CheckedChanged;
             // 
             // groupBox17
             // 
@@ -1203,7 +1244,7 @@
             groupBox17.Controls.Add(label3);
             groupBox17.Controls.Add(label2);
             groupBox17.Controls.Add(WindroseColorSelectLabel);
-            groupBox17.Location = new Point(8, 497);
+            groupBox17.Location = new Point(8, 520);
             groupBox17.Name = "groupBox17";
             groupBox17.Size = new Size(120, 488);
             groupBox17.TabIndex = 15;
@@ -1460,7 +1501,7 @@
             txGroupBox.Controls.Add(OceanTextureList);
             txGroupBox.Controls.Add(OceanTxPictureBox);
             txGroupBox.ForeColor = SystemColors.ControlText;
-            txGroupBox.Location = new Point(8, 5);
+            txGroupBox.Location = new Point(8, 28);
             txGroupBox.Name = "txGroupBox";
             txGroupBox.Size = new Size(120, 276);
             txGroupBox.TabIndex = 13;
@@ -1563,7 +1604,7 @@
             groupBox3.Controls.Add(OceanOpacityLabel);
             groupBox3.Controls.Add(label6);
             groupBox3.Controls.Add(OceanColorSelectionLabel);
-            groupBox3.Location = new Point(8, 296);
+            groupBox3.Location = new Point(8, 319);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(120, 180);
             groupBox3.TabIndex = 12;
@@ -1654,6 +1695,7 @@
             // landPage
             // 
             landPage.BackColor = SystemColors.Control;
+            landPage.Controls.Add(ShowLandLayerCheck);
             landPage.Controls.Add(groupBox8);
             landPage.Controls.Add(groupBox9);
             landPage.Controls.Add(groupBox6);
@@ -1665,12 +1707,26 @@
             landPage.TabIndex = 1;
             landPage.Text = "Land";
             // 
+            // ShowLandLayerCheck
+            // 
+            ShowLandLayerCheck.AutoSize = true;
+            ShowLandLayerCheck.Checked = true;
+            ShowLandLayerCheck.CheckState = CheckState.Checked;
+            ShowLandLayerCheck.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ShowLandLayerCheck.Location = new Point(8, 6);
+            ShowLandLayerCheck.Name = "ShowLandLayerCheck";
+            ShowLandLayerCheck.Size = new Size(52, 17);
+            ShowLandLayerCheck.TabIndex = 21;
+            ShowLandLayerCheck.Text = "Show";
+            ShowLandLayerCheck.UseVisualStyleBackColor = true;
+            ShowLandLayerCheck.CheckedChanged += ShowLandLayerCheck_CheckedChanged;
+            // 
             // groupBox8
             // 
             groupBox8.Controls.Add(LandEraserSizeScroll);
             groupBox8.Controls.Add(LandEraserSizeLabel);
             groupBox8.Controls.Add(label17);
-            groupBox8.Location = new Point(8, 857);
+            groupBox8.Location = new Point(8, 880);
             groupBox8.Name = "groupBox8";
             groupBox8.Size = new Size(120, 74);
             groupBox8.TabIndex = 20;
@@ -1734,7 +1790,7 @@
             groupBox9.Controls.Add(CoastStyleSelectionBox);
             groupBox9.Controls.Add(label7);
             groupBox9.Controls.Add(CoastColorSelectionLabel);
-            groupBox9.Location = new Point(8, 357);
+            groupBox9.Location = new Point(8, 380);
             groupBox9.Name = "groupBox9";
             groupBox9.Size = new Size(120, 482);
             groupBox9.TabIndex = 19;
@@ -2005,7 +2061,7 @@
             groupBox6.Controls.Add(label4);
             groupBox6.Controls.Add(LandOutlineColorSelectionLabel);
             groupBox6.Controls.Add(label13);
-            groupBox6.Location = new Point(8, 5);
+            groupBox6.Location = new Point(8, 28);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(120, 336);
             groupBox6.TabIndex = 15;
@@ -2301,6 +2357,7 @@
             // waterPage
             // 
             waterPage.BackColor = SystemColors.Control;
+            waterPage.Controls.Add(ShowWaterLayerCheck);
             waterPage.Controls.Add(groupBox7);
             waterPage.Controls.Add(groupBox2);
             waterPage.Controls.Add(groupBox1);
@@ -2311,12 +2368,25 @@
             waterPage.TabIndex = 2;
             waterPage.Text = "Water";
             // 
+            // ShowWaterLayerCheck
+            // 
+            ShowWaterLayerCheck.Checked = true;
+            ShowWaterLayerCheck.CheckState = CheckState.Checked;
+            ShowWaterLayerCheck.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ShowWaterLayerCheck.Location = new Point(8, 6);
+            ShowWaterLayerCheck.Name = "ShowWaterLayerCheck";
+            ShowWaterLayerCheck.Size = new Size(52, 17);
+            ShowWaterLayerCheck.TabIndex = 24;
+            ShowWaterLayerCheck.Text = "Show";
+            ShowWaterLayerCheck.UseVisualStyleBackColor = true;
+            ShowWaterLayerCheck.CheckedChanged += ShowWaterLayerCheck_CheckedChanged;
+            // 
             // groupBox7
             // 
             groupBox7.Controls.Add(WaterEraserSizeTrack);
             groupBox7.Controls.Add(WaterEraserSizeLabel);
             groupBox7.Controls.Add(label43);
-            groupBox7.Location = new Point(8, 428);
+            groupBox7.Location = new Point(8, 447);
             groupBox7.Name = "groupBox7";
             groupBox7.Size = new Size(132, 74);
             groupBox7.TabIndex = 23;
@@ -2362,7 +2432,7 @@
             groupBox2.Controls.Add(RiverSourceFadeInCheck);
             groupBox2.Controls.Add(label36);
             groupBox2.Controls.Add(RiverWidthTrack);
-            groupBox2.Location = new Point(8, 306);
+            groupBox2.Location = new Point(8, 323);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(132, 105);
             groupBox2.TabIndex = 21;
@@ -2430,7 +2500,7 @@
             groupBox1.Controls.Add(label45);
             groupBox1.Controls.Add(label31);
             groupBox1.Controls.Add(WaterColorSelectionLabel);
-            groupBox1.Location = new Point(8, 5);
+            groupBox1.Location = new Point(8, 28);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(132, 283);
             groupBox1.TabIndex = 20;
@@ -2692,6 +2762,7 @@
             // pathPage
             // 
             pathPage.BackColor = SystemColors.Control;
+            pathPage.Controls.Add(ShowPathLayerCheck);
             pathPage.Controls.Add(groupBox5);
             pathPage.Controls.Add(PathTools);
             pathPage.Location = new Point(34, 4);
@@ -2699,6 +2770,19 @@
             pathPage.Size = new Size(208, 1106);
             pathPage.TabIndex = 3;
             pathPage.Text = "Paths";
+            // 
+            // ShowPathLayerCheck
+            // 
+            ShowPathLayerCheck.Checked = true;
+            ShowPathLayerCheck.CheckState = CheckState.Checked;
+            ShowPathLayerCheck.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ShowPathLayerCheck.Location = new Point(8, 6);
+            ShowPathLayerCheck.Name = "ShowPathLayerCheck";
+            ShowPathLayerCheck.Size = new Size(52, 17);
+            ShowPathLayerCheck.TabIndex = 25;
+            ShowPathLayerCheck.Text = "Show";
+            ShowPathLayerCheck.UseVisualStyleBackColor = true;
+            ShowPathLayerCheck.CheckedChanged += ShowPathLayerCheck_CheckedChanged;
             // 
             // groupBox5
             // 
@@ -2715,7 +2799,7 @@
             groupBox5.Controls.Add(label47);
             groupBox5.Controls.Add(label48);
             groupBox5.Controls.Add(PathColorSelectionLabel);
-            groupBox5.Location = new Point(8, 7);
+            groupBox5.Location = new Point(8, 28);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(127, 383);
             groupBox5.TabIndex = 21;
@@ -2930,6 +3014,7 @@
             // symbolPage
             // 
             symbolPage.BackColor = SystemColors.Control;
+            symbolPage.Controls.Add(ShowSymbolLayerCheck);
             symbolPage.Controls.Add(AreaBrushSizeLabel);
             symbolPage.Controls.Add(label57);
             symbolPage.Controls.Add(AreaBrushSizeTrack);
@@ -2969,11 +3054,24 @@
             symbolPage.TabIndex = 4;
             symbolPage.Text = "Symbols";
             // 
+            // ShowSymbolLayerCheck
+            // 
+            ShowSymbolLayerCheck.Checked = true;
+            ShowSymbolLayerCheck.CheckState = CheckState.Checked;
+            ShowSymbolLayerCheck.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ShowSymbolLayerCheck.Location = new Point(8, 6);
+            ShowSymbolLayerCheck.Name = "ShowSymbolLayerCheck";
+            ShowSymbolLayerCheck.Size = new Size(52, 17);
+            ShowSymbolLayerCheck.TabIndex = 107;
+            ShowSymbolLayerCheck.Text = "Show";
+            ShowSymbolLayerCheck.UseVisualStyleBackColor = true;
+            ShowSymbolLayerCheck.CheckedChanged += ShowSymbolLayerCheck_CheckedChanged;
+            // 
             // AreaBrushSizeLabel
             // 
             AreaBrushSizeLabel.CausesValidation = false;
             AreaBrushSizeLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            AreaBrushSizeLabel.Location = new Point(73, 520);
+            AreaBrushSizeLabel.Location = new Point(73, 530);
             AreaBrushSizeLabel.Name = "AreaBrushSizeLabel";
             AreaBrushSizeLabel.Size = new Size(37, 14);
             AreaBrushSizeLabel.TabIndex = 106;
@@ -2985,7 +3083,7 @@
             // 
             label57.AutoSize = true;
             label57.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label57.Location = new Point(10, 521);
+            label57.Location = new Point(10, 531);
             label57.Name = "label57";
             label57.Size = new Size(59, 13);
             label57.TabIndex = 105;
@@ -2994,7 +3092,7 @@
             // AreaBrushSizeTrack
             // 
             AreaBrushSizeTrack.AutoSize = false;
-            AreaBrushSizeTrack.Location = new Point(10, 537);
+            AreaBrushSizeTrack.Location = new Point(10, 547);
             AreaBrushSizeTrack.Maximum = 1024;
             AreaBrushSizeTrack.Minimum = 2;
             AreaBrushSizeTrack.Name = "AreaBrushSizeTrack";
@@ -3008,7 +3106,7 @@
             // 
             AreaBrushCheck.AutoSize = true;
             AreaBrushCheck.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            AreaBrushCheck.Location = new Point(10, 498);
+            AreaBrushCheck.Location = new Point(10, 508);
             AreaBrushCheck.Name = "AreaBrushCheck";
             AreaBrushCheck.Size = new Size(89, 20);
             AreaBrushCheck.TabIndex = 103;
@@ -3021,7 +3119,7 @@
             ResetPlacementDensityButton.IconColor = Color.Black;
             ResetPlacementDensityButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             ResetPlacementDensityButton.IconSize = 18;
-            ResetPlacementDensityButton.Location = new Point(73, 464);
+            ResetPlacementDensityButton.Location = new Point(73, 474);
             ResetPlacementDensityButton.Name = "ResetPlacementDensityButton";
             ResetPlacementDensityButton.Size = new Size(43, 23);
             ResetPlacementDensityButton.TabIndex = 102;
@@ -3033,7 +3131,7 @@
             PlacementDensityUpDown.DecimalPlaces = 2;
             PlacementDensityUpDown.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             PlacementDensityUpDown.Increment = new decimal(new int[] { 5, 0, 0, 131072 });
-            PlacementDensityUpDown.Location = new Point(10, 464);
+            PlacementDensityUpDown.Location = new Point(10, 474);
             PlacementDensityUpDown.Maximum = new decimal(new int[] { 2, 0, 0, 0 });
             PlacementDensityUpDown.Minimum = new decimal(new int[] { 25, 0, 0, 131072 });
             PlacementDensityUpDown.Name = "PlacementDensityUpDown";
@@ -3047,7 +3145,7 @@
             // 
             label56.AutoSize = true;
             label56.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label56.Location = new Point(10, 423);
+            label56.Location = new Point(10, 433);
             label56.Name = "label56";
             label56.Size = new Size(111, 16);
             label56.TabIndex = 100;
@@ -3056,7 +3154,7 @@
             // PlacementDensityTrack
             // 
             PlacementDensityTrack.AutoSize = false;
-            PlacementDensityTrack.Location = new Point(10, 439);
+            PlacementDensityTrack.Location = new Point(10, 449);
             PlacementDensityTrack.Maximum = 80;
             PlacementDensityTrack.Minimum = 10;
             PlacementDensityTrack.Name = "PlacementDensityTrack";
@@ -3072,7 +3170,7 @@
             ResetPlacementRateButton.IconColor = Color.Black;
             ResetPlacementRateButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             ResetPlacementRateButton.IconSize = 18;
-            ResetPlacementRateButton.Location = new Point(73, 388);
+            ResetPlacementRateButton.Location = new Point(73, 398);
             ResetPlacementRateButton.Name = "ResetPlacementRateButton";
             ResetPlacementRateButton.Size = new Size(43, 23);
             ResetPlacementRateButton.TabIndex = 98;
@@ -3084,7 +3182,7 @@
             PlacementRateUpDown.DecimalPlaces = 2;
             PlacementRateUpDown.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             PlacementRateUpDown.Increment = new decimal(new int[] { 5, 0, 0, 131072 });
-            PlacementRateUpDown.Location = new Point(10, 388);
+            PlacementRateUpDown.Location = new Point(10, 398);
             PlacementRateUpDown.Maximum = new decimal(new int[] { 2, 0, 0, 0 });
             PlacementRateUpDown.Minimum = new decimal(new int[] { 25, 0, 0, 131072 });
             PlacementRateUpDown.Name = "PlacementRateUpDown";
@@ -3098,7 +3196,7 @@
             // 
             label55.AutoSize = true;
             label55.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label55.Location = new Point(10, 347);
+            label55.Location = new Point(10, 357);
             label55.Name = "label55";
             label55.Size = new Size(96, 16);
             label55.TabIndex = 96;
@@ -3107,7 +3205,7 @@
             // PlacementRateTrack
             // 
             PlacementRateTrack.AutoSize = false;
-            PlacementRateTrack.Location = new Point(10, 363);
+            PlacementRateTrack.Location = new Point(10, 373);
             PlacementRateTrack.Maximum = 80;
             PlacementRateTrack.Minimum = 10;
             PlacementRateTrack.Name = "PlacementRateTrack";
@@ -3123,7 +3221,7 @@
             ResetRotationButton.IconColor = Color.Black;
             ResetRotationButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             ResetRotationButton.IconSize = 18;
-            ResetRotationButton.Location = new Point(73, 307);
+            ResetRotationButton.Location = new Point(73, 317);
             ResetRotationButton.Name = "ResetRotationButton";
             ResetRotationButton.Size = new Size(43, 23);
             ResetRotationButton.TabIndex = 94;
@@ -3133,7 +3231,7 @@
             // SymbolRotationUpDown
             // 
             SymbolRotationUpDown.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            SymbolRotationUpDown.Location = new Point(10, 307);
+            SymbolRotationUpDown.Location = new Point(10, 317);
             SymbolRotationUpDown.Maximum = new decimal(new int[] { 180, 0, 0, 0 });
             SymbolRotationUpDown.Minimum = new decimal(new int[] { 180, 0, 0, int.MinValue });
             SymbolRotationUpDown.Name = "SymbolRotationUpDown";
@@ -3146,7 +3244,7 @@
             // 
             label54.AutoSize = true;
             label54.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label54.Location = new Point(10, 266);
+            label54.Location = new Point(10, 276);
             label54.Name = "label54";
             label54.Size = new Size(100, 16);
             label54.TabIndex = 92;
@@ -3155,7 +3253,7 @@
             // SymbolRotationTrack
             // 
             SymbolRotationTrack.AutoSize = false;
-            SymbolRotationTrack.Location = new Point(10, 282);
+            SymbolRotationTrack.Location = new Point(10, 292);
             SymbolRotationTrack.Maximum = 180;
             SymbolRotationTrack.Minimum = -180;
             SymbolRotationTrack.Name = "SymbolRotationTrack";
@@ -3169,7 +3267,7 @@
             MirrorSymbolCheck.Appearance = Appearance.Button;
             MirrorSymbolCheck.AutoSize = true;
             MirrorSymbolCheck.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            MirrorSymbolCheck.Location = new Point(14, 226);
+            MirrorSymbolCheck.Location = new Point(14, 236);
             MirrorSymbolCheck.Name = "MirrorSymbolCheck";
             MirrorSymbolCheck.Size = new Size(90, 24);
             MirrorSymbolCheck.TabIndex = 90;
@@ -3180,7 +3278,7 @@
             // 
             label52.AutoSize = true;
             label52.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label52.Location = new Point(10, 706);
+            label52.Location = new Point(10, 716);
             label52.Name = "label52";
             label52.Size = new Size(35, 16);
             label52.TabIndex = 89;
@@ -3190,7 +3288,7 @@
             // 
             SymbolTagsListBox.CheckOnClick = true;
             SymbolTagsListBox.FormattingEnabled = true;
-            SymbolTagsListBox.Location = new Point(10, 725);
+            SymbolTagsListBox.Location = new Point(10, 735);
             SymbolTagsListBox.Name = "SymbolTagsListBox";
             SymbolTagsListBox.Size = new Size(108, 172);
             SymbolTagsListBox.TabIndex = 88;
@@ -3200,7 +3298,7 @@
             // 
             label41.AutoSize = true;
             label41.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label41.Location = new Point(10, 574);
+            label41.Location = new Point(10, 584);
             label41.Name = "label41";
             label41.Size = new Size(68, 16);
             label41.TabIndex = 87;
@@ -3211,7 +3309,7 @@
             SymbolCollectionsListBox.CheckOnClick = true;
             SymbolCollectionsListBox.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             SymbolCollectionsListBox.FormattingEnabled = true;
-            SymbolCollectionsListBox.Location = new Point(10, 594);
+            SymbolCollectionsListBox.Location = new Point(10, 604);
             SymbolCollectionsListBox.Name = "SymbolCollectionsListBox";
             SymbolCollectionsListBox.Size = new Size(108, 94);
             SymbolCollectionsListBox.TabIndex = 86;
@@ -3221,7 +3319,7 @@
             // 
             checkBox1.AutoSize = true;
             checkBox1.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            checkBox1.Location = new Point(70, 187);
+            checkBox1.Location = new Point(70, 197);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(59, 17);
             checkBox1.TabIndex = 85;
@@ -3231,7 +3329,7 @@
             // SymbolScaleUpDown
             // 
             SymbolScaleUpDown.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            SymbolScaleUpDown.Location = new Point(14, 184);
+            SymbolScaleUpDown.Location = new Point(14, 194);
             SymbolScaleUpDown.Maximum = new decimal(new int[] { 200, 0, 0, 0 });
             SymbolScaleUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             SymbolScaleUpDown.Name = "SymbolScaleUpDown";
@@ -3245,7 +3343,7 @@
             // 
             label38.AutoSize = true;
             label38.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label38.Location = new Point(10, 148);
+            label38.Location = new Point(10, 158);
             label38.Name = "label38";
             label38.Size = new Size(84, 16);
             label38.TabIndex = 83;
@@ -3254,7 +3352,7 @@
             // SymbolScaleTrack
             // 
             SymbolScaleTrack.AutoSize = false;
-            SymbolScaleTrack.Location = new Point(10, 162);
+            SymbolScaleTrack.Location = new Point(10, 172);
             SymbolScaleTrack.Maximum = 200;
             SymbolScaleTrack.Minimum = 1;
             SymbolScaleTrack.Name = "SymbolScaleTrack";
@@ -3273,7 +3371,7 @@
             ResetSymbolColorsButton.IconColor = Color.Black;
             ResetSymbolColorsButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             ResetSymbolColorsButton.IconSize = 24;
-            ResetSymbolColorsButton.Location = new Point(10, 73);
+            ResetSymbolColorsButton.Location = new Point(10, 83);
             ResetSymbolColorsButton.Name = "ResetSymbolColorsButton";
             ResetSymbolColorsButton.Size = new Size(50, 50);
             ResetSymbolColorsButton.TabIndex = 81;
@@ -3291,7 +3389,7 @@
             ColorSymbolsButton.IconColor = Color.Black;
             ColorSymbolsButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             ColorSymbolsButton.IconSize = 24;
-            ColorSymbolsButton.Location = new Point(73, 73);
+            ColorSymbolsButton.Location = new Point(73, 83);
             ColorSymbolsButton.Name = "ColorSymbolsButton";
             ColorSymbolsButton.Size = new Size(50, 50);
             ColorSymbolsButton.TabIndex = 80;
@@ -3304,7 +3402,7 @@
             // 
             label46.AutoSize = true;
             label46.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label46.Location = new Point(14, 19);
+            label46.Location = new Point(14, 32);
             label46.Name = "label46";
             label46.Size = new Size(90, 16);
             label46.TabIndex = 79;
@@ -3313,7 +3411,7 @@
             // SymbolColor4Label
             // 
             SymbolColor4Label.BackColor = Color.White;
-            SymbolColor4Label.Location = new Point(97, 44);
+            SymbolColor4Label.Location = new Point(97, 54);
             SymbolColor4Label.Name = "SymbolColor4Label";
             SymbolColor4Label.Size = new Size(26, 26);
             SymbolColor4Label.TabIndex = 78;
@@ -3322,7 +3420,7 @@
             // SymbolColor3Label
             // 
             SymbolColor3Label.BackColor = Color.FromArgb(161, 214, 202, 171);
-            SymbolColor3Label.Location = new Point(68, 44);
+            SymbolColor3Label.Location = new Point(68, 54);
             SymbolColor3Label.Name = "SymbolColor3Label";
             SymbolColor3Label.Size = new Size(26, 26);
             SymbolColor3Label.TabIndex = 77;
@@ -3331,7 +3429,7 @@
             // SymbolColor2Label
             // 
             SymbolColor2Label.BackColor = Color.FromArgb(53, 45, 32);
-            SymbolColor2Label.Location = new Point(41, 44);
+            SymbolColor2Label.Location = new Point(41, 54);
             SymbolColor2Label.Name = "SymbolColor2Label";
             SymbolColor2Label.Size = new Size(26, 26);
             SymbolColor2Label.TabIndex = 76;
@@ -3340,7 +3438,7 @@
             // SymbolColor1Label
             // 
             SymbolColor1Label.BackColor = Color.FromArgb(85, 44, 36);
-            SymbolColor1Label.Location = new Point(14, 44);
+            SymbolColor1Label.Location = new Point(14, 54);
             SymbolColor1Label.Name = "SymbolColor1Label";
             SymbolColor1Label.Size = new Size(26, 26);
             SymbolColor1Label.TabIndex = 75;
@@ -3479,7 +3577,8 @@
             // labelPage
             // 
             labelPage.BackColor = SystemColors.Control;
-            labelPage.Controls.Add(LabelPresetCombo);
+            labelPage.Controls.Add(ShowLabelLayerCheck);
+            labelPage.Controls.Add(groupBox19);
             labelPage.Controls.Add(groupBox13);
             labelPage.Controls.Add(groupBox12);
             labelPage.Controls.Add(groupBox11);
@@ -3488,26 +3587,75 @@
             labelPage.Controls.Add(CircleTextPathButton);
             labelPage.Controls.Add(label40);
             labelPage.Controls.Add(LabelTools);
-            labelPage.Controls.Add(RemovePresetButton);
-            labelPage.Controls.Add(AddPresetButton);
-            labelPage.Controls.Add(label58);
             labelPage.Location = new Point(34, 4);
             labelPage.Name = "labelPage";
             labelPage.Size = new Size(208, 1106);
             labelPage.TabIndex = 5;
             labelPage.Text = "Labels";
             // 
+            // ShowLabelLayerCheck
+            // 
+            ShowLabelLayerCheck.Checked = true;
+            ShowLabelLayerCheck.CheckState = CheckState.Checked;
+            ShowLabelLayerCheck.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ShowLabelLayerCheck.Location = new Point(8, 6);
+            ShowLabelLayerCheck.Name = "ShowLabelLayerCheck";
+            ShowLabelLayerCheck.Size = new Size(52, 17);
+            ShowLabelLayerCheck.TabIndex = 102;
+            ShowLabelLayerCheck.Text = "Show";
+            ShowLabelLayerCheck.UseVisualStyleBackColor = true;
+            ShowLabelLayerCheck.CheckedChanged += ShowLabelLayerCheck_CheckedChanged;
+            // 
+            // groupBox19
+            // 
+            groupBox19.Controls.Add(LabelPresetCombo);
+            groupBox19.Controls.Add(RemovePresetButton);
+            groupBox19.Controls.Add(AddPresetButton);
+            groupBox19.Location = new Point(8, 28);
+            groupBox19.Name = "groupBox19";
+            groupBox19.Size = new Size(121, 130);
+            groupBox19.TabIndex = 101;
+            groupBox19.TabStop = false;
+            groupBox19.Text = "Presets";
+            // 
             // LabelPresetCombo
             // 
             LabelPresetCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             LabelPresetCombo.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LabelPresetCombo.FormattingEnabled = true;
-            LabelPresetCombo.Location = new Point(14, 35);
+            LabelPresetCombo.Location = new Point(6, 32);
             LabelPresetCombo.MaxDropDownItems = 12;
             LabelPresetCombo.Name = "LabelPresetCombo";
-            LabelPresetCombo.Size = new Size(115, 24);
-            LabelPresetCombo.TabIndex = 102;
-            LabelPresetCombo.SelectedIndexChanged += LabelPresetCombo_SelectedIndexChanged;
+            LabelPresetCombo.Size = new Size(105, 24);
+            LabelPresetCombo.TabIndex = 105;
+            // 
+            // RemovePresetButton
+            // 
+            RemovePresetButton.BackColor = SystemColors.ControlLightLight;
+            RemovePresetButton.FlatStyle = FlatStyle.Flat;
+            RemovePresetButton.IconChar = FontAwesome.Sharp.IconChar.Minus;
+            RemovePresetButton.IconColor = Color.Black;
+            RemovePresetButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            RemovePresetButton.IconSize = 24;
+            RemovePresetButton.Location = new Point(68, 69);
+            RemovePresetButton.Name = "RemovePresetButton";
+            RemovePresetButton.Size = new Size(47, 47);
+            RemovePresetButton.TabIndex = 104;
+            RemovePresetButton.UseVisualStyleBackColor = false;
+            // 
+            // AddPresetButton
+            // 
+            AddPresetButton.BackColor = SystemColors.ControlLightLight;
+            AddPresetButton.FlatStyle = FlatStyle.Flat;
+            AddPresetButton.IconChar = FontAwesome.Sharp.IconChar.Plus;
+            AddPresetButton.IconColor = Color.Black;
+            AddPresetButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            AddPresetButton.IconSize = 24;
+            AddPresetButton.Location = new Point(6, 69);
+            AddPresetButton.Name = "AddPresetButton";
+            AddPresetButton.Size = new Size(47, 47);
+            AddPresetButton.TabIndex = 103;
+            AddPresetButton.UseVisualStyleBackColor = false;
             // 
             // groupBox13
             // 
@@ -3562,7 +3710,7 @@
             groupBox12.Controls.Add(label61);
             groupBox12.Controls.Add(FontColorSelectLabel);
             groupBox12.Controls.Add(SelectLabelFontButton);
-            groupBox12.Location = new Point(8, 125);
+            groupBox12.Location = new Point(8, 172);
             groupBox12.Name = "groupBox12";
             groupBox12.Size = new Size(121, 187);
             groupBox12.TabIndex = 99;
@@ -3648,7 +3796,7 @@
             groupBox11.Controls.Add(OutlineWidthUpDown);
             groupBox11.Controls.Add(label60);
             groupBox11.Controls.Add(OutlineColorSelectLabel);
-            groupBox11.Location = new Point(8, 318);
+            groupBox11.Location = new Point(8, 365);
             groupBox11.Name = "groupBox11";
             groupBox11.Size = new Size(121, 176);
             groupBox11.TabIndex = 98;
@@ -3745,7 +3893,7 @@
             groupBox10.Controls.Add(label65);
             groupBox10.Controls.Add(GlowColorSelectLabel);
             groupBox10.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            groupBox10.Location = new Point(8, 504);
+            groupBox10.Location = new Point(8, 551);
             groupBox10.Name = "groupBox10";
             groupBox10.Size = new Size(121, 176);
             groupBox10.TabIndex = 97;
@@ -3842,7 +3990,7 @@
             BezierTextPathButton.IconColor = Color.Black;
             BezierTextPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             BezierTextPathButton.IconSize = 32;
-            BezierTextPathButton.Location = new Point(75, 798);
+            BezierTextPathButton.Location = new Point(75, 811);
             BezierTextPathButton.Name = "BezierTextPathButton";
             BezierTextPathButton.Size = new Size(58, 58);
             BezierTextPathButton.TabIndex = 89;
@@ -3861,7 +4009,7 @@
             CircleTextPathButton.IconColor = Color.Black;
             CircleTextPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             CircleTextPathButton.IconSize = 32;
-            CircleTextPathButton.Location = new Point(11, 798);
+            CircleTextPathButton.Location = new Point(11, 811);
             CircleTextPathButton.Name = "CircleTextPathButton";
             CircleTextPathButton.Size = new Size(58, 58);
             CircleTextPathButton.TabIndex = 88;
@@ -3874,7 +4022,7 @@
             // 
             label40.AutoSize = true;
             label40.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label40.Location = new Point(15, 779);
+            label40.Location = new Point(15, 792);
             label40.Name = "label40";
             label40.Size = new Size(75, 18);
             label40.TabIndex = 87;
@@ -3949,49 +4097,10 @@
             CreateBoxButton.ToolTipText = "Create box";
             CreateBoxButton.Click += CreateBoxButton_Click;
             // 
-            // RemovePresetButton
-            // 
-            RemovePresetButton.BackColor = SystemColors.ControlLightLight;
-            RemovePresetButton.FlatStyle = FlatStyle.Flat;
-            RemovePresetButton.IconChar = FontAwesome.Sharp.IconChar.Minus;
-            RemovePresetButton.IconColor = Color.Black;
-            RemovePresetButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            RemovePresetButton.IconSize = 24;
-            RemovePresetButton.Location = new Point(82, 70);
-            RemovePresetButton.Name = "RemovePresetButton";
-            RemovePresetButton.Size = new Size(47, 47);
-            RemovePresetButton.TabIndex = 3;
-            RemovePresetButton.UseVisualStyleBackColor = false;
-            RemovePresetButton.Click += RemovePresetButton_Click;
-            // 
-            // AddPresetButton
-            // 
-            AddPresetButton.BackColor = SystemColors.ControlLightLight;
-            AddPresetButton.FlatStyle = FlatStyle.Flat;
-            AddPresetButton.IconChar = FontAwesome.Sharp.IconChar.Plus;
-            AddPresetButton.IconColor = Color.Black;
-            AddPresetButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            AddPresetButton.IconSize = 24;
-            AddPresetButton.Location = new Point(14, 70);
-            AddPresetButton.Name = "AddPresetButton";
-            AddPresetButton.Size = new Size(47, 47);
-            AddPresetButton.TabIndex = 2;
-            AddPresetButton.UseVisualStyleBackColor = false;
-            AddPresetButton.Click += AddPresetButton_Click;
-            // 
-            // label58
-            // 
-            label58.AutoSize = true;
-            label58.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label58.Location = new Point(14, 13);
-            label58.Name = "label58";
-            label58.Size = new Size(56, 18);
-            label58.TabIndex = 0;
-            label58.Text = "Presets";
-            // 
             // overlayPage
             // 
             overlayPage.BackColor = SystemColors.Control;
+            overlayPage.Controls.Add(ShowOverlayLayerCheck);
             overlayPage.Controls.Add(groupBox16);
             overlayPage.Controls.Add(groupBox15);
             overlayPage.Controls.Add(groupBox14);
@@ -4002,6 +4111,19 @@
             overlayPage.TabIndex = 6;
             overlayPage.Text = "Overlays";
             // 
+            // ShowOverlayLayerCheck
+            // 
+            ShowOverlayLayerCheck.Checked = true;
+            ShowOverlayLayerCheck.CheckState = CheckState.Checked;
+            ShowOverlayLayerCheck.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ShowOverlayLayerCheck.Location = new Point(8, 6);
+            ShowOverlayLayerCheck.Name = "ShowOverlayLayerCheck";
+            ShowOverlayLayerCheck.Size = new Size(52, 17);
+            ShowOverlayLayerCheck.TabIndex = 103;
+            ShowOverlayLayerCheck.Text = "Show";
+            ShowOverlayLayerCheck.UseVisualStyleBackColor = true;
+            ShowOverlayLayerCheck.CheckedChanged += ShowOverlayLayerCheck_CheckedChanged;
+            // 
             // groupBox16
             // 
             groupBox16.Controls.Add(MeasureAreaCheck);
@@ -4009,7 +4131,7 @@
             groupBox16.Controls.Add(UseScaleUnitsCheck);
             groupBox16.Controls.Add(label80);
             groupBox16.Controls.Add(MeasureColorLabel);
-            groupBox16.Location = new Point(8, 733);
+            groupBox16.Location = new Point(8, 748);
             groupBox16.Name = "groupBox16";
             groupBox16.Size = new Size(120, 191);
             groupBox16.TabIndex = 20;
@@ -4096,7 +4218,7 @@
             groupBox15.Controls.Add(FlatHexRadio);
             groupBox15.Controls.Add(SquareGridRadio);
             groupBox15.Controls.Add(EnableGridCheck);
-            groupBox15.Location = new Point(8, 256);
+            groupBox15.Location = new Point(8, 275);
             groupBox15.Name = "groupBox15";
             groupBox15.Size = new Size(120, 454);
             groupBox15.TabIndex = 19;
@@ -4342,7 +4464,7 @@
             groupBox14.Controls.Add(label67);
             groupBox14.Controls.Add(SelectFrameTintLabel);
             groupBox14.Controls.Add(EnableFrameCheck);
-            groupBox14.Location = new Point(8, 5);
+            groupBox14.Location = new Point(8, 28);
             groupBox14.Name = "groupBox14";
             groupBox14.Size = new Size(120, 233);
             groupBox14.TabIndex = 18;
@@ -4529,6 +4651,7 @@
             // regionsPage
             // 
             regionsPage.BackColor = SystemColors.Control;
+            regionsPage.Controls.Add(ShowRegionLayerCheck);
             regionsPage.Controls.Add(RegionHelpRichText);
             regionsPage.Controls.Add(label86);
             regionsPage.Controls.Add(RegionBorderSmoothingTrack);
@@ -4548,11 +4671,24 @@
             regionsPage.TabIndex = 9;
             regionsPage.Text = "Regions";
             // 
+            // ShowRegionLayerCheck
+            // 
+            ShowRegionLayerCheck.Checked = true;
+            ShowRegionLayerCheck.CheckState = CheckState.Checked;
+            ShowRegionLayerCheck.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ShowRegionLayerCheck.Location = new Point(8, 6);
+            ShowRegionLayerCheck.Name = "ShowRegionLayerCheck";
+            ShowRegionLayerCheck.Size = new Size(52, 17);
+            ShowRegionLayerCheck.TabIndex = 108;
+            ShowRegionLayerCheck.Text = "Show";
+            ShowRegionLayerCheck.UseVisualStyleBackColor = true;
+            ShowRegionLayerCheck.CheckedChanged += ShowRegionLayerCheck_CheckedChanged;
+            // 
             // RegionHelpRichText
             // 
             RegionHelpRichText.BorderStyle = BorderStyle.None;
             RegionHelpRichText.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            RegionHelpRichText.Location = new Point(15, 288);
+            RegionHelpRichText.Location = new Point(15, 309);
             RegionHelpRichText.Name = "RegionHelpRichText";
             RegionHelpRichText.ReadOnly = true;
             RegionHelpRichText.ScrollBars = RichTextBoxScrollBars.None;
@@ -4565,7 +4701,7 @@
             label86.AutoSize = true;
             label86.CausesValidation = false;
             label86.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label86.Location = new Point(19, 138);
+            label86.Location = new Point(19, 159);
             label86.Name = "label86";
             label86.Size = new Size(57, 13);
             label86.TabIndex = 104;
@@ -4575,8 +4711,9 @@
             // RegionBorderSmoothingTrack
             // 
             RegionBorderSmoothingTrack.AutoSize = false;
-            RegionBorderSmoothingTrack.Location = new Point(15, 153);
+            RegionBorderSmoothingTrack.Location = new Point(15, 175);
             RegionBorderSmoothingTrack.Maximum = 100;
+            RegionBorderSmoothingTrack.Minimum = 1;
             RegionBorderSmoothingTrack.Name = "RegionBorderSmoothingTrack";
             RegionBorderSmoothingTrack.Size = new Size(108, 20);
             RegionBorderSmoothingTrack.TabIndex = 106;
@@ -4588,7 +4725,7 @@
             // 
             RegionBorderSmoothingLabel.CausesValidation = false;
             RegionBorderSmoothingLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            RegionBorderSmoothingLabel.Location = new Point(93, 137);
+            RegionBorderSmoothingLabel.Location = new Point(93, 158);
             RegionBorderSmoothingLabel.Name = "RegionBorderSmoothingLabel";
             RegionBorderSmoothingLabel.Size = new Size(30, 14);
             RegionBorderSmoothingLabel.TabIndex = 105;
@@ -4599,7 +4736,7 @@
             // RegionBorderWidthTrack
             // 
             RegionBorderWidthTrack.AutoSize = false;
-            RegionBorderWidthTrack.Location = new Point(15, 110);
+            RegionBorderWidthTrack.Location = new Point(15, 131);
             RegionBorderWidthTrack.Maximum = 20;
             RegionBorderWidthTrack.Minimum = 2;
             RegionBorderWidthTrack.Name = "RegionBorderWidthTrack";
@@ -4613,7 +4750,7 @@
             // 
             RegionBorderWidthLabel.CausesValidation = false;
             RegionBorderWidthLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            RegionBorderWidthLabel.Location = new Point(93, 94);
+            RegionBorderWidthLabel.Location = new Point(93, 115);
             RegionBorderWidthLabel.Name = "RegionBorderWidthLabel";
             RegionBorderWidthLabel.Size = new Size(30, 14);
             RegionBorderWidthLabel.TabIndex = 101;
@@ -4626,7 +4763,7 @@
             label87.AutoSize = true;
             label87.CausesValidation = false;
             label87.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label87.Location = new Point(19, 94);
+            label87.Location = new Point(19, 115);
             label87.Name = "label87";
             label87.Size = new Size(70, 13);
             label87.TabIndex = 100;
@@ -4636,7 +4773,7 @@
             // RegionOpacityTrack
             // 
             RegionOpacityTrack.AutoSize = false;
-            RegionOpacityTrack.Location = new Point(15, 202);
+            RegionOpacityTrack.Location = new Point(15, 223);
             RegionOpacityTrack.Maximum = 255;
             RegionOpacityTrack.Name = "RegionOpacityTrack";
             RegionOpacityTrack.Size = new Size(108, 20);
@@ -4649,7 +4786,7 @@
             // 
             RegionInnerOpacityLabel.CausesValidation = false;
             RegionInnerOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            RegionInnerOpacityLabel.Location = new Point(93, 186);
+            RegionInnerOpacityLabel.Location = new Point(93, 207);
             RegionInnerOpacityLabel.Name = "RegionInnerOpacityLabel";
             RegionInnerOpacityLabel.Size = new Size(30, 14);
             RegionInnerOpacityLabel.TabIndex = 98;
@@ -4662,7 +4799,7 @@
             label89.AutoSize = true;
             label89.CausesValidation = false;
             label89.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label89.Location = new Point(19, 186);
+            label89.Location = new Point(19, 207);
             label89.Name = "label89";
             label89.Size = new Size(73, 13);
             label89.TabIndex = 97;
@@ -4727,7 +4864,7 @@
             // 
             label85.AutoSize = true;
             label85.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label85.Location = new Point(15, 18);
+            label85.Location = new Point(15, 39);
             label85.Name = "label85";
             label85.Size = new Size(79, 16);
             label85.TabIndex = 95;
@@ -4739,7 +4876,7 @@
             RegionColorSelectLabel.BorderStyle = BorderStyle.FixedSingle;
             RegionColorSelectLabel.Font = new Font("Tahoma", 8F);
             RegionColorSelectLabel.ForeColor = SystemColors.ButtonShadow;
-            RegionColorSelectLabel.Location = new Point(15, 39);
+            RegionColorSelectLabel.Location = new Point(15, 60);
             RegionColorSelectLabel.Name = "RegionColorSelectLabel";
             RegionColorSelectLabel.Size = new Size(108, 28);
             RegionColorSelectLabel.TabIndex = 94;
@@ -4750,6 +4887,7 @@
             // drawingPage
             // 
             drawingPage.BackColor = SystemColors.Control;
+            drawingPage.Controls.Add(ShowDrawingLayerCheck);
             drawingPage.Controls.Add(DrawingLabel);
             drawingPage.Location = new Point(34, 4);
             drawingPage.Name = "drawingPage";
@@ -4757,12 +4895,25 @@
             drawingPage.TabIndex = 7;
             drawingPage.Text = "Drawing";
             // 
+            // ShowDrawingLayerCheck
+            // 
+            ShowDrawingLayerCheck.Checked = true;
+            ShowDrawingLayerCheck.CheckState = CheckState.Checked;
+            ShowDrawingLayerCheck.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ShowDrawingLayerCheck.Location = new Point(8, 6);
+            ShowDrawingLayerCheck.Name = "ShowDrawingLayerCheck";
+            ShowDrawingLayerCheck.Size = new Size(52, 17);
+            ShowDrawingLayerCheck.TabIndex = 109;
+            ShowDrawingLayerCheck.Text = "Show";
+            ShowDrawingLayerCheck.UseVisualStyleBackColor = true;
+            ShowDrawingLayerCheck.CheckedChanged += ShowDrawingLayerCheck_CheckedChanged;
+            // 
             // DrawingLabel
             // 
             DrawingLabel.AutoSize = true;
             DrawingLabel.Font = new Font("Tahoma", 8F);
             DrawingLabel.ForeColor = SystemColors.Highlight;
-            DrawingLabel.Location = new Point(8, 8);
+            DrawingLabel.Location = new Point(8, 52);
             DrawingLabel.Name = "DrawingLabel";
             DrawingLabel.Size = new Size(46, 13);
             DrawingLabel.TabIndex = 16;
@@ -7091,6 +7242,7 @@
             RegionDoubleSolidBorderRadio.Size = new Size(14, 13);
             RegionDoubleSolidBorderRadio.TabIndex = 44;
             RegionDoubleSolidBorderRadio.UseVisualStyleBackColor = true;
+            RegionDoubleSolidBorderRadio.CheckedChanged += RegionDoubleSolidBorderRadio_CheckedChanged;
             // 
             // RegionBorderedLightSolidRadio
             // 
@@ -7100,6 +7252,7 @@
             RegionBorderedLightSolidRadio.Size = new Size(14, 13);
             RegionBorderedLightSolidRadio.TabIndex = 43;
             RegionBorderedLightSolidRadio.UseVisualStyleBackColor = true;
+            RegionBorderedLightSolidRadio.CheckedChanged += RegionBorderedLightSolidRadio_CheckedChanged;
             // 
             // RegionBorderedGradientRadio
             // 
@@ -7109,6 +7262,7 @@
             RegionBorderedGradientRadio.Size = new Size(14, 13);
             RegionBorderedGradientRadio.TabIndex = 42;
             RegionBorderedGradientRadio.UseVisualStyleBackColor = true;
+            RegionBorderedGradientRadio.CheckedChanged += RegionBorderedGradientRadio_CheckedChanged;
             // 
             // RegionSolidAndDashesBorderRadio
             // 
@@ -7118,6 +7272,7 @@
             RegionSolidAndDashesBorderRadio.Size = new Size(14, 13);
             RegionSolidAndDashesBorderRadio.TabIndex = 41;
             RegionSolidAndDashesBorderRadio.UseVisualStyleBackColor = true;
+            RegionSolidAndDashesBorderRadio.CheckedChanged += RegionSolidAndDashesBorderRadio_CheckedChanged;
             // 
             // RegionDashDotDotBorderRadio
             // 
@@ -7127,6 +7282,7 @@
             RegionDashDotDotBorderRadio.Size = new Size(14, 13);
             RegionDashDotDotBorderRadio.TabIndex = 40;
             RegionDashDotDotBorderRadio.UseVisualStyleBackColor = true;
+            RegionDashDotDotBorderRadio.CheckedChanged += RegionDashDotDotBorderRadio_CheckedChanged;
             // 
             // RegionDashDotBorderRadio
             // 
@@ -7136,6 +7292,7 @@
             RegionDashDotBorderRadio.Size = new Size(14, 13);
             RegionDashDotBorderRadio.TabIndex = 39;
             RegionDashDotBorderRadio.UseVisualStyleBackColor = true;
+            RegionDashDotBorderRadio.CheckedChanged += RegionDashDotBorderRadio_CheckedChanged;
             // 
             // RegionDashBorderRadio
             // 
@@ -7145,6 +7302,7 @@
             RegionDashBorderRadio.Size = new Size(14, 13);
             RegionDashBorderRadio.TabIndex = 38;
             RegionDashBorderRadio.UseVisualStyleBackColor = true;
+            RegionDashBorderRadio.CheckedChanged += RegionDashBorderRadio_CheckedChanged;
             // 
             // RegionDottedBorderRadio
             // 
@@ -7154,6 +7312,7 @@
             RegionDottedBorderRadio.Size = new Size(14, 13);
             RegionDottedBorderRadio.TabIndex = 37;
             RegionDottedBorderRadio.UseVisualStyleBackColor = true;
+            RegionDottedBorderRadio.CheckedChanged += RegionDottedBorderRadio_CheckedChanged;
             // 
             // RegionSolidBorderRadio
             // 
@@ -7166,6 +7325,7 @@
             RegionSolidBorderRadio.TabIndex = 36;
             RegionSolidBorderRadio.TabStop = true;
             RegionSolidBorderRadio.UseVisualStyleBackColor = true;
+            RegionSolidBorderRadio.CheckedChanged += RegionSolidBorderRadio_CheckedChanged;
             // 
             // MainForm
             // 
@@ -7182,15 +7342,15 @@
             Controls.Add(mapPanel);
             Controls.Add(ApplicationStatusStrip);
             Controls.Add(MainMenu);
-            Controls.Add(WaterColorToolPanel);
-            Controls.Add(PathPanel);
-            Controls.Add(SymbolsToolPanel);
-            Controls.Add(OverlayToolsPanel);
             Controls.Add(RegionsToolPanel);
             Controls.Add(BackgroundToolPanel);
             Controls.Add(LandColorToolPanel);
             Controls.Add(LabelsToolPanel);
             Controls.Add(OceanColorToolPanel);
+            Controls.Add(WaterColorToolPanel);
+            Controls.Add(PathPanel);
+            Controls.Add(SymbolsToolPanel);
+            Controls.Add(OverlayToolsPanel);
             DoubleBuffered = true;
             HelpButton = true;
             KeyPreview = true;
@@ -7206,12 +7366,14 @@
             ApplicationStatusStrip.PerformLayout();
             LayerSelectTabControl.ResumeLayout(false);
             backgroundPage.ResumeLayout(false);
+            backgroundPage.PerformLayout();
             groupBox18.ResumeLayout(false);
             groupBox18.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)VignetteStrengthScroll).EndInit();
             groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)backgroundTxPictureBox).EndInit();
             oceanPage.ResumeLayout(false);
+            oceanPage.PerformLayout();
             groupBox17.ResumeLayout(false);
             groupBox17.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)WindroseColorOpacityTrack).EndInit();
@@ -7230,6 +7392,7 @@
             groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)OceanColorOpacityTrack).EndInit();
             landPage.ResumeLayout(false);
+            landPage.PerformLayout();
             groupBox8.ResumeLayout(false);
             groupBox8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)LandEraserSizeScroll).EndInit();
@@ -7284,6 +7447,7 @@
             SymbolTools.PerformLayout();
             labelPage.ResumeLayout(false);
             labelPage.PerformLayout();
+            groupBox19.ResumeLayout(false);
             groupBox13.ResumeLayout(false);
             groupBox13.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)LabelRotationUpDown).EndInit();
@@ -7739,9 +7903,6 @@
         private Label AreaBrushSizeLabel;
         internal Cyotek.Windows.Forms.ImageBox MapImageBox;
         private Panel LabelsToolPanel;
-        private Label label58;
-        private FontAwesome.Sharp.IconButton AddPresetButton;
-        private FontAwesome.Sharp.IconButton RemovePresetButton;
         private ToolStrip LabelTools;
         private FontAwesome.Sharp.IconToolStripButton SelectLabelButton;
         private FontAwesome.Sharp.IconToolStripButton PlaceLabelButton;
@@ -7893,6 +8054,19 @@
         private Label RegionBorderSmoothingLabel;
         private RichTextBox RegionHelpRichText;
         private Button ClearWindroseButton;
+        private CheckBox ShowOceanLayerCheck;
+        private CheckBox ShowLandLayerCheck;
+        private CheckBox ShowWaterLayerCheck;
+        private CheckBox ShowPathLayerCheck;
+        private CheckBox ShowLabelLayerCheck;
+        private GroupBox groupBox19;
         private ComboBox LabelPresetCombo;
+        private FontAwesome.Sharp.IconButton RemovePresetButton;
+        private FontAwesome.Sharp.IconButton AddPresetButton;
+        private CheckBox ShowSymbolLayerCheck;
+        private CheckBox ShowOverlayLayerCheck;
+        private CheckBox ShowRegionLayerCheck;
+        private CheckBox ShowDrawingLayerCheck;
+        private CheckBox ShowBackgroundLayerCheck;
     }
 }

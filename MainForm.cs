@@ -110,7 +110,8 @@ namespace MapCreator
         //private static GRContext? GPU_CONTEXT;
         //private static SKSurface? GPU_SURFACE;
 
-        /**** MAIN FORM CONSTRUCTOR ****/
+        #region MAINFORM CONSTRUCTOR
+
         public MainForm()
         {
 #pragma warning disable CS8601 // Possible null reference assignment.
@@ -182,9 +183,56 @@ namespace MapCreator
 #pragma warning restore CS8601 // Possible null reference assignment.
         }
 
+        #endregion
+
+        #region Map Initialization and Rendering
+
         /**************************************************************************************************************************
-        * Map Methods
+        * Map Initialization Methods
         ***************************************************************************************************************************/
+
+        private void CreateMap()
+        {
+            // open a dialog to set map width, height, and other parameters
+            MapProperties mapProperties = new(CURRENT_MAP);
+
+            // set property defaults
+            mapProperties.ShowDialog(this);
+
+            // set the map parameters based on user-selected inputs
+
+            // save the map with initial parameters
+            CURRENT_MAP = MapBuilder.CreateMap(CURRENT_MAP);
+            Text = "Map Creator - " + CURRENT_MAP.MapName;
+
+            CURRENT_MAP.IsSaved = false;
+
+            InitializeMap(CURRENT_MAP);
+
+            // remove any existing vignette and create a new one
+            for (int i = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents.Count - 1; i > 0; i--)
+            {
+                if (MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents[i] is MapVignette)
+                {
+                    MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents.RemoveAt(i);
+                    break;
+                }
+            }
+
+            MapVignette vignette = new(CURRENT_MAP)
+            {
+                VignetteColor = VignetteColorSelectionLabel.BackColor,
+                VignetteStrength = VignetteStrengthScroll.Value
+            };
+
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents.Add(vignette);
+
+            MapImageBox.Refresh();
+
+            UpdateMapNameAndSize();
+            UpdateViewportStatus();
+        }
+
         private void InitializeMap(MapCreatorMap map)
         {
 
@@ -259,112 +307,6 @@ namespace MapCreator
             }
         }
 
-        private SKBlendMode GetSelectedBlendMode()
-        {
-            // return the blend mode selected in the combo box
-            SKBlendMode selectedBlendMode = SKBlendMode.DstOver;
-
-            if (BlendModeSelectionBox.SelectedIndex > -1)
-            {
-                switch (BlendModeSelectionBox.SelectedIndex)
-                {
-                    case 0:
-                        selectedBlendMode = SKBlendMode.Clear;
-                        break;
-                    case 1:
-                        selectedBlendMode = SKBlendMode.Src;
-                        break;
-                    case 2:
-                        selectedBlendMode = SKBlendMode.Dst;
-                        break;
-                    case 3:
-                        selectedBlendMode = SKBlendMode.SrcOver;
-                        break;
-                    case 4:
-                        selectedBlendMode = SKBlendMode.DstOver;
-                        break;
-                    case 5:
-                        selectedBlendMode = SKBlendMode.SrcIn;
-                        break;
-                    case 6:
-                        selectedBlendMode = SKBlendMode.DstIn;
-                        break;
-                    case 7:
-                        selectedBlendMode = SKBlendMode.SrcOut;
-                        break;
-                    case 8:
-                        selectedBlendMode = SKBlendMode.DstOut;
-                        break;
-                    case 9:
-                        selectedBlendMode = SKBlendMode.SrcATop;
-                        break;
-                    case 10:
-                        selectedBlendMode = SKBlendMode.DstATop;
-                        break;
-                    case 11:
-                        selectedBlendMode = SKBlendMode.Xor;
-                        break;
-                    case 12:
-                        selectedBlendMode = SKBlendMode.Plus;
-                        break;
-                    case 13:
-                        selectedBlendMode = SKBlendMode.Modulate;
-                        break;
-                    case 14:
-                        selectedBlendMode = SKBlendMode.Screen;
-                        break;
-                    case 15:
-                        selectedBlendMode = SKBlendMode.Overlay;
-                        break;
-                    case 16:
-                        selectedBlendMode = SKBlendMode.Darken;
-                        break;
-                    case 17:
-                        selectedBlendMode = SKBlendMode.Lighten;
-                        break;
-                    case 18:
-                        selectedBlendMode = SKBlendMode.ColorDodge;
-                        break;
-                    case 19:
-                        selectedBlendMode = SKBlendMode.ColorBurn;
-                        break;
-                    case 20:
-                        selectedBlendMode = SKBlendMode.HardLight;
-                        break;
-                    case 21:
-                        selectedBlendMode = SKBlendMode.SoftLight;
-                        break;
-                    case 22:
-                        selectedBlendMode = SKBlendMode.Difference;
-                        break;
-                    case 23:
-                        selectedBlendMode = SKBlendMode.Exclusion;
-                        break;
-                    case 24:
-                        selectedBlendMode = SKBlendMode.Multiply;
-                        break;
-                    case 25:
-                        selectedBlendMode = SKBlendMode.Hue;
-                        break;
-                    case 26:
-                        selectedBlendMode = SKBlendMode.Saturation;
-                        break;
-                    case 27:
-                        selectedBlendMode = SKBlendMode.Color;
-                        break;
-                    case 28:
-                        selectedBlendMode = SKBlendMode.Luminosity;
-                        break;
-                }
-            }
-            else
-            {
-                selectedBlendMode = SKBlendMode.DstOver;
-            }
-
-            return selectedBlendMode;
-        }
-
         public void RenderDrawingPanel()
         {
             if (CURRENT_MAP != null && MAP_CANVAS != null)
@@ -377,6 +319,10 @@ namespace MapCreator
                 MapImageBox.Image = snap.ToBitmap();
             }
         }
+
+        #endregion
+
+        #region Map File Open and Save Methods
 
         private void OpenExistingMap()
         {
@@ -414,48 +360,6 @@ namespace MapCreator
                 }
             }
             catch { }
-        }
-
-        private void CreateMap()
-        {
-            // open a dialog to set map width, height, and other parameters
-            MapProperties mapProperties = new(CURRENT_MAP);
-
-            // set property defaults
-            mapProperties.ShowDialog(this);
-
-            // set the map parameters based on user-selected inputs
-
-            // save the map with initial parameters
-            CURRENT_MAP = MapBuilder.CreateMap(CURRENT_MAP);
-            Text = "Map Creator - " + CURRENT_MAP.MapName;
-
-            CURRENT_MAP.IsSaved = false;
-
-            InitializeMap(CURRENT_MAP);
-
-            // remove any existing vignette and create a new one
-            for (int i = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents.Count - 1; i > 0; i--)
-            {
-                if (MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents[i] is MapVignette)
-                {
-                    MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents.RemoveAt(i);
-                    break;
-                }
-            }
-
-            MapVignette vignette = new(CURRENT_MAP)
-            {
-                VignetteColor = VignetteColorSelectionLabel.BackColor,
-                VignetteStrength = VignetteStrengthScroll.Value
-            };
-
-            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents.Add(vignette);
-
-            MapImageBox.Refresh();
-
-            UpdateMapNameAndSize();
-            UpdateViewportStatus();
         }
 
         private void OpenMap(string mapFilePath)
@@ -602,7 +506,7 @@ namespace MapCreator
                                 if (symbol.Width != placedBitmap.Width || symbol.Height != placedBitmap.Height)
                                 {
                                     // resize the placed bitmap to match the size set in the symbol - this shouldn't be necessary
-                                    SKBitmap resizedPlacedBitmap = new SKBitmap((int)symbol.Width, (int)symbol.Height);
+                                    SKBitmap resizedPlacedBitmap = new SKBitmap(symbol.Width, symbol.Height);
 
                                     placedBitmap.ScalePixels(resizedPlacedBitmap, SKFilterQuality.High);
                                     symbol.SetPlacedBitmap(resizedPlacedBitmap);
@@ -835,9 +739,119 @@ namespace MapCreator
             return result;
         }
 
+        #endregion
+
+        #region Main Form and Drawing Mode Methods
+
         /******************************************************************************************************* 
-         * MAIN FORM
+         * MAIN FORM METHODS
          *******************************************************************************************************/
+
+        private SKBlendMode GetSelectedBlendMode()
+        {
+            // return the blend mode selected in the combo box
+            SKBlendMode selectedBlendMode = SKBlendMode.DstOver;
+
+            if (BlendModeSelectionBox.SelectedIndex > -1)
+            {
+                switch (BlendModeSelectionBox.SelectedIndex)
+                {
+                    case 0:
+                        selectedBlendMode = SKBlendMode.Clear;
+                        break;
+                    case 1:
+                        selectedBlendMode = SKBlendMode.Src;
+                        break;
+                    case 2:
+                        selectedBlendMode = SKBlendMode.Dst;
+                        break;
+                    case 3:
+                        selectedBlendMode = SKBlendMode.SrcOver;
+                        break;
+                    case 4:
+                        selectedBlendMode = SKBlendMode.DstOver;
+                        break;
+                    case 5:
+                        selectedBlendMode = SKBlendMode.SrcIn;
+                        break;
+                    case 6:
+                        selectedBlendMode = SKBlendMode.DstIn;
+                        break;
+                    case 7:
+                        selectedBlendMode = SKBlendMode.SrcOut;
+                        break;
+                    case 8:
+                        selectedBlendMode = SKBlendMode.DstOut;
+                        break;
+                    case 9:
+                        selectedBlendMode = SKBlendMode.SrcATop;
+                        break;
+                    case 10:
+                        selectedBlendMode = SKBlendMode.DstATop;
+                        break;
+                    case 11:
+                        selectedBlendMode = SKBlendMode.Xor;
+                        break;
+                    case 12:
+                        selectedBlendMode = SKBlendMode.Plus;
+                        break;
+                    case 13:
+                        selectedBlendMode = SKBlendMode.Modulate;
+                        break;
+                    case 14:
+                        selectedBlendMode = SKBlendMode.Screen;
+                        break;
+                    case 15:
+                        selectedBlendMode = SKBlendMode.Overlay;
+                        break;
+                    case 16:
+                        selectedBlendMode = SKBlendMode.Darken;
+                        break;
+                    case 17:
+                        selectedBlendMode = SKBlendMode.Lighten;
+                        break;
+                    case 18:
+                        selectedBlendMode = SKBlendMode.ColorDodge;
+                        break;
+                    case 19:
+                        selectedBlendMode = SKBlendMode.ColorBurn;
+                        break;
+                    case 20:
+                        selectedBlendMode = SKBlendMode.HardLight;
+                        break;
+                    case 21:
+                        selectedBlendMode = SKBlendMode.SoftLight;
+                        break;
+                    case 22:
+                        selectedBlendMode = SKBlendMode.Difference;
+                        break;
+                    case 23:
+                        selectedBlendMode = SKBlendMode.Exclusion;
+                        break;
+                    case 24:
+                        selectedBlendMode = SKBlendMode.Multiply;
+                        break;
+                    case 25:
+                        selectedBlendMode = SKBlendMode.Hue;
+                        break;
+                    case 26:
+                        selectedBlendMode = SKBlendMode.Saturation;
+                        break;
+                    case 27:
+                        selectedBlendMode = SKBlendMode.Color;
+                        break;
+                    case 28:
+                        selectedBlendMode = SKBlendMode.Luminosity;
+                        break;
+                }
+            }
+            else
+            {
+                selectedBlendMode = SKBlendMode.DstOver;
+            }
+
+            return selectedBlendMode;
+        }
 
         public void SetStatusText(string text)
         {
@@ -1047,6 +1061,12 @@ namespace MapCreator
         {
             ClearDrawingModeButtons();
 
+            DeselectAllLandforms();
+            DeselectAllWaterFeatures();
+            DeselectAllPaths();
+
+            // TODO: deselect symbols, labels, regions
+
             if (CURRENT_DRAWING_MODE != newMode || forceModeSet)
             {
                 CURRENT_DRAWING_MODE = newMode;
@@ -1112,6 +1132,10 @@ namespace MapCreator
             ApplicationStatusStrip.Refresh();
         }
 
+        #endregion
+
+        #region Main Form Event Handlers
+
         /*******************************************************************************************************
         * Main Form Event Handlers
          *******************************************************************************************************/
@@ -1130,7 +1154,6 @@ namespace MapCreator
                     if (MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents[i] is MapVignette)
                     {
                         MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents.RemoveAt(i);
-                        break;
                     }
                 }
 
@@ -1189,7 +1212,6 @@ namespace MapCreator
             }
         }
 
-
         private void MainForm_Shown(object sender, EventArgs e)
         {
             BackgroundToolPanel.Visible = true;
@@ -1246,6 +1268,9 @@ namespace MapCreator
             MapImageBox.ScrollTo(0, 0);
         }
 
+        #endregion
+
+        #region Main Menu Event Handlers
         /*******************************************************************************************************
         * Main Menu Event Handlers 
          *******************************************************************************************************/
@@ -1505,6 +1530,9 @@ namespace MapCreator
             preferences.ShowDialog();
         }
 
+        #endregion
+
+        #region Asset Methods
         /******************************************************************************************************
         * *****************************************************************************************************
         * Asset Methods
@@ -1541,6 +1569,8 @@ namespace MapCreator
             string assetDirectory = Resources.ASSET_DIRECTORY;
 
             ResetAssets();
+
+            MapPaintMethods.EYEDROPPER_CURSOR = new Cursor(Resources.Eye_Dropper.Handle);
 
             // load symbol tags
             SymbolMethods.LoadSymbolTags();
@@ -1668,11 +1698,6 @@ namespace MapCreator
                     };
 
                     MapPaintMethods.APPLICATION_ICON_LIST.Add(icon);
-
-                    if (icon.IconName == "Eye Dropper")
-                    {
-                        MapPaintMethods.EYEDROPPER_CURSOR = icon.IconCursor;
-                    }
                 }
                 else if (Path.GetDirectoryName(f.File).EndsWith("\\Themes"))
                 {
@@ -1762,6 +1787,9 @@ namespace MapCreator
             Refresh();
         }
 
+        #endregion
+
+        #region Theme Methods
         /******************************************************************************************************
         * *****************************************************************************************************
         * Theme Methods
@@ -1782,7 +1810,7 @@ namespace MapCreator
             }
 
             // vignette color and strength
-            theme.VignetteColor = (XmlColor) VignetteColorSelectionLabel.BackColor;
+            theme.VignetteColor = (XmlColor)VignetteColorSelectionLabel.BackColor;
             theme.VignetteStrength = VignetteStrengthScroll.Value;
 
             // ocean
@@ -2372,6 +2400,8 @@ namespace MapCreator
 
             if (themeFilter.ApplyLabelPresetSettings)
             {
+                LabelPresetCombo.Items.Clear();
+
                 foreach (LabelPreset preset in MapLabelMethods.LABEL_PRESETS)
                 {
                     if (!string.IsNullOrEmpty(preset.LabelPresetTheme)
@@ -2393,9 +2423,14 @@ namespace MapCreator
                         SetLabelValuesFromPreset(selectedPreset);
                     }
                 }
+
+                LabelPresetCombo.Refresh();
             }
         }
 
+        #endregion
+
+        #region Layer Select Tab
         /******************************************************************************************************
         * *****************************************************************************************************
         * Layer Select Tab Event Handlers
@@ -2494,6 +2529,10 @@ namespace MapCreator
             }
         }
 
+        #endregion
+
+        #region Background Tab
+
         /******************************************************************************************************
         * *****************************************************************************************************
         * Background Layer Methods
@@ -2536,6 +2575,12 @@ namespace MapCreator
                     Cmd_SetBackgroundBitmap cmd = new(CURRENT_MAP, Extensions.ToSKBitmap(resizedBitmap));
                     UndoManager.AddCommand(cmd);
                     cmd.DoOperation();
+                }
+
+                if (backgroundLayer.MapLayerComponents.Count() > 1)
+                {
+                    MapBitmap backgroundBitmap = (MapBitmap)MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.BASELAYER).MapLayerComponents[1];
+                    backgroundBitmap.Show = ShowBackgroundLayerCheck.Checked;
                 }
 
                 MapImageBox.Refresh();
@@ -2596,13 +2641,79 @@ namespace MapCreator
             MapImageBox.Refresh();
         }
 
+        private void ShowBackgroundLayerCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ShowBackgroundLayerCheck.Checked)
+            {
+                MapLayer backgroundLayer = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.BASELAYER);
 
+                if (backgroundLayer.MapLayerComponents.Count() > 1)
+                {
+                    MapBitmap layerBitmap = (MapBitmap)MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.BASELAYER).MapLayerComponents[1];
+                    layerBitmap.Show = true;
+                }
+
+                for (int i = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents.Count - 1; i > 0; i--)
+                {
+                    if (MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents[i] is MapVignette)
+                    {
+                        MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents.RemoveAt(i);
+                    }
+                }
+
+                MapLayer vignetteLayer = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER);
+                MapBitmap vignetteBitmap = (MapBitmap)vignetteLayer.MapLayerComponents[0];
+
+                vignetteBitmap.MCanvas?.Clear(SKColors.Transparent);
+
+                MapVignette vignette = new(CURRENT_MAP)
+                {
+                    VignetteColor = VignetteColorSelectionLabel.BackColor,
+                    VignetteStrength = VignetteStrengthScroll.Value
+                };
+
+                MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents.Add(vignette);
+            }
+            else
+            {
+                MapLayer baseLayer = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.BASELAYER);
+                MapBitmap baseBitmap = (MapBitmap)baseLayer.MapLayerComponents[0];
+
+                baseBitmap.MCanvas?.Clear(SKColors.White);
+
+                if (baseLayer.MapLayerComponents.Count() > 1)
+                {
+                    MapBitmap backgroundBitmap = (MapBitmap)MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.BASELAYER).MapLayerComponents[1];
+                    backgroundBitmap.Show = false;
+                }
+
+                MapLayer vignetteLayer = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER);
+                MapBitmap vignetteBitmap = (MapBitmap)vignetteLayer.MapLayerComponents[0];
+                vignetteBitmap.Show = false;
+
+                for (int i = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents.Count - 1; i > 0; i--)
+                {
+                    if (MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents[i] is MapVignette)
+                    {
+                        MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.VIGNETTELAYER).MapLayerComponents.RemoveAt(i);
+                    }
+                }
+            }
+
+
+            MapImageBox.Refresh();
+        }
+
+        #endregion
+
+        #region Ocean Tab
+
+        #region Ocean Tab Methods (Wind Rose Methods)
         /******************************************************************************************************
         * *****************************************************************************************************
         * Ocean Tab Methods
         * *****************************************************************************************************
         *******************************************************************************************************/
-
         private MapWindrose CreateWindrose()
         {
             MapWindrose windrose = new()
@@ -2650,9 +2761,38 @@ namespace MapCreator
                 };
             }
         }
+
+        #endregion
+
+        #region Ocean Tab Event Handlers
         /*******************************************************************************************************
         * Ocean Tab Event Handlers 
         *******************************************************************************************************/
+        private void ShowOceanLayerCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            // TODO
+            for (int i = 0; i < MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.OCEANTEXTURELAYER).MapLayerComponents.Count; i++)
+            {
+                if (MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.OCEANTEXTURELAYER).MapLayerComponents[i] is MapBitmap m)
+                {
+                    m.Show = ShowOceanLayerCheck.Checked;
+                }
+            }
+
+            for (int i = 0; i < MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.OCEANTEXTUREOVERLAYLAYER).MapLayerComponents.Count; i++)
+            {
+                if (MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.OCEANTEXTUREOVERLAYLAYER).MapLayerComponents[i] is MapBitmap m)
+                {
+                    m.Show = ShowOceanLayerCheck.Checked;
+                }
+            }
+
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.OCEANDRAWINGLAYER).ShowLayer = ShowOceanLayerCheck.Checked;
+
+            MapImageBox.Refresh();
+        }
+
+        #region Ocean Texture and Color Event Handlers
         private void OceanColorSelectLabel_Click(object sender, EventArgs e)
         {
             TopMost = true;
@@ -3057,6 +3197,9 @@ namespace MapCreator
             SetDrawingMode(DrawingModeEnum.ColorSelect, sender);
         }
 
+        #endregion
+
+        #region Wind Rose Event Handlers
         // windrose
         private void WindroseButton_Click(object sender, EventArgs e)
         {
@@ -3150,6 +3293,16 @@ namespace MapCreator
             }
         }
 
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region Land Tab
+
+        #region Landform Methods
+
         /******************************************************************************************************
         * *****************************************************************************************************
         * Land Tab Methods
@@ -3230,6 +3383,32 @@ namespace MapCreator
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
+
+        private void DeselectAllLandforms()
+        {
+            if (CURRENT_DRAWING_MODE != DrawingModeEnum.LandformSelect)
+            {
+                // deselect all landforms
+                foreach (MapLandformType2 lf in LandformType2Methods.LANDFORM_LIST)
+                {
+                    lf.IsSelected = false;
+                }
+
+                foreach (MapComponent mc in MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.LANDFORMLAYER).MapLayerComponents)
+                {
+                    if (mc is MapLandformType2 lf)
+                    {
+                        lf.IsSelected = false;
+                    }
+                }
+
+                MapImageBox.Refresh();
+            }
+        }
+
+        #endregion
+
+        #region Land Tab Event Handlers
 
         /*******************************************************************************************************
         * Land Tab Event Handlers 
@@ -3713,6 +3892,23 @@ namespace MapCreator
             SetDrawingMode(DrawingModeEnum.LandformSelect, sender);
         }
 
+        private void ShowLandLayerCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.LANDFORMLAYER).ShowLayer = ShowLandLayerCheck.Checked;
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.LANDCOASTLINELAYER).ShowLayer = ShowLandLayerCheck.Checked;
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.LANDDRAWINGLAYER).ShowLayer = ShowLandLayerCheck.Checked;
+
+            MapImageBox.Refresh();
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Water Tab
+
+        #region Water Tab Methods
+
         /******************************************************************************************************
         * *****************************************************************************************************
         * Water Tab Methods
@@ -3793,6 +3989,42 @@ namespace MapCreator
 
             MapImageBox.Image = Extensions.ToBitmap(b);
         }
+
+        private void DeselectAllWaterFeatures()
+        {
+            if (CURRENT_DRAWING_MODE != DrawingModeEnum.LandformSelect)
+            {
+                // deselect all water features
+                foreach (MapPaintedWaterFeature wf in WaterFeatureMethods.PAINTED_WATERFEATURE_LIST)
+                {
+                    wf.IsSelected = false;
+                }
+
+                foreach (MapRiver r in WaterFeatureMethods.MAP_RIVER_LIST)
+                {
+                    r.IsSelected = false;
+                }
+
+                foreach (MapComponent mc in MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.WATERLAYER).MapLayerComponents)
+                {
+                    if (mc is MapPaintedWaterFeature wf)
+                    {
+                        wf.IsSelected = false;
+                    }
+                    else if (mc is MapRiver r)
+                    {
+                        r.IsSelected = false;
+                    }
+                }
+
+                MapImageBox.Refresh();
+            }
+        }
+
+        #endregion
+
+        #region Water Tab Event Handlers
+
         /*******************************************************************************************************
         * Water Tab Event Handlers 
         *******************************************************************************************************/
@@ -4127,6 +4359,22 @@ namespace MapCreator
             ColorPresetButtonMouseClickHandler(sender, e);
         }
 
+        private void ShowWaterLayerCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.WATERLAYER).ShowLayer = ShowWaterLayerCheck.Checked;
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.WATERDRAWINGLAYER).ShowLayer = ShowWaterLayerCheck.Checked;
+
+            MapImageBox.Refresh();
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Path Tab
+
+        #region Path Tab Methods
+
         /******************************************************************************************************
         * *****************************************************************************************************
         * Path Tab Methods
@@ -4231,6 +4479,40 @@ namespace MapCreator
                 MapPathMethods.UpdateMapPathTextureShader(resizedBitmap);
             }
         }
+
+        private void DeselectAllPaths()
+        {
+            if (CURRENT_DRAWING_MODE != DrawingModeEnum.PathSelect && CURRENT_DRAWING_MODE != DrawingModeEnum.PathEdit)
+            {
+                // deselect all paths
+                foreach (MapPath mp in MapPathMethods.GetMapPathList())
+                {
+                    mp.IsSelected = false;
+                }
+
+                foreach (MapComponent mc in MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.PATHLOWERLAYER).MapLayerComponents)
+                {
+                    if (mc is MapPath p)
+                    {
+                        p.IsSelected = false;
+                    }
+                }
+
+                foreach (MapComponent mc in MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.PATHUPPERLAYER).MapLayerComponents)
+                {
+                    if (mc is MapPath p)
+                    {
+                        p.IsSelected = false;
+                    }
+                }
+
+                MapImageBox.Refresh();
+            }
+        }
+
+        #endregion
+
+        #region Path Tab Event Handlers
 
         /*******************************************************************************************************
         * Path Tab Event Handlers 
@@ -4449,6 +4731,336 @@ namespace MapCreator
         {
             RailroadTracksRadio.Checked = !RailroadTracksRadio.Checked;
         }
+
+        private void ShowPathLayerCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.PATHLOWERLAYER).ShowLayer = ShowPathLayerCheck.Checked;
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.PATHUPPERLAYER).ShowLayer = ShowPathLayerCheck.Checked;
+
+            MapImageBox.Refresh();
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Symbol Tab
+
+        #region Symbol Tab Methods
+
+        /******************************************************************************************************
+        * *****************************************************************************************************
+        * Symbol Methods
+        * *****************************************************************************************************
+        *******************************************************************************************************/
+        private void AddSymbolsToSymbolTable(List<MapSymbol> symbols)
+        {
+            SymbolTable.Hide();
+            SymbolTable.Controls.Clear();
+            foreach (MapSymbol symbol in symbols)
+            {
+#pragma warning disable CS8604 // Possible null reference argument.
+                symbol.SetColorMappedBitmap(symbol.GetSymbolBitmap());
+#pragma warning restore CS8604 // Possible null reference argument.
+
+                Bitmap colorMappedBitmap = Extensions.ToBitmap(symbol.GetColorMappedBitmap());
+
+                if (symbol.GetUseCustomColors())
+                {
+                    MapDrawingMethods.MapCustomColorsToColorableBitmap(ref colorMappedBitmap);
+
+                }
+
+                symbol.SetColorMappedBitmap(Extensions.ToSKBitmap(colorMappedBitmap));
+
+                PictureBox pb = new()
+                {
+                    Tag = symbol,
+                    SizeMode = PictureBoxSizeMode.Zoom,
+                    Image = colorMappedBitmap,
+                };
+
+#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
+                pb.MouseHover += SymbolPictureBox_MouseHover;
+                pb.MouseClick += SymbolPictureBox_MouseClick;
+#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
+
+                SymbolTable.Controls.Add(pb);
+            }
+            SymbolTable.Show();
+
+            Refresh();
+        }
+
+        private void SymbolPictureBox_MouseHover(object sender, EventArgs e)
+        {
+            PictureBox pb = (PictureBox)sender;
+
+            if (pb.Tag is MapSymbol s)
+            {
+                TOOLTIP.Show(s.GetSymbolName(), pb);
+            }
+        }
+
+        private void SymbolPictureBox_MouseClick(object sender, EventArgs e)
+        {
+            if (((MouseEventArgs)e).Button == MouseButtons.Left)
+            {
+                if (ModifierKeys == Keys.Shift)
+                {
+                    // secondary symbol selection - for additional symbols to be used when painting symbols to the map (forests, etc.)
+                    if (CURRENT_DRAWING_MODE == DrawingModeEnum.SymbolPlace)
+                    {
+                        PictureBox pb = (PictureBox)sender;
+
+                        if (pb.BackColor == Color.AliceBlue)
+                        {
+                            pb.BackColor = SystemColors.Control;
+                            pb.Refresh();
+
+                            if (pb.Tag is MapSymbol s)
+                            {
+                                SymbolMethods.RemoveSecondarySelectedSymbol(s);
+                            }
+                        }
+                        else
+                        {
+                            pb.BackColor = Color.AliceBlue;
+                            pb.Refresh();
+
+                            if (pb.Tag is MapSymbol s)
+                            {
+                                SymbolMethods.AddSecondarySelectedSymbol(s);
+                            }
+                        }
+                    }
+                }
+                else if (ModifierKeys == Keys.None)
+                {
+                    // primary symbol selection                    
+
+                    PictureBox pb = (PictureBox)sender;
+
+                    if (pb.Tag is MapSymbol s)
+                    {
+                        foreach (Control control in SymbolTable.Controls)
+                        {
+                            if (control != pb)
+                            {
+                                control.BackColor = SystemColors.Control;
+                                control.Refresh();
+                            }
+                        }
+
+                        SymbolMethods.ClearSecondarySelectedSymbols();
+                        Color pbBackColor = pb.BackColor;
+
+                        if (pbBackColor == SystemColors.Control)
+                        {
+                            // clicked symbol is not selected, so select it
+                            pb.BackColor = Color.LightSkyBlue;
+                            pb.Refresh();
+
+                            SymbolMethods.SetSelectedMapSymbol(s);
+
+                            SetDrawingMode(DrawingModeEnum.SymbolPlace, null, true);
+                        }
+                        else
+                        {
+                            // clicked symbol is already selected, so deselect it
+                            pb.BackColor = SystemColors.Control;
+                            pb.Refresh();
+
+                            SymbolMethods.ClearSelectedMapSymbol();
+
+                            SetDrawingMode(DrawingModeEnum.None, null, true);
+                        }
+                    }
+                }
+            }
+            else if (((MouseEventArgs)e).Button == MouseButtons.Right)
+            {
+                PictureBox pb = (PictureBox)sender;
+                if (pb.Tag is MapSymbol s)
+                {
+                    SymbolInfo si = new(s);
+                    si.ShowDialog();
+                }
+            }
+        }
+
+        private void PlaceSelectedSymbolAtCursor(SKPoint mouseCursorPoint)
+        {
+            MapSymbol? selectedSymbol = SymbolMethods.GetSelectedMapSymbol();
+            if (selectedSymbol != null)
+            {
+                SKBitmap? symbolBitmap = selectedSymbol.GetSymbolBitmap();
+                if (symbolBitmap != null)
+                {
+                    float symbolScale = SymbolScaleTrack.Value / 100.0F;
+                    float symbolRotation = SymbolRotationTrack.Value;
+
+                    SKBitmap rotatedAndScaledBitmap = RotateAndScaleSymbolBitmap(symbolBitmap, symbolScale, symbolRotation);
+                    SKPoint cursorPoint = new(mouseCursorPoint.X - (rotatedAndScaledBitmap.Width / 2), mouseCursorPoint.Y - (rotatedAndScaledBitmap.Height / 2));
+
+                    PlaceSelectedMapSymbolAtPoint(cursorPoint, PREVIOUS_LAYER_CLICK_POINT);
+                }
+            }
+        }
+
+        private List<MapSymbol> GetFilteredMapSymbols()
+        {
+            List<string> selectedCollections = SymbolCollectionsListBox.CheckedItems.Cast<string>().ToList();
+            List<string> selectedTags = SymbolTagsListBox.CheckedItems.Cast<string>().ToList();
+            List<MapSymbol> filteredSymbols = SymbolMethods.GetFilteredSymbolList(SELECTED_SYMBOL_TYPE, selectedCollections, selectedTags);
+
+            return filteredSymbols;
+        }
+
+        private void PlaceSelectedMapSymbolAtPoint(SKPoint cursorPoint, SKPoint previousPoint)
+        {
+            MapSymbol? symbolToPlace = SymbolMethods.GetSelectedMapSymbol();
+
+            if (symbolToPlace != null)
+            {
+                if (SymbolMethods.GetSecondarySelectedSymbols().Count > 0)
+                {
+                    int selectedIndex = Random.Shared.Next(0, SymbolMethods.GetSecondarySelectedSymbols().Count + 1);
+
+                    if (selectedIndex > 0)
+                    {
+                        symbolToPlace = SymbolMethods.GetSecondarySelectedSymbolAtIndex(selectedIndex - 1);
+                    }
+                }
+
+                SKBitmap? symbolBitmap = symbolToPlace.GetColorMappedBitmap();
+
+                if (symbolBitmap != null)
+                {
+                    float symbolScale = SymbolScaleTrack.Value / 100.0F;
+                    float symbolRotation = SymbolRotationTrack.Value;
+
+                    SKBitmap scaledSymbolBitmap = MapDrawingMethods.ScaleBitmap(symbolBitmap, symbolScale);
+                    SKBitmap rotatedAndScaledBitmap = MapDrawingMethods.RotateBitmap(scaledSymbolBitmap, symbolRotation, MirrorSymbolCheck.Checked);
+
+                    if (rotatedAndScaledBitmap != null && (symbolToPlace.GetSymbolType() == SymbolTypeEnum.Vegetation || symbolToPlace.GetSymbolType() == SymbolTypeEnum.Terrain))
+                    {
+                        float bitmapSize = rotatedAndScaledBitmap.Width + rotatedAndScaledBitmap.Height;
+
+                        // increasing this value reduces the rate of symbol placement on the map
+                        // so high values of placement rate on the placement rate trackbar or updown increase placement rate on the map
+                        float placementRateSize = bitmapSize / PlacementRate;
+
+                        float pointDistanceSquared = SKPoint.DistanceSquared(previousPoint, cursorPoint);
+
+                        if (pointDistanceSquared > placementRateSize)
+                        {
+                            bool canPlaceSymbol = SymbolMethods.CanPlaceSymbol(SymbolMethods.GetSelectedMapSymbol(), rotatedAndScaledBitmap, cursorPoint, PlacementDensity);
+
+                            if (canPlaceSymbol)
+                            {
+                                SymbolMethods.PlaceSymbolOnMap(CURRENT_MAP, SymbolMethods.GetSelectedMapSymbol(), rotatedAndScaledBitmap, cursorPoint);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SymbolMethods.PlaceSymbolOnMap(CURRENT_MAP, SymbolMethods.GetSelectedMapSymbol(), rotatedAndScaledBitmap, cursorPoint);
+                    }
+                }
+            }
+        }
+
+        private void PlaceSelectedSymbolInArea(SKPoint mouseCursorPoint)
+        {
+            MapSymbol? selectedSymbol = SymbolMethods.GetSelectedMapSymbol();
+            if (selectedSymbol != null)
+            {
+                SKBitmap? symbolBitmap = selectedSymbol.GetSymbolBitmap();
+                if (symbolBitmap != null)
+                {
+                    float symbolScale = SymbolScaleTrack.Value / 100.0F;
+                    float symbolRotation = SymbolRotationTrack.Value;
+
+                    SKBitmap rotatedAndScaledBitmap = RotateAndScaleSymbolBitmap(symbolBitmap, symbolScale, symbolRotation);
+
+                    SKPoint cursorPoint = new(mouseCursorPoint.X - (rotatedAndScaledBitmap.Width / 2), mouseCursorPoint.Y - (rotatedAndScaledBitmap.Height / 2));
+
+                    int exclusionRadius = (int)Math.Ceiling(PlacementDensity * ((rotatedAndScaledBitmap.Width + rotatedAndScaledBitmap.Height) / 2.0F));
+
+                    List<SKPoint> areaPoints = MapDrawingMethods.GetPointsInCircle(cursorPoint, (int)Math.Ceiling(AreaBrushSizeTrack.Value / 2.0F), exclusionRadius);
+
+                    foreach (SKPoint p in areaPoints)
+                    {
+                        SKPoint point = p;
+
+                        // 1% randomization of point location
+                        point.X = Random.Shared.Next((int)(p.X * 0.99F), (int)(p.X * 1.01F));
+                        point.Y = Random.Shared.Next((int)(p.Y * 0.99F), (int)(p.Y * 1.01F));
+
+                        PlaceSelectedMapSymbolAtPoint(point, PREVIOUS_LAYER_CLICK_POINT);
+                    }
+                }
+            }
+        }
+
+        private SKBitmap RotateAndScaleSymbolBitmap(SKBitmap symbolBitmap, float symbolScale, float symbolRotation)
+        {
+            SKBitmap scaledSymbolBitmap = MapDrawingMethods.ScaleBitmap(symbolBitmap, symbolScale);
+
+            SKBitmap rotatedAndScaledBitmap = MapDrawingMethods.RotateBitmap(scaledSymbolBitmap, symbolRotation, MirrorSymbolCheck.Checked);
+
+            return rotatedAndScaledBitmap;
+        }
+
+        private void MoveSelectedSymbolInRenderOrder(ComponentMoveDirectionEnum direction)
+        {
+            if (UISelectedMapSymbol != null)
+            {
+                // find the selected symbol in the Symbol Layer MapComponents
+                MapLayer symbolLayer = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.SYMBOLLAYER);
+
+                List<MapComponent> symbolComponents = symbolLayer.MapLayerComponents;
+                MapSymbol? selectedSymbol = null;
+
+                int selectedSymbolIndex = 0;
+
+                for (int i = 0; i < symbolComponents.Count; i++)
+                {
+                    MapComponent symbolComponent = symbolComponents[i];
+                    if (symbolComponent is MapSymbol symbol && symbol.GetSymbolGuid() == UISelectedMapSymbol.GetSymbolGuid())
+                    {
+                        selectedSymbolIndex = i;
+                        selectedSymbol = symbol;
+                        break;
+                    }
+                }
+
+                if (direction == ComponentMoveDirectionEnum.Up)
+                {
+                    // moving a symbol up in render order means increasing its index
+                    if (selectedSymbol != null && selectedSymbolIndex < symbolComponents.Count - 1)
+                    {
+                        symbolComponents[selectedSymbolIndex] = symbolComponents[selectedSymbolIndex + 1];
+                        symbolComponents[selectedSymbolIndex + 1] = selectedSymbol;
+                    }
+                }
+                else if (direction == ComponentMoveDirectionEnum.Down)
+                {
+                    // moving a symbol down in render order means decreasing its index
+                    // the map component at index 0 is the layer bitmap, so the selectedSymbolIndex must be great than 1 to move it down
+                    if (selectedSymbol != null && selectedSymbolIndex > 1)
+                    {
+                        symbolComponents[selectedSymbolIndex] = symbolComponents[selectedSymbolIndex - 1];
+                        symbolComponents[selectedSymbolIndex - 1] = selectedSymbol;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region Symbol Tab Event Handlers
 
         /*******************************************************************************************************
         * Symbol Tab Event Handlers 
@@ -4726,315 +5338,20 @@ namespace MapCreator
             SymbolTable.Refresh();
         }
 
-        /******************************************************************************************************
-        * *****************************************************************************************************
-        * Symbol Methods
-        * *****************************************************************************************************
-        *******************************************************************************************************/
-        private void AddSymbolsToSymbolTable(List<MapSymbol> symbols)
+        private void ShowSymbolLayerCheck_CheckedChanged(object sender, EventArgs e)
         {
-            SymbolTable.Hide();
-            SymbolTable.Controls.Clear();
-            foreach (MapSymbol symbol in symbols)
-            {
-#pragma warning disable CS8604 // Possible null reference argument.
-                symbol.SetColorMappedBitmap(symbol.GetSymbolBitmap());
-#pragma warning restore CS8604 // Possible null reference argument.
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.SYMBOLLAYER).ShowLayer = ShowSymbolLayerCheck.Checked;
 
-                Bitmap colorMappedBitmap = Extensions.ToBitmap(symbol.GetColorMappedBitmap());
-
-                if (symbol.GetUseCustomColors())
-                {
-                    MapDrawingMethods.MapCustomColorsToColorableBitmap(ref colorMappedBitmap);
-
-                }
-
-                symbol.SetColorMappedBitmap(Extensions.ToSKBitmap(colorMappedBitmap));
-
-                PictureBox pb = new()
-                {
-                    Tag = symbol,
-                    SizeMode = PictureBoxSizeMode.Zoom,
-                    Image = colorMappedBitmap,
-                };
-
-#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
-                pb.MouseHover += SymbolPictureBox_MouseHover;
-                pb.MouseClick += SymbolPictureBox_MouseClick;
-#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
-
-                SymbolTable.Controls.Add(pb);
-            }
-            SymbolTable.Show();
-
-            Refresh();
+            MapImageBox.Refresh();
         }
 
-        private void SymbolPictureBox_MouseHover(object sender, EventArgs e)
-        {
-            PictureBox pb = (PictureBox)sender;
+        #endregion
 
-            if (pb.Tag is MapSymbol s)
-            {
-                TOOLTIP.Show(s.GetSymbolName(), pb);
-            }
-        }
+        #endregion
 
-        private void SymbolPictureBox_MouseClick(object sender, EventArgs e)
-        {
-            if (((MouseEventArgs)e).Button == MouseButtons.Left)
-            {
-                if (ModifierKeys == Keys.Shift)
-                {
-                    // secondary symbol selection - for additional symbols to be used when painting symbols to the map (forests, etc.)
-                    if (CURRENT_DRAWING_MODE == DrawingModeEnum.SymbolPlace)
-                    {
-                        PictureBox pb = (PictureBox)sender;
+        #region Label Tab
 
-                        if (pb.BackColor == Color.AliceBlue)
-                        {
-                            pb.BackColor = SystemColors.Control;
-                            pb.Refresh();
-
-                            if (pb.Tag is MapSymbol s)
-                            {
-                                SymbolMethods.RemoveSecondarySelectedSymbol(s);
-                            }
-                        }
-                        else
-                        {
-                            pb.BackColor = Color.AliceBlue;
-                            pb.Refresh();
-
-                            if (pb.Tag is MapSymbol s)
-                            {
-                                SymbolMethods.AddSecondarySelectedSymbol(s);
-                            }
-                        }
-                    }
-                }
-                else if (ModifierKeys == Keys.None)
-                {
-                    // primary symbol selection                    
-
-                    PictureBox pb = (PictureBox)sender;
-
-                    if (pb.Tag is MapSymbol s)
-                    {
-                        foreach (Control control in SymbolTable.Controls)
-                        {
-                            if (control != pb)
-                            {
-                                control.BackColor = SystemColors.Control;
-                                control.Refresh();
-                            }
-                        }
-
-                        SymbolMethods.ClearSecondarySelectedSymbols();
-                        Color pbBackColor = pb.BackColor;
-
-                        if (pbBackColor == SystemColors.Control)
-                        {
-                            // clicked symbol is not selected, so select it
-                            pb.BackColor = Color.LightSkyBlue;
-                            pb.Refresh();
-
-                            SymbolMethods.SetSelectedMapSymbol(s);
-
-                            SetDrawingMode(DrawingModeEnum.SymbolPlace, null, true);
-                        }
-                        else
-                        {
-                            // clicked symbol is already selected, so deselect it
-                            pb.BackColor = SystemColors.Control;
-                            pb.Refresh();
-
-                            SymbolMethods.ClearSelectedMapSymbol();
-
-                            SetDrawingMode(DrawingModeEnum.None, null, true);
-                        }
-                    }
-                }
-            }
-            else if (((MouseEventArgs)e).Button == MouseButtons.Right)
-            {
-                PictureBox pb = (PictureBox)sender;
-                if (pb.Tag is MapSymbol s)
-                {
-                    SymbolInfo si = new(s);
-                    si.ShowDialog();
-                }
-            }
-        }
-
-        private void PlaceSelectedSymbolAtCursor(SKPoint mouseCursorPoint)
-        {
-            MapSymbol? selectedSymbol = SymbolMethods.GetSelectedMapSymbol();
-            if (selectedSymbol != null)
-            {
-                SKBitmap? symbolBitmap = selectedSymbol.GetSymbolBitmap();
-                if (symbolBitmap != null)
-                {
-                    float symbolScale = SymbolScaleTrack.Value / 100.0F;
-                    float symbolRotation = SymbolRotationTrack.Value;
-
-                    SKBitmap rotatedAndScaledBitmap = RotateAndScaleSymbolBitmap(symbolBitmap, symbolScale, symbolRotation);
-                    SKPoint cursorPoint = new(mouseCursorPoint.X - (rotatedAndScaledBitmap.Width / 2), mouseCursorPoint.Y - (rotatedAndScaledBitmap.Height / 2));
-
-                    PlaceSelectedMapSymbolAtPoint(cursorPoint, PREVIOUS_LAYER_CLICK_POINT);
-                }
-            }
-        }
-
-        private List<MapSymbol> GetFilteredMapSymbols()
-        {
-            List<string> selectedCollections = SymbolCollectionsListBox.CheckedItems.Cast<string>().ToList();
-            List<string> selectedTags = SymbolTagsListBox.CheckedItems.Cast<string>().ToList();
-            List<MapSymbol> filteredSymbols = SymbolMethods.GetFilteredSymbolList(SELECTED_SYMBOL_TYPE, selectedCollections, selectedTags);
-
-            return filteredSymbols;
-        }
-
-        private void PlaceSelectedMapSymbolAtPoint(SKPoint cursorPoint, SKPoint previousPoint)
-        {
-            MapSymbol? symbolToPlace = SymbolMethods.GetSelectedMapSymbol();
-
-            if (symbolToPlace != null)
-            {
-                if (SymbolMethods.GetSecondarySelectedSymbols().Count > 0)
-                {
-                    int selectedIndex = Random.Shared.Next(0, SymbolMethods.GetSecondarySelectedSymbols().Count + 1);
-
-                    if (selectedIndex > 0)
-                    {
-                        symbolToPlace = SymbolMethods.GetSecondarySelectedSymbolAtIndex(selectedIndex - 1);
-                    }
-                }
-
-                SKBitmap? symbolBitmap = symbolToPlace.GetColorMappedBitmap();
-
-                if (symbolBitmap != null)
-                {
-                    float symbolScale = SymbolScaleTrack.Value / 100.0F;
-                    float symbolRotation = SymbolRotationTrack.Value;
-
-                    SKBitmap scaledSymbolBitmap = MapDrawingMethods.ScaleBitmap(symbolBitmap, symbolScale);
-                    SKBitmap rotatedAndScaledBitmap = MapDrawingMethods.RotateBitmap(scaledSymbolBitmap, symbolRotation, MirrorSymbolCheck.Checked);
-
-                    if (rotatedAndScaledBitmap != null && (symbolToPlace.GetSymbolType() == SymbolTypeEnum.Vegetation || symbolToPlace.GetSymbolType() == SymbolTypeEnum.Terrain))
-                    {
-                        float bitmapSize = rotatedAndScaledBitmap.Width + rotatedAndScaledBitmap.Height;
-
-                        // increasing this value reduces the rate of symbol placement on the map
-                        // so high values of placement rate on the placement rate trackbar or updown increase placement rate on the map
-                        float placementRateSize = bitmapSize / PlacementRate;
-
-                        float pointDistanceSquared = SKPoint.DistanceSquared(previousPoint, cursorPoint);
-
-                        if (pointDistanceSquared > placementRateSize)
-                        {
-                            bool canPlaceSymbol = SymbolMethods.CanPlaceSymbol(SymbolMethods.GetSelectedMapSymbol(), rotatedAndScaledBitmap, cursorPoint, PlacementDensity);
-
-                            if (canPlaceSymbol)
-                            {
-                                SymbolMethods.PlaceSymbolOnMap(CURRENT_MAP, SymbolMethods.GetSelectedMapSymbol(), rotatedAndScaledBitmap, cursorPoint);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        SymbolMethods.PlaceSymbolOnMap(CURRENT_MAP, SymbolMethods.GetSelectedMapSymbol(), rotatedAndScaledBitmap, cursorPoint);
-                    }
-                }
-            }
-        }
-
-        private void PlaceSelectedSymbolInArea(SKPoint mouseCursorPoint)
-        {
-            MapSymbol? selectedSymbol = SymbolMethods.GetSelectedMapSymbol();
-            if (selectedSymbol != null)
-            {
-                SKBitmap? symbolBitmap = selectedSymbol.GetSymbolBitmap();
-                if (symbolBitmap != null)
-                {
-                    float symbolScale = SymbolScaleTrack.Value / 100.0F;
-                    float symbolRotation = SymbolRotationTrack.Value;
-
-                    SKBitmap rotatedAndScaledBitmap = RotateAndScaleSymbolBitmap(symbolBitmap, symbolScale, symbolRotation);
-
-                    SKPoint cursorPoint = new(mouseCursorPoint.X - (rotatedAndScaledBitmap.Width / 2), mouseCursorPoint.Y - (rotatedAndScaledBitmap.Height / 2));
-
-                    int exclusionRadius = (int)Math.Ceiling(PlacementDensity * ((rotatedAndScaledBitmap.Width + rotatedAndScaledBitmap.Height) / 2.0F));
-
-                    List<SKPoint> areaPoints = MapDrawingMethods.GetPointsInCircle(cursorPoint, (int)Math.Ceiling(AreaBrushSizeTrack.Value / 2.0F), exclusionRadius);
-
-                    foreach (SKPoint p in areaPoints)
-                    {
-                        SKPoint point = p;
-
-                        // 1% randomization of point location
-                        point.X = Random.Shared.Next((int)(p.X * 0.99F), (int)(p.X * 1.01F));
-                        point.Y = Random.Shared.Next((int)(p.Y * 0.99F), (int)(p.Y * 1.01F));
-
-                        PlaceSelectedMapSymbolAtPoint(point, PREVIOUS_LAYER_CLICK_POINT);
-                    }
-                }
-            }
-        }
-
-        private SKBitmap RotateAndScaleSymbolBitmap(SKBitmap symbolBitmap, float symbolScale, float symbolRotation)
-        {
-            SKBitmap scaledSymbolBitmap = MapDrawingMethods.ScaleBitmap(symbolBitmap, symbolScale);
-
-            SKBitmap rotatedAndScaledBitmap = MapDrawingMethods.RotateBitmap(scaledSymbolBitmap, symbolRotation, MirrorSymbolCheck.Checked);
-
-            return rotatedAndScaledBitmap;
-        }
-
-        private void MoveSelectedSymbolInRenderOrder(SymbolRenderMoveDirectionEnum direction)
-        {
-            if (UISelectedMapSymbol != null)
-            {
-                // find the selected symbol in the Symbol Layer MapComponents
-                MapLayer symbolLayer = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.SYMBOLLAYER);
-
-                List<MapComponent> symbolComponents = symbolLayer.MapLayerComponents;
-                MapSymbol? selectedSymbol = null;
-
-                int selectedSymbolIndex = 0;
-
-                for (int i = 0; i < symbolComponents.Count; i++)
-                {
-                    MapComponent symbolComponent = symbolComponents[i];
-                    if (symbolComponent is MapSymbol symbol && symbol.GetSymbolGuid() == UISelectedMapSymbol.GetSymbolGuid())
-                    {
-                        selectedSymbolIndex = i;
-                        selectedSymbol = symbol;
-                        break;
-                    }
-                }
-
-                if (direction == SymbolRenderMoveDirectionEnum.Up)
-                {
-                    // moving a symbol up in render order means increasing its index
-                    if (selectedSymbol != null && selectedSymbolIndex < symbolComponents.Count - 1)
-                    {
-                        symbolComponents[selectedSymbolIndex] = symbolComponents[selectedSymbolIndex + 1];
-                        symbolComponents[selectedSymbolIndex + 1] = selectedSymbol;
-                    }
-                }
-                else if (direction == SymbolRenderMoveDirectionEnum.Down)
-                {
-                    // moving a symbol down in render order means decreasing its index
-                    // the map component at index 0 is the layer bitmap, so the selectedSymbolIndex must be great than 1 to move it down
-                    if (selectedSymbol != null && selectedSymbolIndex > 1)
-                    {
-                        symbolComponents[selectedSymbolIndex] = symbolComponents[selectedSymbolIndex - 1];
-                        symbolComponents[selectedSymbolIndex - 1] = selectedSymbol;
-                    }
-                }
-            }
-        }
+        #region Label Tab Methods
 
         /******************************************************************************************************
         * *****************************************************************************************************
@@ -5237,6 +5554,10 @@ namespace MapCreator
                 SelectLabelFontButton.Refresh();
             }
         }
+
+        #endregion
+
+        #region Label Tab Event Handlers
 
         /*******************************************************************************************************
         * Label Tab Event Handlers 
@@ -5534,7 +5855,6 @@ namespace MapCreator
             }
         }
 
-
         private void LabelRotationUpDown_ValueChanged(object sender, EventArgs e)
         {
             if (UISelectedLabel != null)
@@ -5593,6 +5913,21 @@ namespace MapCreator
             }
         }
 
+        private void ShowLabelLayerCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.LABELLAYER).ShowLayer = ShowLabelLayerCheck.Checked;
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.BOXLAYER).ShowLayer = ShowLabelLayerCheck.Checked;
+
+            MapImageBox.Refresh();
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Overlay Tab
+
+        #region Overlay Tab Methods
 
         /******************************************************************************************************
         * *****************************************************************************************************
@@ -5629,55 +5964,6 @@ namespace MapCreator
                 }
             }
             FrameStyleTable.Show();
-        }
-
-        private void FramePictureBox_MouseClick(object sender, EventArgs e)
-        {
-            if (((MouseEventArgs)e).Button == MouseButtons.Left)
-            {
-                if (ModifierKeys == Keys.None)
-                {
-                    PictureBox pb = (PictureBox)sender;
-
-                    if (pb.Tag is MapFrame frame)
-                    {
-                        foreach (Control control in FrameStyleTable.Controls)
-                        {
-                            if (control != pb)
-                            {
-                                control.BackColor = SystemColors.Control;
-                            }
-                        }
-
-                        Color pbBackColor = pb.BackColor;
-
-                        if (pbBackColor.ToArgb() == SystemColors.Control.ToArgb())
-                        {
-                            // clicked symbol is not selected, so select it
-                            pb.BackColor = Color.LightSkyBlue;
-
-                            OverlayMethods.SelectedFrame = frame;
-
-                            Cmd_CreateMapFrame cmd = new(CURRENT_MAP, frame, SelectFrameTintLabel.BackColor, FrameTintOpacityTrack.Value, (float)FrameScaleUpDown.Value);
-                            UndoManager.AddCommand(cmd);
-                            cmd.DoOperation();
-
-                            MapImageBox.Refresh();
-                        }
-                        else
-                        {
-                            // clicked symbol is already selected, so deselect it
-                            pb.BackColor = SystemColors.Control;
-                            OverlayMethods.SelectedFrame = null;
-                        }
-                    }
-                }
-            }
-        }
-
-        private void FrameStyleTable_Scroll(object sender, ScrollEventArgs e)
-        {
-            FrameStyleTable.Refresh();
         }
 
         private void CreateGrid()
@@ -5793,9 +6079,62 @@ namespace MapCreator
             return currentMapMeasure;
         }
 
+        #endregion
+
+        #region Overlay Tab Event Handlers
+
         /*******************************************************************************************************
         * Overlay Tab Event Handlers 
         *******************************************************************************************************/
+
+        private void FramePictureBox_MouseClick(object sender, EventArgs e)
+        {
+            if (((MouseEventArgs)e).Button == MouseButtons.Left)
+            {
+                if (ModifierKeys == Keys.None)
+                {
+                    PictureBox pb = (PictureBox)sender;
+
+                    if (pb.Tag is MapFrame frame)
+                    {
+                        foreach (Control control in FrameStyleTable.Controls)
+                        {
+                            if (control != pb)
+                            {
+                                control.BackColor = SystemColors.Control;
+                            }
+                        }
+
+                        Color pbBackColor = pb.BackColor;
+
+                        if (pbBackColor.ToArgb() == SystemColors.Control.ToArgb())
+                        {
+                            // clicked symbol is not selected, so select it
+                            pb.BackColor = Color.LightSkyBlue;
+
+                            OverlayMethods.SelectedFrame = frame;
+
+                            Cmd_CreateMapFrame cmd = new(CURRENT_MAP, frame, SelectFrameTintLabel.BackColor, FrameTintOpacityTrack.Value, (float)FrameScaleUpDown.Value);
+                            UndoManager.AddCommand(cmd);
+                            cmd.DoOperation();
+
+                            MapImageBox.Refresh();
+                        }
+                        else
+                        {
+                            // clicked symbol is already selected, so deselect it
+                            pb.BackColor = SystemColors.Control;
+                            OverlayMethods.SelectedFrame = null;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void FrameStyleTable_Scroll(object sender, ScrollEventArgs e)
+        {
+            FrameStyleTable.Refresh();
+        }
 
         private void FrameScaleUpDown_ValueChanged(object sender, EventArgs e)
         {
@@ -6187,6 +6526,25 @@ namespace MapCreator
             MapImageBox.Refresh();
         }
 
+        private void ShowOverlayLayerCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.OVERLAYLAYER).ShowLayer = ShowOverlayLayerCheck.Checked;
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.DEFAULTGRIDLAYER).ShowLayer = ShowOverlayLayerCheck.Checked;
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.ABOVEOCEANGRIDLAYER).ShowLayer = ShowOverlayLayerCheck.Checked;
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.BELOWSYMBOLSGRIDLAYER).ShowLayer = ShowOverlayLayerCheck.Checked;
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.MEASURELAYER).ShowLayer = ShowOverlayLayerCheck.Checked;
+
+            MapImageBox.Refresh();
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Region Tab
+
+        #region Region Tab Methods
+
         /******************************************************************************************************
         * *****************************************************************************************************
         * Region Tab Methods
@@ -6271,11 +6629,11 @@ namespace MapCreator
                     pathEffect = SKPathEffect.CreateDash(intervals, 0);
                     break;
                 case PathTypeEnum.DashDotLinePath:
-                    intervals = [region.RegionBorderWidth, region.RegionBorderWidth, 0, region.RegionBorderWidth * 2];
+                    intervals = [region.RegionBorderWidth, region.RegionBorderWidth * 2, 0, region.RegionBorderWidth * 2];
                     pathEffect = SKPathEffect.CreateDash(intervals, 0);
                     break;
                 case PathTypeEnum.DashDotDotLinePath:
-                    intervals = [region.RegionBorderWidth, region.RegionBorderWidth * 2, 0, region.RegionBorderWidth * 2];
+                    intervals = [region.RegionBorderWidth, region.RegionBorderWidth * 2, 0, region.RegionBorderWidth * 2, 0, region.RegionBorderWidth * 2];
                     pathEffect = SKPathEffect.CreateDash(intervals, 0);
                     break;
                 case PathTypeEnum.LineAndDashesPath:
@@ -6326,6 +6684,55 @@ namespace MapCreator
             }
         }
 
+        private void MoveSelectedRegionInRenderOrder(ComponentMoveDirectionEnum direction)
+        {
+            if (UIMapRegion != null)
+            {
+                // find the selected region in the Region Layer MapComponents
+                MapLayer regionLayer = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.REGIONLAYER);
+
+                List<MapComponent> regionComponents = regionLayer.MapLayerComponents;
+                MapRegion? selectedRegion = null;
+
+                int selectedRegionIndex = 0;
+
+                for (int i = 0; i < regionComponents.Count; i++)
+                {
+                    MapComponent regionComponent = regionComponents[i];
+                    if (regionComponent is MapRegion region && region.RegionGuid.ToString() == UIMapRegion.RegionGuid.ToString())
+                    {
+                        selectedRegionIndex = i;
+                        selectedRegion = region;
+                        break;
+                    }
+                }
+
+                if (direction == ComponentMoveDirectionEnum.Up)
+                {
+                    // moving a region up in render order means increasing its index
+                    if (selectedRegion != null && selectedRegionIndex < regionComponents.Count - 1)
+                    {
+                        regionComponents[selectedRegionIndex] = regionComponents[selectedRegionIndex + 1];
+                        regionComponents[selectedRegionIndex + 1] = selectedRegion;
+                    }
+                }
+                else if (direction == ComponentMoveDirectionEnum.Down)
+                {
+                    // moving a symbol down in render order means decreasing its index
+                    // the map component at index 0 is the layer bitmap, so the selectedSymbolIndex must be great than 1 to move it down
+                    if (selectedRegion != null && selectedRegionIndex > 1)
+                    {
+                        regionComponents[selectedRegionIndex] = regionComponents[selectedRegionIndex - 1];
+                        regionComponents[selectedRegionIndex - 1] = selectedRegion;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region Region Tab Event Handlers
+
         /*******************************************************************************************************
         * Region Tab Event Handlers 
         *******************************************************************************************************/
@@ -6365,6 +6772,7 @@ namespace MapCreator
                 }
 
                 MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.REGIONLAYER).Clear();
+                MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.REGIONOVERLAYLAYER).Clear();
 
                 MapImageBox.Refresh();
                 UIMapRegion = null;
@@ -6380,6 +6788,7 @@ namespace MapCreator
             if (regionColor.ToArgb() != Color.Empty.ToArgb())
             {
                 RegionColorSelectLabel.BackColor = regionColor;
+                RegionColorSelectLabel.Refresh();
 
                 if (UIMapRegion != null)
                 {
@@ -6391,6 +6800,7 @@ namespace MapCreator
         private void RegionBorderWidthTrack_Scroll(object sender, EventArgs e)
         {
             RegionBorderWidthLabel.Text = RegionBorderWidthTrack.Value.ToString();
+            RegionBorderWidthLabel.Refresh();
 
             if (UIMapRegion != null)
             {
@@ -6401,6 +6811,7 @@ namespace MapCreator
         private void RegionOpacityTrack_Scroll(object sender, EventArgs e)
         {
             RegionInnerOpacityLabel.Text = RegionOpacityTrack.Value.ToString();
+            RegionInnerOpacityLabel.Refresh();
 
             if (UIMapRegion != null)
             {
@@ -6411,6 +6822,7 @@ namespace MapCreator
         private void RegionBorderSmoothingTrack_Scroll(object sender, EventArgs e)
         {
             RegionBorderSmoothingLabel.Text = RegionBorderSmoothingTrack.Value.ToString();
+            RegionBorderSmoothingLabel.Refresh();
 
             if (UIMapRegion != null)
             {
@@ -6421,53 +6833,206 @@ namespace MapCreator
         private void SolidRegionBorderPicture_Click(object sender, EventArgs e)
         {
             RegionSolidBorderRadio.Checked = true;
+
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
         }
 
         private void DottedRegionBorderPicture_Click(object sender, EventArgs e)
         {
             RegionDottedBorderRadio.Checked = true;
+
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
         }
 
         private void DashedRegionBorderPicture_Click(object sender, EventArgs e)
         {
             RegionDashBorderRadio.Checked = true;
+
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
         }
 
         private void DashDotRegionBorderPicture_Click(object sender, EventArgs e)
         {
             RegionDashDotBorderRadio.Checked = true;
+
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
         }
 
         private void DashDotDotRegionBorderPicture_Click(object sender, EventArgs e)
         {
             RegionDashDotDotBorderRadio.Checked = true;
+
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
         }
 
         private void DoubleSolidRegionBorderPicture_Click(object sender, EventArgs e)
         {
             RegionDoubleSolidBorderRadio.Checked = true;
+
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
         }
 
         private void SolidAndDashRegionBorderPicture_Click(object sender, EventArgs e)
         {
             RegionSolidAndDashesBorderRadio.Checked = true;
+
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
         }
 
         private void GradientRegionBorderPicture_Click(object sender, EventArgs e)
         {
             RegionBorderedGradientRadio.Checked = true;
+
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
         }
 
         private void LightSolidRegionBorderPicture_Click(object sender, EventArgs e)
         {
             RegionBorderedLightSolidRadio.Checked = true;
+
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
         }
+
+        private void RegionSolidBorderRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
+        }
+
+        private void RegionDottedBorderRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
+        }
+
+        private void RegionDashBorderRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
+        }
+
+        private void RegionDashDotBorderRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
+        }
+
+        private void RegionDashDotDotBorderRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
+        }
+
+        private void RegionDoubleSolidBorderRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
+        }
+
+        private void RegionSolidAndDashesBorderRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
+        }
+
+        private void RegionBorderedGradientRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
+        }
+
+        private void RegionBorderedLightSolidRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (UIMapRegion != null)
+            {
+                SetRegionData(UIMapRegion);
+            }
+        }
+
+        private void ShowRegionLayerCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.REGIONLAYER).ShowLayer = ShowRegionLayerCheck.Checked;
+
+            MapImageBox.Refresh();
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Drawing Tab
+
+        /******************************************************************************************************
+        * *****************************************************************************************************
+        * Drawing Tab Methods
+        * *****************************************************************************************************
+        *******************************************************************************************************/
+
+        /*******************************************************************************************************
+        * Drawing Tab Event Handlers 
+        *******************************************************************************************************/
+
+        private void ShowDrawingLayerCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.DRAWINGLAYER).ShowLayer = ShowDrawingLayerCheck.Checked;
+
+            MapImageBox.Refresh();
+        }
+
+        #endregion
+
+        #region Image Box Event Handlers
 
         /*******************************************************************************************************
          * *****************************************************************************************************
          * IMAGE BOX EVENT HANDLERS
          * *****************************************************************************************************
          * *****************************************************************************************************/
+
+        #region IMAGE BOX MOUSE DOWN
 
         // MOUSE DOWN
         private void MapImageBox_MouseDown(object sender, MouseEventArgs e)
@@ -6483,6 +7048,10 @@ namespace MapCreator
             }
         }
 
+        #endregion
+
+        #region IMAGE BOX MOUSE UP
+
         // MOUSE UP
         private void MapImageBox_MouseUp(object sender, MouseEventArgs e)
         {
@@ -6496,6 +7065,10 @@ namespace MapCreator
                 RightButtonMouseUpHandler(sender, e);
             }
         }
+
+        #endregion
+
+        #region IMAGE BOX MOUSE MOVE
 
         // MOUSE MOVE
         private void MapImageBox_MouseMove(object sender, MouseEventArgs e)
@@ -6527,6 +7100,10 @@ namespace MapCreator
             }
         }
 
+        #endregion
+
+        #region IMAGE BOX MOUSE DOUBLE-CLICK
+
         private void MapImageBox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (ModifierKeys == Keys.Shift)
@@ -6535,6 +7112,10 @@ namespace MapCreator
                 MapImageBox.ScrollTo(0, 0);
             }
         }
+
+        #endregion
+
+        #region IMAGE BOX PAINT
 
         // PAINT
         private void MapImageBox_Paint(object sender, PaintEventArgs e)
@@ -6667,11 +7248,19 @@ namespace MapCreator
             }
         }
 
+        #endregion
+
+        #region IMAGE BOX ZOOM CHANGE
+
         // ZOOM CHANGE
         private void MapImageBox_ZoomChanged(object sender, EventArgs e)
         {
             UpdateViewportStatus();
         }
+
+        #endregion
+
+        #region IMAGE BOX MOUSE ENTER
 
         // MOUSE ENTER
         private void MapImageBox_MouseEnter(object sender, EventArgs e)
@@ -6686,11 +7275,18 @@ namespace MapCreator
             }
         }
 
+        #endregion
+
+        #region IMAGE BOX MOUSE LEAVE
         // MOUSE LEAVE
         private void MapImageBox_MouseLeave(object sender, EventArgs e)
         {
             Cursor = Cursors.Default;
         }
+
+        #endregion
+
+        #region IMAGE BOX MOUSE WHEEL
 
         // MOUSE WHEEL
         private void MapImageBox_MouseWheel(object sender, MouseEventArgs e)
@@ -6869,7 +7465,9 @@ namespace MapCreator
             }
         }
 
+        #endregion
 
+        #region IMAGE BOX KEY DOWN
 
         // KEY DOWN
         private void MapImageBox_KeyDown(object sender, KeyEventArgs e)
@@ -6939,6 +7537,8 @@ namespace MapCreator
                         Cmd_DeleteMapRegion cmd = new(CURRENT_MAP, UIMapRegion);
                         UndoManager.AddCommand(cmd);
                         cmd.DoOperation();
+
+                        UIMapRegion = null;
                     }
 
                     CURRENT_MAP.IsSaved = false;
@@ -7063,7 +7663,11 @@ namespace MapCreator
             {
                 if (CURRENT_DRAWING_MODE == DrawingModeEnum.SymbolSelect)
                 {
-                    MoveSelectedSymbolInRenderOrder(SymbolRenderMoveDirectionEnum.Up);
+                    MoveSelectedSymbolInRenderOrder(ComponentMoveDirectionEnum.Up);
+                }
+                else if (CURRENT_DRAWING_MODE == DrawingModeEnum.RegionSelect)
+                {
+                    MoveSelectedRegionInRenderOrder(ComponentMoveDirectionEnum.Up);
                 }
             }
 
@@ -7071,7 +7675,11 @@ namespace MapCreator
             {
                 if (CURRENT_DRAWING_MODE == DrawingModeEnum.SymbolSelect)
                 {
-                    MoveSelectedSymbolInRenderOrder(SymbolRenderMoveDirectionEnum.Down);
+                    MoveSelectedSymbolInRenderOrder(ComponentMoveDirectionEnum.Down);
+                }
+                else if (CURRENT_DRAWING_MODE == DrawingModeEnum.RegionSelect)
+                {
+                    MoveSelectedRegionInRenderOrder(ComponentMoveDirectionEnum.Down);
                 }
             }
 
@@ -7122,15 +7730,26 @@ namespace MapCreator
             MapImageBox.Refresh();
         }
 
+        #endregion
+
+        #endregion
+
+        #region IMAGE BOX MOUSE EVENT HANDLER METHODS (called from event handlers)
+
         /**************************************************************************************************************************
         * ************************************************************************************************************************
         * IMAGE BOX EVENT HANDLER METHODS
         * ************************************************************************************************************************
         * ************************************************************************************************************************/
 
+        #region IMAGE BOX MOUSE DOWN HANDLER METHODS
+
         /*************************************************************************************************************************
         * MOUSE DOWN HANDLER METHODS
         *************************************************************************************************************************/
+
+        #region LEFT MOUSE BUTTON DOWN
+
         private void LeftButtonMouseDownHandler(object sender, MouseEventArgs e)
         {
             int brushRadius = SetBrushRadius(CURRENT_DRAWING_MODE);
@@ -7466,17 +8085,21 @@ namespace MapCreator
                         MapLandformType2? landform1 = null;
                         MapLandformType2? landform2 = null;
 
+                        float currentDistance = float.MaxValue;
+
                         foreach (MapLandformType2 lf in LandformType2Methods.LANDFORM_LIST)
                         {
                             for (int i = 0; i < lf.LandformContourPoints.Count; i++)
                             {
                                 SKPoint p = lf.LandformContourPoints[i];
-                                if (SKPoint.Distance(LAYER_CLICK_POINT, p) < 5)
+                                float distance = SKPoint.Distance(LAYER_CLICK_POINT, p);
+
+                                if (distance < currentDistance && distance < 5)
                                 {
                                     landform1 = lf;
                                     coastlinePointIndex = i;
                                     coastlinePoint = p;
-                                    break;
+                                    currentDistance = distance;
                                 }
                             }
 
@@ -7485,6 +8108,7 @@ namespace MapCreator
 
 
                         int previousCoastlinePointIndex = -1;
+                        currentDistance = float.MaxValue;
 
                         if (landform1 != null && coastlinePointIndex >= 0)
                         {
@@ -7500,11 +8124,13 @@ namespace MapCreator
                                     for (int i = 0; i < lf.LandformContourPoints.Count; i++)
                                     {
                                         SKPoint p = lf.LandformContourPoints[i];
-                                        if (SKPoint.Distance(previousPoint, p) < 20 && !coastlinePoint.Equals(previousPoint))
+                                        float distance = SKPoint.Distance(previousPoint, p);
+
+                                        if (distance < currentDistance && !coastlinePoint.Equals(previousPoint))
                                         {
                                             landform2 = lf;
                                             previousCoastlinePointIndex = i;
-                                            break;
+                                            currentDistance = distance;
                                         }
                                     }
 
@@ -7580,13 +8206,17 @@ namespace MapCreator
                             NEXT_REGION_POINT_INDEX = -1;
                             PREVIOUS_REGION_POINT_INDEX = -1;
 
-                            SKCanvas workCanvas = MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER);
-                            workCanvas.Clear();
+                            SKCanvas regionOverlayCanvas = MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.REGIONOVERLAYLAYER);
+                            regionOverlayCanvas.Clear();
                         }
                     }
                     break;
             }
         }
+
+        #endregion
+
+        #region RIGHT MOUSE BUTTON DOWN
 
         private void RightButtonMouseDownHandler(object sender, MouseEventArgs e)
         {
@@ -7691,9 +8321,18 @@ namespace MapCreator
             }
         }
 
+        #endregion
+
+        #endregion
+
+        #region IMAGE BOX MOUSE UP HANDLER METHODS
+
         /*************************************************************************************************************************
         * MOUSE UP HANDLER METHODS
         *************************************************************************************************************************/
+
+        #region LEFT MOUSE BUTTON UP
+
         private void LeftButtonMouseUpHandler(object sender, MouseEventArgs e)
         {
             IMAGEBOX_CLICK_POINT = Point.Empty;
@@ -8053,9 +8692,14 @@ namespace MapCreator
                     break;
                 case DrawingModeEnum.RegionSelect:
                     {
-                        if (!EDITING_REGION)
+                        if (EDITING_REGION)
+                        {
+                            EDITING_REGION = false;
+                        }
+                        else
                         {
                             MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.REGIONLAYER).Clear();
+                            MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.REGIONOVERLAYLAYER).Clear();
 
                             Point clickPoint = new(e.X, e.Y);
                             Point mapClickPoint = MapImageBox.PointToImage(clickPoint);
@@ -8063,12 +8707,15 @@ namespace MapCreator
 
                             if (selectedRegion != null)
                             {
-                                UIMapRegion = selectedRegion;
+                                if (selectedRegion.IsSelected)
+                                {
+                                    UIMapRegion = selectedRegion;
+                                }
+                                else
+                                {
+                                    UIMapRegion = null;
+                                }                                
                             }
-                        }
-                        else
-                        {
-                            EDITING_REGION = false;
                         }
                     }
                     break;
@@ -8077,25 +8724,31 @@ namespace MapCreator
             MapImageBox.Refresh();
         }
 
+        #endregion
+
+        #region RIGHT MOUSE BUTTON UP
+
         private void RightButtonMouseUpHandler(object sender, MouseEventArgs e)
         {
-            if (CURRENT_DRAWING_MODE != DrawingModeEnum.PathPaint)
+            Point clickPoint = new(e.X, e.Y);
+            Point mapClickPoint = MapImageBox.PointToImage(clickPoint);
+
+            switch (CURRENT_DRAWING_MODE)
             {
-                // TODO: select water feature, landform, path, or symbol
-                Point clickPoint = new(e.X, e.Y);
-                Point mapClickPoint = MapImageBox.PointToImage(clickPoint);
-                LandformSelectButton.Checked = false;
+                case DrawingModeEnum.LandformSelect:
 
-                MapLandformType2? selectedLandform = MapPaintMethods.SelectLandformAtPoint(mapClickPoint);
+                    LandformSelectButton.Checked = false;
 
-                if (selectedLandform != null)
-                {
-                    LandformData landformData = new();
-                    landformData.SetMapLandform(selectedLandform);
-                    landformData.ShowDialog(this);
-                }
-                else
-                {
+                    MapLandformType2? selectedLandform = MapPaintMethods.SelectLandformAtPoint(mapClickPoint);
+
+                    if (selectedLandform != null)
+                    {
+                        LandformData landformData = new();
+                        landformData.SetMapLandform(selectedLandform);
+                        landformData.ShowDialog(this);
+                    }
+                    break;
+                case DrawingModeEnum.WaterFeatureSelect:
                     WaterFeature? selectedWaterFeature = MapPaintMethods.SelectWaterFeatureAtPoint(mapClickPoint);
 
                     if (selectedWaterFeature != null && selectedWaterFeature is MapPaintedWaterFeature)
@@ -8108,32 +8761,38 @@ namespace MapCreator
                         // TODO: info dialog for river
                         MessageBox.Show(this, "selected river");
                     }
-                    else
-                    {
-                        MapPath? selectedPath = MapPathMethods.SelectMapPathAtPoint(mapClickPoint);
+                    break;
+                case DrawingModeEnum.PathSelect:
+                    MapPath? selectedPath = MapPathMethods.SelectMapPathAtPoint(mapClickPoint);
 
-                        if (selectedPath != null)
-                        {
-                            // TODO: info dialog for path
-                            MessageBox.Show(this, "selected path");
-                        }
-                        else
-                        {
-                            MapSymbol? selectedSymbol = SymbolMethods.SelectSymbolAtPoint(mapClickPoint);
-                            if (selectedSymbol != null)
-                            {
-                                PlacedSymbolInfo psi = new(selectedSymbol, this);
-                                psi.Show();
-                            }
-                        }
+                    if (selectedPath != null)
+                    {
+                        // TODO: info dialog for path
+                        MessageBox.Show(this, "selected path");
                     }
-                }
+                    break;
+                case DrawingModeEnum.SymbolSelect:
+                    MapSymbol? selectedSymbol = SymbolMethods.SelectSymbolAtPoint(mapClickPoint);
+                    if (selectedSymbol != null)
+                    {
+                        PlacedSymbolInfo psi = new(selectedSymbol, this);
+                        psi.Show();
+                    }
+                    break;
             }
         }
+
+        #endregion
+
+        #endregion
+
+        #region IMAGE BOX MOUSE MOVE HANDLER METHODS
 
         /*************************************************************************************************************************
         * MOUSE MOVE HANDLER METHODS
         *************************************************************************************************************************/
+
+        #region MOUSE MOVE LEFT BUTTON PRESSED
 
         // LEFT BUTTON
         private void LeftButtonMouseMoveHandler(MouseEventArgs e, int brushRadius)
@@ -8539,6 +9198,10 @@ namespace MapCreator
                             {
                                 SKCanvas regionCanvas = MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.REGIONLAYER);
                                 regionCanvas.Clear();
+
+                                SKCanvas regionOverlayCanvas = MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.REGIONOVERLAYLAYER);
+                                regionOverlayCanvas.Clear();
+
                                 selectedMapRegionPoint.RegionPoint = LAYER_CLICK_POINT;
                             }
                         }
@@ -8549,11 +9212,19 @@ namespace MapCreator
             MapImageBox.Refresh();
         }
 
+        #endregion
+
+        #region MOUSE MOVE RIGHT BUTTON PRESSED
+
         // RIGHT BUTTON
         private void RightButtonMouseMoveHandler(object sender, MouseEventArgs e)
         {
             // no right button mouse move actions at this point
         }
+
+        #endregion
+
+        #region MOUSE MOVE NO BUTTON PRESSED
 
         // NO BUTTON
         private void NoButtonMouseMoveHandler(object sender, MouseEventArgs e, float brushRadius)
@@ -8660,8 +9331,8 @@ namespace MapCreator
                                 }
                             }
 
-                            SKCanvas workCanvas = MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER);
-                            workCanvas.Clear();
+                            SKCanvas regionOverlayCanvas = MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.REGIONOVERLAYLAYER);
+                            regionOverlayCanvas.Clear();
 
                             if (!pointSelected)
                             {
@@ -8681,8 +9352,8 @@ namespace MapCreator
 
                                         NEW_REGION_POINT = new MapRegionPoint(LAYER_CLICK_POINT);
 
-                                        workCanvas.DrawCircle(LAYER_CLICK_POINT, MapRegionMethods.POINT_CIRCLE_RADIUS, MapRegionMethods.REGION_NEW_POINT_FILL_PAINT);
-                                        workCanvas.DrawCircle(LAYER_CLICK_POINT, MapRegionMethods.POINT_CIRCLE_RADIUS, MapRegionMethods.REGION_POINT_OUTLINE_PAINT);
+                                        regionOverlayCanvas.DrawCircle(LAYER_CLICK_POINT, MapRegionMethods.POINT_CIRCLE_RADIUS, MapRegionMethods.REGION_NEW_POINT_FILL_PAINT);
+                                        regionOverlayCanvas.DrawCircle(LAYER_CLICK_POINT, MapRegionMethods.POINT_CIRCLE_RADIUS, MapRegionMethods.REGION_POINT_OUTLINE_PAINT);
 
                                         break;
                                     }
@@ -8698,8 +9369,8 @@ namespace MapCreator
 
                                     NEW_REGION_POINT = new MapRegionPoint(LAYER_CLICK_POINT);
 
-                                    workCanvas.DrawCircle(LAYER_CLICK_POINT, MapRegionMethods.POINT_CIRCLE_RADIUS, MapRegionMethods.REGION_NEW_POINT_FILL_PAINT);
-                                    workCanvas.DrawCircle(LAYER_CLICK_POINT, MapRegionMethods.POINT_CIRCLE_RADIUS, MapRegionMethods.REGION_POINT_OUTLINE_PAINT);
+                                    regionOverlayCanvas.DrawCircle(LAYER_CLICK_POINT, MapRegionMethods.POINT_CIRCLE_RADIUS, MapRegionMethods.REGION_NEW_POINT_FILL_PAINT);
+                                    regionOverlayCanvas.DrawCircle(LAYER_CLICK_POINT, MapRegionMethods.POINT_CIRCLE_RADIUS, MapRegionMethods.REGION_POINT_OUTLINE_PAINT);
                                 }
                             }
                         }
@@ -8708,8 +9379,16 @@ namespace MapCreator
             }
         }
 
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region IMAGE BOX MOUSE EVENT HANDLER UTILITY METHODS
+
         /*************************************************************************************************************************
-        * HANDLER UTILITY METHODS
+        * IMAGE BOX MOUSE EVENT HANDLER UTILITY METHODS
         *************************************************************************************************************************/
         private int SetBrushRadius(DrawingModeEnum mode)
         {
@@ -8758,5 +9437,8 @@ namespace MapCreator
 
             return 0;
         }
+
+        #endregion
+
     }
 }

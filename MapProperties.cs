@@ -165,67 +165,23 @@ namespace MapCreator
             }
         }
 
+        private void WH2048x1024Radio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (WH20486x1024Radio.Checked)
+            {
+                MapWidth.Value = 2048;
+                MapHeight.Value = 1024;
+                MapAspectRatio = (float)(MapWidth.Value / MapHeight.Value);
+                MapAspectRatioLabel.Text = MapAspectRatio.ToString("F2");
+            }
+        }
+
         private void WH3840x2160Radio_CheckedChanged(object sender, EventArgs e)
         {
             if (WH3840x2160Radio.Checked)
             {
                 MapWidth.Value = 3840;
                 MapHeight.Value = 2160;
-                MapAspectRatio = (float)(MapWidth.Value / MapHeight.Value);
-                MapAspectRatioLabel.Text = MapAspectRatio.ToString("F2");
-            }
-        }
-
-        private void WH4096x2048Radio_CheckedChanged(object sender, EventArgs e)
-        {
-            if (WH4096x2048Radio.Checked)
-            {
-                MapWidth.Value = 4096;
-                MapHeight.Value = 2048;
-                MapAspectRatio = (float)(MapWidth.Value / MapHeight.Value);
-                MapAspectRatioLabel.Text = MapAspectRatio.ToString("F2");
-            }
-        }
-
-        private void WH4691x7016Radio_CheckedChanged(object sender, EventArgs e)
-        {
-            if (WH4691x7016Radio.Checked)
-            {
-                MapWidth.Value = 4691;
-                MapHeight.Value = 7016;
-                MapAspectRatio = (float)(MapWidth.Value / MapHeight.Value);
-                MapAspectRatioLabel.Text = MapAspectRatio.ToString("F2");
-            }
-        }
-
-        private void WH5102x6591Radio_CheckedChanged(object sender, EventArgs e)
-        {
-            if (WH5102x6591Radio.Checked)
-            {
-                MapWidth.Value = 5102;
-                MapHeight.Value = 6591;
-                MapAspectRatio = (float)(MapWidth.Value / MapHeight.Value);
-                MapAspectRatioLabel.Text = MapAspectRatio.ToString("F2");
-            }
-        }
-
-        private void WH5102x8409Radio_CheckedChanged(object sender, EventArgs e)
-        {
-            if (WH5102x8409Radio.Checked)
-            {
-                MapWidth.Value = 5102;
-                MapHeight.Value = 8409;
-                MapAspectRatio = (float)(MapWidth.Value / MapHeight.Value);
-                MapAspectRatioLabel.Text = MapAspectRatio.ToString("F2");
-            }
-        }
-
-        private void WH7016x9921Radio_CheckedChanged(object sender, EventArgs e)
-        {
-            if (WH7016x9921Radio.Checked)
-            {
-                MapWidth.Value = 7106;
-                MapHeight.Value = 9921;
                 MapAspectRatio = (float)(MapWidth.Value / MapHeight.Value);
                 MapAspectRatioLabel.Text = MapAspectRatio.ToString("F2");
             }
@@ -280,5 +236,7 @@ namespace MapCreator
         {
 
         }
+
+
     }
 }

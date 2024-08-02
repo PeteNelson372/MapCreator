@@ -124,11 +124,6 @@ namespace MapCreator
             return CURSOR_OVERLAY_BITMAP;
         }
 
-        internal static SKPaint GetCursorCirclePaint()
-        {
-            return CURSOR_CIRCLE_PAINT;
-        }
-
         internal static ColorPaintBrush GetSelectedColorBrushType()
         {
             return SELECTED_BRUSH_TYPE;
@@ -415,7 +410,7 @@ namespace MapCreator
 
         public static void PaintVignette(SKCanvas canvas, SKRect bounds, Color mapVignetteColor, int vignetteStrength)
         {
-            SKColor gradientColor = (mapVignetteColor).ToSKColor();
+            SKColor gradientColor = mapVignetteColor.ToSKColor();
 
             int tenthLeftRight = (int)(bounds.Width / 5);
             int tenthTopBottom = (int)(bounds.Height / 5);
@@ -432,7 +427,6 @@ namespace MapCreator
                 Color = gradientColor,
             };
          
-            canvas.Clear();
             SKRect rect = new(0, 0, tenthLeftRight, bounds.Height);
             canvas.DrawRect(rect, paint);
 

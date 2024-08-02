@@ -39,13 +39,9 @@
             cancelButton = new Button();
             MapFilePath = new Label();
             groupBox1 = new GroupBox();
-            WH4096x2048Radio = new RadioButton();
+            WH20486x1024Radio = new RadioButton();
             MapAspectRatioLabel = new Label();
-            WH7016x9921Radio = new RadioButton();
             label5 = new Label();
-            WH4691x7016Radio = new RadioButton();
-            WH5102x8409Radio = new RadioButton();
-            WH5102x6591Radio = new RadioButton();
             WH3840x2160Radio = new RadioButton();
             WH2560x1080Radio = new RadioButton();
             WH1920x1080Radio = new RadioButton();
@@ -85,7 +81,7 @@
             // mapName
             // 
             mapName.Font = new Font("Tahoma", 12F);
-            mapName.Location = new Point(129, 11);
+            mapName.Location = new Point(129, 12);
             mapName.MaxLength = 256;
             mapName.Name = "mapName";
             mapName.Size = new Size(741, 27);
@@ -95,21 +91,21 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 14F);
-            label1.Location = new Point(12, 142);
+            label1.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(52, 152);
             label1.Name = "label1";
-            label1.Size = new Size(111, 25);
+            label1.Size = new Size(71, 16);
             label1.TabIndex = 0;
             label1.Text = "Map Height";
             // 
             // MapHeight
             // 
-            MapHeight.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            MapHeight.Location = new Point(129, 141);
+            MapHeight.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            MapHeight.Location = new Point(129, 150);
             MapHeight.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             MapHeight.Minimum = new decimal(new int[] { 768, 0, 0, 0 });
             MapHeight.Name = "MapHeight";
-            MapHeight.Size = new Size(83, 26);
+            MapHeight.Size = new Size(83, 23);
             MapHeight.TabIndex = 1;
             MapHeight.TextAlign = HorizontalAlignment.Center;
             MapHeight.Value = new decimal(new int[] { 768, 0, 0, 0 });
@@ -118,21 +114,21 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 14F);
-            label2.Location = new Point(12, 106);
+            label2.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.Location = new Point(52, 118);
             label2.Name = "label2";
-            label2.Size = new Size(106, 25);
+            label2.Size = new Size(68, 16);
             label2.TabIndex = 2;
             label2.Text = "Map Width";
             // 
             // MapWidth
             // 
-            MapWidth.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            MapWidth.Location = new Point(129, 109);
+            MapWidth.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            MapWidth.Location = new Point(129, 116);
             MapWidth.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             MapWidth.Minimum = new decimal(new int[] { 768, 0, 0, 0 });
             MapWidth.Name = "MapWidth";
-            MapWidth.Size = new Size(83, 26);
+            MapWidth.Size = new Size(83, 23);
             MapWidth.TabIndex = 3;
             MapWidth.TextAlign = HorizontalAlignment.Center;
             MapWidth.Value = new decimal(new int[] { 1024, 0, 0, 0 });
@@ -141,30 +137,30 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 14F);
-            label3.Location = new Point(12, 9);
+            label3.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Location = new Point(52, 18);
             label3.Name = "label3";
-            label3.Size = new Size(105, 25);
+            label3.Size = new Size(68, 16);
             label3.TabIndex = 4;
             label3.Text = "Map Name";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 14F);
-            label4.Location = new Point(12, 58);
+            label4.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(63, 69);
             label4.Name = "label4";
-            label4.Size = new Size(84, 25);
+            label4.Size = new Size(55, 16);
             label4.TabIndex = 6;
             label4.Text = "Map File";
             // 
             // applyButton
             // 
             applyButton.BackColor = SystemColors.ActiveCaption;
-            applyButton.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            applyButton.Location = new Point(686, 536);
+            applyButton.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            applyButton.Location = new Point(686, 572);
             applyButton.Name = "applyButton";
-            applyButton.Size = new Size(89, 41);
+            applyButton.Size = new Size(89, 44);
             applyButton.TabIndex = 9;
             applyButton.Text = "&Apply";
             applyButton.UseVisualStyleBackColor = false;
@@ -172,10 +168,10 @@
             // 
             // cancelButton
             // 
-            cancelButton.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            cancelButton.Location = new Point(781, 536);
+            cancelButton.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cancelButton.Location = new Point(781, 572);
             cancelButton.Name = "cancelButton";
-            cancelButton.Size = new Size(89, 41);
+            cancelButton.Size = new Size(89, 44);
             cancelButton.TabIndex = 10;
             cancelButton.Text = "&Cancel";
             cancelButton.UseVisualStyleBackColor = true;
@@ -185,20 +181,16 @@
             // 
             MapFilePath.BorderStyle = BorderStyle.FixedSingle;
             MapFilePath.Font = new Font("Tahoma", 12F);
-            MapFilePath.Location = new Point(129, 61);
+            MapFilePath.Location = new Point(129, 65);
             MapFilePath.Name = "MapFilePath";
-            MapFilePath.Size = new Size(741, 27);
+            MapFilePath.Size = new Size(741, 29);
             MapFilePath.TabIndex = 11;
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(WH4096x2048Radio);
+            groupBox1.Controls.Add(WH20486x1024Radio);
             groupBox1.Controls.Add(MapAspectRatioLabel);
-            groupBox1.Controls.Add(WH7016x9921Radio);
             groupBox1.Controls.Add(label5);
-            groupBox1.Controls.Add(WH4691x7016Radio);
-            groupBox1.Controls.Add(WH5102x8409Radio);
-            groupBox1.Controls.Add(WH5102x6591Radio);
             groupBox1.Controls.Add(WH3840x2160Radio);
             groupBox1.Controls.Add(WH2560x1080Radio);
             groupBox1.Controls.Add(WH1920x1080Radio);
@@ -206,91 +198,47 @@
             groupBox1.Controls.Add(WH1280x1024Radio);
             groupBox1.Controls.Add(WH1024x768Radio);
             groupBox1.Font = new Font("Tahoma", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            groupBox1.Location = new Point(218, 106);
+            groupBox1.Location = new Point(218, 113);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(280, 399);
+            groupBox1.Size = new Size(280, 452);
             groupBox1.TabIndex = 12;
             groupBox1.TabStop = false;
             groupBox1.Text = "Map Size Presets (W x H)";
             // 
-            // WH4096x2048Radio
+            // WH20486x1024Radio
             // 
-            WH4096x2048Radio.AutoSize = true;
-            WH4096x2048Radio.Location = new Point(15, 194);
-            WH4096x2048Radio.Name = "WH4096x2048Radio";
-            WH4096x2048Radio.Size = new Size(245, 22);
-            WH4096x2048Radio.TabIndex = 11;
-            WH4096x2048Radio.Text = "4096 x 2048 (Equirectangular 4K)";
-            WH4096x2048Radio.UseVisualStyleBackColor = true;
-            WH4096x2048Radio.CheckedChanged += WH4096x2048Radio_CheckedChanged;
+            WH20486x1024Radio.AutoSize = true;
+            WH20486x1024Radio.Location = new Point(15, 177);
+            WH20486x1024Radio.Name = "WH20486x1024Radio";
+            WH20486x1024Radio.Size = new Size(245, 22);
+            WH20486x1024Radio.TabIndex = 11;
+            WH20486x1024Radio.Text = "2048 x 1024 (Equirectangular 2K)";
+            WH20486x1024Radio.UseVisualStyleBackColor = true;
+            WH20486x1024Radio.CheckedChanged += WH2048x1024Radio_CheckedChanged;
             // 
             // MapAspectRatioLabel
             // 
             MapAspectRatioLabel.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            MapAspectRatioLabel.Location = new Point(147, 369);
+            MapAspectRatioLabel.Location = new Point(147, 415);
             MapAspectRatioLabel.Name = "MapAspectRatioLabel";
-            MapAspectRatioLabel.Size = new Size(120, 17);
+            MapAspectRatioLabel.Size = new Size(120, 18);
             MapAspectRatioLabel.TabIndex = 16;
             MapAspectRatioLabel.Text = "1.33";
-            // 
-            // WH7016x9921Radio
-            // 
-            WH7016x9921Radio.AutoSize = true;
-            WH7016x9921Radio.Location = new Point(15, 306);
-            WH7016x9921Radio.Name = "WH7016x9921Radio";
-            WH7016x9921Radio.Size = new Size(194, 22);
-            WH7016x9921Radio.TabIndex = 10;
-            WH7016x9921Radio.Text = "7016 x 9921 (A3 600 dpi)";
-            WH7016x9921Radio.UseVisualStyleBackColor = true;
-            WH7016x9921Radio.CheckedChanged += WH7016x9921Radio_CheckedChanged;
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Tahoma", 10F);
-            label5.Location = new Point(15, 369);
+            label5.Location = new Point(15, 415);
             label5.Name = "label5";
             label5.Size = new Size(126, 17);
             label5.TabIndex = 15;
             label5.Text = "Aspect Ratio (W/H)";
             // 
-            // WH4691x7016Radio
-            // 
-            WH4691x7016Radio.AutoSize = true;
-            WH4691x7016Radio.Location = new Point(15, 222);
-            WH4691x7016Radio.Name = "WH4691x7016Radio";
-            WH4691x7016Radio.Size = new Size(194, 22);
-            WH4691x7016Radio.TabIndex = 9;
-            WH4691x7016Radio.Text = "4691 x 7016 (A4 600 dpi)";
-            WH4691x7016Radio.UseVisualStyleBackColor = true;
-            WH4691x7016Radio.CheckedChanged += WH4691x7016Radio_CheckedChanged;
-            // 
-            // WH5102x8409Radio
-            // 
-            WH5102x8409Radio.AutoSize = true;
-            WH5102x8409Radio.Location = new Point(15, 278);
-            WH5102x8409Radio.Name = "WH5102x8409Radio";
-            WH5102x8409Radio.Size = new Size(233, 22);
-            WH5102x8409Radio.TabIndex = 8;
-            WH5102x8409Radio.Text = "5102 x 8409 (US Legal 600 dpi)";
-            WH5102x8409Radio.UseVisualStyleBackColor = true;
-            WH5102x8409Radio.CheckedChanged += WH5102x8409Radio_CheckedChanged;
-            // 
-            // WH5102x6591Radio
-            // 
-            WH5102x6591Radio.AutoSize = true;
-            WH5102x6591Radio.Location = new Point(15, 250);
-            WH5102x6591Radio.Name = "WH5102x6591Radio";
-            WH5102x6591Radio.Size = new Size(238, 22);
-            WH5102x6591Radio.TabIndex = 7;
-            WH5102x6591Radio.Text = "5102 x 6591 (US Letter 600 dpi)";
-            WH5102x6591Radio.UseVisualStyleBackColor = true;
-            WH5102x6591Radio.CheckedChanged += WH5102x6591Radio_CheckedChanged;
-            // 
             // WH3840x2160Radio
             // 
             WH3840x2160Radio.AutoSize = true;
-            WH3840x2160Radio.Location = new Point(15, 166);
+            WH3840x2160Radio.Location = new Point(15, 207);
             WH3840x2160Radio.Name = "WH3840x2160Radio";
             WH3840x2160Radio.Size = new Size(202, 22);
             WH3840x2160Radio.TabIndex = 6;
@@ -301,7 +249,7 @@
             // WH2560x1080Radio
             // 
             WH2560x1080Radio.AutoSize = true;
-            WH2560x1080Radio.Location = new Point(15, 138);
+            WH2560x1080Radio.Location = new Point(15, 147);
             WH2560x1080Radio.Name = "WH2560x1080Radio";
             WH2560x1080Radio.Size = new Size(142, 22);
             WH2560x1080Radio.TabIndex = 5;
@@ -312,7 +260,7 @@
             // WH1920x1080Radio
             // 
             WH1920x1080Radio.AutoSize = true;
-            WH1920x1080Radio.Location = new Point(15, 110);
+            WH1920x1080Radio.Location = new Point(15, 117);
             WH1920x1080Radio.Name = "WH1920x1080Radio";
             WH1920x1080Radio.Size = new Size(170, 22);
             WH1920x1080Radio.TabIndex = 4;
@@ -323,7 +271,7 @@
             // WH1600x1200Radio
             // 
             WH1600x1200Radio.AutoSize = true;
-            WH1600x1200Radio.Location = new Point(15, 82);
+            WH1600x1200Radio.Location = new Point(15, 87);
             WH1600x1200Radio.Name = "WH1600x1200Radio";
             WH1600x1200Radio.Size = new Size(163, 22);
             WH1600x1200Radio.TabIndex = 3;
@@ -334,7 +282,7 @@
             // WH1280x1024Radio
             // 
             WH1280x1024Radio.AutoSize = true;
-            WH1280x1024Radio.Location = new Point(15, 54);
+            WH1280x1024Radio.Location = new Point(15, 58);
             WH1280x1024Radio.Name = "WH1280x1024Radio";
             WH1280x1024Radio.Size = new Size(161, 22);
             WH1280x1024Radio.TabIndex = 2;
@@ -346,7 +294,7 @@
             // 
             WH1024x768Radio.AutoSize = true;
             WH1024x768Radio.Checked = true;
-            WH1024x768Radio.Location = new Point(15, 26);
+            WH1024x768Radio.Location = new Point(15, 28);
             WH1024x768Radio.Name = "WH1024x768Radio";
             WH1024x768Radio.Size = new Size(145, 22);
             WH1024x768Radio.TabIndex = 1;
@@ -362,9 +310,9 @@
             iconButton1.IconColor = Color.Black;
             iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconButton1.IconSize = 24;
-            iconButton1.Location = new Point(12, 189);
+            iconButton1.Location = new Point(12, 202);
             iconButton1.Name = "iconButton1";
-            iconButton1.Size = new Size(200, 41);
+            iconButton1.Size = new Size(200, 44);
             iconButton1.TabIndex = 13;
             iconButton1.Text = "Swap Resolution";
             iconButton1.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -375,9 +323,9 @@
             // 
             groupBox2.Controls.Add(listBox1);
             groupBox2.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            groupBox2.Location = new Point(504, 393);
+            groupBox2.Location = new Point(504, 419);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(366, 137);
+            groupBox2.Size = new Size(366, 146);
             groupBox2.TabIndex = 14;
             groupBox2.TabStop = false;
             groupBox2.Text = "Map Themes";
@@ -386,7 +334,7 @@
             // 
             listBox1.FormattingEnabled = true;
             listBox1.Items.AddRange(new object[] { "Default Theme", "Theme 1", "Theme 2", "Theme 3", "Theme 4", "Theme 5", "Theme 6" });
-            listBox1.Location = new Point(9, 24);
+            listBox1.Location = new Point(9, 26);
             listBox1.Name = "listBox1";
             listBox1.Size = new Size(351, 100);
             listBox1.TabIndex = 0;
@@ -403,9 +351,9 @@
             groupBox3.Controls.Add(RegionMapButton);
             groupBox3.Controls.Add(WorldMapButton);
             groupBox3.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            groupBox3.Location = new Point(504, 106);
+            groupBox3.Location = new Point(504, 113);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(366, 281);
+            groupBox3.Size = new Size(366, 300);
             groupBox3.TabIndex = 17;
             groupBox3.TabStop = false;
             groupBox3.Text = "Map Types";
@@ -413,7 +361,7 @@
             // InteriorMapButton
             // 
             InteriorMapButton.AutoSize = true;
-            InteriorMapButton.Location = new Point(9, 137);
+            InteriorMapButton.Location = new Point(10, 146);
             InteriorMapButton.Name = "InteriorMapButton";
             InteriorMapButton.Size = new Size(106, 22);
             InteriorMapButton.TabIndex = 8;
@@ -425,7 +373,7 @@
             // OtherMapButton
             // 
             OtherMapButton.AutoSize = true;
-            OtherMapButton.Location = new Point(6, 249);
+            OtherMapButton.Location = new Point(10, 266);
             OtherMapButton.Name = "OtherMapButton";
             OtherMapButton.Size = new Size(150, 22);
             OtherMapButton.TabIndex = 7;
@@ -437,7 +385,7 @@
             // ShipMapButton
             // 
             ShipMapButton.AutoSize = true;
-            ShipMapButton.Location = new Point(4, 221);
+            ShipMapButton.Location = new Point(10, 236);
             ShipMapButton.Name = "ShipMapButton";
             ShipMapButton.Size = new Size(85, 22);
             ShipMapButton.TabIndex = 6;
@@ -449,7 +397,7 @@
             // StarMapButton
             // 
             StarMapButton.AutoSize = true;
-            StarMapButton.Location = new Point(6, 193);
+            StarMapButton.Location = new Point(10, 206);
             StarMapButton.Name = "StarMapButton";
             StarMapButton.Size = new Size(85, 22);
             StarMapButton.TabIndex = 5;
@@ -461,7 +409,7 @@
             // DungeonMapButton
             // 
             DungeonMapButton.AutoSize = true;
-            DungeonMapButton.Location = new Point(6, 165);
+            DungeonMapButton.Location = new Point(10, 176);
             DungeonMapButton.Name = "DungeonMapButton";
             DungeonMapButton.Size = new Size(224, 22);
             DungeonMapButton.TabIndex = 4;
@@ -473,7 +421,7 @@
             // TownMapButton
             // 
             TownMapButton.AutoSize = true;
-            TownMapButton.Location = new Point(6, 109);
+            TownMapButton.Location = new Point(10, 116);
             TownMapButton.Name = "TownMapButton";
             TownMapButton.Size = new Size(157, 22);
             TownMapButton.TabIndex = 3;
@@ -485,7 +433,7 @@
             // CityMapButton
             // 
             CityMapButton.AutoSize = true;
-            CityMapButton.Location = new Point(6, 81);
+            CityMapButton.Location = new Point(10, 86);
             CityMapButton.Name = "CityMapButton";
             CityMapButton.Size = new Size(83, 22);
             CityMapButton.TabIndex = 2;
@@ -497,7 +445,7 @@
             // RegionMapButton
             // 
             RegionMapButton.AutoSize = true;
-            RegionMapButton.Location = new Point(6, 53);
+            RegionMapButton.Location = new Point(10, 57);
             RegionMapButton.Name = "RegionMapButton";
             RegionMapButton.Size = new Size(155, 22);
             RegionMapButton.TabIndex = 1;
@@ -509,7 +457,7 @@
             // WorldMapButton
             // 
             WorldMapButton.AutoSize = true;
-            WorldMapButton.Location = new Point(6, 25);
+            WorldMapButton.Location = new Point(10, 27);
             WorldMapButton.Name = "WorldMapButton";
             WorldMapButton.Size = new Size(96, 22);
             WorldMapButton.TabIndex = 0;
@@ -528,9 +476,9 @@
             groupBox4.Controls.Add(label7);
             groupBox4.Controls.Add(label6);
             groupBox4.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            groupBox4.Location = new Point(12, 236);
+            groupBox4.Location = new Point(12, 252);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(200, 269);
+            groupBox4.Size = new Size(200, 313);
             groupBox4.TabIndex = 18;
             groupBox4.TabStop = false;
             groupBox4.Text = "Map Area";
@@ -539,7 +487,7 @@
             // 
             MapUnitsCombo.FormattingEnabled = true;
             MapUnitsCombo.Items.AddRange(new object[] { "Centimeters", "Inches", "Feet", "Yards", "Meters", "Kilometers", "Miles", "Astronomical Units (AU)", "Light Years", "Parsecs" });
-            MapUnitsCombo.Location = new Point(10, 56);
+            MapUnitsCombo.Location = new Point(10, 60);
             MapUnitsCombo.Name = "MapUnitsCombo";
             MapUnitsCombo.Size = new Size(184, 26);
             MapUnitsCombo.TabIndex = 7;
@@ -549,18 +497,18 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label9.Location = new Point(6, 243);
+            label9.Location = new Point(10, 280);
             label9.Name = "label9";
-            label9.Size = new Size(159, 13);
+            label9.Size = new Size(162, 13);
             label9.TabIndex = 6;
-            label9.Text = "*Height is calculated from width";
+            label9.Text = "* Height is calculated from width";
             // 
             // MapAreaHeightLabel
             // 
             MapAreaHeightLabel.BorderStyle = BorderStyle.FixedSingle;
-            MapAreaHeightLabel.Location = new Point(6, 176);
+            MapAreaHeightLabel.Location = new Point(6, 188);
             MapAreaHeightLabel.Name = "MapAreaHeightLabel";
-            MapAreaHeightLabel.Size = new Size(188, 26);
+            MapAreaHeightLabel.Size = new Size(188, 28);
             MapAreaHeightLabel.TabIndex = 5;
             MapAreaHeightLabel.Text = "75";
             MapAreaHeightLabel.TextAlign = ContentAlignment.MiddleLeft;
@@ -568,7 +516,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(6, 156);
+            label8.Location = new Point(6, 166);
             label8.Name = "label8";
             label8.Size = new Size(125, 18);
             label8.TabIndex = 4;
@@ -599,7 +547,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.Location = new Point(6, 35);
+            label6.Location = new Point(6, 37);
             label6.Name = "label6";
             label6.Size = new Size(75, 18);
             label6.TabIndex = 0;
@@ -607,9 +555,9 @@
             // 
             // MapProperties
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(882, 589);
+            ClientSize = new Size(882, 628);
             ControlBox = false;
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
@@ -626,6 +574,7 @@
             Controls.Add(label2);
             Controls.Add(MapHeight);
             Controls.Add(label1);
+            Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             HelpButton = true;
             MaximizeBox = false;
@@ -667,11 +616,7 @@
         private RadioButton WH1920x1080Radio;
         private RadioButton WH1600x1200Radio;
         private RadioButton WH2560x1080Radio;
-        private RadioButton WH5102x6591Radio;
         private RadioButton WH3840x2160Radio;
-        private RadioButton WH5102x8409Radio;
-        private RadioButton WH4691x7016Radio;
-        private RadioButton WH7016x9921Radio;
         private FontAwesome.Sharp.IconButton iconButton1;
         private GroupBox groupBox2;
         private ListBox listBox1;
@@ -682,7 +627,7 @@
         private RadioButton TownMapButton;
         private RadioButton CityMapButton;
         private RadioButton RegionMapButton;
-        private RadioButton WH4096x2048Radio;
+        private RadioButton WH20486x1024Radio;
         private RadioButton DungeonMapButton;
         private RadioButton StarMapButton;
         private RadioButton OtherMapButton;

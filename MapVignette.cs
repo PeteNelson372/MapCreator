@@ -51,7 +51,7 @@ namespace MapCreator
             {
                 // vignette is painted only to vignette layer canvas
                 SKRect bounds = new(0, 0, Map.MapWidth, Map.MapHeight);
-                MapPaintMethods.PaintVignette(MapBuilder.GetLayerCanvas(Map, MapBuilder.VIGNETTELAYER), bounds, VignetteColor, VignetteStrength);
+                MapPaintMethods.PaintVignette(canvas, bounds, VignetteColor, VignetteStrength);
             }
         }
     }
