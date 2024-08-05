@@ -68,6 +68,7 @@
             // 
             // NameGeneratorCheckedList
             // 
+            NameGeneratorCheckedList.CheckOnClick = true;
             NameGeneratorCheckedList.FormattingEnabled = true;
             NameGeneratorCheckedList.Location = new Point(12, 69);
             NameGeneratorCheckedList.Name = "NameGeneratorCheckedList";
@@ -87,6 +88,7 @@
             // 
             // NameBaseCheckedList
             // 
+            NameBaseCheckedList.CheckOnClick = true;
             NameBaseCheckedList.FormattingEnabled = true;
             NameBaseCheckedList.Location = new Point(12, 230);
             NameBaseCheckedList.Name = "NameBaseCheckedList";
@@ -155,6 +157,7 @@
             // 
             // LanguagesCheckedList
             // 
+            LanguagesCheckedList.CheckOnClick = true;
             LanguagesCheckedList.FormattingEnabled = true;
             LanguagesCheckedList.Location = new Point(232, 68);
             LanguagesCheckedList.Name = "LanguagesCheckedList";

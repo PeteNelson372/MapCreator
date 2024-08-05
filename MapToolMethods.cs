@@ -36,7 +36,7 @@ namespace MapCreator
         {
             string generatedName = string.Empty;
 
-            List<INameGenerator> generators = new List<INameGenerator>();
+            List<INameGenerator> generators = [];
 
             foreach (NameGenerator generator in NameGenerators)
             {
@@ -71,15 +71,74 @@ namespace MapCreator
             return generatedName;
         }
 
+        private static string GenerateRandomNameBaseName()
+        {
+            string generatedName = string.Empty;
+            List<INameGenerator> generators = [];
+
+            foreach (NameBase nameBase in NameBases)
+            {
+                if (nameBase.IsLanguageSelected)
+                {
+                    generators.Add(nameBase);
+                }
+            }
+
+            if (generators.Count > 0)
+            {
+                int selectedGeneratorIndex = Random.Shared.Next(0, generators.Count);
+                if (generators[selectedGeneratorIndex] is NameBase nameBase)
+                {
+                    generatedName = GenerateName(nameBase);
+                }
+            }
+
+            return generatedName;
+        }
+
         private static string GenerateName(NameGenerator nameGen)
         {
+            string generatedName = string.Empty;
+
             int column1Index = Random.Shared.Next(0, nameGen.Column1.Count);
             string column1Value = nameGen.Column1[column1Index];
 
-            int column2Index = Random.Shared.Next(0, nameGen.Column2.Count);
-            string column2Value = nameGen.Column2[column2Index];
+            if (nameGen.Column2.Count > 0)
+            {
+                int column2Index = Random.Shared.Next(0, nameGen.Column2.Count);
+                string column2Value = nameGen.Column2[column2Index];
 
-            string generatedName = column1Value.Replace("%", column2Value);
+                if (!string.IsNullOrEmpty(column2Value))
+                {
+                    generatedName = column1Value.Replace("%", column2Value);
+                }
+                else
+                {
+                    string nameBaseName = GenerateRandomNameBaseName();
+
+                    if (!string.IsNullOrEmpty(nameBaseName))
+                    {
+                        generatedName = column1Value.Replace("%", nameBaseName);
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
+                }
+            }
+            else
+            {
+                string nameBaseName = GenerateRandomNameBaseName();
+
+                if (!string.IsNullOrEmpty(nameBaseName))
+                {
+                    generatedName = column1Value.Replace("%", nameBaseName);
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
 
             return generatedName;
         }
@@ -157,7 +216,7 @@ namespace MapCreator
 
                     if (lineParts.Length == 6)
                     {
-                        nameBase.NameBaseLanguage = lineParts[0];
+                        nameBase.NameBaseLanguage = lineParts[0].Trim();
                         nameBase.MinNameLength = int.Parse(lineParts[1]);
                         nameBase.MaxNameLength = int.Parse(lineParts[2]);
 
@@ -177,7 +236,10 @@ namespace MapCreator
 
                         nameBase.NameStrings.AddRange(nameBaseNames);
 
-                        NameBases.Add(nameBase);
+                        if (!string.IsNullOrEmpty(nameBase.NameBaseLanguage) && nameBase.NameStrings.Count > 0)
+                        {
+                            NameBases.Add(nameBase);
+                        }
                     }
 
                 }
@@ -202,9 +264,12 @@ namespace MapCreator
                         generator.Column1.Add(lineParts[0].Trim());
                     }
 
-                    if (!string.IsNullOrEmpty(lineParts[1]))
+                    if (lineParts.Length > 1)
                     {
-                        generator.Column2.Add(lineParts[1].Trim());
+                        if (!string.IsNullOrEmpty(lineParts[1]))
+                        {
+                            generator.Column2.Add(lineParts[1].Trim());
+                        }
                     }
                 }
 
