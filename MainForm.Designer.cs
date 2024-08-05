@@ -305,6 +305,7 @@
             SelectLabelButton = new FontAwesome.Sharp.IconToolStripButton();
             PlaceLabelButton = new FontAwesome.Sharp.IconToolStripButton();
             CreateBoxButton = new FontAwesome.Sharp.IconToolStripButton();
+            GenerateNameButton = new FontAwesome.Sharp.IconToolStripButton();
             overlayPage = new TabPage();
             ShowOverlayLayerCheck = new CheckBox();
             groupBox16 = new GroupBox();
@@ -4034,7 +4035,7 @@
             LabelTools.BackColor = SystemColors.Control;
             LabelTools.Dock = DockStyle.None;
             LabelTools.GripStyle = ToolStripGripStyle.Hidden;
-            LabelTools.Items.AddRange(new ToolStripItem[] { SelectLabelButton, PlaceLabelButton, CreateBoxButton });
+            LabelTools.Items.AddRange(new ToolStripItem[] { SelectLabelButton, PlaceLabelButton, CreateBoxButton, GenerateNameButton });
             LabelTools.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
             LabelTools.Location = new Point(132, 0);
             LabelTools.Name = "LabelTools";
@@ -4096,6 +4097,24 @@
             CreateBoxButton.TextImageRelation = TextImageRelation.TextAboveImage;
             CreateBoxButton.ToolTipText = "Create box";
             CreateBoxButton.Click += CreateBoxButton_Click;
+            // 
+            // GenerateNameButton
+            // 
+            GenerateNameButton.AutoSize = false;
+            GenerateNameButton.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            GenerateNameButton.IconChar = FontAwesome.Sharp.IconChar.FileSignature;
+            GenerateNameButton.IconColor = Color.Black;
+            GenerateNameButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            GenerateNameButton.IconSize = 32;
+            GenerateNameButton.ImageScaling = ToolStripItemImageScaling.None;
+            GenerateNameButton.ImageTransparentColor = Color.Magenta;
+            GenerateNameButton.Margin = new Padding(0, 25, 0, 2);
+            GenerateNameButton.Name = "GenerateNameButton";
+            GenerateNameButton.Size = new Size(60, 60);
+            GenerateNameButton.Text = "Name";
+            GenerateNameButton.TextImageRelation = TextImageRelation.TextAboveImage;
+            GenerateNameButton.ToolTipText = "Generate Name";
+            GenerateNameButton.Click += GenerateNameButton_Click;
             // 
             // overlayPage
             // 
@@ -8068,5 +8087,6 @@
         private CheckBox ShowRegionLayerCheck;
         private CheckBox ShowDrawingLayerCheck;
         private CheckBox ShowBackgroundLayerCheck;
+        private FontAwesome.Sharp.IconToolStripButton GenerateNameButton;
     }
 }

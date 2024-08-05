@@ -29,15 +29,15 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MapCreatorAboutBox));
             logoPictureBox = new PictureBox();
-            labelVersion = new Label();
-            labelCopyright = new Label();
+            VersionLabel = new Label();
             labelCompanyName = new Label();
             okButton = new Button();
             pictureBox1 = new PictureBox();
-            label1 = new Label();
             label2 = new Label();
             richTextBox1 = new RichTextBox();
             panel1 = new Panel();
+            textBox1 = new TextBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
@@ -56,34 +56,21 @@
             logoPictureBox.TabIndex = 26;
             logoPictureBox.TabStop = false;
             // 
-            // labelVersion
+            // VersionLabel
             // 
-            labelVersion.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelVersion.Location = new Point(214, 52);
-            labelVersion.Margin = new Padding(7, 0, 4, 0);
-            labelVersion.MaximumSize = new Size(0, 20);
-            labelVersion.Name = "labelVersion";
-            labelVersion.Size = new Size(252, 20);
-            labelVersion.TabIndex = 25;
-            labelVersion.Text = "Version 0.0.1 Pre-alpha";
-            labelVersion.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // labelCopyright
-            // 
-            labelCopyright.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelCopyright.Location = new Point(214, 92);
-            labelCopyright.Margin = new Padding(7, 0, 4, 0);
-            labelCopyright.MaximumSize = new Size(0, 20);
-            labelCopyright.Name = "labelCopyright";
-            labelCopyright.Size = new Size(241, 20);
-            labelCopyright.TabIndex = 28;
-            labelCopyright.Text = "© 2024 Zero Sum Games.";
-            labelCopyright.TextAlign = ContentAlignment.MiddleLeft;
+            VersionLabel.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            VersionLabel.Location = new Point(214, 35);
+            VersionLabel.Margin = new Padding(7, 0, 4, 0);
+            VersionLabel.MaximumSize = new Size(0, 20);
+            VersionLabel.Name = "VersionLabel";
+            VersionLabel.Size = new Size(252, 20);
+            VersionLabel.TabIndex = 25;
+            VersionLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // labelCompanyName
             // 
             labelCompanyName.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelCompanyName.Location = new Point(214, 72);
+            labelCompanyName.Location = new Point(214, 61);
             labelCompanyName.Margin = new Padding(7, 0, 4, 0);
             labelCompanyName.MaximumSize = new Size(0, 20);
             labelCompanyName.Name = "labelCompanyName";
@@ -96,7 +83,7 @@
             // 
             okButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             okButton.DialogResult = DialogResult.Cancel;
-            okButton.Location = new Point(469, 286);
+            okButton.Location = new Point(469, 346);
             okButton.Margin = new Padding(4, 3, 4, 3);
             okButton.Name = "okButton";
             okButton.Size = new Size(88, 27);
@@ -107,21 +94,12 @@
             // 
             pictureBox1.BackColor = Color.White;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(11, 148);
+            pictureBox1.Location = new Point(11, 203);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(170, 170);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 32;
             pictureBox1.TabStop = false;
-            // 
-            // label1
-            // 
-            label1.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(214, 112);
-            label1.Name = "label1";
-            label1.Size = new Size(252, 23);
-            label1.TabIndex = 33;
-            label1.Text = "All rights reserved.";
             // 
             // label2
             // 
@@ -136,7 +114,7 @@
             // 
             richTextBox1.BorderStyle = BorderStyle.None;
             richTextBox1.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            richTextBox1.Location = new Point(214, 153);
+            richTextBox1.Location = new Point(214, 217);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.ReadOnly = true;
             richTextBox1.ScrollBars = RichTextBoxScrollBars.None;
@@ -151,21 +129,43 @@
             panel1.Controls.Add(pictureBox1);
             panel1.Location = new Point(-3, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(191, 321);
+            panel1.Size = new Size(191, 384);
             panel1.TabIndex = 36;
+            // 
+            // textBox1
+            // 
+            textBox1.BorderStyle = BorderStyle.FixedSingle;
+            textBox1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox1.Location = new Point(214, 107);
+            textBox1.Multiline = true;
+            textBox1.Name = "textBox1";
+            textBox1.ReadOnly = true;
+            textBox1.ScrollBars = ScrollBars.Vertical;
+            textBox1.Size = new Size(343, 90);
+            textBox1.TabIndex = 37;
+            textBox1.Text = resources.GetString("textBox1.Text");
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(214, 89);
+            label1.Name = "label1";
+            label1.Size = new Size(123, 15);
+            label1.TabIndex = 38;
+            label1.Text = "Licensing Information";
             // 
             // MapCreatorAboutBox
             // 
             AcceptButton = okButton;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(578, 322);
+            ClientSize = new Size(578, 382);
+            Controls.Add(label1);
+            Controls.Add(textBox1);
             Controls.Add(panel1);
             Controls.Add(richTextBox1);
             Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(labelVersion);
-            Controls.Add(labelCopyright);
+            Controls.Add(VersionLabel);
             Controls.Add(labelCompanyName);
             Controls.Add(okButton);
             FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -182,19 +182,20 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private PictureBox logoPictureBox;
-        private Label labelVersion;
-        private Label labelCopyright;
+        private Label VersionLabel;
         private Label labelCompanyName;
         private Button okButton;
         private PictureBox pictureBox1;
-        private Label label1;
         private Label label2;
         private RichTextBox richTextBox1;
         private Panel panel1;
+        private TextBox textBox1;
+        private Label label1;
     }
 }

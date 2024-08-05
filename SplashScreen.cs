@@ -1,4 +1,4 @@
-/**************************************************************************************************************************
+﻿/**************************************************************************************************************************
 * Copyright 2024, Peter R. Nelson
 *
 * This file is part of the MapCreator application. The MapCreator application is intended
@@ -21,28 +21,29 @@
 * contact@brookmonte.com
 *
 ***************************************************************************************************************************/
-using Application = System.Windows.Forms.Application;
+using System.Reflection;
 
 namespace MapCreator
 {
-    internal static class Program
+    public partial class AppSplashScreen : Form
     {
-        public static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(typeof(MainForm));
-
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
-        [STAThread]
-
-        static void Main()
+        public AppSplashScreen()
         {
-            log4net.Config.XmlConfigurator.Configure();
+            InitializeComponent();
 
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
+            string? version = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
 
-            Application.Run(new MainForm());
+            VersionLabel.BringToFront();
+            VersionLabel.ForeColor = Color.Black;
+
+            if (!string.IsNullOrEmpty(version))
+            {
+                VersionLabel.Text = string.Concat("Version ", version.AsSpan(0, version.IndexOf('+')));
+            }
+            else
+            {
+                VersionLabel.Text = "";
+            }
         }
     }
 }

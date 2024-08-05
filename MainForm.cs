@@ -89,11 +89,17 @@ namespace MapCreator
         private Cmd_ColorPaintedWaterFeature COLOR_WATERFEATURE_COMMAND;
         private Cmd_EraseWaterFeatureColor ERASE_WATERFEATURE_COLOR_COMMAND;
 
+        private AppSplashScreen SPLASH_SCREEN;
+
         BackgroundWorker CURSOR_POSITION_WORKER = new BackgroundWorker
         {
             WorkerReportsProgress = true,
             WorkerSupportsCancellation = true
         };
+
+        private NameGeneratorSettings NAME_GENERATOR_SETTINGS_DIALOG = new NameGeneratorSettings();
+
+        private TextBox? LABEL_TEXT_BOX;
 
         private static readonly List<object> DRAWING_MODE_BUTTONS = [];
 
@@ -122,6 +128,10 @@ namespace MapCreator
             Program.LOGGER.Info("Initializing MapCreator");
 
             InitializeComponent();
+
+            SPLASH_SCREEN = new AppSplashScreen();
+            SPLASH_SCREEN.Show();
+            SPLASH_SCREEN.Refresh();
 
             CURRENT_MAP = MapBuilder.CreateMap("", "DEFAULT", (ushort)MAX_VIEWPORT_WIDTH, (ushort)MAX_VIEWPORT_HEIGHT);
 
@@ -1146,6 +1156,36 @@ namespace MapCreator
             {
                 LoadAllAssets();
 
+                NAME_GENERATOR_SETTINGS_DIALOG.NameGenerated += new EventHandler(NameGenerator_NameGenerated);
+
+                NAME_GENERATOR_SETTINGS_DIALOG.NameGeneratorCheckedList.Items.Clear();
+
+                foreach (string nameGeneratorName in MapToolMethods.NameGeneratorNames)
+                {
+                    NAME_GENERATOR_SETTINGS_DIALOG.NameGeneratorCheckedList.Items.Add(nameGeneratorName);
+                    NAME_GENERATOR_SETTINGS_DIALOG.NameGeneratorCheckedList.SetItemChecked(
+                        NAME_GENERATOR_SETTINGS_DIALOG.NameGeneratorCheckedList.Items.Count - 1, true);
+                }
+
+                foreach (string nameBaseName in MapToolMethods.NameBaseNames)
+                {
+                    NAME_GENERATOR_SETTINGS_DIALOG.NameBaseCheckedList.Items.Add(nameBaseName);
+                    NAME_GENERATOR_SETTINGS_DIALOG.NameBaseCheckedList.SetItemChecked(
+                        NAME_GENERATOR_SETTINGS_DIALOG.NameBaseCheckedList.Items.Count - 1, true);
+                }
+
+                foreach (string languageName in MapToolMethods.NameLanguages)
+                {
+                    NAME_GENERATOR_SETTINGS_DIALOG.LanguagesCheckedList.Items.Add(languageName);
+                }
+
+                for (int i = 0; i < NAME_GENERATOR_SETTINGS_DIALOG.LanguagesCheckedList.Items.Count; i++)
+                {
+                    NAME_GENERATOR_SETTINGS_DIALOG.LanguagesCheckedList.SetItemChecked(i, true);
+                }
+
+
+
                 // construct MapBitmap and other map objects
                 InitializeMap(CURRENT_MAP);
 
@@ -1187,6 +1227,8 @@ namespace MapCreator
 
             SymbolMethods.SaveSymbolTags();
             SymbolMethods.SaveCollections();
+
+            NAME_GENERATOR_SETTINGS_DIALOG.Close();
 
             if (!CURRENT_MAP.IsSaved)
             {
@@ -1231,6 +1273,26 @@ namespace MapCreator
 
             // refresh the form to get everything rendered completely, then render the map
             Refresh();
+
+            SPLASH_SCREEN.Hide();
+            SPLASH_SCREEN.Dispose();
+        }
+
+        void NameGenerator_NameGenerated(object? sender, EventArgs e)
+        {
+            if (sender is NameGeneratorSettings ngs)
+            {
+                string selectedName = ngs.SelectedName;
+
+                if (MapLabelMethods.CreatingLabel && !string.IsNullOrEmpty(selectedName))
+                {
+                    if (!LABEL_TEXT_BOX.IsDisposed)
+                    {
+                        LABEL_TEXT_BOX.Text = selectedName;
+                        LABEL_TEXT_BOX.Refresh();
+                    }
+                }
+            }
         }
 
         private void CursorPositionWorkerDoWork(object? sender, DoWorkEventArgs e)
@@ -1579,6 +1641,9 @@ namespace MapCreator
             {
                 SymbolTagsListBox.Items.Add(tag);
             }
+
+            // load name generator files
+            MapToolMethods.LoadNameGeneratorFiles();
 
             // load assets
             int numAssets = 0;
@@ -5361,72 +5426,99 @@ namespace MapCreator
 
         private void LabelTextBox_KeyPress(object? sender, EventArgs e)
         {
-            if (((KeyPressEventArgs)e).KeyChar == (char)Keys.Return && sender != null)
+            if (sender != null)
             {
-                ((KeyPressEventArgs)e).Handled = true;
-                MapLabelMethods.CreatingLabel = false;
-
                 TextBox tb = (TextBox)sender;
 
-                Font labelFont = tb.Font;
-                Color labelColor = tb.ForeColor;
+                Font labelFont = MapLabelMethods.SELECTED_FONT;
+                Color labelColor = FontColorSelectLabel.BackColor;
 
-                Color outlineColor = OutlineColorSelectLabel.BackColor;
-                int outlineWidth = (int)OutlineWidthUpDown.Value;
-
-                Color glowColor = GlowColorSelectLabel.BackColor;
-                int glowStrength = (int)GlowStrengthUpDown.Value;
-
-                if (!string.IsNullOrEmpty(tb.Text))
+                if (((KeyPressEventArgs)e).KeyChar == (char)Keys.Return)
                 {
-                    // create a new MapLabel object and render it
-                    MapLabel label = new()
+                    ((KeyPressEventArgs)e).Handled = true;
+                    MapLabelMethods.CreatingLabel = false;
+
+                    Color outlineColor = OutlineColorSelectLabel.BackColor;
+                    int outlineWidth = (int)OutlineWidthUpDown.Value;
+
+                    Color glowColor = GlowColorSelectLabel.BackColor;
+                    int glowStrength = (int)GlowStrengthUpDown.Value;
+
+                    if (!string.IsNullOrEmpty(tb.Text))
                     {
-                        LabelText = tb.Text,
-                        LabelFont = tb.Font,
-                        X = tb.Left - MapImageBox.Left,
-                        Y = tb.Top - MapImageBox.Top,
-                        IsSelected = true,
-                        Height = tb.Height,
-                        LabelColor = labelColor,
-                        LabelOutlineColor = outlineColor,
-                        LabelOutlineWidth = outlineWidth,
-                        LabelGlowColor = glowColor,
-                        LabelGlowStrength = glowStrength,
-                    };
+                        // create a new MapLabel object and render it
+                        MapLabel label = new()
+                        {
+                            LabelText = tb.Text,
+                            LabelFont = labelFont,
+                            IsSelected = true,
+                            LabelColor = labelColor,
+                            LabelOutlineColor = outlineColor,
+                            LabelOutlineWidth = outlineWidth,
+                            LabelGlowColor = glowColor,
+                            LabelGlowStrength = glowStrength,
+                        };
 
-                    SKPaint paint = MapLabelMethods.CreateLabelPaint(labelFont, labelColor);
-                    SKFont paintFont = paint.ToFont();
+                        SKPaint paint = MapLabelMethods.CreateLabelPaint(labelFont, labelColor);
+                        SKFont paintFont = paint.ToFont();
 
-                    label.LabelPaint = paint;
-                    label.LabelSKFont.Dispose();
-                    label.LabelSKFont = paintFont;
+                        label.LabelPaint = paint;
+                        label.LabelSKFont.Dispose();
+                        label.LabelSKFont = paintFont;
 
-                    label.Width = (int)paint.MeasureText(label.LabelText);
+                        SKRect bounds = new SKRect();
+                        paint.MeasureText(label.LabelText, ref bounds);
 
-                    if (MapLabelMethods.LABEL_PATH.PointCount > 0)
-                    {
-                        label.LabelPath = new(MapLabelMethods.LABEL_PATH);
-                        MapLabelMethods.LABEL_PATH.Dispose();
-                        MapLabelMethods.LABEL_PATH = new();
-                        MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER)?.Clear();
+                        Point labelPoint = MapImageBox.PointToImage(new Point(tb.Left, tb.Top));
+
+                        label.X = labelPoint.X;
+                        label.Y = labelPoint.Y;
+                        label.Width = (int)bounds.Width;
+                        label.Height = (int)bounds.Height;
+
+                        if (tb.Tag != null && tb.Tag is SKPath path)
+                        {
+                            label.LabelPath = path;
+                        }
+                        else if (MapLabelMethods.LABEL_PATH.PointCount > 0)
+                        {
+                            label.LabelPath = new(MapLabelMethods.LABEL_PATH);
+                            MapLabelMethods.LABEL_PATH.Dispose();
+                            MapLabelMethods.LABEL_PATH = new();
+                            MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER)?.Clear();
+                        }
+
+                        Cmd_AddLabel cmd = new(CURRENT_MAP, label);
+                        UndoManager.AddCommand(cmd);
+                        cmd.DoOperation();
+
+                        MapPaintMethods.DeselectAllMapComponents(label);
+
+                        UISelectedLabel = MapLabelMethods.MAP_LABELS.Last();
                     }
 
-                    Cmd_AddLabel cmd = new(CURRENT_MAP, label);
-                    UndoManager.AddCommand(cmd);
-                    cmd.DoOperation();
+                    SetDrawingMode(DrawingModeEnum.LabelSelect, SelectLabelButton, true);
 
-                    MapPaintMethods.DeselectAllMapComponents(label);
+                    // dispose of the text box, as it isn't needed once the label text has been entered
+                    MapImageBox.Controls.Remove(tb);
+                    tb.Dispose();
 
-                    UISelectedLabel = MapLabelMethods.MAP_LABELS.Last();
+                    MapImageBox.Refresh();
                 }
+                else
+                {
+                    if (tb.Text.StartsWith("...Label..."))
+                    {
+                        tb.Text = tb.Text.Substring("...Label...".Length);
+                    }
 
-                SetDrawingMode(DrawingModeEnum.LabelSelect, sender);
+                    SKPaint paint = MapLabelMethods.CreateLabelPaint(labelFont, labelColor);
+                    SKRect bounds = new SKRect();
 
-                // dispose of the text box, as it isn't needed once the label text has been entered
-                tb.Dispose();
-
-                MapImageBox.Refresh();
+                    paint.MeasureText(tb.Text, ref bounds);
+                    int tbWidth = (int)Math.Max(bounds.Width, tb.Width);
+                    tb.Width = tbWidth;
+                }
             }
         }
 
@@ -5650,7 +5742,7 @@ namespace MapCreator
 
         private void RemovePresetButton_Click(object sender, EventArgs e)
         {
-            //remove a preset (prevent default presets from being deleted; can they be changed?)
+            //remove a preset (prevent default presets from being deleted or changed)
 
             if (LabelPresetCombo.SelectedIndex >= 0)
             {
@@ -5910,6 +6002,28 @@ namespace MapCreator
                 cmd.DoOperation();
 
                 MapImageBox.Refresh();
+            }
+        }
+
+        // name generator
+        private void GenerateNameButton_Click(object sender, EventArgs e)
+        {
+            if (ModifierKeys == Keys.None)
+            {
+                string generatedName = MapToolMethods.GenerateRandomPlaceName();
+
+                if (MapLabelMethods.CreatingLabel)
+                {
+                    if (!LABEL_TEXT_BOX.IsDisposed)
+                    {
+                        LABEL_TEXT_BOX.Text = generatedName;
+                        LABEL_TEXT_BOX.Refresh();
+                    }
+                }
+            }
+            else if (ModifierKeys == Keys.Shift)
+            {
+                NAME_GENERATOR_SETTINGS_DIALOG.Show();
             }
         }
 
@@ -7930,41 +8044,6 @@ namespace MapCreator
 
                     SymbolMethods.RemovePlacedSymbolsFromArea(CURRENT_MAP, eraserCursorPoint, eraserRadius);
                     break;
-                case DrawingModeEnum.DrawLabel:
-
-                    if (!MapLabelMethods.CreatingLabel)
-                    {
-                        IMAGEBOX_CLICK_POINT.X = e.X;
-                        IMAGEBOX_CLICK_POINT.Y = e.Y;
-
-                        LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
-
-                        Size labelSize = TextRenderer.MeasureText("...Label...", MapLabelMethods.SELECTED_FONT, new Size(int.MaxValue, int.MaxValue), TextFormatFlags.Default);
-
-                        TextBox textBox = new()
-                        {
-                            Left = (int)LAYER_CLICK_POINT.X + MapImageBox.Left,
-                            Top = (int)LAYER_CLICK_POINT.Y + labelSize.Height,
-                            AutoSize = true,
-                            Font = MapLabelMethods.SELECTED_FONT,
-                            BackColor = Color.Beige,
-                            Visible = true,
-                            PlaceholderText = "...Label...",
-                            Width = labelSize.Width,
-                            Height = labelSize.Height,
-                            ForeColor = FontColorSelectLabel.BackColor,
-                            BorderStyle = BorderStyle.None,
-                            Multiline = false
-                        };
-
-                        textBox.KeyPress += LabelTextBox_KeyPress;
-
-                        Controls.Add(textBox);
-                        textBox.BringToFront();
-                        textBox.Focus();
-                    }
-
-                    break;
                 case DrawingModeEnum.DrawBezierLabelPath:
                     Cursor = Cursors.Cross;
 
@@ -8226,41 +8305,72 @@ namespace MapCreator
 
                     if (UISelectedLabel != null)
                     {
-                        EditLabelForm editLabelForm = new();
-                        editLabelForm.SetLabelText(UISelectedLabel.LabelText);
-                        DialogResult result = editLabelForm.ShowDialog();
+                        MapLabelMethods.CreatingLabel = true;
 
-                        if (result == DialogResult.OK)
+                        IMAGEBOX_CLICK_POINT.X = e.X;
+                        IMAGEBOX_CLICK_POINT.Y = e.Y;
+
+                        LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
+
+                        Font tbFont = new Font(UISelectedLabel.LabelFont.FontFamily, (float)(MapLabelMethods.SELECTED_FONT.Size * MapImageBox.ZoomFactor), GraphicsUnit.Pixel);
+
+                        Size labelSize = TextRenderer.MeasureText(UISelectedLabel.LabelText, tbFont, new Size(int.MaxValue, int.MaxValue), TextFormatFlags.Default);
+
+                        LABEL_TEXT_BOX = new()
                         {
-                            Cmd_ChangeLabelText cmd = new(UISelectedLabel, editLabelForm.GetLabelText());
-                            UndoManager.AddCommand(cmd);
-                            cmd.DoOperation();
-                        }
-                    }
-                    else
-                    {
-                        Point clickPoint = new(e.X, e.Y);
-                        Point mapClickPoint = MapImageBox.PointToImage(clickPoint);
+                            Parent = MapImageBox,
+                            Name = Guid.NewGuid().ToString(),
+                            Left = IMAGEBOX_CLICK_POINT.X - (labelSize.Width / 2),
+                            Top = IMAGEBOX_CLICK_POINT.Y - (labelSize.Height / 2),
+                            Width = labelSize.Width,
+                            Height = labelSize.Height,
+                            Margin = Padding.Empty,
+                            AutoSize = false,
+                            Font = tbFont,
+                            Visible = true,
+                            BackColor = Color.AliceBlue,
+                            ForeColor = FontColorSelectLabel.BackColor,
+                            BorderStyle = BorderStyle.None,
+                            Multiline = false,
+                            TextAlign = HorizontalAlignment.Center,
+                            Text = UISelectedLabel.LabelText,
+                        };
 
-                        MapLabel? selectedLabel = MapLabelMethods.SelectLabelAtPoint(mapClickPoint);
+                        LABEL_TEXT_BOX.KeyPress += LabelTextBox_KeyPress;
 
-                        if (selectedLabel != null)
+                        MapImageBox.Controls.Add(LABEL_TEXT_BOX);
+
+                        MapImageBox.Refresh();
+
+                        LABEL_TEXT_BOX.BringToFront();
+                        LABEL_TEXT_BOX.Select(LABEL_TEXT_BOX.Text.Length, 0);
+                        LABEL_TEXT_BOX.Focus();
+                        LABEL_TEXT_BOX.ScrollToCaret();
+
+                        LABEL_TEXT_BOX.Tag = UISelectedLabel.LabelPath;
+
+                        // delete the currently selected label
+
+                        for (int i = MapLabelMethods.MAP_LABELS.Count - 1; i >= 0; i--)
                         {
-                            selectedLabel.IsSelected = true;
-                            MapPaintMethods.DeselectAllMapComponents(selectedLabel);
-                            UISelectedLabel = selectedLabel;
-
-                            EditLabelForm editLabelForm = new();
-                            editLabelForm.SetLabelText(UISelectedLabel.LabelText);
-                            DialogResult result = editLabelForm.ShowDialog();
-
-                            if (result == DialogResult.OK)
+                            if (MapLabelMethods.MAP_LABELS[i].LabelGuid.ToString() == UISelectedLabel.LabelGuid.ToString())
                             {
-                                Cmd_ChangeLabelText cmd = new Cmd_ChangeLabelText(UISelectedLabel, editLabelForm.GetLabelText());
-                                UndoManager.AddCommand(cmd);
-                                cmd.DoOperation();
+                                MapLabelMethods.MAP_LABELS.RemoveAt(i);
                             }
                         }
+
+                        MapLayer labelLayer = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.LABELLAYER);
+
+                        for (int i = labelLayer.MapLayerComponents.Count - 1; i >= 0; i--)
+                        {
+                            if (labelLayer.MapLayerComponents[i] is MapLabel l && l.LabelGuid.ToString() == UISelectedLabel.LabelGuid.ToString())
+                            {
+                                labelLayer.MapLayerComponents.RemoveAt(i);
+                            }
+                        }
+
+                        MapImageBox.Refresh();
+
                     }
 
                     break;
@@ -8589,6 +8699,54 @@ namespace MapCreator
                         }
                     }
                     break;
+                case DrawingModeEnum.DrawLabel:
+                    if (!MapLabelMethods.CreatingLabel)
+                    {
+                        MapLabelMethods.CreatingLabel = true;
+
+                        IMAGEBOX_CLICK_POINT.X = e.X;
+                        IMAGEBOX_CLICK_POINT.Y = e.Y;
+
+                        LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
+
+                        Font tbFont = new Font(MapLabelMethods.SELECTED_FONT.FontFamily, (float)(MapLabelMethods.SELECTED_FONT.Size * MapImageBox.ZoomFactor), GraphicsUnit.Pixel);
+
+                        Size labelSize = TextRenderer.MeasureText("...Label...", tbFont, new Size(int.MaxValue, int.MaxValue), TextFormatFlags.Default);
+
+                        LABEL_TEXT_BOX = new()
+                        {
+                            Parent = MapImageBox,
+                            Name = Guid.NewGuid().ToString(),
+                            Left = IMAGEBOX_CLICK_POINT.X - (labelSize.Width / 2),
+                            Top = IMAGEBOX_CLICK_POINT.Y - (labelSize.Height / 2),
+                            Width = labelSize.Width,
+                            Height = labelSize.Height,
+                            Margin = Padding.Empty,
+                            AutoSize = false,
+                            Font = tbFont,
+                            Visible = true,
+                            PlaceholderText = "...Label...",
+                            BackColor = Color.AliceBlue,
+                            ForeColor = FontColorSelectLabel.BackColor,
+                            BorderStyle = BorderStyle.None,
+                            Multiline = false,
+                            TextAlign = HorizontalAlignment.Center,
+                            Text = "...Label...",
+                        };
+
+                        LABEL_TEXT_BOX.KeyPress += LabelTextBox_KeyPress;
+
+                        MapImageBox.Controls.Add(LABEL_TEXT_BOX);
+
+                        MapImageBox.Refresh();
+
+                        LABEL_TEXT_BOX.BringToFront();
+                        LABEL_TEXT_BOX.Select(LABEL_TEXT_BOX.Text.Length, 0);
+                        LABEL_TEXT_BOX.Focus();
+                        LABEL_TEXT_BOX.ScrollToCaret();
+
+                    }
+                    break;
                 case DrawingModeEnum.LabelSelect:
                     {
                         Point clickPoint = new(e.X, e.Y);
@@ -8714,7 +8872,7 @@ namespace MapCreator
                                 else
                                 {
                                     UIMapRegion = null;
-                                }                                
+                                }
                             }
                         }
                     }

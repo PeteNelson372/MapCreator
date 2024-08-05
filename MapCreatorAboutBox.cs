@@ -30,6 +30,20 @@ namespace MapCreator
         public MapCreatorAboutBox()
         {
             InitializeComponent();
+
+            string? version = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+
+            VersionLabel.BringToFront();
+            VersionLabel.ForeColor = Color.Black;
+
+            if (!string.IsNullOrEmpty(version))
+            {
+                VersionLabel.Text = string.Concat("Version ", version.AsSpan(0, version.IndexOf('+')));
+            }
+            else
+            {
+                VersionLabel.Text = "";
+            }
         }
 
         #region Assembly Attribute Accessors
