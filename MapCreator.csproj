@@ -11,7 +11,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <IncrementVersionOnBuild>0.yyyy.Mdd.Hmm</IncrementVersionOnBuild>
-    <Version>0.2024.805.134</Version>
+    <Version>0.2024.806.31</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

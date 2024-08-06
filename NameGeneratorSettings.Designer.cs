@@ -41,6 +41,10 @@
             LanguagesCheckedList = new CheckedListBox();
             GenerateNamesButton = new Button();
             GeneratedNamesList = new ListBox();
+            NameListLengthUpDown = new NumericUpDown();
+            label4 = new Label();
+            label5 = new Label();
+            ((System.ComponentModel.ISupportInitialize)NameListLengthUpDown).BeginInit();
             SuspendLayout();
             // 
             // NameGenSettingsCancelButton
@@ -186,6 +190,34 @@
             GeneratedNamesList.TabIndex = 24;
             GeneratedNamesList.SelectedValueChanged += GeneratedNamesList_SelectedValueChanged;
             // 
+            // NameListLengthUpDown
+            // 
+            NameListLengthUpDown.Increment = new decimal(new int[] { 5, 0, 0, 0 });
+            NameListLengthUpDown.Location = new Point(590, 41);
+            NameListLengthUpDown.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
+            NameListLengthUpDown.Name = "NameListLengthUpDown";
+            NameListLengthUpDown.Size = new Size(54, 23);
+            NameListLengthUpDown.TabIndex = 25;
+            NameListLengthUpDown.TextAlign = HorizontalAlignment.Center;
+            NameListLengthUpDown.Value = new decimal(new int[] { 50, 0, 0, 0 });
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(516, 44);
+            label4.Name = "label4";
+            label4.Size = new Size(0, 16);
+            label4.TabIndex = 26;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(479, 43);
+            label5.Name = "label5";
+            label5.Size = new Size(105, 16);
+            label5.TabIndex = 27;
+            label5.Text = "Name List Length";
+            // 
             // NameGeneratorSettings
             // 
             AcceptButton = NameGenSettingsApplyButton;
@@ -193,6 +225,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = NameGenSettingsCancelButton;
             ClientSize = new Size(661, 437);
+            Controls.Add(label5);
+            Controls.Add(label4);
+            Controls.Add(NameListLengthUpDown);
             Controls.Add(GeneratedNamesList);
             Controls.Add(GenerateNamesButton);
             Controls.Add(LanguagesCheckedList);
@@ -214,6 +249,7 @@
             SizeGripStyle = SizeGripStyle.Hide;
             StartPosition = FormStartPosition.CenterParent;
             Text = "Name Generator Settings";
+            ((System.ComponentModel.ISupportInitialize)NameListLengthUpDown).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -233,5 +269,8 @@
         internal CheckedListBox NameBaseCheckedList;
         internal CheckedListBox LanguagesCheckedList;
         internal ListBox GeneratedNamesList;
+        private NumericUpDown NameListLengthUpDown;
+        private Label label4;
+        private Label label5;
     }
 }

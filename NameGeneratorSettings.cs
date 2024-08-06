@@ -61,12 +61,15 @@ namespace MapCreator
 
         private void GenerateNamesButton_Click(object sender, EventArgs e)
         {
-            GeneratedNamesList.Items.Clear();
-
             for (int i = 0; i < 10; i++)
             {
                 string name = MapToolMethods.GenerateRandomPlaceName();
                 GeneratedNamesList.Items.Add(name);
+
+                if (GeneratedNamesList.Items.Count > NameListLengthUpDown.Value)
+                {
+                    GeneratedNamesList.Items.RemoveAt(0);
+                }
             }
 
             GeneratedNamesList.Refresh();
