@@ -35,6 +35,7 @@ using Extensions = SkiaSharp.Views.Desktop.Extensions;
 using Image = System.Drawing.Image;
 using KeyPressEventArgs = System.Windows.Forms.KeyPressEventArgs;
 using MessageBox = System.Windows.Forms.MessageBox;
+using Pen = System.Drawing.Pen;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using Point = System.Drawing.Point;
 using TextBox = System.Windows.Forms.TextBox;
@@ -321,6 +322,8 @@ namespace MapCreator
         {
             if (CURRENT_MAP != null && MAP_CANVAS != null)
             {
+                MapBuilder.ClearLayerCanvas(CURRENT_MAP, MapBuilder.SELECTIONLAYER);
+
                 // render all of the layers onto the MAP_CANVAS,
                 // then display the resulting MAP_SURFACE snapshot as the MapImageBox Image
                 CURRENT_MAP.Render(MAP_CANVAS);
@@ -886,7 +889,6 @@ namespace MapCreator
                 + " , "
                 + mapPoint.Y.ToString();
 
-            //DrawingPointLabel.Invalidate();
             ApplicationStatusStrip.Refresh();
         }
 
@@ -1286,7 +1288,7 @@ namespace MapCreator
 
                 if (MapLabelMethods.CreatingLabel && !string.IsNullOrEmpty(selectedName))
                 {
-                    if (!LABEL_TEXT_BOX.IsDisposed)
+                    if (LABEL_TEXT_BOX != null && !LABEL_TEXT_BOX.IsDisposed)
                     {
                         LABEL_TEXT_BOX.Text = selectedName;
                         LABEL_TEXT_BOX.Refresh();
@@ -3684,6 +3686,12 @@ namespace MapCreator
             }
         }
 
+        private void GenerateLandFormButton_Click(object sender, EventArgs e)
+        {
+            GenerateLandform generateLandformDialog = new(CURRENT_MAP);
+            generateLandformDialog.Show();
+        }
+
         private void FxDistanceTrack_ValueChanged(object sender, EventArgs e)
         {
             FxDistanceLabel.Text = FxDistanceTrack.Value.ToString();
@@ -5951,7 +5959,7 @@ namespace MapCreator
         {
             if (UISelectedLabel != null)
             {
-                Cmd_ChangeLabelRotation cmd = new Cmd_ChangeLabelRotation(UISelectedLabel, (float)LabelRotationUpDown.Value, this);
+                Cmd_ChangeLabelRotation cmd = new(UISelectedLabel, (float)LabelRotationUpDown.Value, this);
                 UndoManager.AddCommand(cmd);
                 cmd.DoOperation();
 
@@ -6014,7 +6022,7 @@ namespace MapCreator
 
                 if (MapLabelMethods.CreatingLabel)
                 {
-                    if (!LABEL_TEXT_BOX.IsDisposed)
+                    if (LABEL_TEXT_BOX != null && !LABEL_TEXT_BOX.IsDisposed)
                     {
                         LABEL_TEXT_BOX.Text = generatedName;
                         LABEL_TEXT_BOX.Refresh();
@@ -7915,8 +7923,12 @@ namespace MapCreator
                     Cursor = Cursors.Cross;
                     SetLandformData(LandformType2Methods.GetNewSelectedLandform(CURRENT_MAP));
                     LandformType2Methods.SELECTED_LANDFORM.LandformPath.Reset();
+
                     CURRENT_MAP.RenderOnlyLayers.Add(MapBuilder.LANDFORMLAYER);
-                    CURRENT_MAP.RenderOnlyLayers.Add(MapBuilder.LANDCOASTLINELAYER);
+                    //CURRENT_MAP.RenderOnlyLayers.Add(MapBuilder.LANDCOASTLINELAYER);
+
+                    // add the landfor to the landform layer components
+                    MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.LANDFORMLAYER).MapLayerComponents.Add(LandformType2Methods.SELECTED_LANDFORM);
                     break;
                 case DrawingModeEnum.LandErase:
                     Cursor = Cursors.Cross;
@@ -7927,6 +7939,7 @@ namespace MapCreator
 
                     CURRENT_MAP.RenderOnlyLayers.Add(MapBuilder.LANDFORMLAYER);
                     CURRENT_MAP.RenderOnlyLayers.Add(MapBuilder.LANDCOASTLINELAYER);
+
                     break;
                 case DrawingModeEnum.LandColor:
                     Cursor = Cursors.Cross;
@@ -8464,9 +8477,13 @@ namespace MapCreator
                         UndoManager.AddCommand(cmd);
                         cmd.DoOperation();
 
+                        MapImageBox.Refresh();
+
                         LandformSelectButton.Checked = false;
 
                         CURRENT_MAP.IsSaved = false;
+
+                        LandformType2Methods.SELECTED_LANDFORM.DrawLandform = false;
                     }
                     break;
                 case DrawingModeEnum.LandErase:
@@ -8633,7 +8650,9 @@ namespace MapCreator
                     {
                         Point clickPoint = new(e.X, e.Y);
                         Point mapClickPoint = MapImageBox.PointToImage(clickPoint);
-                        MapPaintMethods.SelectLandformAtPoint(mapClickPoint);
+                        MapPaintMethods.SelectLandformAtPoint(CURRENT_MAP, mapClickPoint);
+
+                        MapImageBox.Refresh();
 
                     }
                     break;
@@ -8897,7 +8916,8 @@ namespace MapCreator
 
                     LandformSelectButton.Checked = false;
 
-                    MapLandformType2? selectedLandform = MapPaintMethods.SelectLandformAtPoint(mapClickPoint);
+                    MapLandformType2? selectedLandform = MapPaintMethods.SelectLandformAtPoint(CURRENT_MAP, mapClickPoint);
+                    MapImageBox.Refresh();
 
                     if (selectedLandform != null)
                     {
@@ -8986,6 +9006,7 @@ namespace MapCreator
                     break;
                 case DrawingModeEnum.LandPaint:
                     LandformType2Methods.SELECTED_LANDFORM.LandformPath.AddCircle(X, Y, brushRadius);
+                    LandformType2Methods.SELECTED_LANDFORM.DrawLandform = true;
 
                     //LandformType2Methods.CreateType2LandformPaths(CURRENT_MAP, LandformType2Methods.SELECTED_LANDFORM);
 
@@ -8993,6 +9014,7 @@ namespace MapCreator
 
                     break;
                 case DrawingModeEnum.LandErase:
+
                     ERASE_LANDFORM_COMMAND.AddCircle(X, Y, brushRadius);
                     ERASE_LANDFORM_COMMAND.DoOperation();
 
@@ -9367,7 +9389,7 @@ namespace MapCreator
                     break;
             }
 
-            MapImageBox.Refresh();
+            //MapImageBox.Refresh();
         }
 
         #endregion
@@ -9597,6 +9619,7 @@ namespace MapCreator
         }
 
         #endregion
+
 
     }
 }

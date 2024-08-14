@@ -31,24 +31,170 @@ namespace MapCreator
 {
     public class MapLandformType2 : MapComponent, IXmlSerializable
     {
-        public MapCreatorMap? ParentMap { get; set; } = null;
+        private bool drawLandform = true;
+        private MapCreatorMap? parentMap;
+        private bool isSelected = false;
+        private string landformName = string.Empty;
+        private Guid landformGuid = Guid.NewGuid();
+        private MapTexture? landformTexture;
+        private Color landformOutlineColor = ColorTranslator.FromHtml("#3D3728");
+        private int landformOutlineWidth = 2;
+        private GradientDirectionEnum shorelineStyle = GradientDirectionEnum.None;
+        private Color coastlineColor = ColorTranslator.FromHtml("#9CC3B7");
+        private int coastlineColorOpacity = 187;
+        private int coastlineEffectDistance = 16;
+        private string coastlineStyleName = "Dash Pattern";
+        private string? coastlineHatchPattern = string.Empty;
+        private int coastlineHatchOpacity = 0;
+        private int coastlineHatchScale = 0;
+        private string? coastlineHatchBlendMode = string.Empty;
+        private bool paintCoastlineGradient = true;
 
-        public bool IsSelected { get; set; } = false;
-        public string LandformName { get; set; } = "";
-        public Guid LandformGuid { get; set; } = new Guid();
-        public MapTexture? LandformTexture { get; set; }
-        public Color LandformOutlineColor { get; set; } = ColorTranslator.FromHtml("#3D3728");
-        public int LandformOutlineWidth { get; set; } = 2;
-        public GradientDirectionEnum? ShorelineStyle { get; set; }
-        public Color CoastlineColor { get; set; } = ColorTranslator.FromHtml("#9CC3B7");
-        public int CoastlineColorOpacity { get; set; } = 187;
-        public int CoastlineEffectDistance { get; set; } = 16;
-        public string CoastlineStyleName { get; set; } = "Dash Pattern";
-        public string? CoastlineHatchPattern { get; set; }
-        public int? CoastlineHatchOpacity { get; set; }
-        public int? CoastlineHatchScale { get; set; }
-        public string? CoastlineHatchBlendMode { get; set; }
-        public bool? PaintCoastlineGradient { get; set; }
+        private List<SKPoint> landformContourPoints = [];
+
+        public MapCreatorMap? ParentMap { get { return parentMap; } set { parentMap = value; } }
+
+        public bool DrawLandform { get { return drawLandform; } set { drawLandform = value; } }
+
+        public bool IsSelected
+        {
+            get { return isSelected; }
+            set
+            {
+                isSelected = value;
+            }
+        }
+        public string LandformName { get { return landformName; } set { landformName = value; } }
+        public Guid LandformGuid { get { return landformGuid; } set { landformGuid = value; } }
+        public MapTexture? LandformTexture
+        {
+            get { return landformTexture; }
+            set
+            {
+                landformTexture = value;
+                drawLandform = true;
+            }
+        }
+
+        public Color LandformOutlineColor
+        {
+            get { return landformOutlineColor; }
+            set
+            {
+                landformOutlineColor = value;
+                drawLandform = true;
+            }
+        }
+
+        public int LandformOutlineWidth
+        {
+            get { return landformOutlineWidth; }
+            set
+            {
+                landformOutlineWidth = value;
+                drawLandform = true;
+            }
+        }
+
+        public GradientDirectionEnum ShorelineStyle
+        {
+            get { return shorelineStyle; }
+            set
+            {
+                shorelineStyle = value;
+                drawLandform = true;
+            }
+        }
+
+        public Color CoastlineColor
+        {
+            get { return coastlineColor; }
+            set
+            {
+                coastlineColor = value;
+                drawLandform = true;
+            }
+        }
+
+        public int CoastlineColorOpacity
+        {
+            get { return coastlineColorOpacity; }
+            set
+            {
+                coastlineColorOpacity = value;
+                drawLandform = true;
+            }
+        }
+
+        public int CoastlineEffectDistance
+        {
+            get { return coastlineEffectDistance; }
+            set
+            {
+                coastlineEffectDistance = value;
+                drawLandform = true;
+            }
+        }
+
+        public string CoastlineStyleName
+        {
+            get { return coastlineStyleName; }
+            set
+            {
+                coastlineStyleName = value;
+                drawLandform = true;
+            }
+        }
+
+        public string? CoastlineHatchPattern
+        {
+            get { return coastlineHatchPattern; }
+            set
+            {
+                coastlineHatchPattern = value;
+                drawLandform = true;
+            }
+        }
+
+        public int CoastlineHatchOpacity
+        {
+            get { return coastlineHatchOpacity; }
+            set
+            {
+                coastlineHatchOpacity = value;
+                drawLandform = true;
+            }
+        }
+
+        public int CoastlineHatchScale
+        {
+            get { return coastlineHatchScale; }
+            set
+            {
+                coastlineHatchScale = value;
+                drawLandform = true;
+            }
+        }
+
+        public string? CoastlineHatchBlendMode
+        {
+            get { return coastlineHatchBlendMode; }
+            set
+            {
+                coastlineHatchBlendMode = value;
+                drawLandform = true;
+            }
+        }
+
+        public bool PaintCoastlineGradient
+        {
+            get { return paintCoastlineGradient; }
+            set
+            {
+                paintCoastlineGradient = value;
+                drawLandform = true;
+            }
+        }
 
         public SKPaint? LandformBackgroundPaint { get; set; } = null;
 
@@ -59,7 +205,15 @@ namespace MapCreator
 
         public SKPath LandformContourPath { get; set; } = new SKPath();
 
-        public List<SKPoint> LandformContourPoints { get; set; } = [];
+        public List<SKPoint> LandformContourPoints
+        {
+            get { return landformContourPoints; }
+            set
+            {
+                landformContourPoints = value;
+                drawLandform = true;
+            }
+        }
 
         // inner paths are used to paint the gradient shading around the inside of the landform
         public SKPath InnerPath1 { get; set; } = new SKPath();
@@ -85,8 +239,16 @@ namespace MapCreator
 
         public MapLandformType2()
         {
-            RenderComponent = false;
+            RenderComponent = true;
             LandformGuid = Guid.NewGuid();
+        }
+
+        public override void Render(SKCanvas canvas)
+        {
+            if (ParentMap != null)
+            {
+                LandformType2Methods.DrawLandform(ParentMap, this);
+            }
         }
 
         public XmlSchema? GetSchema()
@@ -352,36 +514,25 @@ namespace MapCreator
                 writer.WriteEndElement();
             }
 
-            if (CoastlineHatchOpacity != null)
-            {
-                // coastline hatch opacity
-                writer.WriteStartElement("CoastlineHatchOpacity");
-                writer.WriteValue(CoastlineHatchOpacity);
-                writer.WriteEndElement();
-            }
+            // coastline hatch opacity
+            writer.WriteStartElement("CoastlineHatchOpacity");
+            writer.WriteValue(CoastlineHatchOpacity);
+            writer.WriteEndElement();
 
-            if (CoastlineHatchScale != null)
-            {
-                // coastline hatch scale
-                writer.WriteStartElement("CoastlineHatchScale");
-                writer.WriteValue(CoastlineHatchScale);
-                writer.WriteEndElement();
-            }
-
+            // coastline hatch scale
+            writer.WriteStartElement("CoastlineHatchScale");
+            writer.WriteValue(CoastlineHatchScale);
+            writer.WriteEndElement();
 
             // coastline hatch blend mode
             writer.WriteStartElement("CoastlineHatchBlendMode");
             writer.WriteString(CoastlineHatchBlendMode);
             writer.WriteEndElement();
 
-            if (PaintCoastlineGradient != null)
-            {
-                // paint coastline gradient
-                writer.WriteStartElement("PaintCoastlineGradient");
-                writer.WriteValue(PaintCoastlineGradient);
-                writer.WriteEndElement();
-            }
-
+            // paint coastline gradient
+            writer.WriteStartElement("PaintCoastlineGradient");
+            writer.WriteValue(PaintCoastlineGradient);
+            writer.WriteEndElement();
 
             // landform path
             writer.WriteStartElement("LandformPath");
@@ -405,11 +556,6 @@ namespace MapCreator
 
             writer.WriteEndElement();
             */
-        }
-
-        public override void Render(SKCanvas canvas)
-        {
-            // no op - paths are rendered
         }
     }
 }

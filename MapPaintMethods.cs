@@ -60,14 +60,6 @@ namespace MapCreator
                 case DrawingModeEnum.OceanErase:
                     OceanPaintMethods.EraseOceanPath(map);
                     break;
-                case DrawingModeEnum.LandPaint:
-                    LandformType2Methods.PaintLandForm(map);
-                    break;
-                case DrawingModeEnum.LandErase:
-                    MapBuilder.ClearLayerCanvas(map, MapBuilder.LANDFORMLAYER);
-                    MapBuilder.ClearLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER);
-                    LandformType2Methods.PaintLandForm(map);
-                    break;
                 case DrawingModeEnum.LandColorErase:
                     LandformType2Methods.EraseLandformColor(map);
                     break;
@@ -81,8 +73,6 @@ namespace MapCreator
                     WaterFeatureMethods.EraseWaterFeatureColor(map);
                     break;
             }
-
-            LandformType2Methods.DrawAllType2Landforms(map);
 
             WaterFeatureMethods.MergeWaterFeatures();
 
@@ -294,27 +284,30 @@ namespace MapCreator
         * LANDFORM METHODS
         * ************************************************************************************************************************/
 
-        internal static MapLandformType2? SelectLandformAtPoint(Point mapClickPoint)
+        internal static MapLandformType2? SelectLandformAtPoint(MapCreatorMap map, Point mapClickPoint)
         {
             MapLandformType2? selectedLandform = null;
-            List<MapLandformType2> landforms = LandformType2Methods.LANDFORM_LIST;
 
-            for (int i = 0; i < landforms.Count; i++)
+            List<MapComponent> landformComponents = MapBuilder.GetMapLayerByIndex(map, MapBuilder.LANDFORMLAYER).MapLayerComponents;
+
+            for (int i = 0; i < landformComponents.Count; i++)
             {
-                MapLandformType2 mapLandform = landforms[i];
-                SKPath boundaryPath = mapLandform.LandformPath;
-
-                if (boundaryPath != null && boundaryPath.PointCount > 0)
+                if (landformComponents[i] is MapLandformType2 mapLandform)
                 {
-                    if (boundaryPath.Contains(mapClickPoint.X, mapClickPoint.Y))
-                    {
-                        mapLandform.IsSelected = !mapLandform.IsSelected;
+                    SKPath boundaryPath = mapLandform.LandformPath;
 
-                        if (mapLandform.IsSelected)
+                    if (boundaryPath != null && boundaryPath.PointCount > 0)
+                    {
+                        if (boundaryPath.Contains(mapClickPoint.X, mapClickPoint.Y))
                         {
-                            selectedLandform = mapLandform;
+                            mapLandform.IsSelected = !mapLandform.IsSelected;
+
+                            if (mapLandform.IsSelected)
+                            {
+                                selectedLandform = mapLandform;
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }

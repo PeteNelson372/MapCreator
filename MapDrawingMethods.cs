@@ -31,6 +31,7 @@ using Point = System.Drawing.Point;
 using Clipper2Lib;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using Color = System.Drawing.Color;
+using log4net.Repository.Hierarchy;
 
 namespace MapCreator
 {
@@ -519,11 +520,11 @@ namespace MapCreator
                     if (lockedBitmap.GetPixel(x, y) == Color.Transparent
                         || lockedBitmap.GetPixel(x, y) == Color.White)
                     {
-                        lockedBitmap.SetPixel(x, y, Color.Black);
+                        lockedBitmap.SetPixel(x, y, Color.White);
                     }
                     else
                     {
-                        lockedBitmap.SetPixel(x, y, Color.White);
+                        lockedBitmap.SetPixel(x, y, Color.Black);
                     }
                 }
             }
@@ -549,11 +550,11 @@ namespace MapCreator
 
                     if (c.R < 128 && c.G < 128 && c.B < 128)
                     {
-                        lockedBitmap.SetPixel(x, y, Color.Transparent);
+                        lockedBitmap.SetPixel(x, y, Color.White);
                     }
                     else
                     {
-                        lockedBitmap.SetPixel(x, y, Color.CadetBlue);
+                        lockedBitmap.SetPixel(x, y, Color.Black);
                     }
                 }
             }
@@ -803,7 +804,39 @@ namespace MapCreator
             return path;
         }
 
-        internal static float signedMod(float a, float n)
+        public static SKPath GenerateRandomLakePath2(SKPoint location, float radius)
+        {
+            Bitmap b = GetLakeBitmap((int)radius * 2, (int)radius * 2);
+
+            b.Save("C:\\Users\\Pete Nelson\\OneDrive\\Desktop\\lake.bmp");
+
+            List<SKPoint> lakePoints = GetBitmapContourPoints(b);
+
+            SKPath contourPath = new();
+
+            if (lakePoints.Count > 1)
+            {
+                // the Moore-Neighbor algorithm sets the first (0th) pixel in the list of contour points to
+                // an empty pixel, so remove it before constructing the path from the contour points
+                lakePoints.RemoveAt(0);
+
+                if (lakePoints.Count > 0)
+                {
+                    contourPath.MoveTo(lakePoints[0]);
+
+                    for (int i = 1; i < lakePoints.Count; i++)
+                    {
+                        contourPath.LineTo(lakePoints[i]);
+                    }
+
+                    contourPath.Close();
+                }
+            }
+
+            return contourPath;
+        }
+
+        internal static float SignedMod(float a, float n)
         {
             return (float)(a - Math.Floor(a / n) * n);
         }
@@ -819,7 +852,7 @@ namespace MapCreator
             //float diffDegrees = (float)(diffRadians * (180.0F / Math.PI));
 
             float a = angle1 - angle2;
-            float diffDegrees = signedMod(a + 180, 360) - 180;
+            float diffDegrees = SignedMod(a + 180, 360) - 180;
 
             return diffDegrees;
         }
@@ -883,7 +916,7 @@ namespace MapCreator
             return lineContains;
         }
 
-        internal static List<SKPoint> GetParallelSKPoints(List<SKPoint> points, float distance, ParallelEnum location)
+        internal static List<SKPoint> GetParallelSKPoints(List<SKPoint> points, double distance, ParallelEnum location)
         {
             PathD clipperPath = [];
 
@@ -892,15 +925,23 @@ namespace MapCreator
                 clipperPath.Add(new PointD(point.X, point.Y));
             }
 
+            SKPoint firstPoint = points.First();
+            clipperPath.Add(new PointD(firstPoint.X, firstPoint.Y));
+
             PathsD clipperPaths = [];
             PathsD inflatedPaths = [];
 
             clipperPaths.Add(clipperPath);
 
-            float d = (location == ParallelEnum.Below) ? -distance : distance;
+            double d = distance;
+
+            if (location == ParallelEnum.Below)
+            {
+                d = distance * -1.0;
+            }
 
             // offset polyline
-            inflatedPaths = Clipper.InflatePaths(clipperPaths, d, JoinType.Square, EndType.Polygon);
+            inflatedPaths = Clipper.InflatePaths(clipperPaths, d, JoinType.Round, EndType.Polygon);
 
             if (inflatedPaths.Count > 0)
             {
@@ -1014,23 +1055,24 @@ namespace MapCreator
             double sinA = Math.Abs(Math.Sin(radianAngle));
 
             int newWidth = (int)Math.Ceiling(cosA * bitmap.Width + sinA * bitmap.Height);
-            int newHeight = (int)Math.Ceiling(cosA * bitmap.Height + sinA * bitmap.Width);
+            int newHeight = (int)Math.Ceiling(sinA * bitmap.Width + cosA * bitmap.Height);
 
             Bitmap rotatedBitmap = new(newWidth, newHeight);
             rotatedBitmap.SetResolution(bitmap.HorizontalResolution, bitmap.VerticalResolution);
 
             using Graphics g = Graphics.FromImage(rotatedBitmap);
-            g.TranslateTransform(rotatedBitmap.Width / 2, rotatedBitmap.Height / 2);
+            g.TranslateTransform((float)(newWidth - bitmap.Width) / 2, (float)(newHeight - bitmap.Height) / 2);
+            g.TranslateTransform(bitmap.Width / 2, bitmap.Height / 2);
             g.RotateTransform(angle);
             g.TranslateTransform(-bitmap.Width / 2, -bitmap.Height / 2);
             g.DrawImage(bitmap, new Point(0, 0));
 
             if (flipX)
             {
-                bitmap.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                rotatedBitmap.RotateFlip(RotateFlipType.RotateNoneFlipX);
             }
 
-            return Extensions.ToSKBitmap(bitmap);
+            return Extensions.ToSKBitmap(rotatedBitmap);
         }
 
         internal static bool BitmapIsTransparent(SKBitmap b)
@@ -1184,36 +1226,14 @@ namespace MapCreator
 
         internal static SKPath GetInnerOrOuterPath(List<SKPoint> pathPoints, float distance, ParallelEnum location)
         {
-            int numPoints = pathPoints.Count;
-
-            SKPoint[] newPoints = new SKPoint[numPoints];
+            List<SKPoint> newPoints = GetParallelSKPoints(pathPoints, distance, location);
             SKPath newPath = new();
 
-            for (int i = 0; i < numPoints - 1; i += 2)
-            {
-                float lineAngleRadians = CalculateLineAngleRadians(pathPoints[i], pathPoints[i + 1]);
-
-                float angle = (location == ParallelEnum.Below) ? 1.570796F : -1.570796F; //(90, -90 degrees in radians)
-
-                SKPoint p1 = PointOnCircleRadians(distance, lineAngleRadians + angle, pathPoints[i]);
-                SKPoint p2 = PointOnCircleRadians(distance, lineAngleRadians + angle, pathPoints[i + 1]);
-
-                newPoints[i] = p1;
-
-                if (i > 0)
-                {
-                    newPoints[i].X = (newPoints[i - 1].X + newPoints[i].X) / 2.0F;
-                    newPoints[i].Y = (newPoints[i - 1].Y + newPoints[i].Y) / 2.0F;
-                }
-
-                newPoints[i + 1] = p2;
-            }
-
-            if (numPoints > 0)
+            if (newPoints.Count > 0)
             {
                 newPath.MoveTo(newPoints[0]);
 
-                for (int i = 1; i < numPoints; i++)
+                for (int i = 1; i < newPoints.Count; i++)
                 {
                     if (newPoints[i] != SKPoint.Empty)
                     {
@@ -1235,9 +1255,9 @@ namespace MapCreator
             return flattenedPath;
         }
 
-        internal static SKPath GetContourPath(SKPath path, int width, int height, out List<SKPoint> contourPoints)
+        internal static SKPath GetContourPathFromPath(SKPath path, int width, int height, out List<SKPoint> contourPoints)
         {
-            // create a black bitmap from the path with background pixels set to Color.Empty
+            // create a black bitmap from the path with background pixels set to Color.White
             using SKBitmap contourBitmap = new(width, height);
 
             using SKCanvas canvas = new(contourBitmap);
@@ -1299,6 +1319,35 @@ namespace MapCreator
             return contourPath;
         }
 
+        internal static SKPath GetContourPathFromBitmap(Bitmap bitmap, out List<SKPoint> contourPoints)
+        {
+            contourPoints = GetBitmapContourPoints(bitmap);
+
+            SKPath contourPath = new();
+
+            if (contourPoints.Count > 1)
+            {
+                // the Moore-Neighbor algorithm sets the first (0th) pixel in the list of contour points to
+                // an empty pixel, so remove it before constructing the path from the contour points
+                contourPoints.RemoveAt(0);
+
+                if (contourPoints.Count > 0)
+                {
+                    contourPath.MoveTo(contourPoints[0]);
+
+                    for (int i = 1; i < contourPoints.Count; i++)
+                    {
+                        contourPath.LineTo(contourPoints[i]);
+                    }
+
+                    contourPath.Close();
+                }
+            }
+
+
+            return contourPath;
+        }
+
         internal static List<SKPoint> GetBitmapContourPoints(Bitmap bitmap)
         {
             List<SKPoint> contourPoints = [];
@@ -1314,7 +1363,11 @@ namespace MapCreator
 
                     lockedBitmap.UnlockBits();
                 }
-                catch { }
+                catch (Exception e)
+                {
+                    Program.LOGGER.Error(e);
+                    MessageBox.Show(e.Message);
+                }
 
             }
 
@@ -1415,7 +1468,7 @@ namespace MapCreator
                     else
                     {
                         // error condition
-                        break;
+                        throw new Exception("An error occurred while tracing contour: E1.");
                     }
                 }
                 else
@@ -1436,7 +1489,7 @@ namespace MapCreator
                     else
                     {
                         // error condition
-                        break;
+                        throw new Exception("An error occurred while tracing contour: E2.");
                     }
                 }
             }

@@ -49,6 +49,8 @@ namespace MapCreator
             LandformType2Methods.CreateType2LandformPaths(Map, LandformType2Methods.SELECTED_LANDFORM);
 
             LandformType2Methods.ResetLandformsOnCanvas(Map);
+
+
         }
 
         public void UndoOperation()

@@ -2016,7 +2016,7 @@
             CoastStyleSelectionBox.DropDownWidth = 190;
             CoastStyleSelectionBox.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             CoastStyleSelectionBox.FormattingEnabled = true;
-            CoastStyleSelectionBox.Items.AddRange(new object[] { "None", "Irregular Blend", "Uniform Band", "Uniform Blend", "Three-Tiered", "Circular Pattern", "Dash Pattern", "Hatch Pattern", "User Defined" });
+            CoastStyleSelectionBox.Items.AddRange(new object[] { "None", "Uniform Band", "Uniform Blend", "Uniform Outline", "Three-Tiered", "Circular Pattern", "Dash Pattern", "Hatch Pattern", "User Defined" });
             CoastStyleSelectionBox.Location = new Point(4, 178);
             CoastStyleSelectionBox.Name = "CoastStyleSelectionBox";
             CoastStyleSelectionBox.Size = new Size(108, 22);
@@ -2325,7 +2325,7 @@
             // 
             FractalizeButton.AutoSize = false;
             FractalizeButton.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            FractalizeButton.IconChar = FontAwesome.Sharp.IconChar.Random;
+            FractalizeButton.IconChar = FontAwesome.Sharp.IconChar.Shuffle;
             FractalizeButton.IconColor = Color.Black;
             FractalizeButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             FractalizeButton.IconSize = 32;
@@ -2354,6 +2354,7 @@
             GenerateLandFormButton.Size = new Size(60, 60);
             GenerateLandFormButton.Text = "Generate";
             GenerateLandFormButton.TextImageRelation = TextImageRelation.TextAboveImage;
+            GenerateLandFormButton.Click += GenerateLandFormButton_Click;
             // 
             // waterPage
             // 
@@ -3634,7 +3635,7 @@
             // 
             RemovePresetButton.BackColor = SystemColors.ControlLightLight;
             RemovePresetButton.FlatStyle = FlatStyle.Flat;
-            RemovePresetButton.IconChar = FontAwesome.Sharp.IconChar.Minus;
+            RemovePresetButton.IconChar = FontAwesome.Sharp.IconChar.Subtract;
             RemovePresetButton.IconColor = Color.Black;
             RemovePresetButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             RemovePresetButton.IconSize = 24;
@@ -3648,7 +3649,7 @@
             // 
             AddPresetButton.BackColor = SystemColors.ControlLightLight;
             AddPresetButton.FlatStyle = FlatStyle.Flat;
-            AddPresetButton.IconChar = FontAwesome.Sharp.IconChar.Plus;
+            AddPresetButton.IconChar = FontAwesome.Sharp.IconChar.Add;
             AddPresetButton.IconColor = Color.Black;
             AddPresetButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             AddPresetButton.IconSize = 24;
@@ -5060,7 +5061,7 @@
             LandColorSelectButton.BackColor = SystemColors.ControlLightLight;
             LandColorSelectButton.FlatAppearance.BorderColor = SystemColors.ControlDark;
             LandColorSelectButton.FlatStyle = FlatStyle.Flat;
-            LandColorSelectButton.IconChar = FontAwesome.Sharp.IconChar.EyeDropper;
+            LandColorSelectButton.IconChar = FontAwesome.Sharp.IconChar.EyeDropperEmpty;
             LandColorSelectButton.IconColor = Color.Black;
             LandColorSelectButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             LandColorSelectButton.IconSize = 24;
@@ -5248,7 +5249,7 @@
             LandAddColorPresetButton.BackColor = SystemColors.ControlLightLight;
             LandAddColorPresetButton.FlatAppearance.BorderColor = SystemColors.ControlDark;
             LandAddColorPresetButton.FlatStyle = FlatStyle.Flat;
-            LandAddColorPresetButton.IconChar = FontAwesome.Sharp.IconChar.Plus;
+            LandAddColorPresetButton.IconChar = FontAwesome.Sharp.IconChar.Add;
             LandAddColorPresetButton.IconColor = Color.Black;
             LandAddColorPresetButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             LandAddColorPresetButton.IconSize = 24;
@@ -5593,7 +5594,7 @@
             OceanColorSelectButton.FlatAppearance.BorderColor = SystemColors.ControlDark;
             OceanColorSelectButton.FlatStyle = FlatStyle.Flat;
             OceanColorSelectButton.ForeColor = Color.LightGray;
-            OceanColorSelectButton.IconChar = FontAwesome.Sharp.IconChar.EyeDropper;
+            OceanColorSelectButton.IconChar = FontAwesome.Sharp.IconChar.EyeDropperEmpty;
             OceanColorSelectButton.IconColor = Color.Black;
             OceanColorSelectButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             OceanColorSelectButton.IconSize = 24;
@@ -5795,7 +5796,7 @@
             OceanAddColorPresetButton.FlatAppearance.BorderColor = SystemColors.ControlDark;
             OceanAddColorPresetButton.FlatStyle = FlatStyle.Flat;
             OceanAddColorPresetButton.ForeColor = Color.LightGray;
-            OceanAddColorPresetButton.IconChar = FontAwesome.Sharp.IconChar.Plus;
+            OceanAddColorPresetButton.IconChar = FontAwesome.Sharp.IconChar.Add;
             OceanAddColorPresetButton.IconColor = Color.Black;
             OceanAddColorPresetButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             OceanAddColorPresetButton.IconSize = 24;
@@ -6088,7 +6089,7 @@
             WaterColorSelectButton.BackColor = SystemColors.ControlLightLight;
             WaterColorSelectButton.FlatAppearance.BorderColor = SystemColors.ControlDarkDark;
             WaterColorSelectButton.FlatStyle = FlatStyle.Flat;
-            WaterColorSelectButton.IconChar = FontAwesome.Sharp.IconChar.EyeDropper;
+            WaterColorSelectButton.IconChar = FontAwesome.Sharp.IconChar.EyeDropperEmpty;
             WaterColorSelectButton.IconColor = Color.Black;
             WaterColorSelectButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             WaterColorSelectButton.IconSize = 24;
@@ -6250,7 +6251,7 @@
             WaterAddColorPresetButton.BackColor = SystemColors.ControlLightLight;
             WaterAddColorPresetButton.FlatAppearance.BorderColor = SystemColors.ControlDarkDark;
             WaterAddColorPresetButton.FlatStyle = FlatStyle.Flat;
-            WaterAddColorPresetButton.IconChar = FontAwesome.Sharp.IconChar.Plus;
+            WaterAddColorPresetButton.IconChar = FontAwesome.Sharp.IconChar.Add;
             WaterAddColorPresetButton.IconColor = Color.Black;
             WaterAddColorPresetButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             WaterAddColorPresetButton.IconSize = 24;
@@ -7086,7 +7087,7 @@
             ZoomToFitButton.BackColor = SystemColors.InactiveCaption;
             ZoomToFitButton.FlatAppearance.BorderColor = SystemColors.ControlLight;
             ZoomToFitButton.FlatStyle = FlatStyle.Popup;
-            ZoomToFitButton.IconChar = FontAwesome.Sharp.IconChar.ArrowsUpDownLeftRight;
+            ZoomToFitButton.IconChar = FontAwesome.Sharp.IconChar.Arrows;
             ZoomToFitButton.IconColor = Color.Black;
             ZoomToFitButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             ZoomToFitButton.IconSize = 32;

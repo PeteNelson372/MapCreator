@@ -56,7 +56,8 @@ namespace MapCreator
         public static readonly int MEASURELAYER = 21;
         public static readonly int DRAWINGLAYER = 22;
         public static readonly int VIGNETTELAYER = 23;
-        public static readonly int WORKLAYER = 24;
+        public static readonly int SELECTIONLAYER = 24;
+        public static readonly int WORKLAYER = 25;
 
         public static readonly int MAP_LAYER_COUNT = WORKLAYER + 1;
 
@@ -385,6 +386,9 @@ namespace MapCreator
             map.MapLayers.Add(layer);
 
             layer = ConstructMapLayer("vignette", (ushort)VIGNETTELAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
+            map.MapLayers.Add(layer);
+
+            layer = ConstructMapLayer("selection", (ushort)SELECTIONLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);
             map.MapLayers.Add(layer);
 
             layer = ConstructMapLayer("work", (ushort)WORKLAYER, 0, 0, map.MapWidth, map.MapHeight, SKColors.Empty);

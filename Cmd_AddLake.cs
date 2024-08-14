@@ -49,7 +49,7 @@ namespace MapCreator
             else
             {
                 WaterFeatureMethods.AddNewPaintedWaterFeatureToWaterFeatureList();
-                SKPath lakePath = MapDrawingMethods.GenerateRandomLakePath(LakePoint, BrushRadius);
+                SKPath lakePath = MapDrawingMethods.GenerateRandomLakePath2(LakePoint, BrushRadius);
 
                 WaterFeatureMethods.WATER_LAYER_DRAW_PATH.AddPath(lakePath);
 

@@ -51,7 +51,7 @@
             logoPictureBox.Location = new Point(11, 3);
             logoPictureBox.Margin = new Padding(4, 3, 4, 3);
             logoPictureBox.Name = "logoPictureBox";
-            logoPictureBox.Size = new Size(170, 170);
+            logoPictureBox.Size = new Size(170, 134);
             logoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             logoPictureBox.TabIndex = 26;
             logoPictureBox.TabStop = false;

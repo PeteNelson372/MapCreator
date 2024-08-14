@@ -50,13 +50,18 @@ namespace MapCreator
         {
             LandformType2Methods.EraseLandForm(Map);
 
+            MapBuilder.ClearLayerCanvas(Map, MapBuilder.LANDFORMLAYER);
+            MapBuilder.ClearLayerCanvas(Map, MapBuilder.LANDCOASTLINELAYER);
+
             foreach (MapLandformType2 lf in LandformType2Methods.LANDFORM_LIST)
             {
                 lf.LandformContourPath.Dispose();
                 LandformType2Methods.CreateType2LandformPaths(Map, lf);
-            }
 
-            LandformType2Methods.LAND_LAYER_ERASER_PATH.Reset();
+                lf.DrawLandform = true;
+                LandformType2Methods.DrawLandform(Map, lf);
+                lf.DrawLandform = false;
+            }
         }
 
         public void UndoOperation()
