@@ -23,6 +23,7 @@
 ***************************************************************************************************************************/
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
+using System.Reflection;
 
 namespace MapCreator
 {
@@ -163,6 +164,16 @@ namespace MapCreator
             return SELECTED_LANDFORM;
         }
 
+        internal static MapLandformType2 GetNewLandform(MapCreatorMap map)
+        {
+            MapLandformType2 newLandform = new()
+            {
+                ParentMap = map
+            };
+
+            return newLandform;
+        }
+
         public static void ResetLandCanvases(MapCreatorMap map)
         {
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDFORMLAYER)?.Clear(SKColor.Empty);
@@ -215,9 +226,16 @@ namespace MapCreator
                             MapLandformType2 dstLandform = LANDFORM_LIST[i];
 
                             MergeLandformData(ref dstLandform, LANDFORM_LIST[j]);
-
+                                                        
                             LANDFORM_LIST[i] = dstLandform;
                             LANDFORM_LIST.RemoveAt(j);
+
+                            if (LANDFORM_LIST[i].ParentMap != null)
+                            {
+#pragma warning disable CS8604 // Possible null reference argument.
+                                ResetLandformsOnCanvas(LANDFORM_LIST[i].ParentMap);
+#pragma warning restore CS8604 // Possible null reference argument.
+                            }
                         }
                     }
                 }

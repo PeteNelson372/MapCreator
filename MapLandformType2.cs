@@ -50,6 +50,8 @@ namespace MapCreator
         private string? coastlineHatchBlendMode = string.Empty;
         private bool paintCoastlineGradient = true;
 
+        private GeneratedMapData? generatedMapData = null;
+
         private List<SKPoint> landformContourPoints = [];
 
         public MapCreatorMap? ParentMap { get { return parentMap; } set { parentMap = value; } }
@@ -213,6 +215,12 @@ namespace MapCreator
                 landformContourPoints = value;
                 drawLandform = true;
             }
+        }
+
+        public GeneratedMapData? GenMapData
+        {
+            get { return generatedMapData; }
+            set { generatedMapData = value; }
         }
 
         // inner paths are used to paint the gradient shading around the inside of the landform

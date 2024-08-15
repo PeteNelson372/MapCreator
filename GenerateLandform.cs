@@ -1,33 +1,53 @@
 ﻿using AForge;
-using AForge.Imaging;
 using AForge.Imaging.Filters;
 using DelaunatorSharp;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
-using System.Drawing;
 using System.Drawing.Imaging;
 
 namespace MapCreator
 {
     public partial class GenerateLandform : Form
     {
-        private MapCreatorMap Map;
+        public event EventHandler LandformGenerated;
+
+        private MapCreatorMap? Map {  get; set; }
+        private MapLandformType2? NewLandform {  get; set; }
+
+        private GeneratedLandformTypeEnum SelectedLandformType = GeneratedLandformTypeEnum.Random;
 
         internal GeneratedMapData LandformData { get; set; } = new();
 
-        public GenerateLandform(MapCreatorMap map)
+        public GenerateLandform()
         {
             InitializeComponent();
+
+            GenLandformSplitContainer.SplitterDistance = 530;
+        }
+
+        public void Initialize(MapCreatorMap map, MapLandformType2 newLandform)
+        {
             Map = map;
+            NewLandform = newLandform;
+
             LandformData.MapWidth = Map.MapWidth;
             LandformData.MapHeight = Map.MapHeight;
             LandformData.GridSize = (int)GridSizeUpDown.Value;
             LandformData.SeaLevel = (float)SeaLevelUpDown.Value;
         }
 
+        protected virtual void OnLandformGenerated(EventArgs e)
+        {
+            EventHandler eventHandler = LandformGenerated;
+            if (eventHandler != null)
+            {
+                eventHandler(this, e);
+            }
+        }
+
         private void CloseButton_Click(object sender, EventArgs e)
         {
-            Close();
+            Hide();
         }
 
         private void GeneratePointsButton_Click(object sender, EventArgs e)
@@ -60,7 +80,11 @@ namespace MapCreator
             float interpolationWeight = (float)LerpWeightUpDown.Value;
             string distanceFunction = DistanceFunctionUpDown.Text;
 
-            List<Tuple<int, float, VoronoiCell>> cellsWithHeight = MapGenerator.AssignHeightToVoronoiCells(LandformData, noiseScale, interpolationWeight, distanceFunction);
+            LandformData.NoiseScale = noiseScale;
+            LandformData.InterpolationWeight = interpolationWeight;
+            LandformData.DistanceFunction = distanceFunction;
+
+            List<Tuple<int, float, VoronoiCell>> cellsWithHeight = MapGenerator.AssignHeightToVoronoiCells(LandformData);
             LandformData.CellsWithHeight = cellsWithHeight;
 
             Bitmap b = MapGenerator.GetVoronoiCellsWithHeightBitmap(LandformData);
@@ -143,7 +167,7 @@ namespace MapCreator
             }
         }
 
-        private void DrawLandformBoundary()
+        private void DrawLandformBoundary(bool scaleToFit = false)
         {
             if (LandformData.LandformContourPath != null && LandformData.RotatedScaledBitmap != null)
             {
@@ -162,12 +186,27 @@ namespace MapCreator
                     PathEffect = pe,
                 };
 
-                using SKBitmap b = new(LandformData.RotatedScaledBitmap.Width, LandformData.RotatedScaledBitmap.Height);
-                using SKCanvas canvas = new(b);
+
+                using SKBitmap skb = new(LandformData.MapWidth, LandformData.MapHeight);
+                using SKCanvas canvas = new(skb);
 
                 canvas.DrawPath(LandformData.LandformContourPath, contourPaint);
 
-                LandformPictureBox.Image = b.ToBitmap();
+                Bitmap b = skb.ToBitmap();
+
+                if (scaleToFit)
+                {
+                    float horizontalScalingFactor = (float)LandformPictureBox.Width / LandformData.MapWidth;
+                    float verticalScalingFactor = (float)LandformPictureBox.Height / LandformData.MapHeight;
+
+                    Bitmap resized = new Bitmap(b, new Size((int)(b.Width * horizontalScalingFactor), (int)(b.Height * verticalScalingFactor)));
+
+                    b.Dispose();
+                    b = new(resized);
+                }
+
+                LandformPictureBox.Image = b;
+
                 LandformPictureBox.Refresh();
             }
         }
@@ -273,10 +312,177 @@ namespace MapCreator
                 if (lf32bpp != null)
                 {
                     LandformData.RotatedScaledBitmap = lf32bpp;
-                
+
                     LandformPictureBox.Image = lf32bpp;
                     LandformPictureBox.Refresh();
-                }                
+                }
+            }
+        }
+
+        private void ShowHideAdvancedButton_Click(object sender, EventArgs e)
+        {
+            if (GenLandformSplitContainer.SplitterDistance < GenLandformSplitContainer.Size.Height / 2)
+            {
+                GenLandformSplitContainer.SplitterDistance = GenLandformSplitContainer.Size.Height - GenLandformSplitContainer.Panel2MinSize;
+            }
+            else
+            {
+                GenLandformSplitContainer.SplitterDistance = GenLandformSplitContainer.Panel1MinSize;
+            }
+        }
+
+        private void GenerateLandformButton_Click(object sender, EventArgs e)
+        {
+            switch (SelectedLandformType)
+            {
+                case GeneratedLandformTypeEnum.Random:
+                    GenerateRandomLandform();
+                    break;
+                case GeneratedLandformTypeEnum.Continent:
+
+                    break;
+
+                case GeneratedLandformTypeEnum.Atoll:
+
+                    break;
+
+                case GeneratedLandformTypeEnum.Archipelago:
+
+                    break;
+
+                case GeneratedLandformTypeEnum.World:
+
+                    break;
+
+                case GeneratedLandformTypeEnum.Equirectangular:
+
+                    break;
+
+                default:
+
+                    break;
+            }
+        }
+
+        private void GenerateRandomLandform()
+        {
+            int tryCount = 0;
+
+            while (LandformData.LandformContourPath == null
+                || LandformData.LandformContourPath.PointCount < 100
+                || LandformData.LandformContourPath.GetOvalBounds().Width < 100
+                || LandformData.RotatedScaledBitmap == null
+                || LandformData.RotatedScaledBitmap.Width < 100
+                || LandformData.RotatedScaledBitmap.Height < 100)
+            {
+                LandformData = new()
+                {
+                    MapWidth = Map.MapWidth,
+                    MapHeight = Map.MapHeight,
+                    GridSize = 25
+                };
+
+                RandomizeLandformData();
+                MapGenerator.GenerateLandform(LandformData);
+
+                tryCount++;
+
+                if (tryCount > 20) break;
+            }
+
+            DrawLandformBoundary(true);
+        }
+
+        private void RandomizeLandformData()
+        {
+            LandformData.SeaLevel = 0.5F;
+            float noiseScale = (float)Random.Shared.NextDouble();
+            LandformData.NoiseScale = noiseScale;
+
+            float interpolationWeight = (float)Random.Shared.NextDouble();
+            LandformData.InterpolationWeight = interpolationWeight;
+
+            int distanceFunctionIdx = Random.Shared.Next(0, DistanceFunctionUpDown.Items.Count);
+
+            //string? distanceFunction = (string?)DistanceFunctionUpDown.Items[distanceFunctionIdx];
+
+            string? distanceFunction = (string?)DistanceFunctionUpDown.Items[0];
+
+            if (!string.IsNullOrEmpty(distanceFunction))
+            {
+                LandformData.DistanceFunction = distanceFunction;
+            }
+        }
+
+        private void RandomLandformRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RandomLandformRadio.Checked)
+            {
+                SelectedLandformType = GeneratedLandformTypeEnum.Random;
+            }
+        }
+
+        private void ContinentRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ContinentRadio.Checked)
+            {
+                SelectedLandformType = GeneratedLandformTypeEnum.Continent;
+            }
+        }
+
+        private void ArchipelagoRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ArchipelagoRadio.Checked)
+            {
+                SelectedLandformType = GeneratedLandformTypeEnum.Archipelago;
+            }
+        }
+
+        private void AtollRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (AtollRadio.Checked)
+            {
+                SelectedLandformType = GeneratedLandformTypeEnum.Atoll;
+            }
+        }
+
+        private void WorldRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (WorldRadio.Checked)
+            {
+                SelectedLandformType = GeneratedLandformTypeEnum.World;
+            }
+        }
+
+        private void EquirectangularRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (EquirectangularRadio.Checked)
+            {
+                SelectedLandformType = GeneratedLandformTypeEnum.Equirectangular;
+            }
+        }
+
+        private void PlaceLandformButton_Click(object sender, EventArgs e)
+        {
+            if (LandformData.LandformContourPath != null && LandformData.LandformContourPath.PointCount > 0
+                && NewLandform != null && Map != null)
+            {
+                NewLandform.GenMapData = LandformData;
+                NewLandform.LandformPath = LandformData.LandformContourPath;
+
+                LandformType2Methods.CreateType2LandformPaths(Map, NewLandform);
+
+                MapBuilder.GetMapLayerByIndex(Map, MapBuilder.LANDFORMLAYER).MapLayerComponents.Add(NewLandform);
+                LandformType2Methods.LANDFORM_LIST.Add(NewLandform);
+
+                // TODO: merging generated landforms isn't working
+                LandformType2Methods.MergeLandforms();
+
+                LandformType2Methods.SELECTED_LANDFORM = NewLandform;
+
+                // TODO: undo/redo
+
+                OnLandformGenerated(EventArgs.Empty);
             }
         }
     }

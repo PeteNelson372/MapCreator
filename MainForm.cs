@@ -98,7 +98,8 @@ namespace MapCreator
             WorkerSupportsCancellation = true
         };
 
-        private NameGeneratorSettings NAME_GENERATOR_SETTINGS_DIALOG = new NameGeneratorSettings();
+        private NameGeneratorSettings NAME_GENERATOR_SETTINGS_DIALOG = new();
+        private GenerateLandform GENERATE_LANDFORM_DIALOG;
 
         private TextBox? LABEL_TEXT_BOX;
 
@@ -1186,7 +1187,8 @@ namespace MapCreator
                     NAME_GENERATOR_SETTINGS_DIALOG.LanguagesCheckedList.SetItemChecked(i, true);
                 }
 
-
+                GENERATE_LANDFORM_DIALOG = new();
+                GENERATE_LANDFORM_DIALOG.LandformGenerated += new EventHandler(GenerateLandform_LandformGenerated);
 
                 // construct MapBitmap and other map objects
                 InitializeMap(CURRENT_MAP);
@@ -1294,6 +1296,14 @@ namespace MapCreator
                         LABEL_TEXT_BOX.Refresh();
                     }
                 }
+            }
+        }
+
+        void GenerateLandform_LandformGenerated(object? sender, EventArgs e)
+        {
+            if (sender is GenerateLandform gl)
+            {
+                MapImageBox.Refresh();
             }
         }
 
@@ -3688,8 +3698,14 @@ namespace MapCreator
 
         private void GenerateLandFormButton_Click(object sender, EventArgs e)
         {
-            GenerateLandform generateLandformDialog = new(CURRENT_MAP);
-            generateLandformDialog.Show();
+            MapLandformType2 newLandform = LandformType2Methods.GetNewLandform(CURRENT_MAP);
+
+            SetLandformData(newLandform);
+            newLandform.LandformPath.Reset();
+
+            GENERATE_LANDFORM_DIALOG.Initialize(CURRENT_MAP, newLandform);
+
+            GENERATE_LANDFORM_DIALOG.Show();
         }
 
         private void FxDistanceTrack_ValueChanged(object sender, EventArgs e)

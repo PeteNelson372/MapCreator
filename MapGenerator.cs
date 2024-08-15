@@ -1,6 +1,8 @@
-﻿using AForge.Imaging;
+﻿using AForge;
+using AForge.Imaging;
 using AForge.Imaging.Filters;
 using DelaunatorSharp;
+using SkiaSharp;
 using System.Drawing.Imaging;
 using Point = DelaunatorSharp.Point;
 
@@ -22,42 +24,90 @@ namespace MapCreator
 
         public MapGenerator() { }
 
-        /*
-        public static SKBitmap GenerateMapOutline(int width, int height, int gridSize)
+
+        public static void GenerateLandform(GeneratedMapData LandformData)
         {
-            // make the initial bitmap 10% larger than final size so edges can be clipped
-            //SKBitmap mapOutlineExpanded = new((int)(width * 1.1F), (int)(height * 1.1F));
-            //SKBitmap mapOutline = new(width, height);
+            List<IPoint> landformPoints = GenerateRandomLandformPoints(LandformData.MapWidth, LandformData.MapHeight, LandformData.GridSize);
 
-            //List<IPoint> mapOutlinePoints = SeedMapOutlinePoints(mapOutlineExpanded, gridSize);
+            LandformData.MapPoints = landformPoints;
 
-            // generate and save bitmap for debugging
-            //SaveDebugPointsBitmap(width, height, mapOutlinePoints);
+            GenerateVoronoiCells(LandformData);
 
-            //Delaunator delaunator = new([.. mapOutlinePoints]);
+            if (LandformData.DistanceFunction != null)
+            {
+                List<Tuple<int, float, VoronoiCell>> cellsWithHeight = AssignHeightToVoronoiCells(LandformData);
 
-            //GeneratedMapData mapData = new()
-            //{
-            //    MapWidth = width,
-            //    MapHeight = height,
-            //    GridSize = gridSize,
-            //    MapPoints = mapOutlinePoints,
-            //    MapDelaunator = delaunator
-            //};
+                LandformData.CellsWithHeight = cellsWithHeight;
 
-            //SaveDebugTriangeEdgeBitmap(width, height, mapData);
+                Bitmap cellBitmap = GetVoronoiCellsWithHeightBitmap(LandformData);
 
-            //SaveDebugVoronoiCellBitmap(width, height, mapData);
+                // once heights are assigned, subsequent operations are performed on the bitmap,
+                // rather than the voronoi cells
+                // (except if further processing is done for automatic coloring - maybe future functionality)
 
-            // assign height to voronoi cells
-            // tuple values are integer cell index, float cell height, voronoi cell
-            //List<Tuple<int, float, VoronoiCell>> cellsWithHeight = AssignHeightToVoronoiCells(mapData);
+                LandformData.OriginalBitmap = cellBitmap;
+                LandformData.ScaledBitmap = cellBitmap;
 
-            //SaveDebugVoronoiCellWithHeightBitmap(mapData, cellsWithHeight);
+                if (LandformData.ScaledBitmap != null)
+                {
+                    Bitmap filledB = FillHoles(LandformData.ScaledBitmap);
 
-            //return mapOutline;
+                    Bitmap? landformBitmap = ExtractLargestBlob(filledB);
+
+                    if (landformBitmap != null)
+                    {
+                        Bitmap newBitmap = new(LandformData.MapWidth, LandformData.MapHeight);
+                        Graphics g = Graphics.FromImage(newBitmap);
+                        g.DrawImageUnscaled(landformBitmap, 0, 0);
+
+                        LandformData.ScaledBitmap = newBitmap;
+                        LandformData.RotatedScaledBitmap = newBitmap;
+
+                        g.Dispose();
+                    }
+
+
+                    if (LandformData.RotatedScaledBitmap != null)
+                    {
+                        // convert the bitmap to an 8bpp grayscale image for processing
+                        if (LandformData.RotatedScaledBitmap.PixelFormat != PixelFormat.Format8bppIndexed)
+                        {
+                            // convert the bitmap to an 8bpp grayscale image for processing
+                            Bitmap newB = Grayscale.CommonAlgorithms.BT709.Apply(LandformData.RotatedScaledBitmap);
+                            LandformData.RotatedScaledBitmap = newB;
+                        }
+
+                        SobelEdgeDetector filter = new();
+                        // apply the filter
+                        Bitmap b = filter.Apply(LandformData.RotatedScaledBitmap);
+
+                        Invert invert = new();
+                        Bitmap invertedBitmap = invert.Apply(b);
+
+                        // create filter
+                        PointedColorFloodFill f2 = new()
+                        {
+                            // configure the filter
+                            Tolerance = Color.FromArgb(32, 32, 32),
+                            FillColor = Color.Black,
+                            StartingPoint = new IntPoint(LandformData.RotatedScaledBitmap.Width / 2, LandformData.RotatedScaledBitmap.Height / 2)
+                        };
+
+                        // apply the filter
+                        f2.ApplyInPlace(invertedBitmap);
+
+                        Bitmap lf32bpp = new(invertedBitmap.Width, invertedBitmap.Height, PixelFormat.Format32bppArgb);
+                        using Graphics g = Graphics.FromImage(lf32bpp);
+                        g.Clear(Color.White);
+                        g.DrawImage(invertedBitmap, 0, 0);
+
+                        SKPath contourPath = MapDrawingMethods.GetContourPathFromBitmap(lf32bpp, out List<SKPoint> contourPoints);
+                        LandformData.LandformContourPath = contourPath;
+                    }
+                }
+            }
         }
-        */
+
 
         public static List<IPoint> GenerateRandomLandformPoints(int width, int height, int gridSize)
         {
@@ -235,11 +285,11 @@ namespace MapCreator
             return b;
         }
 
-        public static List<Tuple<int, float, VoronoiCell>> AssignHeightToVoronoiCells(GeneratedMapData mapData, float noiseScale, float interpolationWeight, string distanceFunction)
+        public static List<Tuple<int, float, VoronoiCell>> AssignHeightToVoronoiCells(GeneratedMapData mapData)
         {
             List<Tuple<int, float, VoronoiCell>> cellsWithHeight = [];
 
-            float[,] noiseMap = SimplexNoise.Noise.Calc2D(mapData.MapWidth, mapData.MapHeight, noiseScale);
+            float[,] noiseMap = SimplexNoise.Noise.Calc2D(mapData.MapWidth, mapData.MapHeight, mapData.NoiseScale);
 
             if (mapData.MapDelaunator != null)
             {
@@ -262,7 +312,7 @@ namespace MapCreator
                             double noiseHeight = noiseMap[(int)centroid.X, (int)centroid.Y] / 256.0F;
                             float distance = 0.0F;
 
-                            switch (distanceFunction)
+                            switch (mapData.DistanceFunction)
                             {
                                 case "Distance Squared":
                                     distance = (float)(nx * nx + ny * ny);
@@ -277,20 +327,15 @@ namespace MapCreator
                                     double k = 0.2;
                                     distance = (float)((Math.Sqrt(nx * nx + ny * ny + k * k) - k) / (Math.Sqrt(1.0 + k * k) - k));
                                     break;
-                                case "Trigonometric Product":
-                                    // TODO: fix this to invert colors
+                                case "Trigonometric Product":                                    
                                     distance = (float)(Math.Sin(nx * Math.PI) * Math.Sin(ny * Math.PI));
                                     break;
                                 case "Squircle":
                                     distance = (float)(Math.Sqrt(Math.Pow(nx, 4) + Math.Pow(ny, 4)));
                                     break;
-                                case "Smooth Minimum":
-                                    double m = 0.2;
-                                    distance = (float)(1.0 + smin(smin(nx, -nx, m), smin(ny, -ny, m), m));
-                                    break;
                             }
 
-                            noiseHeight = double.Lerp(noiseHeight, distance, interpolationWeight);
+                            noiseHeight = double.Lerp(noiseHeight, distance, mapData.InterpolationWeight);
 
                             Tuple<int, float, VoronoiCell> t = new(cell.Index, (float)noiseHeight, cell);
                             cellsWithHeight.Add(t);

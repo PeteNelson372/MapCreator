@@ -1366,7 +1366,6 @@ namespace MapCreator
                 catch (Exception e)
                 {
                     Program.LOGGER.Error(e);
-                    MessageBox.Show(e.Message);
                 }
 
             }

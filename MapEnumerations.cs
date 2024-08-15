@@ -158,4 +158,14 @@ namespace MapCreator
         EveryOther,
         All
     }
+
+    public enum GeneratedLandformTypeEnum
+    {
+        Random,
+        Continent,
+        Atoll,
+        Archipelago,
+        World,
+        Equirectangular
+    }
 }
