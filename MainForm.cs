@@ -79,6 +79,8 @@ namespace MapCreator
         private MapMeasure? UIMapMeasure = null;
         private MapRegion? UIMapRegion = null;
 
+        public SKRect? UISelectedLandformArea = null;
+
         private Cmd_ColorOcean COLOR_OCEAN_COMMAND;
         private Cmd_EraseOceanColor ERASE_OCEAN_COLOR_COMMAND;
 
@@ -90,16 +92,16 @@ namespace MapCreator
         private Cmd_ColorPaintedWaterFeature COLOR_WATERFEATURE_COMMAND;
         private Cmd_EraseWaterFeatureColor ERASE_WATERFEATURE_COLOR_COMMAND;
 
-        private AppSplashScreen SPLASH_SCREEN;
+        private readonly AppSplashScreen SPLASH_SCREEN;
 
-        BackgroundWorker CURSOR_POSITION_WORKER = new BackgroundWorker
+        private readonly BackgroundWorker CURSOR_POSITION_WORKER = new()
         {
             WorkerReportsProgress = true,
             WorkerSupportsCancellation = true
         };
 
-        private NameGeneratorSettings NAME_GENERATOR_SETTINGS_DIALOG = new();
-        private GenerateLandform GENERATE_LANDFORM_DIALOG;
+        private readonly NameGeneratorSettings NAME_GENERATOR_SETTINGS_DIALOG = new();
+        private GenerateLandform? GENERATE_LANDFORM_DIALOG;
 
         private TextBox? LABEL_TEXT_BOX;
 
@@ -156,6 +158,7 @@ namespace MapCreator
             DRAWING_MODE_BUTTONS.Add(LandformSelectButton);
             DRAWING_MODE_BUTTONS.Add(LandformPaintButton);
             DRAWING_MODE_BUTTONS.Add(LandEraseButton);
+            DRAWING_MODE_BUTTONS.Add(SelectLandformAreaButton);
             DRAWING_MODE_BUTTONS.Add(LandColorButton);
             DRAWING_MODE_BUTTONS.Add(LandColorEraseButton);
             DRAWING_MODE_BUTTONS.Add(LandColorSelectButton);
@@ -187,7 +190,7 @@ namespace MapCreator
 
             if (MAP_SURFACE == null)
             {
-                MessageBox.Show(this, "Could not create map graphics surface. Exiting.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Could not create map graphics surface. Exiting.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 Application.Exit();
             }
 
@@ -669,9 +672,7 @@ namespace MapCreator
 #pragma warning disable CS8601 // Possible null reference assignment.
 #pragma warning disable CS8604 // Possible null reference argument.
 
-                TopMost = true;
-                MessageBox.Show(this, "An error has occurred while opening the map. The map file may be corrupt.", "Error Loading Map", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                TopMost = false;
+                MessageBox.Show("An error has occurred while opening the map. The map file may be corrupt.", "Error Loading Map", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                 CURRENT_MAP = MapBuilder.CreateMap("", "DEFAULT", MapBuilder.MAP_DEFAULT_WIDTH, MapBuilder.MAP_DEFAULT_HEIGHT);
 
@@ -743,9 +744,7 @@ namespace MapCreator
                     catch (Exception ex)
                     {
                         Program.LOGGER.Error(ex);
-                        TopMost = true;
-                        MessageBox.Show(this, "An error has occurred while saving the map. The map file map be corrupted.", "Map Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        TopMost = false;
+                        MessageBox.Show("An error has occurred while saving the map. The map file map be corrupted.", "Map Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                     }
                 }
             }
@@ -1004,6 +1003,9 @@ namespace MapCreator
                 case DrawingModeEnum.RegionSelect:
                     modeText += "Select Region";
                     break;
+                case DrawingModeEnum.LandformAreaSelect:
+                    modeText += "Select Landform Area";
+                    break;
                 default:
                     modeText += "Undefined";
                     break;
@@ -1238,7 +1240,7 @@ namespace MapCreator
             {
                 TopMost = true;
                 DialogResult result =
-                    MessageBox.Show(this, "The map has not been saved. Do you want to save the map?", "Exit Application", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                    MessageBox.Show("The map has not been saved. Do you want to save the map?", "Exit Application", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                 if (result == DialogResult.Yes)
                 {
@@ -1304,6 +1306,9 @@ namespace MapCreator
             if (sender is GenerateLandform gl)
             {
                 MapImageBox.Refresh();
+                gl.Hide();
+                UISelectedLandformArea = null;
+                MapBuilder.ClearLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER);
             }
         }
 
@@ -1355,7 +1360,7 @@ namespace MapCreator
                 TopMost = true;
 
                 DialogResult result =
-                    MessageBox.Show(this, "The map has not been saved. Do you want to save the map?", "Exit Application", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                    MessageBox.Show("The map has not been saved. Do you want to save the map?", "Exit Application", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                 if (result == DialogResult.Yes)
                 {
@@ -1476,11 +1481,11 @@ namespace MapCreator
                 try
                 {
                     exportBitmap.Save(filename);
-                    MessageBox.Show(this, "Map exported to " + ofd.FileName, "Map Exported", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Map exported to " + ofd.FileName, "Map Exported", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 }
                 catch
                 {
-                    MessageBox.Show(this, "Failed to export map to " + ofd.FileName, "Export Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to export map to " + ofd.FileName, "Export Failed", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 }
             }
 
@@ -1527,7 +1532,7 @@ namespace MapCreator
         {
             // reload assets (textures, symbols, etc.) from files
             LoadAllAssets();
-            MessageBox.Show(this, "All assets reloaded", "Assets Reloaded.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("All assets reloaded", "Assets Reloaded.", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
         }
 
         private void SelectToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3601,9 +3606,7 @@ namespace MapCreator
             {
                 if (LandformType2Methods.LANDFORM_LIST.Count > 0)
                 {
-                    TopMost = true;
-                    MessageBox.Show(this, "Landforms have already been drawn. Please clear them before filling the map.", "Landforms Already Drawn", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    TopMost = false;
+                    MessageBox.Show("Landforms have already been drawn. Please clear them before filling the map.", "Landforms Already Drawn", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 }
                 else
                 {
@@ -3619,24 +3622,19 @@ namespace MapCreator
             }
             else
             {
-                TopMost = true;
-                MessageBox.Show(this, "Please select a landform texture.", "Select Texture", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                TopMost = false;
+                MessageBox.Show("Please select a landform texture.", "Select Texture", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             }
         }
 
         private void LandClearButton_Click(object sender, EventArgs e)
         {
             LandformSelectButton.Checked = false;
-
-            TopMost = true;
-            DialogResult confirmResult = MessageBox.Show(this, "This action will clear all landform drawing and any drawn landforms.\nPlease confirm.", "Clear All?", MessageBoxButtons.OKCancel);
+            DialogResult confirmResult = MessageBox.Show("This action will clear all landform drawing and any drawn landforms.\nPlease confirm.", "Clear All?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
             if (confirmResult != DialogResult.OK)
             {
                 return;
             }
-            TopMost = false;
 
             SetDrawingMode(DrawingModeEnum.None, sender);
 
@@ -3663,8 +3661,8 @@ namespace MapCreator
 
         private void FractalizeButton_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show(this, "The coastline of the selected landform will be randomized. This operation cannot be undone. Continue?",
-                "Randomize Selected Landform?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("The coastline of the selected landform will be randomized. This operation cannot be undone. Continue?",
+                "Randomize Selected Landform?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
             if (result == DialogResult.Yes)
             {
@@ -3698,14 +3696,17 @@ namespace MapCreator
 
         private void GenerateLandFormButton_Click(object sender, EventArgs e)
         {
-            MapLandformType2 newLandform = LandformType2Methods.GetNewLandform(CURRENT_MAP);
+            if (GENERATE_LANDFORM_DIALOG != null)
+            {
+                MapLandformType2 newLandform = LandformType2Methods.GetNewLandform(CURRENT_MAP);
 
-            SetLandformData(newLandform);
-            newLandform.LandformPath.Reset();
+                SetLandformData(newLandform);
+                newLandform.LandformPath.Reset();
 
-            GENERATE_LANDFORM_DIALOG.Initialize(CURRENT_MAP, newLandform);
+                GENERATE_LANDFORM_DIALOG.Initialize(CURRENT_MAP, newLandform, UISelectedLandformArea);
 
-            GENERATE_LANDFORM_DIALOG.Show();
+                GENERATE_LANDFORM_DIALOG.Show();
+            }
         }
 
         private void FxDistanceTrack_ValueChanged(object sender, EventArgs e)
@@ -3979,6 +3980,11 @@ namespace MapCreator
         private void LandformSelectButton_Click(object sender, EventArgs e)
         {
             SetDrawingMode(DrawingModeEnum.LandformSelect, sender);
+        }
+
+        private void SelectLandformAreaButton_Click(object sender, EventArgs e)
+        {
+            SetDrawingMode(DrawingModeEnum.LandformAreaSelect, sender);
         }
 
         private void ShowLandLayerCheck_CheckedChanged(object sender, EventArgs e)
@@ -5720,7 +5726,7 @@ namespace MapCreator
                     }
                     else
                     {
-                        DialogResult r = MessageBox.Show(this, "A label preset named " + presetName + " for theme " + currentThemeName + " already exists. Replace it?", "Replace Preset", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult r = MessageBox.Show("A label preset named " + presetName + " for theme " + currentThemeName + " already exists. Replace it?", "Replace Preset", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                         if (r == DialogResult.No)
                         {
                             makeNewPreset = false;
@@ -5793,19 +5799,21 @@ namespace MapCreator
                         {
                             if (File.Exists(existingPreset.PresetXmlFilePath))
                             {
-                                DialogResult r = MessageBox.Show(this, "The label preset named " + presetName + " for theme " + currentThemeName + " will be deleted. Continue?", "Delete Label Preset", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                DialogResult r = MessageBox.Show("The label preset named " + presetName + " for theme " + currentThemeName + " will be deleted. Continue?", "Delete Label Preset",
+                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+
                                 if (r == DialogResult.Yes)
                                 {
                                     try
                                     {
                                         File.Delete(existingPreset.PresetXmlFilePath);
                                         LoadAllAssets();
-                                        MessageBox.Show(this, "The label preset has been deleted.", "Preset Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        MessageBox.Show("The label preset has been deleted.", "Preset Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                                     }
                                     catch (Exception ex)
                                     {
                                         Program.LOGGER.Error(ex);
-                                        MessageBox.Show(this, "The label preset could not be deleted.", "Preset Not Deleted", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        MessageBox.Show("The label preset could not be deleted.", "Preset Not Deleted", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                                     }
                                 }
                             }
@@ -5813,7 +5821,7 @@ namespace MapCreator
                     }
                     else
                     {
-                        MessageBox.Show(this, "The selected label preset cannot be deleted.", "Preset Not Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("The selected label preset cannot be deleted.", "Preset Not Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                     }
                 }
             }
@@ -7691,8 +7699,7 @@ namespace MapCreator
                 {
                     if (landformList[i].IsSelected)
                     {
-                        TopMost = true;
-                        DialogResult result = MessageBox.Show(this, "Are you sure you want to deleted the selected landform?", "Confirm Deletion", MessageBoxButtons.YesNo);
+                        DialogResult result = MessageBox.Show("Are you sure you want to delete the selected landform?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                         if (result == DialogResult.Yes)
                         {
@@ -7705,8 +7712,6 @@ namespace MapCreator
                             CURRENT_MAP.IsSaved = false;
                         }
 
-                        TopMost = false;
-
                         break;
                     }
                 }
@@ -7716,8 +7721,7 @@ namespace MapCreator
                 {
                     if (waterFeatureList[i].IsSelected)
                     {
-                        TopMost = true;
-                        DialogResult result = MessageBox.Show(this, "Are you sure you want to deleted the selected water feature?", "Confirm Deletion", MessageBoxButtons.YesNo);
+                        DialogResult result = MessageBox.Show("Are you sure you want to deleted the selected water feature?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                         if (result == DialogResult.Yes)
                         {
@@ -7728,7 +7732,6 @@ namespace MapCreator
 
                             CURRENT_MAP.IsSaved = false;
                         }
-                        TopMost = false;
 
                         break;
                     }
@@ -7739,8 +7742,7 @@ namespace MapCreator
                 {
                     if (riverList[i].IsSelected)
                     {
-                        TopMost = true;
-                        DialogResult result = MessageBox.Show(this, "Are you sure you want to deleted the selected river?", "Confirm Deletion", MessageBoxButtons.YesNo);
+                        DialogResult result = MessageBox.Show("Are you sure you want to deleted the selected river?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                         if (result == DialogResult.Yes)
                         {
@@ -7751,7 +7753,6 @@ namespace MapCreator
 
                             CURRENT_MAP.IsSaved = false;
                         }
-                        TopMost = false;
 
                         break;
                     }
@@ -7762,8 +7763,7 @@ namespace MapCreator
                 {
                     if (mapPathList[i].IsSelected)
                     {
-                        TopMost = true;
-                        DialogResult result = MessageBox.Show(this, "Are you sure you want to deleted the selected path?", "Confirm Deletion", MessageBoxButtons.YesNo);
+                        DialogResult result = MessageBox.Show("Are you sure you want to deleted the selected path?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                         if (result == DialogResult.Yes)
                         {
@@ -7775,7 +7775,6 @@ namespace MapCreator
 
                             CURRENT_MAP.IsSaved = false;
                         }
-                        TopMost = false;
 
                         break;
                     }
@@ -7863,6 +7862,14 @@ namespace MapCreator
 
                     CURRENT_MAP.IsSaved = false;
                 }
+            }
+
+            if (e.KeyCode == Keys.Escape)
+            {
+                // cancel any in-progress operations
+                UISelectedLandformArea = null;
+                MapBuilder.ClearLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER);
+                MapBuilder.ClearLayerCanvas(CURRENT_MAP, MapBuilder.SELECTIONLAYER);
             }
 
             MapImageBox.Refresh();
@@ -8305,7 +8312,7 @@ namespace MapCreator
                     {
                         if (UIMapRegion != null && NEW_REGION_POINT != null)
                         {
-                            Cmd_AddMapRegionPoint cmd = new Cmd_AddMapRegionPoint(CURRENT_MAP, UIMapRegion, NEW_REGION_POINT, NEXT_REGION_POINT_INDEX);
+                            Cmd_AddMapRegionPoint cmd = new(CURRENT_MAP, UIMapRegion, NEW_REGION_POINT, NEXT_REGION_POINT_INDEX);
                             UndoManager.AddCommand(cmd);
                             cmd.DoOperation();
 
@@ -8318,6 +8325,15 @@ namespace MapCreator
                             regionOverlayCanvas.Clear();
                         }
                     }
+                    break;
+                case DrawingModeEnum.LandformAreaSelect:
+                    Cursor = Cursors.Cross;
+
+                    IMAGEBOX_CLICK_POINT.X = e.X;
+                    IMAGEBOX_CLICK_POINT.Y = e.Y;
+
+                    LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
+                    PREVIOUS_LAYER_CLICK_POINT = LAYER_CLICK_POINT;
                     break;
             }
         }
@@ -8912,6 +8928,16 @@ namespace MapCreator
                         }
                     }
                     break;
+                case DrawingModeEnum.LandformAreaSelect:
+                    IMAGEBOX_CLICK_POINT = e.Location;
+                    LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
+
+                    UISelectedLandformArea = new(PREVIOUS_LAYER_CLICK_POINT.X, PREVIOUS_LAYER_CLICK_POINT.Y, LAYER_CLICK_POINT.X, LAYER_CLICK_POINT.Y);
+
+                    MapBuilder.ClearLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER);
+                    MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER)?.DrawRect((SKRect)UISelectedLandformArea, LandformType2Methods.LANDFORM_AREA_SELECT_PAINT);
+                    
+                    break;
             }
 
             MapImageBox.Refresh();
@@ -8948,12 +8974,12 @@ namespace MapCreator
                     if (selectedWaterFeature != null && selectedWaterFeature is MapPaintedWaterFeature)
                     {
                         // TODO: info dialog for water feature
-                        MessageBox.Show(this, "selected water feature");
+                        //MessageBox.Show("selected water feature");
                     }
                     else if (selectedWaterFeature != null && selectedWaterFeature is MapRiver)
                     {
                         // TODO: info dialog for river
-                        MessageBox.Show(this, "selected river");
+                        //MessageBox.Show("selected river");
                     }
                     break;
                 case DrawingModeEnum.PathSelect:
@@ -8962,7 +8988,7 @@ namespace MapCreator
                     if (selectedPath != null)
                     {
                         // TODO: info dialog for path
-                        MessageBox.Show(this, "selected path");
+                        //MessageBox.Show("selected path");
                     }
                     break;
                 case DrawingModeEnum.SymbolSelect:
@@ -9403,9 +9429,18 @@ namespace MapCreator
                         }
                     }
                     break;
+                case DrawingModeEnum.LandformAreaSelect:
+                    IMAGEBOX_CLICK_POINT = e.Location;
+                    LAYER_CLICK_POINT = Extensions.ToSKPoint(MapImageBox.PointToImage(IMAGEBOX_CLICK_POINT));
+
+                    SKRect landAreaRect = new(PREVIOUS_LAYER_CLICK_POINT.X, PREVIOUS_LAYER_CLICK_POINT.Y, LAYER_CLICK_POINT.X, LAYER_CLICK_POINT.Y);
+
+                    MapBuilder.ClearLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER);
+                    MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER)?.DrawRect(landAreaRect, LandformType2Methods.LANDFORM_AREA_SELECT_PAINT);
+                    break;
             }
 
-            //MapImageBox.Refresh();
+
         }
 
         #endregion
@@ -9635,7 +9670,6 @@ namespace MapCreator
         }
 
         #endregion
-
 
     }
 }

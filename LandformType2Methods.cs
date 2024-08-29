@@ -24,6 +24,7 @@
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using System.Reflection;
+using System.Windows.Controls;
 
 namespace MapCreator
 {
@@ -55,6 +56,7 @@ namespace MapCreator
 
         public static readonly SKPaint LANDFORM_SELECT_PAINT = new();
         public static readonly SKPaint LANDFORM_SELECT_ERASE_PAINT = new();
+        public static readonly SKPaint LANDFORM_AREA_SELECT_PAINT = new();
 
         public static readonly SKPaint COAST_FILL_PAINT = new();
         public static readonly SKPaint COAST_ERASER_PAINT = new();
@@ -117,6 +119,12 @@ namespace MapCreator
             LANDFORM_SELECT_ERASE_PAINT.IsAntialias = true;
             LANDFORM_SELECT_ERASE_PAINT.Color = SKColors.Transparent;
             LANDFORM_SELECT_ERASE_PAINT.StrokeWidth = 2;
+
+            LANDFORM_AREA_SELECT_PAINT.Style = SKPaintStyle.Stroke;
+            LANDFORM_AREA_SELECT_PAINT.IsAntialias = true;
+            LANDFORM_AREA_SELECT_PAINT.Color = SKColors.Cyan;
+            LANDFORM_AREA_SELECT_PAINT.StrokeWidth = 2;
+            LANDFORM_AREA_SELECT_PAINT.PathEffect = SKPathEffect.CreateDash([4F, 4F], 8F);
 
 
             MapTexture? lineHatchTexture = HATCH_TEXTURE_LIST.Find(x => x.TextureName == "Line Hatch");
@@ -233,6 +241,7 @@ namespace MapCreator
                             if (LANDFORM_LIST[i].ParentMap != null)
                             {
 #pragma warning disable CS8604 // Possible null reference argument.
+                                // TODO: this may not be working
                                 ResetLandformsOnCanvas(LANDFORM_LIST[i].ParentMap);
 #pragma warning restore CS8604 // Possible null reference argument.
                             }
@@ -617,6 +626,11 @@ namespace MapCreator
 
             landform.LandformBackgroundPaint.BlendMode = SKBlendMode.Src;
 
+            //using SKPathEffect discrete = SKPathEffect.CreateDiscrete(10, 2);
+            //using SKPathEffect pe = SKPathEffect.CreateCompose(SKPathEffect.CreateCorner(25), discrete);
+
+            //landform.LandformBackgroundPaint.PathEffect = pe;
+
             // fill the landform base path with texture or color
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDFORMLAYER)?.DrawPath(landform.LandformPath, landform.LandformBackgroundPaint);
 
@@ -628,6 +642,7 @@ namespace MapCreator
             LAND_BORDER_PAINT.Color = SKColor.FromHsl(backColor.GetHue(), backColor.GetSaturation() * 100, backColor.GetBrightness() * 100);
             LAND_BORDER_PAINT.Style = SKPaintStyle.Stroke;
             LAND_BORDER_PAINT.IsAntialias = true;
+            //LAND_BORDER_PAINT.PathEffect = SKPathEffect.CreateCorner(50);
 
             LAND_BORDER_PAINT.StrokeWidth = 2;
 

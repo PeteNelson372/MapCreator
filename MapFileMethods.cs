@@ -155,7 +155,7 @@ namespace MapCreator
                 {
                     Program.LOGGER.Error("Error saving theme: " + ex.Message);
 
-                    MessageBox.Show("Error saving theme: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error saving theme: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 }
                 finally
                 {
@@ -218,7 +218,7 @@ namespace MapCreator
                 catch (Exception ex)
                 {
                     Program.LOGGER.Error("Error saving collection: " + ex.Message);
-                    MessageBox.Show("Error saving collection: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error saving collection: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 }
                 finally
                 {
@@ -342,7 +342,7 @@ namespace MapCreator
                 {
                     Program.LOGGER.Error("Error saving frame: " + ex.Message);
 
-                    MessageBox.Show("Error saving frame: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error saving frame: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 }
                 finally
                 {
@@ -405,7 +405,7 @@ namespace MapCreator
                 {
                     Program.LOGGER.Error("Error saving box: " + ex.Message);
 
-                    MessageBox.Show("Error saving box: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error saving box: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 }
                 finally
                 {
@@ -429,7 +429,7 @@ namespace MapCreator
                 {
                     Program.LOGGER.Error("Error saving label preset: " + ex.Message);
 
-                    MessageBox.Show("Error saving label preset: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error saving label preset: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 }
                 finally
                 {

@@ -113,7 +113,7 @@ namespace MapCreator
                 }
                 else
                 {
-                    DialogResult result = MessageBox.Show("No collection file found.\nCreate a new collection from assets in the selected directory?", "No Collection File Found", MessageBoxButtons.YesNo);
+                    DialogResult result = MessageBox.Show("No collection file found.\nCreate a new collection from assets in the selected directory?", "No Collection File Found", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                     if (result == DialogResult.Yes)
                     {
@@ -317,7 +317,7 @@ namespace MapCreator
 
         private void AddToAllButton_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Do you want to apply the selected tags to all symbols in the collection?", "Apply tags to all symbols?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("Do you want to apply the selected tags to all symbols in the collection?", "Apply tags to all symbols?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
             if (result == DialogResult.Yes)
             {
@@ -343,7 +343,7 @@ namespace MapCreator
         {
             if (collection != null && collection.GetNumberOfTaggedSymbols() < collection.CollectionMapSymbols.Count)
             {
-                DialogResult result = MessageBox.Show(this, "Not all symbols have been tagged. Save collection anyway?", "Untagged Symbols", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show("Not all symbols have been tagged. Save collection anyway?", "Untagged Symbols", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                 if (result == DialogResult.Yes)
                 {
@@ -373,13 +373,13 @@ namespace MapCreator
 
                 if (!allSymbolTypesAssigned)
                 {
-                    DialogResult result = MessageBox.Show(this, "Some symbols do not have a symbol type assigned. Close anyway?", "Symbol type not assigned", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult result = MessageBox.Show("Some symbols do not have a symbol type assigned. Close anyway?", "Symbol type not assigned", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                     if (result == DialogResult.Yes)
                     {
                         if (!collectionSaved)
                         {
-                            result = MessageBox.Show(this, "The collection.xml file has not been saved. Do you want to save it?", "Collection not saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                            result = MessageBox.Show("The collection.xml file has not been saved. Do you want to save it?", "Collection not saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                             if (result == DialogResult.Yes)
                             {
@@ -397,7 +397,7 @@ namespace MapCreator
                 {
                     if (!collectionSaved)
                     {
-                        DialogResult result = MessageBox.Show(this, "The collection.xml file has not been saved. Do you want to save it?", "Collection not saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        DialogResult result = MessageBox.Show("The collection.xml file has not been saved. Do you want to save it?", "Collection not saved", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                         if (result == DialogResult.Yes)
                         {
@@ -465,7 +465,7 @@ namespace MapCreator
                 }
                 else
                 {
-                    MessageBox.Show("Please select a symbol type (Structure, Vegetation, Terrain, Other) before advancing to the next symbol.", "Symbol type not set", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please select a symbol type (Structure, Vegetation, Terrain, Other) before advancing to the next symbol.", "Symbol type not set", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 }
             }
         }
@@ -564,7 +564,7 @@ namespace MapCreator
             if (collection != null && collection.GetCollectionPath().Length > 0)
             {
                 MapFileMethods.SerializeSymbolCollection(collection);
-                MessageBox.Show(this, "Collection has been saved.", "Collection Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Collection has been saved.", "Collection Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 collectionSaved = true;
             }
         }

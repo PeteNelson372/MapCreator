@@ -228,7 +228,7 @@ namespace MapCreator
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading symbols from collection: " + ex.Message);
+                MessageBox.Show("Error loading symbols from collection: " + ex.Message, "Error Loading Symbols", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             }
 
             return numSymbols;

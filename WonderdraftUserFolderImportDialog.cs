@@ -218,7 +218,7 @@ namespace MapCreator
 
                 message += "\nContinue?";
 
-                DialogResult result = MessageBox.Show(this, message, "Add Assets?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show(message, "Add Assets?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                 if (result == DialogResult.Yes)
                 {
@@ -250,7 +250,7 @@ namespace MapCreator
             }
             else
             {
-                MessageBox.Show("No selected asset folders found.", "No Selected Asset Folders", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No selected asset folders found.", "No Selected Asset Folders", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             }
         }
 
@@ -280,7 +280,7 @@ namespace MapCreator
                 File.Copy(filename, textureFullPath, true);
             }
 
-            MessageBox.Show(this, "Copied " + waterTextureFiles.Count + " water textures from Wonderdraft assets to assets directory. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Copied " + waterTextureFiles.Count + " water textures from Wonderdraft assets to assets directory. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
         }
 
         private void AddGroundTextures(List<string> gTextureFolders)
@@ -309,7 +309,7 @@ namespace MapCreator
                 File.Copy(filename, textureFullPath, true);
             }
 
-            MessageBox.Show(this, "Copied " + groundTextureFiles.Count + " ground textures from Wonderdraft assets to assets directory. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Copied " + groundTextureFiles.Count + " ground textures from Wonderdraft assets to assets directory. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
         }
 
         private void LoadBoxOutlineAssets(List<string> bFolders)
@@ -433,7 +433,7 @@ namespace MapCreator
                 MapFileMethods.SerializeBoxAsset(box);
             }
 
-            MessageBox.Show(this, "Box assets have been copied from the Wonderdraft assets folder to the assets folder. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Box assets have been copied from the Wonderdraft assets folder to the assets folder. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
@@ -559,7 +559,7 @@ namespace MapCreator
                 MapFileMethods.SerializeFrameAsset(f);
             }
 
-            MessageBox.Show(this, "Frame assets have been copied from the Wonderdraft assets folder to the assets folder. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Frame assets have been copied from the Wonderdraft assets folder to the assets folder. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
@@ -610,11 +610,11 @@ namespace MapCreator
                     }
                     else
                     {
-                        DialogResult result = MessageBox.Show(this, "The collection " + collectionName + " already exists. Overwrite it?", "Collection Exists", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult result = MessageBox.Show("The collection " + collectionName + " already exists. Overwrite it?", "Collection Exists", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                         
                         if (result == DialogResult.Yes)
                         {
-                            DialogResult confirm = MessageBox.Show(this, "All files in " + collectionPath + " will be removed and replaced. Please confirm.", "Confirm Overwrite", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                            DialogResult confirm = MessageBox.Show("All files in " + collectionPath + " will be removed and replaced. Please confirm.", "Confirm Overwrite", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                             if (confirm == DialogResult.OK)
                             {
@@ -651,7 +651,8 @@ namespace MapCreator
                 }
             }
 
-            MessageBox.Show(this, "Copied " + sCollectionFolders.Count + " Wonderdraft symbol collections to the assets directory. Prepare the symbol collections for use by using the Create Symbol Collection tool accessed by the 'Assets > Create Symbol Collection' menu option for each collection.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Copied " + sCollectionFolders.Count + " Wonderdraft symbol collections to the assets directory. Prepare the symbol collections for use by using the Create Symbol Collection tool accessed by the 'Assets > Create Symbol Collection' menu option for each collection.", "Assets Added",
+                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
         }
     }
 }

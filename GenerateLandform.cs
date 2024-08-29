@@ -3,6 +3,7 @@ using AForge.Imaging.Filters;
 using DelaunatorSharp;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
+using System.Drawing;
 using System.Drawing.Imaging;
 
 namespace MapCreator
@@ -16,33 +17,55 @@ namespace MapCreator
 
         private GeneratedLandformTypeEnum SelectedLandformType = GeneratedLandformTypeEnum.Random;
 
+        private SKRect? SelectedLandformArea = null;
+
+        internal List<GeneratedMapData> LandformDataList { get; set; } = [];
+
         internal GeneratedMapData LandformData { get; set; } = new();
 
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         public GenerateLandform()
         {
             InitializeComponent();
 
             GenLandformSplitContainer.SplitterDistance = 530;
         }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
-        public void Initialize(MapCreatorMap map, MapLandformType2 newLandform)
+        public void Initialize(MapCreatorMap map, MapLandformType2 newLandform, SKRect? selectedLandformArea)
         {
             Map = map;
             NewLandform = newLandform;
+            SelectedLandformArea = null;
 
-            LandformData.MapWidth = Map.MapWidth;
-            LandformData.MapHeight = Map.MapHeight;
+            LandformData.MapWidth = map.MapWidth;
+            LandformData.MapHeight = map.MapHeight;
+
+            if (selectedLandformArea != null)
+            {
+                LandformData.LandformLocationLeft = (int)((SKRect)selectedLandformArea).Left;
+                LandformData.LandformLocationTop = (int)((SKRect)selectedLandformArea).Top;
+                LandformData.LandformAreaWidth = (int)((SKRect)selectedLandformArea).Width;
+                LandformData.LandformAreaHeight = (int)((SKRect)selectedLandformArea).Height;
+
+                SelectedLandformArea = selectedLandformArea;
+            }
+            else
+            {
+                LandformData.LandformLocationLeft = 0;
+                LandformData.LandformLocationTop = 0;
+                LandformData.LandformAreaWidth = Map.MapWidth;
+                LandformData.LandformAreaHeight = Map.MapHeight;
+            }
+
             LandformData.GridSize = (int)GridSizeUpDown.Value;
             LandformData.SeaLevel = (float)SeaLevelUpDown.Value;
         }
 
         protected virtual void OnLandformGenerated(EventArgs e)
         {
-            EventHandler eventHandler = LandformGenerated;
-            if (eventHandler != null)
-            {
-                eventHandler(this, e);
-            }
+            LandformGenerated?.Invoke(this, e);
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
@@ -52,7 +75,8 @@ namespace MapCreator
 
         private void GeneratePointsButton_Click(object sender, EventArgs e)
         {
-            List<IPoint> landformPoints = MapGenerator.GenerateRandomLandformPoints(LandformData.MapWidth, LandformData.MapHeight, LandformData.GridSize);
+            List<IPoint> landformPoints = MapGenerator.GenerateRandomLandformPoints(0, 0,
+                LandformData.MapWidth, LandformData.MapHeight, LandformData.GridSize);
 
             LandformData.MapPoints = landformPoints;
 
@@ -109,20 +133,21 @@ namespace MapCreator
 
                 Bitmap filledB = MapGenerator.FillHoles(LandformData.ScaledBitmap);
 
+                //LandformPictureBox.Image = filledB;
+                
                 Bitmap? landformBitmap = MapGenerator.ExtractLargestBlob(filledB);
 
                 if (landformBitmap != null)
                 {
-                    Bitmap newBitmap = new(LandformData.MapWidth, LandformData.MapHeight);
-                    Graphics g = Graphics.FromImage(newBitmap);
-                    g.DrawImageUnscaled(landformBitmap, 0, 0);
+                    //LandformPictureBox.Image = landformBitmap;
 
-                    LandformPictureBox.Image = newBitmap;
+                    SKBitmap resizedSKBitmap = new(LandformData.LandformAreaWidth, LandformData.LandformAreaHeight);
+                    landformBitmap.ToSKBitmap().ScalePixels(resizedSKBitmap, SKFilterQuality.High);
 
-                    LandformData.ScaledBitmap = newBitmap;
-                    LandformData.RotatedScaledBitmap = newBitmap;
+                    LandformPictureBox.Image = resizedSKBitmap.ToBitmap();
 
-                    g.Dispose();
+                    LandformData.ScaledBitmap = resizedSKBitmap.ToBitmap();
+                    LandformData.RotatedScaledBitmap = resizedSKBitmap.ToBitmap();
                 }
             }
         }
@@ -134,34 +159,112 @@ namespace MapCreator
                 // convert the bitmap to an 8bpp grayscale image for processing
                 if (LandformData.RotatedScaledBitmap.PixelFormat != PixelFormat.Format8bppIndexed)
                 {
+                    Bitmap lf32bpp = new(LandformData.RotatedScaledBitmap.Width, LandformData.RotatedScaledBitmap.Height, PixelFormat.Format32bppArgb);
+                    using Graphics g = Graphics.FromImage(lf32bpp);
+                    g.Clear(Color.White);
+                    g.DrawImage(LandformData.RotatedScaledBitmap, 0, 0);
+
                     // convert the bitmap to an 8bpp grayscale image for processing
-                    Bitmap newB = Grayscale.CommonAlgorithms.BT709.Apply(LandformData.RotatedScaledBitmap);
+                    Bitmap newB = Grayscale.CommonAlgorithms.BT709.Apply(lf32bpp);
                     LandformData.RotatedScaledBitmap = newB;
                 }
 
-                SobelEdgeDetector filter = new SobelEdgeDetector();
+                SobelEdgeDetector filter = new();
                 // apply the filter
                 Bitmap b = filter.Apply(LandformData.RotatedScaledBitmap);
+
+                //LandformPictureBox.Image = b;
 
                 Invert invert = new();
                 Bitmap invertedBitmap = invert.Apply(b);
 
                 // create filter
-                PointedColorFloodFill f2 = new PointedColorFloodFill();
-                // configure the filter
-                f2.Tolerance = Color.FromArgb(32, 32, 32);
-                f2.FillColor = Color.Black;
-                f2.StartingPoint = new IntPoint(LandformData.RotatedScaledBitmap.Width / 2, LandformData.RotatedScaledBitmap.Height / 2);
+                PointedColorFloodFill f2 = new()
+                {
+                    // configure the filter
+                    Tolerance = Color.FromArgb(32, 32, 32),
+                    FillColor = Color.Black,
+                    StartingPoint = new IntPoint(LandformData.RotatedScaledBitmap.Width / 2, LandformData.RotatedScaledBitmap.Height / 2)
+                };
+
                 // apply the filter
                 f2.ApplyInPlace(invertedBitmap);
+                                
+                SKPath contourPath = MapDrawingMethods.GetContourPathFromBitmap(invertedBitmap, out List<SKPoint> contourPoints);
 
-                Bitmap lf32bpp = new(invertedBitmap.Width, invertedBitmap.Height, PixelFormat.Format32bppArgb);
-                using Graphics g = Graphics.FromImage(lf32bpp);
-                g.Clear(Color.White);
-                g.DrawImage(invertedBitmap, 0, 0);
+                if (contourPath.PointCount == 0)
+                {
+                    MessageBox.Show("Could not get landform path", "Operation Failed", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    return;
+                }
 
-                SKPath contourPath = MapDrawingMethods.GetContourPathFromBitmap(lf32bpp, out List<SKPoint> contourPoints);
-                LandformData.LandformContourPath = contourPath;
+                // to smooth the contour path, a smoothed bitmap has to be painted using the path
+                // (using a path effect, as in the DrawLandformBoundary method), then a new
+                // contour path generated from the smoothed bitmap using the SobelEdgeDetector filter,
+                // the PointedColorFloodFill, and the GetContourPathFromBitmap() method;
+                // the bitmap should be scaled and rotated before generating the new contour path
+                float variation = VariationTrack.Value;
+                float smoothing = SmoothingTrack.Value;
+                float segmentLength = RoughnessTrack.Value;
+
+                using SKPathEffect discrete = SKPathEffect.CreateDiscrete(segmentLength, variation);
+                using SKPathEffect pe = SKPathEffect.CreateCompose(SKPathEffect.CreateCorner(smoothing), discrete);
+
+                using SKPaint contourPaint = new()
+                {
+                    Style = SKPaintStyle.Stroke,
+                    StrokeWidth = 2,
+                    Color = SKColors.Black,
+                    PathEffect = pe,
+                };
+
+                using SKBitmap skb = new(LandformData.LandformAreaWidth, LandformData.LandformAreaHeight);
+                using SKCanvas canvas = new(skb);
+
+                canvas.DrawPath(contourPath, contourPaint);
+
+                Bitmap pathBitmap = skb.ToBitmap();
+
+                //LandformPictureBox.Image = pathBitmap;
+
+                // convert the bitmap to an 8bpp grayscale image for processing
+                if (pathBitmap.PixelFormat != PixelFormat.Format8bppIndexed)
+                {
+                    Bitmap lf32bpp = new(pathBitmap.Width, pathBitmap.Height, PixelFormat.Format32bppArgb);
+                    using Graphics g = Graphics.FromImage(lf32bpp);
+                    g.Clear(Color.White);
+                    g.DrawImage(pathBitmap, 0, 0);
+                    
+                    // convert the bitmap to an 8bpp grayscale image for processing
+                    Bitmap newB = Grayscale.CommonAlgorithms.BT709.Apply(lf32bpp);
+                    pathBitmap = newB;
+                }
+                
+                PointedColorFloodFill f3 = new()
+                {
+                    // configure the filter
+                    Tolerance = Color.FromArgb(32, 32, 32),
+                    FillColor = Color.Black,
+                    StartingPoint = new IntPoint(pathBitmap.Width / 2, pathBitmap.Height / 2)
+                };
+
+                // apply the filter
+                f3.ApplyInPlace(pathBitmap);
+
+                Bitmap lf32bpp2 = new(pathBitmap.Width, pathBitmap.Height, PixelFormat.Format32bppArgb);
+                using Graphics g2 = Graphics.FromImage(lf32bpp2);
+                g2.Clear(Color.White);
+                g2.DrawImage(pathBitmap, 0, 0);
+
+                MapDrawingMethods.FlattenBitmapColors(ref lf32bpp2);
+
+                //LandformPictureBox.Image = lf32bpp2;
+
+                //lf32bpp2.Save("C:\\Users\\Pete Nelson\\OneDrive\\Desktop\\pathbitmap.bmp");
+
+                SKPath newContourPath = MapDrawingMethods.GetContourPathFromBitmap(lf32bpp2, out List<SKPoint> newContourPoints);
+
+                LandformData.LandformContourPath = newContourPath;
 
                 DrawLandformBoundary();
             }
@@ -187,7 +290,7 @@ namespace MapCreator
                 };
 
 
-                using SKBitmap skb = new(LandformData.MapWidth, LandformData.MapHeight);
+                using SKBitmap skb = new(LandformData.LandformAreaWidth, LandformData.LandformAreaHeight);
                 using SKCanvas canvas = new(skb);
 
                 canvas.DrawPath(LandformData.LandformContourPath, contourPaint);
@@ -196,8 +299,8 @@ namespace MapCreator
 
                 if (scaleToFit)
                 {
-                    float horizontalScalingFactor = (float)LandformPictureBox.Width / LandformData.MapWidth;
-                    float verticalScalingFactor = (float)LandformPictureBox.Height / LandformData.MapHeight;
+                    float horizontalScalingFactor = (float)LandformPictureBox.Width / LandformData.LandformAreaWidth;
+                    float verticalScalingFactor = (float)LandformPictureBox.Height / LandformData.LandformAreaHeight;
 
                     Bitmap resized = new Bitmap(b, new Size((int)(b.Width * horizontalScalingFactor), (int)(b.Height * verticalScalingFactor)));
 
@@ -339,58 +442,100 @@ namespace MapCreator
                     GenerateRandomLandform();
                     break;
                 case GeneratedLandformTypeEnum.Continent:
-
+                    // TODO
                     break;
 
                 case GeneratedLandformTypeEnum.Atoll:
-
+                    // TODO
                     break;
 
                 case GeneratedLandformTypeEnum.Archipelago:
-
+                    // TODO
                     break;
 
                 case GeneratedLandformTypeEnum.World:
-
+                    // TODO
                     break;
 
                 case GeneratedLandformTypeEnum.Equirectangular:
-
+                    // TODO
                     break;
 
                 default:
-
+                    GenerateRandomLandform();
                     break;
             }
         }
 
         private void GenerateRandomLandform()
         {
-            int tryCount = 0;
+            const int MAX_TRIES = 20;
 
-            while (LandformData.LandformContourPath == null
-                || LandformData.LandformContourPath.PointCount < 100
-                || LandformData.LandformContourPath.GetOvalBounds().Width < 100
-                || LandformData.RotatedScaledBitmap == null
-                || LandformData.RotatedScaledBitmap.Width < 100
-                || LandformData.RotatedScaledBitmap.Height < 100)
+            if (Map != null)
             {
+                int top = (int)((SelectedLandformArea == null) ? 0 : ((SKRect)SelectedLandformArea).Top);
+                int left = (int)((SelectedLandformArea == null) ? 0 : ((SKRect)SelectedLandformArea).Left);
+                int width = (int)((SelectedLandformArea == null) ? Map.MapWidth : ((SKRect)SelectedLandformArea).Width);
+                int height = (int)((SelectedLandformArea == null) ? Map.MapHeight : ((SKRect)SelectedLandformArea).Height);
+
                 LandformData = new()
                 {
+                    LandformLocationTop = top,
+                    LandformLocationLeft = left,
+                    LandformAreaWidth = width,
+                    LandformAreaHeight = height,
                     MapWidth = Map.MapWidth,
                     MapHeight = Map.MapHeight,
-                    GridSize = 25
+                    GridSize = 20
                 };
 
-                RandomizeLandformData();
-                MapGenerator.GenerateLandform(LandformData);
+                int tryCount = 0;
 
-                tryCount++;
+                GenerationStatusLabel.Text = "Generating landform...";
+                GenerationStatusLabel.Refresh();
 
-                if (tryCount > 20) break;
+                while (LandformData.LandformContourPath == null
+                    || LandformData.LandformContourPath.PointCount < 100
+                    || LandformData.RotatedScaledBitmap == null)
+                {
+                    LandformData = new()
+                    {
+                        LandformLocationTop = top,
+                        LandformLocationLeft = left,
+                        LandformAreaWidth = width,
+                        LandformAreaHeight = height,
+                        MapWidth = Map.MapWidth,
+                        MapHeight = Map.MapHeight,
+                        GridSize = 20
+                    };
+
+                    RandomizeLandformData();
+
+                    LandformData.Variation = VariationTrack.Value;
+                    LandformData.Smoothing = SmoothingTrack.Value;
+                    LandformData.SegmentLength = RoughnessTrack.Value;
+
+                    MapGenerator.GenerateLandform(LandformData);
+
+                    tryCount++;
+
+                    if (tryCount > MAX_TRIES) break;
+                }
+
+                if (tryCount < MAX_TRIES)
+                {
+                    GenerationStatusLabel.Text += "Complete.";
+                    GenerationStatusLabel.Refresh();
+                    DrawLandformBoundary(true);
+
+                    LandformDataList.Add(LandformData);
+                }
+                else
+                {
+                    GenerationStatusLabel.Text = "Landform generation failed. Please try again.";
+                    GenerationStatusLabel.Refresh();
+                }
             }
-
-            DrawLandformBoundary(true);
         }
 
         private void RandomizeLandformData()
@@ -401,10 +546,6 @@ namespace MapCreator
 
             float interpolationWeight = (float)Random.Shared.NextDouble();
             LandformData.InterpolationWeight = interpolationWeight;
-
-            int distanceFunctionIdx = Random.Shared.Next(0, DistanceFunctionUpDown.Items.Count);
-
-            //string? distanceFunction = (string?)DistanceFunctionUpDown.Items[distanceFunctionIdx];
 
             string? distanceFunction = (string?)DistanceFunctionUpDown.Items[0];
 
@@ -468,6 +609,15 @@ namespace MapCreator
                 && NewLandform != null && Map != null)
             {
                 NewLandform.GenMapData = LandformData;
+                NewLandform.X = LandformData.LandformLocationLeft;
+                NewLandform.Y = LandformData.LandformLocationTop;
+                NewLandform.Width = LandformData.LandformAreaWidth;
+                NewLandform.Height = LandformData.LandformAreaHeight;
+
+                SKMatrix translateMatrix = SKMatrix.CreateTranslation(LandformData.LandformLocationLeft, LandformData.LandformLocationTop);
+
+                LandformData.LandformContourPath.Transform(translateMatrix);
+
                 NewLandform.LandformPath = LandformData.LandformContourPath;
 
                 LandformType2Methods.CreateType2LandformPaths(Map, NewLandform);
@@ -475,7 +625,7 @@ namespace MapCreator
                 MapBuilder.GetMapLayerByIndex(Map, MapBuilder.LANDFORMLAYER).MapLayerComponents.Add(NewLandform);
                 LandformType2Methods.LANDFORM_LIST.Add(NewLandform);
 
-                // TODO: merging generated landforms isn't working
+                // TODO: merging generated landforms isn't working - why?
                 LandformType2Methods.MergeLandforms();
 
                 LandformType2Methods.SELECTED_LANDFORM = NewLandform;
@@ -483,6 +633,9 @@ namespace MapCreator
                 // TODO: undo/redo
 
                 OnLandformGenerated(EventArgs.Empty);
+
+                
+
             }
         }
     }

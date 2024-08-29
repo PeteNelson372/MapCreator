@@ -131,14 +131,14 @@ namespace MapCreator
                             {
                                 if (!t.IsSystemTheme)
                                 {
-                                    if (MessageBox.Show(this, "A theme with name " + themeName + " already exists. Replace it?", "Theme Exists", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                    if (MessageBox.Show("A theme with name " + themeName + " already exists. Replace it?", "Theme Exists", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.Yes)
                                     {
                                         ThemeMethods.SaveTheme(SettingsTheme);
                                     }
                                 }
                                 else
                                 {
-                                    MessageBox.Show(this, "The theme named " + themeName + " is a default theme. It cannot be replaced.", "Default Theme", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("The theme named " + themeName + " is a default theme. It cannot be replaced.", "Default Theme", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                                 }
                             }
                         }

@@ -40,6 +40,7 @@ namespace MapCreator
         RiverPaint,
         ColorSelect,
         LandformSelect,
+        LandformAreaSelect,
         WaterFeatureSelect,
         PathSelect,
         PathPaint,

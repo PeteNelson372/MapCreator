@@ -169,10 +169,10 @@ namespace MapCreator
                 FullOpen = true,
                 AllowFullOpen = true,
                 AnyColor = true,
-                SolidColorOnly = false
+                SolidColorOnly = false,
             };
 
-            if (colorDlg.ShowDialog(new Form() { TopMost = true }) == DialogResult.OK)
+            if (colorDlg.ShowDialog() == DialogResult.OK)
             {
                 return colorDlg.Color;
             }

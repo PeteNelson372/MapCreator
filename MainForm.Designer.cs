@@ -174,6 +174,7 @@
             LandClearButton = new FontAwesome.Sharp.IconToolStripButton();
             FractalizeButton = new FontAwesome.Sharp.IconToolStripButton();
             GenerateLandFormButton = new FontAwesome.Sharp.IconToolStripButton();
+            SelectLandformAreaButton = new FontAwesome.Sharp.IconToolStripButton();
             waterPage = new TabPage();
             ShowWaterLayerCheck = new CheckBox();
             groupBox7 = new GroupBox();
@@ -2217,7 +2218,7 @@
             LandPaintTools.BackColor = SystemColors.Control;
             LandPaintTools.Dock = DockStyle.None;
             LandPaintTools.GripStyle = ToolStripGripStyle.Hidden;
-            LandPaintTools.Items.AddRange(new ToolStripItem[] { LandformSelectButton, LandformPaintButton, LandEraseButton, LandFillButton, LandClearButton, FractalizeButton, GenerateLandFormButton });
+            LandPaintTools.Items.AddRange(new ToolStripItem[] { LandformSelectButton, LandformPaintButton, LandEraseButton, LandFillButton, LandClearButton, FractalizeButton, GenerateLandFormButton, SelectLandformAreaButton });
             LandPaintTools.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
             LandPaintTools.Location = new Point(135, 3);
             LandPaintTools.Name = "LandPaintTools";
@@ -2355,6 +2356,23 @@
             GenerateLandFormButton.Text = "Generate";
             GenerateLandFormButton.TextImageRelation = TextImageRelation.TextAboveImage;
             GenerateLandFormButton.Click += GenerateLandFormButton_Click;
+            // 
+            // SelectLandformAreaButton
+            // 
+            SelectLandformAreaButton.AutoSize = false;
+            SelectLandformAreaButton.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            SelectLandformAreaButton.IconChar = FontAwesome.Sharp.IconChar.BorderTopLeft;
+            SelectLandformAreaButton.IconColor = Color.Black;
+            SelectLandformAreaButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            SelectLandformAreaButton.IconSize = 32;
+            SelectLandformAreaButton.ImageScaling = ToolStripItemImageScaling.None;
+            SelectLandformAreaButton.ImageTransparentColor = Color.Magenta;
+            SelectLandformAreaButton.Margin = new Padding(0, 25, 0, 2);
+            SelectLandformAreaButton.Name = "SelectLandformAreaButton";
+            SelectLandformAreaButton.Size = new Size(60, 60);
+            SelectLandformAreaButton.Text = "Area";
+            SelectLandformAreaButton.TextImageRelation = TextImageRelation.TextAboveImage;
+            SelectLandformAreaButton.Click += SelectLandformAreaButton_Click;
             // 
             // waterPage
             // 
@@ -8089,5 +8107,6 @@
         private CheckBox ShowDrawingLayerCheck;
         private CheckBox ShowBackgroundLayerCheck;
         private FontAwesome.Sharp.IconToolStripButton GenerateNameButton;
+        private FontAwesome.Sharp.IconToolStripButton SelectLandformAreaButton;
     }
 }

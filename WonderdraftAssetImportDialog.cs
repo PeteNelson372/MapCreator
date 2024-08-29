@@ -296,7 +296,7 @@ namespace MapCreator
 
                 message += "\nContinue?";
 
-                DialogResult result = MessageBox.Show(this, message, "Add Assets?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show(message, "Add Assets?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                 if (result == DialogResult.Yes)
                 {
@@ -328,7 +328,7 @@ namespace MapCreator
             }
             else
             {
-                MessageBox.Show("No selected asset folders found.", "No Selected Asset Folders", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No selected asset folders found.", "No Selected Asset Folders", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             }
         }
 
@@ -352,7 +352,7 @@ namespace MapCreator
                 ExtractAndSaveFile(filename, textureFullPath);
             }
 
-            MessageBox.Show(this, "Water textures from zip file added to assets directory. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Water textures from zip file added to assets directory. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
         }
 
         private void AddGroundTextures(List<string> selectedGroundFolders)
@@ -375,7 +375,7 @@ namespace MapCreator
                 ExtractAndSaveFile(filename, textureFullPath);
             }
 
-            MessageBox.Show(this, "Land textures from zip file added to assets directory. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Land textures from zip file added to assets directory. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
         }
 
@@ -489,7 +489,7 @@ namespace MapCreator
                 MapFileMethods.SerializeBoxAsset(box);
             }
 
-            MessageBox.Show(this, "Box assets have been loaded from the selected archive. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Box assets have been loaded from the selected archive. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
@@ -603,7 +603,7 @@ namespace MapCreator
                 MapFileMethods.SerializeFrameAsset(frame);
             }
 
-            MessageBox.Show(this, "Frame assets have been loaded from the selected archive. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Frame assets have been loaded from the selected archive. Reload assets using the 'Assets > Reload All Assets' menu option or restart Map Creator to use them.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
@@ -657,7 +657,7 @@ namespace MapCreator
 
             }
 
-            MessageBox.Show(this, "The selected symbol collections have been copied to the assets directory. Prepare the symbol collections for use by using the Create Symbol Collection tool accessed by the 'Assets > Create Symbol Collection' menu option for each collection.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("The selected symbol collections have been copied to the assets directory. Prepare the symbol collections for use by using the Create Symbol Collection tool accessed by the 'Assets > Create Symbol Collection' menu option for each collection.", "Assets Added", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
         }
 
 
@@ -679,7 +679,7 @@ namespace MapCreator
                     catch (Exception ex)
                     {
                         Program.LOGGER.Error(ex);
-                        MessageBox.Show(this, "Failed to copy " + zipPath + " to " + fullPath, "File Extraction Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Failed to copy " + zipPath + " to " + fullPath, "File Extraction Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                     }
                 }
             }

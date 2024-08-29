@@ -65,6 +65,7 @@
             GeneratePointsButton = new Button();
             label1 = new Label();
             GridSizeUpDown = new NumericUpDown();
+            GenerationStatusLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)LandformPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GenLandformSplitContainer).BeginInit();
             GenLandformSplitContainer.Panel1.SuspendLayout();
@@ -161,7 +162,7 @@
             GenLandformSplitContainer.Panel2.Controls.Add(GridSizeUpDown);
             GenLandformSplitContainer.Panel2MinSize = 0;
             GenLandformSplitContainer.Size = new Size(224, 534);
-            GenLandformSplitContainer.SplitterDistance = 61;
+            GenLandformSplitContainer.SplitterDistance = 95;
             GenLandformSplitContainer.TabIndex = 28;
             // 
             // GenerateLandformButton
@@ -523,12 +524,22 @@
             GridSizeUpDown.Value = new decimal(new int[] { 25, 0, 0, 0 });
             GridSizeUpDown.ValueChanged += GridSizeUpDown_ValueChanged;
             // 
+            // GenerationStatusLabel
+            // 
+            GenerationStatusLabel.BackColor = SystemColors.Control;
+            GenerationStatusLabel.Location = new Point(254, 482);
+            GenerationStatusLabel.Name = "GenerationStatusLabel";
+            GenerationStatusLabel.Size = new Size(397, 30);
+            GenerationStatusLabel.TabIndex = 29;
+            GenerationStatusLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // GenerateLandform
             // 
             AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = CloseButton;
             ClientSize = new Size(907, 566);
+            Controls.Add(GenerationStatusLabel);
             Controls.Add(GenLandformSplitContainer);
             Controls.Add(CloseButton);
             Controls.Add(PlaceLandformButton);
@@ -596,5 +607,6 @@
         private FontAwesome.Sharp.IconButton GenerateLandformButton;
         private RadioButton EquirectangularRadio;
         private RadioButton WorldRadio;
+        private Label GenerationStatusLabel;
     }
 }

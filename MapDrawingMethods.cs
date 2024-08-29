@@ -21,17 +21,18 @@
 * contact@brookmonte.com
 *
 ***************************************************************************************************************************/
+using Clipper2Lib;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using Extensions = SkiaSharp.Views.Desktop.Extensions;
-using Point = System.Drawing.Point;
-using Clipper2Lib;
-using PixelFormat = System.Drawing.Imaging.PixelFormat;
+using System.Windows.Controls;
+using System.Windows.Media.Media3D;
 using Color = System.Drawing.Color;
-using log4net.Repository.Hierarchy;
+using Extensions = SkiaSharp.Views.Desktop.Extensions;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
+using Point = System.Drawing.Point;
 
 namespace MapCreator
 {
@@ -518,6 +519,7 @@ namespace MapCreator
                 for (int x = 0; x < lockedBitmap.Width; x++)
                 {
                     if (lockedBitmap.GetPixel(x, y) == Color.Transparent
+                        || ColorIsNear(lockedBitmap.GetPixel(x, y), Color.White, 64)
                         || lockedBitmap.GetPixel(x, y) == Color.White)
                     {
                         lockedBitmap.SetPixel(x, y, Color.White);
@@ -1321,7 +1323,38 @@ namespace MapCreator
 
         internal static SKPath GetContourPathFromBitmap(Bitmap bitmap, out List<SKPoint> contourPoints)
         {
-            contourPoints = GetBitmapContourPoints(bitmap);
+            SKBitmap contourBitmap = new(bitmap.Width, bitmap.Height);
+            using SKCanvas canvas = new(contourBitmap);
+
+            canvas.Clear();
+
+            // make sure the bitmap has a 2-pixel wide margin of empty pixels
+            // so that the contour points can be found
+            using SKPath marginPath = new SKPath();
+            marginPath.MoveTo(1, 1);
+            marginPath.LineTo(bitmap.Width - 1, 1);
+            marginPath.LineTo(bitmap.Width - 1, bitmap.Height - 1);
+            marginPath.LineTo(1, bitmap.Height - 1);
+            marginPath.Close();
+
+            using SKPaint marginpaint = new();
+            marginpaint.Style = SKPaintStyle.Stroke;
+            marginpaint.IsAntialias = false;
+            marginpaint.Color = SKColors.White;
+            marginpaint.StrokeWidth = 2;
+
+            using SKPaint bitmappaint = new();
+            bitmappaint.Style = SKPaintStyle.Fill;
+            bitmappaint.IsAntialias = false;
+            bitmappaint.Color = SKColors.Black;
+            //bitmappaint.StrokeWidth = 2;
+
+            canvas.DrawBitmap(bitmap.ToSKBitmap(), 0, 0, bitmappaint);
+            canvas.DrawPath(marginPath, marginpaint);
+
+            Bitmap cb = new(contourBitmap.ToBitmap());
+
+            contourPoints = GetBitmapContourPoints(cb);
 
             SKPath contourPath = new();
 

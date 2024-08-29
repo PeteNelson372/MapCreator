@@ -3,6 +3,7 @@ using AForge.Imaging;
 using AForge.Imaging.Filters;
 using DelaunatorSharp;
 using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 using System.Drawing.Imaging;
 using Point = DelaunatorSharp.Point;
 
@@ -27,7 +28,8 @@ namespace MapCreator
 
         public static void GenerateLandform(GeneratedMapData LandformData)
         {
-            List<IPoint> landformPoints = GenerateRandomLandformPoints(LandformData.MapWidth, LandformData.MapHeight, LandformData.GridSize);
+            List<IPoint> landformPoints = GenerateRandomLandformPoints(0, 0,
+                LandformData.MapWidth, LandformData.MapHeight, LandformData.GridSize);
 
             LandformData.MapPoints = landformPoints;
 
@@ -56,30 +58,32 @@ namespace MapCreator
 
                     if (landformBitmap != null)
                     {
-                        Bitmap newBitmap = new(LandformData.MapWidth, LandformData.MapHeight);
-                        Graphics g = Graphics.FromImage(newBitmap);
-                        g.DrawImageUnscaled(landformBitmap, 0, 0);
-
-                        LandformData.ScaledBitmap = newBitmap;
-                        LandformData.RotatedScaledBitmap = newBitmap;
-
-                        g.Dispose();
+                        SKBitmap resizedSKBitmap = new(LandformData.LandformAreaWidth, LandformData.LandformAreaHeight);
+                        landformBitmap.ToSKBitmap().ScalePixels(resizedSKBitmap, SKFilterQuality.High);
+                        LandformData.ScaledBitmap = resizedSKBitmap.ToBitmap();
+                        LandformData.RotatedScaledBitmap = resizedSKBitmap.ToBitmap();
                     }
-
 
                     if (LandformData.RotatedScaledBitmap != null)
                     {
                         // convert the bitmap to an 8bpp grayscale image for processing
                         if (LandformData.RotatedScaledBitmap.PixelFormat != PixelFormat.Format8bppIndexed)
                         {
+                            Bitmap lf32bpp = new(LandformData.RotatedScaledBitmap.Width, LandformData.RotatedScaledBitmap.Height, PixelFormat.Format32bppArgb);
+                            using Graphics g = Graphics.FromImage(lf32bpp);
+                            g.Clear(Color.White);
+                            g.DrawImage(LandformData.RotatedScaledBitmap, 0, 0);
+
                             // convert the bitmap to an 8bpp grayscale image for processing
-                            Bitmap newB = Grayscale.CommonAlgorithms.BT709.Apply(LandformData.RotatedScaledBitmap);
+                            Bitmap newB = Grayscale.CommonAlgorithms.BT709.Apply(lf32bpp);
                             LandformData.RotatedScaledBitmap = newB;
                         }
 
                         SobelEdgeDetector filter = new();
                         // apply the filter
                         Bitmap b = filter.Apply(LandformData.RotatedScaledBitmap);
+
+                        //LandformPictureBox.Image = b;
 
                         Invert invert = new();
                         Bitmap invertedBitmap = invert.Apply(b);
@@ -96,22 +100,84 @@ namespace MapCreator
                         // apply the filter
                         f2.ApplyInPlace(invertedBitmap);
 
-                        Bitmap lf32bpp = new(invertedBitmap.Width, invertedBitmap.Height, PixelFormat.Format32bppArgb);
-                        using Graphics g = Graphics.FromImage(lf32bpp);
-                        g.Clear(Color.White);
-                        g.DrawImage(invertedBitmap, 0, 0);
+                        SKPath contourPath = MapDrawingMethods.GetContourPathFromBitmap(invertedBitmap, out List<SKPoint> contourPoints);
 
-                        SKPath contourPath = MapDrawingMethods.GetContourPathFromBitmap(lf32bpp, out List<SKPoint> contourPoints);
-                        LandformData.LandformContourPath = contourPath;
+                        if (contourPath.PointCount == 0)
+                        {
+                            MessageBox.Show("Could not get landform path", "Operation Failed", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                            return;
+                        }
+
+                        // to smooth the contour path, a smoothed bitmap has to be painted using the path
+                        // (using a path effect, as in the DrawLandformBoundary method), then a new
+                        // contour path generated from the smoothed bitmap using the SobelEdgeDetector filter,
+                        // the PointedColorFloodFill, and the GetContourPathFromBitmap() method;
+                        // the bitmap should be scaled and rotated before generating the new contour path
+                        float variation = LandformData.Variation;
+                        float smoothing = LandformData.Smoothing;
+                        float segmentLength = LandformData.SegmentLength;
+
+                        using SKPathEffect discrete = SKPathEffect.CreateDiscrete(segmentLength, variation);
+                        using SKPathEffect pe = SKPathEffect.CreateCompose(SKPathEffect.CreateCorner(smoothing), discrete);
+
+                        using SKPaint contourPaint = new()
+                        {
+                            Style = SKPaintStyle.Stroke,
+                            StrokeWidth = 2,
+                            Color = SKColors.Black,
+                            PathEffect = pe,
+                        };
+
+                        using SKBitmap skb = new(LandformData.LandformAreaWidth, LandformData.LandformAreaHeight);
+                        using SKCanvas canvas = new(skb);
+
+                        canvas.DrawPath(contourPath, contourPaint);
+
+                        Bitmap pathBitmap = skb.ToBitmap();
+
+                        // convert the bitmap to an 8bpp grayscale image for processing
+                        if (pathBitmap.PixelFormat != PixelFormat.Format8bppIndexed)
+                        {
+                            Bitmap lf32bpp = new(pathBitmap.Width, pathBitmap.Height, PixelFormat.Format32bppArgb);
+                            using Graphics g = Graphics.FromImage(lf32bpp);
+                            g.Clear(Color.White);
+                            g.DrawImage(pathBitmap, 0, 0);
+
+                            // convert the bitmap to an 8bpp grayscale image for processing
+                            Bitmap newB = Grayscale.CommonAlgorithms.BT709.Apply(lf32bpp);
+                            pathBitmap = newB;
+                        }
+
+                        PointedColorFloodFill f3 = new()
+                        {
+                            // configure the filter
+                            Tolerance = Color.FromArgb(32, 32, 32),
+                            FillColor = Color.Black,
+                            StartingPoint = new IntPoint(pathBitmap.Width / 2, pathBitmap.Height / 2)
+                        };
+
+                        // apply the filter
+                        f3.ApplyInPlace(pathBitmap);
+
+                        Bitmap lf32bpp2 = new(pathBitmap.Width, pathBitmap.Height, PixelFormat.Format32bppArgb);
+                        using Graphics g2 = Graphics.FromImage(lf32bpp2);
+                        g2.Clear(Color.White);
+                        g2.DrawImage(pathBitmap, 0, 0);
+
+                        MapDrawingMethods.FlattenBitmapColors(ref lf32bpp2);
+
+                        SKPath newContourPath = MapDrawingMethods.GetContourPathFromBitmap(lf32bpp2, out List<SKPoint> newContourPoints);
+
+                        LandformData.LandformContourPath = newContourPath;
                     }
                 }
             }
         }
 
 
-        public static List<IPoint> GenerateRandomLandformPoints(int width, int height, int gridSize)
+        public static List<IPoint> GenerateRandomLandformPoints(int x, int y, int width, int height, int gridSize)
         {
-            List<IPoint> mapOutlinePoints = SeedMapOutlinePoints(width, height, gridSize);
+            List<IPoint> mapOutlinePoints = SeedMapOutlinePoints(x, y, width, height, gridSize);
             return mapOutlinePoints;
         }
 
@@ -146,7 +212,7 @@ namespace MapCreator
                 CoupledSizeFiltering = false
             };
 
-            using Bitmap filledBitmap = fillHolesFilter.Apply(invertedBitmap);
+            Bitmap filledBitmap = fillHolesFilter.Apply(invertedBitmap);
 
             // re-invert the colors to restore to original
             Bitmap filledInvertedBitmap = invert.Apply(filledBitmap);
@@ -181,11 +247,15 @@ namespace MapCreator
 
             // process binary image
             bc.ProcessImage(invertedBitmap);
+
+            //bc.ProcessImage(b);
+
             Blob[] blobs = bc.GetObjectsInformation();
 
             // extract the biggest blob
             if (blobs.Length > 0)
             {
+                //bc.ExtractBlobsImage(b, blobs[0], true);
                 bc.ExtractBlobsImage(invertedBitmap, blobs[0], true);
 
                 Blob biggestBlob = blobs[0];
@@ -194,6 +264,7 @@ namespace MapCreator
                 // re-invert the colors
                 Bitmap invertedBlobBitmap = invert.Apply(managedImage);
 
+                //return managedImage;
                 return invertedBlobBitmap;
             }
 
@@ -231,7 +302,7 @@ namespace MapCreator
                 {
                     List<PointF> cellPoints = [];
 
-                    foreach (Point p in cell.Points)
+                    foreach (Point p in cell.Points.Select(v => (Point)v))
                     {
                         System.Drawing.Point dp = new((int)p.X, (int)p.Y);
                         cellPoints.Add(dp);
@@ -256,14 +327,14 @@ namespace MapCreator
             using Graphics g = Graphics.FromImage(b);
             g.Clear(Color.White);
 
-            Brush blackBrush = new SolidBrush(Color.Black);
-            Brush whiteBrush = new SolidBrush(Color.White);
+            using Brush blackBrush = new SolidBrush(Color.Black);
+            using Brush whiteBrush = new SolidBrush(Color.White);
 
             foreach (Tuple<int, float, VoronoiCell> t in mapData.CellsWithHeight)
             {
                 List<PointF> cellPoints = [];
 
-                foreach (Point p in t.Item3.Points)
+                foreach (Point p in t.Item3.Points.Select(v => (Point)v))
                 {
                     System.Drawing.Point dp = new((int)p.X, (int)p.Y);
                     cellPoints.Add(dp);
@@ -271,7 +342,7 @@ namespace MapCreator
 
                 if (cellPoints.Count > 2)
                 {
-                    if (t.Item2 > mapData.SeaLevel)
+                    if (t.Item2 < mapData.SeaLevel)
                     {
                         g.FillPolygon(whiteBrush, cellPoints.ToArray());
                     }
@@ -304,12 +375,20 @@ namespace MapCreator
                     {
                         Point centroid = GetCellCentroid(cell);
 
-                        if (centroid.X >= 0 && centroid.X < mapData.MapWidth && centroid.Y >= 0 && centroid.Y < mapData.MapHeight)
+                        if (centroid.X >= 0
+                            && centroid.X < mapData.MapWidth
+                            && centroid.Y >= 0
+                            && centroid.Y < mapData.MapHeight)
                         {
-                            double nx = 2 * centroid.X / mapData.MapWidth - 1;
-                            double ny = 2 * centroid.Y / mapData.MapHeight - 1;
+                            SKPoint mapCenter = new(mapData.MapWidth / 2.0F, mapData.MapHeight / 2.0F);
+                            SKPoint centroidPoint = new((float)centroid.X, (float)centroid.Y);
 
-                            double noiseHeight = noiseMap[(int)centroid.X, (int)centroid.Y] / 256.0F;
+                            float pointDistance = SKPoint.Distance(mapCenter, centroidPoint);
+
+                            double nx = 2 * (pointDistance / mapData.MapWidth) - 1;
+                            double ny = 2 * (pointDistance / mapData.MapHeight) - 1;
+
+                            double noiseHeight = noiseMap[(int)centroid.X, (int)centroid.Y] / 256.0;
                             float distance = 0.0F;
 
                             switch (mapData.DistanceFunction)
@@ -373,15 +452,15 @@ namespace MapCreator
             return Math.Min(a, b) - h * h * k * (1.0 / 4.0);
         }
 
-        private static List<IPoint> SeedMapOutlinePoints(int width, int height, int gridSize)
+        private static List<IPoint> SeedMapOutlinePoints(int x, int y, int width, int height, int gridSize)
         {
             List<IPoint> mapPoints = [];
 
-            for (int x = 0; x < width; x += gridSize)
+            for (int pointx = x; pointx < x + width; pointx += gridSize)
             {
-                for (int y = 0; y < height; y += gridSize)
+                for (int pointy = y; pointy < y + height; pointy += gridSize)
                 {
-                    Point p = new((float)(x + gridSize * (Random.Shared.NextDouble() - Random.Shared.NextDouble())), (float)(y + gridSize * (Random.Shared.NextDouble() - Random.Shared.NextDouble())));
+                    Point p = new((float)(pointx + gridSize * (Random.Shared.NextDouble() - Random.Shared.NextDouble())), (float)(pointy + gridSize * (Random.Shared.NextDouble() - Random.Shared.NextDouble())));
                     mapPoints.Add(p);
                 }
             }
@@ -468,7 +547,7 @@ namespace MapCreator
 
         private static void SaveDebugVoronoiCellWithHeightBitmap(GeneratedMapData mapData, List<Tuple<int, float, VoronoiCell>> cellsWithHeight)
         {
-            using Bitmap b = new(mapData.MapWidth, mapData.MapHeight);
+            using Bitmap b = new(mapData.LandformAreaWidth, mapData.LandformAreaHeight);
             using Graphics g = Graphics.FromImage(b);
             g.Clear(Color.White);
 
