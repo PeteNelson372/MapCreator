@@ -165,18 +165,16 @@ namespace MapCreator
 
         public static Color SelectColorFromDialog(Form owner, Color initialColor)
         {
-            // cyotek color picker
-            using ColorPickerDialog cpd = new()
+            // color selector
+            using ColorSelector cs = new()
             {
-                TopMost = true,
                 Owner = owner,
-                Color = initialColor,
-                Text = "Select Color"
+                SelectedColor = initialColor
             };
 
-            if (cpd.ShowDialog(owner) == DialogResult.OK)
+            if (cs.ShowDialog(owner) == DialogResult.OK)
             {
-                return cpd.Color;
+                return cs.SelectedColor;
             }
             else
             {
