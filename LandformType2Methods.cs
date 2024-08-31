@@ -298,8 +298,6 @@ namespace MapCreator
 
             mapLandform1.CoastlineColor = mapLandform2.CoastlineColor;
 
-            mapLandform1.CoastlineColorOpacity = mapLandform2.CoastlineColorOpacity;
-
             mapLandform1.CoastlineEffectDistance = mapLandform2.CoastlineEffectDistance;
 
             if (mapLandform1.CoastlineHatchBlendMode == null)
@@ -748,7 +746,7 @@ namespace MapCreator
 
             paint.StrokeWidth = landform.CoastlineEffectDistance / 8.0F;
 
-            paint.Color = Extensions.ToSKColor(Color.FromArgb(landform.CoastlineColorOpacity, landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(landform.CoastlineColor);
 
             //===========
 
@@ -799,52 +797,52 @@ namespace MapCreator
 
             paint.StrokeWidth = landform.CoastlineEffectDistance / 8.0F;
 
-            int coastlineColorOpacityStep = (int)(landform.CoastlineColorOpacity / 8.0F);
+            int coastlineColorOpacityStep = (int)(landform.CoastlineColor.A / 8.0F);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb(landform.CoastlineColorOpacity, landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(landform.CoastlineColor);
 
             // draw gradient path OuterPath1
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath1, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity * 0.9F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A * 0.9F), landform.CoastlineColor));
 
             // draw gradient path OuterPath2
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath2, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity * 0.8F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A * 0.8F), landform.CoastlineColor));
 
             // draw gradient path OuterPath3
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath3, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity * 0.7F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A * 0.7F), landform.CoastlineColor));
 
             // draw gradient path OuterPath4
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath4, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity * 0.6F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A * 0.6F), landform.CoastlineColor));
 
             // draw gradient path OuterPath5
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath5, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity * 0.5F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A * 0.5F), landform.CoastlineColor));
 
             // draw gradient path OuterPath6
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath6, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity * 0.4F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A * 0.4F), landform.CoastlineColor));
 
             // draw gradient path OuterPath7
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath7, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity * 0.3F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A * 0.3F), landform.CoastlineColor));
 
             // draw gradient path OuterPath8
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath8, paint);
@@ -857,34 +855,34 @@ namespace MapCreator
 
             paint.StrokeWidth = landform.CoastlineEffectDistance / 8.0F;
 
-            int coastlineColorOpacityStep = (int)(landform.CoastlineColorOpacity / 8.0F);
+            int coastlineColorOpacityStep = (int)(landform.CoastlineColor.A / 8.0F);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity * 0.5F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A * 0.5F), landform.CoastlineColor));
 
             // draw gradient path OuterPath1
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath1, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity * 0.5F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A * 0.5F), landform.CoastlineColor));
 
             // draw gradient path OuterPath2
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath2, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity * 0.5F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A * 0.5F), landform.CoastlineColor));
 
             // draw gradient path OuterPath3
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath3, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity * 0.5F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A * 0.5F), landform.CoastlineColor));
 
             // draw gradient path OuterPath4
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath4, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb(landform.CoastlineColorOpacity, landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb(landform.CoastlineColor.A, landform.CoastlineColor));
 
             // draw gradient path OuterPath5
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath5, paint);
@@ -898,49 +896,49 @@ namespace MapCreator
             paint.StrokeWidth = landform.CoastlineEffectDistance / 8.0F;
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity / 1.0F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A / 1.0F), landform.CoastlineColor));
 
             // draw gradient path OuterPath1
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath1, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity / 1.0F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A / 1.0F), landform.CoastlineColor));
 
             // draw gradient path OuterPath2
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath2, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity / 2.0F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A / 2.0F), landform.CoastlineColor));
 
             // draw gradient path OuterPath3
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath3, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity / 2.0F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A / 2.0F), landform.CoastlineColor));
 
             // draw gradient path OuterPath4
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath4, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity / 2.0F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A / 2.0F), landform.CoastlineColor));
 
             // draw gradient path OuterPath5
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath5, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity / 4.0F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A / 4.0F), landform.CoastlineColor));
 
             // draw gradient path OuterPath6
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath6, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity / 4.0F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A / 4.0F), landform.CoastlineColor));
 
             // draw gradient path OuterPath7
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath7, paint);
 
             //===========
-            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColorOpacity / 4.0F), landform.CoastlineColor));
+            paint.Color = Extensions.ToSKColor(Color.FromArgb((byte)(landform.CoastlineColor.A / 4.0F), landform.CoastlineColor));
 
             // draw gradient path OuterPath8
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath8, paint);
@@ -960,7 +958,7 @@ namespace MapCreator
             SKShader gradient = SKShader.CreateRadialGradient(new SKPoint(pathBounds.MidX, pathBounds.MidY), coastEffectPathWidth, [Extensions.ToSKColor(coastlineBandColor), SKColors.Empty], SKShaderTileMode.Mirror);
 
             //===========
-            Color gcolor = Color.FromArgb((byte)landform.CoastlineColorOpacity, landform.CoastlineColor);
+            Color gcolor = landform.CoastlineColor;
 
             // create the color from the calculated luminosity
             SKColor gradientColor = Extensions.ToSKColor(gcolor);
@@ -975,7 +973,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath1, paint);
 
             //===========
-            gcolor = Color.FromArgb((byte)landform.CoastlineColorOpacity / 2, landform.CoastlineColor);
+            gcolor = Color.FromArgb((byte)landform.CoastlineColor.A / 2, landform.CoastlineColor);
 
             // create the color from the calculated luminosity
             gradientColor = Extensions.ToSKColor(gcolor);
@@ -990,7 +988,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath2, paint);
 
             //===========
-            gcolor = Color.FromArgb((byte)landform.CoastlineColorOpacity / 3, landform.CoastlineColor);
+            gcolor = Color.FromArgb((byte)landform.CoastlineColor.A / 3, landform.CoastlineColor);
 
             // create the color from the calculated luminosity
             gradientColor = Extensions.ToSKColor(gcolor);
@@ -1005,7 +1003,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath3, paint);
 
             //===========
-            gcolor = Color.FromArgb((byte)landform.CoastlineColorOpacity / 4, landform.CoastlineColor);
+            gcolor = Color.FromArgb((byte)landform.CoastlineColor.A / 4, landform.CoastlineColor);
 
             // create the color from the calculated luminosity
             gradientColor = Extensions.ToSKColor(gcolor);
@@ -1020,7 +1018,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath4, paint);
 
             //===========
-            gcolor = Color.FromArgb((byte)landform.CoastlineColorOpacity / 5, landform.CoastlineColor);
+            gcolor = Color.FromArgb((byte)landform.CoastlineColor.A / 5, landform.CoastlineColor);
 
             // create the color from the calculated luminosity
             gradientColor = Extensions.ToSKColor(gcolor);
@@ -1035,7 +1033,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath5, paint);
 
             //===========
-            gcolor = Color.FromArgb((byte)landform.CoastlineColorOpacity / 6, landform.CoastlineColor);
+            gcolor = Color.FromArgb((byte)landform.CoastlineColor.A / 6, landform.CoastlineColor);
 
             // create the color from the calculated luminosity
             gradientColor = Extensions.ToSKColor(gcolor);
@@ -1050,7 +1048,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath6, paint);
 
             //===========
-            gcolor = Color.FromArgb((byte)landform.CoastlineColorOpacity / 7, landform.CoastlineColor);
+            gcolor = Color.FromArgb((byte)landform.CoastlineColor.A / 7, landform.CoastlineColor);
 
             // create the color from the calculated luminosity
             gradientColor = Extensions.ToSKColor(gcolor);
@@ -1065,7 +1063,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath7, paint);
 
             //===========
-            gcolor = Color.FromArgb((byte)landform.CoastlineColorOpacity / 8, landform.CoastlineColor);
+            gcolor = Color.FromArgb((byte)landform.CoastlineColor.A / 8, landform.CoastlineColor);
 
             // create the color from the calculated luminosity
             gradientColor = Extensions.ToSKColor(gcolor);
@@ -1087,7 +1085,7 @@ namespace MapCreator
             paint.StrokeWidth = landform.CoastlineEffectDistance / 8.0F;
 
             //===========
-            Color gradientColor = Color.FromArgb(0, (Color)landform.CoastlineColor);
+            Color gradientColor = Color.FromArgb(0, landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1099,7 +1097,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath1, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(8 / 32F * landform.CoastlineColorOpacity), (Color)landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(8 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1111,7 +1109,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath2, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(8 / 32F * landform.CoastlineColorOpacity), (Color)landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(8 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1123,7 +1121,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath3, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(6 / 32F * landform.CoastlineColorOpacity), (Color)landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(6 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1135,7 +1133,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath4, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(5 / 32F * landform.CoastlineColorOpacity), (Color)landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(5 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1147,7 +1145,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath5, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(4 / 32F * landform.CoastlineColorOpacity), (Color)landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(4 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1159,7 +1157,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath6, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(3 / 32F * landform.CoastlineColorOpacity), (Color)landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(3 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1171,7 +1169,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath7, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(2 / 32F * landform.CoastlineColorOpacity), (Color)landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(2 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1197,7 +1195,7 @@ namespace MapCreator
 
                 DASH_BITMAP_SHADER = SKShader.CreateBitmap(resizedSKBitmap, SKShaderTileMode.Mirror, SKShaderTileMode.Mirror);
 
-                Color gradientFadeColor = Color.FromArgb((byte)landform.CoastlineColorOpacity, Color.White);
+                Color gradientFadeColor = Color.FromArgb((byte)landform.CoastlineColor.A, Color.White);
 
                 DASH_LINEAR_GRADIENT_SHADER = SKShader.CreateLinearGradient(new SKPoint(0, 0), new SKPoint(dashTexture.TextureBitmap.Width, 0), [SKColors.Transparent, gradientFadeColor.ToSKColor(), SKColors.Transparent], SKShaderTileMode.Clamp);
                 DASH_COMBINED_SHADER = SKShader.CreateCompose(DASH_LINEAR_GRADIENT_SHADER, DASH_BITMAP_SHADER, SKBlendMode.Modulate);
@@ -1208,7 +1206,7 @@ namespace MapCreator
             paint.StrokeWidth = landform.CoastlineEffectDistance / 8.0F;
 
             //===========
-            Color gradientColor = Color.FromArgb(landform.CoastlineColorOpacity, landform.CoastlineColor);
+            Color gradientColor = Color.FromArgb(landform.CoastlineColor.A, landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1220,7 +1218,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath1, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(8 / 32F * landform.CoastlineColorOpacity), landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(8 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1232,7 +1230,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath2, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(7 / 32F * landform.CoastlineColorOpacity), landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(7 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1244,7 +1242,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath3, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(6 / 32F * landform.CoastlineColorOpacity), landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(6 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1256,7 +1254,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath4, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(5 / 32F * landform.CoastlineColorOpacity), landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(5 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1268,7 +1266,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath5, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(4 / 32F * landform.CoastlineColorOpacity), landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(4 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1280,7 +1278,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath6, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(3 / 32F * landform.CoastlineColorOpacity), landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(3 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1292,7 +1290,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath7, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(2 / 32F * landform.CoastlineColorOpacity), landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(2 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1325,7 +1323,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath1, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(1 / 32F * landform.CoastlineColorOpacity), (Color)landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(1 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1337,7 +1335,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath2, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(2 / 32F * landform.CoastlineColorOpacity), (Color)landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(2 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1349,7 +1347,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath3, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(3 / 32F * landform.CoastlineColorOpacity), (Color)landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(3 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1361,7 +1359,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath4, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(4 / 32F * landform.CoastlineColorOpacity), (Color)landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(4 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1373,7 +1371,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath5, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(5 / 32F * landform.CoastlineColorOpacity), (Color)landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(5 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1385,7 +1383,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath6, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(6 / 32F * landform.CoastlineColorOpacity), (Color)landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(6 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(
@@ -1397,7 +1395,7 @@ namespace MapCreator
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDCOASTLINELAYER)?.DrawPath(landform.OuterPath7, paint);
 
             //===========
-            gradientColor = Color.FromArgb((int)(7 / 32F * landform.CoastlineColorOpacity), (Color)landform.CoastlineColor);
+            gradientColor = Color.FromArgb((int)(7 / 32F * landform.CoastlineColor.A), landform.CoastlineColor);
 
             paint.Shader?.Dispose();
             paint.Shader = SKShader.CreateCompose(

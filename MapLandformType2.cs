@@ -40,8 +40,7 @@ namespace MapCreator
         private Color landformOutlineColor = ColorTranslator.FromHtml("#3D3728");
         private int landformOutlineWidth = 2;
         private GradientDirectionEnum shorelineStyle = GradientDirectionEnum.None;
-        private Color coastlineColor = ColorTranslator.FromHtml("#9CC3B7");
-        private int coastlineColorOpacity = 187;
+        private Color coastlineColor = ColorTranslator.FromHtml("#BB9CC3B7");
         private int coastlineEffectDistance = 16;
         private string coastlineStyleName = "Dash Pattern";
         private string? coastlineHatchPattern = string.Empty;
@@ -114,16 +113,6 @@ namespace MapCreator
             set
             {
                 coastlineColor = value;
-                drawLandform = true;
-            }
-        }
-
-        public int CoastlineColorOpacity
-        {
-            get { return coastlineColorOpacity; }
-            set
-            {
-                coastlineColorOpacity = value;
                 drawLandform = true;
             }
         }
@@ -356,13 +345,6 @@ namespace MapCreator
                 CoastlineColor = ColorTranslator.FromHtml(color);
             }
 
-            IEnumerable<XElement?> opacityElem = mapLandformDoc.Descendants().Select(x => x.Element(ns + "CoastlineColorOpacity"));
-            if (opacityElem.First() != null)
-            {
-                string? opacity = mapLandformDoc.Descendants().Select(x => x.Element(ns + "CoastlineColorOpacity").Value).FirstOrDefault();
-                CoastlineColorOpacity = int.Parse(opacity);
-            }
-
             IEnumerable<XElement?> distanceElem = mapLandformDoc.Descendants().Select(x => x.Element(ns + "CoastlineEffectDistance"));
             if (distanceElem.First() != null)
             {
@@ -384,8 +366,8 @@ namespace MapCreator
                 CoastlineHatchPattern = patternName;
             }
 
-            opacityElem = mapLandformDoc.Descendants().Select(x => x.Element(ns + "CoastlineHatchOpacity"));
-            if (opacityElem.First() != null)
+            IEnumerable<XElement?> opacityEnum = mapLandformDoc.Descendants().Select(x => x.Element(ns + "CoastlineHatchOpacity"));
+            if (opacityEnum.First() != null)
             {
                 string? opacity = mapLandformDoc.Descendants().Select(x => x.Element(ns + "CoastlineHatchOpacity").Value).FirstOrDefault();
                 CoastlineHatchOpacity = int.Parse(opacity);
@@ -493,11 +475,6 @@ namespace MapCreator
             XmlColor coastcolor = new(CoastlineColor);
             writer.WriteStartElement("CoastlineColor");
             coastcolor.WriteXml(writer);
-            writer.WriteEndElement();
-
-            // coastline color opacity
-            writer.WriteStartElement("CoastlineColorOpacity");
-            writer.WriteValue(CoastlineColorOpacity);
             writer.WriteEndElement();
 
             // coastline effect distance

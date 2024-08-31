@@ -47,7 +47,6 @@ namespace MapCreator
 #pragma warning disable CS8629 // Nullable value type may be null.
             LandformCoastlineColorText.Text = ColorTranslator.ToHtml((Color)(landform?.CoastlineColor));
 #pragma warning restore CS8629 // Nullable value type may be null.
-            CoastlineColorOpacityText.Text = landform?.CoastlineColorOpacity.ToString();
             CoastlineEffectDistanceText.Text = landform?.CoastlineEffectDistance.ToString();
             CoastlineStyleNameText.Text = landform?.CoastlineStyleName;
             CoastlineHatchPatternText.Text = landform?.CoastlineHatchPattern;

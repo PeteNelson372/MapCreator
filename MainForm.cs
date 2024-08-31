@@ -2038,11 +2038,9 @@ namespace MapCreator
                     OceanTextureOpacityTrack.Refresh();
                 }
 
-                if (theme.OceanColor != null && theme.OceanColorOpacity != null)
+                if (theme.OceanColor != null)
                 {
-                    Color argbColor = Color.FromArgb((int)theme.OceanColorOpacity, (Color)theme.OceanColor);
-
-                    OceanColorSelectionLabel.BackColor = argbColor;
+                    OceanColorSelectionLabel.BackColor = (Color)theme.OceanColor;
                     OceanColorSelectionLabel.Refresh();
                 }
             }
@@ -2180,11 +2178,9 @@ namespace MapCreator
                     }
                 }
 
-                if (theme.LandformCoastlineColor != null && theme.LandformCoastlineColorOpacity != null)
+                if (theme.LandformCoastlineColor != null)
                 {
-                    Color argbColor = Color.FromArgb((int)theme.LandformCoastlineColorOpacity, (Color)theme.LandformCoastlineColor);
-
-                    CoastColorSelectionLabel.BackColor = argbColor;
+                    CoastColorSelectionLabel.BackColor = (Color)theme.LandformCoastlineColor;
                     CoastColorSelectionLabel.Refresh();
                 }
 
@@ -2274,11 +2270,9 @@ namespace MapCreator
 
             if (themeFilter.ApplyFreshwaterSettings)
             {
-                if (theme.FreshwaterColor != null && theme.FreshwaterColorOpacity != null)
+                if (theme.FreshwaterColor != null)
                 {
-                    Color argbColor = Color.FromArgb((int)theme.FreshwaterColorOpacity, (Color)theme.FreshwaterColor);
-
-                    WaterColorSelectionLabel.BackColor = argbColor;
+                    WaterColorSelectionLabel.BackColor = (Color)theme.FreshwaterColor;
                     WaterColorSelectionLabel.Refresh();
                 }
                 else
@@ -2287,11 +2281,9 @@ namespace MapCreator
                     WaterColorSelectionLabel.Refresh();
                 }
 
-                if (theme.FreshwaterShorelineColor != null && theme.FreshwaterShorelineColorOpacity != null)
+                if (theme.FreshwaterShorelineColor != null)
                 {
-                    Color argbColor = Color.FromArgb((int)theme.FreshwaterShorelineColorOpacity, (Color)theme.FreshwaterShorelineColor);
-
-                    ShorelineColorSelectionLabel.BackColor = argbColor;
+                    ShorelineColorSelectionLabel.BackColor = (Color)theme.FreshwaterShorelineColor;
                     ShorelineColorSelectionLabel.Refresh();
                 }
                 else

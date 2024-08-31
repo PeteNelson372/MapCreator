@@ -1871,7 +1871,7 @@
             // 
             // CoastColorSelectionLabel
             // 
-            CoastColorSelectionLabel.BackColor = Color.FromArgb(156, 195, 183);
+            CoastColorSelectionLabel.BackColor = Color.FromArgb(187, 156, 195, 183);
             CoastColorSelectionLabel.BorderStyle = BorderStyle.FixedSingle;
             CoastColorSelectionLabel.Font = new Font("Tahoma", 8F);
             CoastColorSelectionLabel.ForeColor = SystemColors.ButtonShadow;
