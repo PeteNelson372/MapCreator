@@ -36,22 +36,14 @@ namespace MapCreator
         public List<MapPathPoint> PathPoints { get; set; } = [];
         public PathTypeEnum PathType { get; set; } = PathTypeEnum.SolidLinePath;
         public Color PathColor {  get; set; } = ColorTranslator.FromHtml("#4B311A");
-        public byte PathColorOpacity { get; set; } = 255;
         public float PathWidth { get; set; } = 4;
         public bool DrawOverSymbols { get; set; } = false;
 
-        [XmlIgnore]
+
         public bool ShowPathPoints { get; set; } = false;
-
-        [XmlIgnore]
         public bool IsSelected { get; set; } = false;
-
-        [XmlIgnore]
         public SKPaint? PathPaint { get; set; }
-
-        [XmlIgnore]
         public SKPath? BoundaryPath { get; set; } = null;
-
 
         public XmlSchema? GetSchema()
         {
@@ -95,14 +87,6 @@ namespace MapCreator
                 string? pathColor = mapPathDoc.Descendants().Select(x => x.Element(ns + "PathColor").Value).FirstOrDefault();
                 PathColor = ColorTranslator.FromHtml(pathColor);
             }
-
-            IEnumerable<XElement?> pathColorOpacityElem = mapPathDoc.Descendants().Select(x => x.Element(ns + "PathColorOpacity"));
-            if (pathColorOpacityElem.First() != null)
-            {
-                string? pathColorOpacity = mapPathDoc.Descendants().Select(x => x.Element(ns + "PathColorOpacity").Value).FirstOrDefault();
-                PathColorOpacity = byte.Parse(pathColorOpacity);
-            }
-
 
             IEnumerable<XElement?> pathWidthElem = mapPathDoc.Descendants().Select(x => x.Element(ns + "PathWidth"));
             if (pathWidthElem.First() != null)
@@ -175,10 +159,6 @@ namespace MapCreator
             XmlColor pathcolor = new XmlColor(PathColor);
             writer.WriteStartElement("PathColor");
             pathcolor.WriteXml(writer);
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("PathColorOpacity");
-            writer.WriteValue(PathColorOpacity);
             writer.WriteEndElement();
 
             writer.WriteStartElement("PathWidth");

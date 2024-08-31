@@ -38,16 +38,12 @@ namespace MapCreator
         public List<MapRiverPoint> RiverPoints { get; set; } = [];
 
         public Color RiverColor { get; set; } = ColorTranslator.FromHtml("#839690");
-
-        public int RiverColorOpacity { get; set; } = 255;
-        
+     
         public float RiverWidth { get; set; } = 4;
 
         public bool RiverSourceFadeIn { get; set; } = false;
 
         public Color RiverShorelineColor { get; set; } = ColorTranslator.FromHtml("#A19076");
-
-        public int RiverShorelineColorOpacity { get; set; } = 255;
 
         [XmlIgnore]
         public bool ShowRiverPoints { get; set; } = false;
@@ -115,13 +111,6 @@ namespace MapCreator
                 RiverColor = ColorTranslator.FromHtml(riverColor);
             }
 
-            IEnumerable<XElement?> riverColorOpacityElem = mapRiverDoc.Descendants().Select(x => x.Element(ns + "RiverColorOpacity"));
-            if (riverColorOpacityElem.First() != null)
-            {
-                string? riverColorOpacity = mapRiverDoc.Descendants().Select(x => x.Element(ns + "RiverColorOpacity").Value).FirstOrDefault();
-                RiverColorOpacity = int.Parse(riverColorOpacity);
-            }
-
             IEnumerable<XElement?> riverWidthElem = mapRiverDoc.Descendants().Select(x => x.Element(ns + "RiverWidth"));
             if (riverWidthElem.First() != null)
             {
@@ -141,13 +130,6 @@ namespace MapCreator
             {
                 string? riverShorelineColor = mapRiverDoc.Descendants().Select(x => x.Element(ns + "RiverShorelineColor").Value).FirstOrDefault();
                 RiverShorelineColor = ColorTranslator.FromHtml(riverShorelineColor);
-            }
-
-            IEnumerable<XElement?> riverShorelineColorOpacityElem = mapRiverDoc.Descendants().Select(x => x.Element(ns + "RiverShorelineColorOpacity"));
-            if (riverShorelineColorOpacityElem.First() != null)
-            {
-                string? riverShorelineColorOpacity = mapRiverDoc.Descendants().Select(x => x.Element(ns + "RiverShorelineColorOpacity").Value).FirstOrDefault();
-                RiverShorelineColorOpacity = int.Parse(riverShorelineColorOpacity);
             }
 
             IEnumerable<XElement> mapPointElem = mapRiverDoc.Descendants(ns + "MapRiverPoint");
@@ -215,11 +197,6 @@ namespace MapCreator
             riverColor.WriteXml(writer);
             writer.WriteEndElement();
 
-            // water feature color opacity
-            writer.WriteStartElement("RiverColorOpacity");
-            writer.WriteValue(RiverColorOpacity);
-            writer.WriteEndElement();
-
             writer.WriteStartElement("RiverWidth");
             writer.WriteValue(RiverWidth.ToString());
             writer.WriteEndElement();
@@ -231,11 +208,6 @@ namespace MapCreator
             XmlColor riverShorelineColor = new(RiverShorelineColor);
             writer.WriteStartElement("RiverShorelineColor");
             riverShorelineColor.WriteXml(writer);
-            writer.WriteEndElement();
-
-            // water feature color opacity
-            writer.WriteStartElement("RiverShorelineColorOpacity");
-            writer.WriteValue(RiverShorelineColorOpacity);
             writer.WriteEndElement();
 
             writer.WriteStartElement("MapRiverPoints");

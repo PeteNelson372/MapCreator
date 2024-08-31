@@ -1903,7 +1903,6 @@ namespace MapCreator
 
             theme.OceanTextureOpacity = OceanTextureOpacityTrack.Value;
             theme.OceanColor = OceanColorSelectionLabel.BackColor;
-            theme.OceanColorOpacity = OceanColorOpacityTrack.Value;
 
             // save ocean custom colors
             theme.OceanColorPalette.Add(OceanCustomColorButton1.BackColor);
@@ -1930,7 +1929,6 @@ namespace MapCreator
             }
 
             theme.LandformCoastlineColor = CoastColorSelectionLabel.BackColor;
-            theme.LandformCoastlineColorOpacity = CoastColorOpacityScroll.Value;
             theme.LandformCoastlineEffectDistance = FxDistanceTrack.Value;
 
             if (CoastStyleSelectionBox.SelectedIndex > -1)
@@ -1948,9 +1946,7 @@ namespace MapCreator
 
             // freshwater
             theme.FreshwaterColor = WaterColorSelectionLabel.BackColor;
-            theme.FreshwaterColorOpacity = WaterColorOpacityTrack.Value;
             theme.FreshwaterShorelineColor = ShorelineColorSelectionLabel.BackColor;
-            theme.FreshwaterShorelineColorOpacity = ShorelineColorOpacityTrack.Value;
 
             theme.RiverWidth = RiverWidthTrack.Value;
             theme.RiverSourceFadeIn = RiverSourceFadeInCheck.Checked;
@@ -1967,7 +1963,6 @@ namespace MapCreator
 
             // path
             theme.PathColor = PathColorSelectionLabel.BackColor;
-            theme.PathColorOpacity = PathColorOpacityTrack.Value;
             theme.PathWidth = PathWidthTrack.Value;
 
             // symbols
@@ -2049,9 +2044,6 @@ namespace MapCreator
 
                     OceanColorSelectionLabel.BackColor = argbColor;
                     OceanColorSelectionLabel.Refresh();
-
-                    OceanOpacityLabel.Text = theme.OceanColorOpacity.ToString();
-                    OceanOpacityLabel.Refresh();
                 }
             }
 
@@ -2194,12 +2186,6 @@ namespace MapCreator
 
                     CoastColorSelectionLabel.BackColor = argbColor;
                     CoastColorSelectionLabel.Refresh();
-
-                    CoastColorOpacityScroll.Value = (int)theme.LandformCoastlineColorOpacity;
-                    CoastColorOpacityScroll.Refresh();
-
-                    CoastColorOpacityLabel.Text = theme.LandformCoastlineColorOpacity.ToString();
-                    CoastColorOpacityLabel.Refresh();
                 }
 
                 if (theme.LandformCoastlineEffectDistance != null)
@@ -2294,12 +2280,6 @@ namespace MapCreator
 
                     WaterColorSelectionLabel.BackColor = argbColor;
                     WaterColorSelectionLabel.Refresh();
-
-                    WaterColorOpacityTrack.Value = (int)theme.FreshwaterColorOpacity;
-                    WaterColorOpacityTrack.Refresh();
-
-                    WaterColorOpacityLabel.Text = theme.FreshwaterColorOpacity.ToString();
-                    WaterColorOpacityLabel.Refresh();
                 }
                 else
                 {
@@ -2313,12 +2293,6 @@ namespace MapCreator
 
                     ShorelineColorSelectionLabel.BackColor = argbColor;
                     ShorelineColorSelectionLabel.Refresh();
-
-                    ShorelineColorOpacityTrack.Value = (int)theme.FreshwaterShorelineColorOpacity;
-                    ShorelineColorOpacityTrack.Refresh();
-
-                    ShorelineColorOpacityLabel.Text = theme.FreshwaterShorelineColorOpacity.ToString();
-                    ShorelineColorOpacityLabel.Refresh();
                 }
                 else
                 {
@@ -2430,12 +2404,6 @@ namespace MapCreator
                 {
                     PathColorSelectionLabel.BackColor = (Color)theme.PathColor;
                     PathColorSelectionLabel.Refresh();
-                }
-
-                if (theme.PathColorOpacity != null)
-                {
-                    PathColorOpacityTrack.Value = (int)theme.PathColorOpacity;
-                    PathColorOpacityTrack.Refresh();
                 }
 
                 if (theme.PathWidth != null)
@@ -2689,9 +2657,7 @@ namespace MapCreator
 
         private void VignetteColorSelectionLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, VignetteColorSelectionLabel.BackColor);
 
             if (selectedColor != Color.Empty)
             {
@@ -2806,7 +2772,6 @@ namespace MapCreator
                 LineWidth = (int)WindroseLineWidthUpDown.Value,
                 OuterRadius = (int)WindroseOuterRadiusUpDown.Value,
                 WindroseColor = WindroseColorSelectLabel.BackColor,
-                WindroseColorOpacity = WindroseColorOpacityTrack.Value,
                 DirectionCount = (int)WindroseDirectionsUpDown.Value,
             };
 
@@ -2831,7 +2796,6 @@ namespace MapCreator
                 UIWindrose.LineWidth = (int)WindroseLineWidthUpDown.Value;
                 UIWindrose.OuterRadius = (int)WindroseOuterRadiusUpDown.Value;
                 UIWindrose.WindroseColor = WindroseColorSelectLabel.BackColor;
-                UIWindrose.WindroseColorOpacity = WindroseColorOpacityTrack.Value;
                 UIWindrose.DirectionCount = (int)WindroseDirectionsUpDown.Value;
 
                 UIWindrose.WindrosePaint = new()
@@ -2877,34 +2841,13 @@ namespace MapCreator
         #region Ocean Texture and Color Event Handlers
         private void OceanColorSelectLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, OceanColorSelectionLabel.BackColor);
 
             if (selectedColor != Color.Empty)
             {
-                Color oceanColor = selectedColor;
-                Color argbColor = Color.FromArgb(OceanColorOpacityTrack.Value, oceanColor.R, oceanColor.G, oceanColor.B);
-
-                OceanColorSelectionLabel.BackColor = argbColor;
+                OceanColorSelectionLabel.BackColor = selectedColor;
                 OceanColorSelectionLabel.Refresh();
-
-                OceanOpacityLabel.Text = OceanColorOpacityTrack.Value.ToString();
-                OceanOpacityLabel.Refresh();
             }
-        }
-
-        private void OceanOpacityScroll_ValueChanged(object sender, EventArgs e)
-        {
-            Color oceanColor = OceanColorSelectionLabel.BackColor;
-            Color argbColor = Color.FromArgb(OceanColorOpacityTrack.Value, oceanColor);
-
-            OceanColorSelectionLabel.BackColor = argbColor;
-
-            OceanOpacityLabel.Text = OceanColorOpacityTrack.Value.ToString();
-
-            OceanColorSelectionLabel.Refresh();
-            OceanOpacityLabel.Refresh();
         }
 
         private void OceanBrushSizeScroll_Scroll(object sender, EventArgs e)
@@ -3093,36 +3036,19 @@ namespace MapCreator
 
         private void OceanColorSelectionButton_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, OceanColorSelectButton.BackColor);
 
             if (selectedColor != Color.Empty)
             {
-                Color oceanColor = selectedColor;
-                Color argbColor = Color.FromArgb(OceanBrushOpacityScroll.Value, oceanColor);
-
-                OceanSelectedPaintColorLabel.BackColor = argbColor;
+                OceanSelectedPaintColorLabel.BackColor = selectedColor;
+                OceanSelectedPaintColorLabel.Refresh();
             }
-        }
-
-        private void OceanBrushOpacityScroll_ValueChanged(object sender, EventArgs e)
-        {
-            Color oceanColor = OceanSelectedPaintColorLabel.BackColor;
-            Color argbColor = Color.FromArgb(OceanBrushOpacityScroll.Value, oceanColor);
-
-            OceanSelectedPaintColorLabel.BackColor = argbColor;
-
-            OceanColorBrushOpacityLabel.Text = argbColor.A.ToString();
-
-            OceanSelectedPaintColorLabel.Refresh();
-            OceanColorBrushOpacityLabel.Refresh();
         }
 
         private void OceanAddColorPresetButton_Click(object sender, EventArgs e)
         {
             TopMost = true;
-            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, Color.Empty);
             TopMost = false;
 
             if (selectedColor != Color.Empty)
@@ -3183,13 +3109,9 @@ namespace MapCreator
         private void SetOceanColorFromPreset(string htmlColor)
         {
             Color oceanColor = ColorTranslator.FromHtml(htmlColor);
-            Color argbColor = Color.FromArgb(OceanBrushOpacityScroll.Value, oceanColor);
 
-            OceanSelectedPaintColorLabel.BackColor = argbColor;
-            OceanColorBrushOpacityLabel.Text = argbColor.A.ToString();
-
+            OceanSelectedPaintColorLabel.BackColor = oceanColor;
             OceanSelectedPaintColorLabel.Refresh();
-            OceanColorBrushOpacityLabel.Refresh();
         }
 
         private void OceanButton91CBB8_Click(object sender, EventArgs e)
@@ -3217,13 +3139,10 @@ namespace MapCreator
             if (b.Text != "")
             {
                 Color oceanColor = b.BackColor;
-                Color argbColor = Color.FromArgb(OceanBrushOpacityScroll.Value, oceanColor);
 
-                OceanSelectedPaintColorLabel.BackColor = argbColor;
-                OceanColorBrushOpacityLabel.Text = argbColor.A.ToString();
+                OceanSelectedPaintColorLabel.BackColor = oceanColor;
 
                 OceanSelectedPaintColorLabel.Refresh();
-                OceanColorBrushOpacityLabel.Refresh();
             }
         }
 
@@ -3303,34 +3222,15 @@ namespace MapCreator
 
         private void WindroseColorSelectLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, WindroseColorSelectLabel.BackColor);
 
             if (selectedColor != Color.Empty)
             {
-                Color windroseColor = selectedColor;
-                Color argbColor = Color.FromArgb(WindroseColorOpacityTrack.Value, windroseColor);
-
-                WindroseColorSelectLabel.BackColor = argbColor;
+                WindroseColorSelectLabel.BackColor = selectedColor;
                 WindroseColorSelectLabel.Refresh();
 
                 UpdateUIWindrose();
             }
-        }
-
-        private void WindroseColorOpacityTrack_Scroll(object sender, EventArgs e)
-        {
-            Color windroseColor = WindroseColorSelectLabel.BackColor;
-            Color argbColor = Color.FromArgb(OceanBrushOpacityScroll.Value, windroseColor);
-
-            WindroseColorSelectLabel.BackColor = argbColor;
-            WindroseColorSelectLabel.Refresh();
-
-            WindroseColorOpacityLabel.Text = WindroseColorOpacityTrack.Value.ToString();
-            WindroseColorOpacityLabel.Refresh();
-
-            UpdateUIWindrose();
         }
 
         private void WindroseDirectionsUpDown_ValueChanged(object sender, EventArgs e)
@@ -3397,7 +3297,6 @@ namespace MapCreator
 
             mapLandform.LandformOutlineColor = LandOutlineColorSelectionLabel.BackColor;
             mapLandform.CoastlineColor = CoastColorSelectionLabel.BackColor;
-            mapLandform.CoastlineColorOpacity = CoastColorOpacityScroll.Value;
             mapLandform.CoastlineEffectDistance = FxDistanceTrack.Value;
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
@@ -3499,7 +3398,7 @@ namespace MapCreator
         private void LandOutlineColorSelectionLabel_Click(object sender, EventArgs e)
         {
             TopMost = true;
-            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, LandOutlineColorSelectionLabel.BackColor);
             TopMost = false;
 
             if (selectedColor != Color.Empty)
@@ -3546,29 +3445,13 @@ namespace MapCreator
 
         private void CoastColorSelectionLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, CoastColorSelectionLabel.BackColor);
 
             if (selectedColor != Color.Empty)
             {
-                Color coastColor = selectedColor;
-                Color argbColor = Color.FromArgb(CoastColorOpacityScroll.Value, coastColor.R, coastColor.G, coastColor.B);
-
-                CoastColorSelectionLabel.BackColor = argbColor;
+                CoastColorSelectionLabel.BackColor = selectedColor;
                 CoastColorSelectionLabel.Refresh();
             }
-        }
-
-        private void CoastColorOpacityScroll_ValueChanged(object sender, EventArgs e)
-        {
-            Color coastColor = CoastColorSelectionLabel.BackColor;
-            Color argbColor = Color.FromArgb(CoastColorOpacityScroll.Value, coastColor.R, coastColor.G, coastColor.B);
-
-            CoastColorSelectionLabel.BackColor = argbColor;
-            CoastColorOpacityLabel.Text = argbColor.A.ToString();
-            CoastColorSelectionLabel.Refresh();
-            CoastColorOpacityLabel.Refresh();
         }
 
         private void LandEraserSizeScroll_ValueChanged(object sender, EventArgs e)
@@ -3798,19 +3681,6 @@ namespace MapCreator
             LandColorEraserSizeLabel.Refresh();
         }
 
-        private void LandColorBrushOpacityTrack_ValueChanged(object sender, EventArgs e)
-        {
-            Color landColor = LandSelectedPaintColorLabel.BackColor;
-            Color argbColor = Color.FromArgb(LandColorBrushOpacityTrack.Value, landColor);
-
-            LandSelectedPaintColorLabel.BackColor = argbColor;
-
-            LandColorBrushOpacityLabel.Text = argbColor.A.ToString();
-
-            LandSelectedPaintColorLabel.Refresh();
-            LandColorBrushOpacityLabel.Refresh();
-        }
-
         private void LandColorBrushSizeTrack_ValueChanged(object sender, EventArgs e)
         {
             LandColorBrushSizeLabel.Text = LandColorBrushSizeTrack.Value.ToString();
@@ -3820,9 +3690,7 @@ namespace MapCreator
 
         private void LandColorSelectionButton_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, LandSelectedPaintColorLabel.BackColor);
 
             if (selectedColor != Color.Empty)
             {
@@ -3838,9 +3706,7 @@ namespace MapCreator
 
         private void LandAddColorPresetButton_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, Color.Empty);
 
             if (selectedColor != Color.Empty)
             {
@@ -3888,13 +3754,10 @@ namespace MapCreator
         private void SetLandColorFromPreset(string htmlColor)
         {
             Color landColor = ColorTranslator.FromHtml(htmlColor);
-            Color argbColor = Color.FromArgb(LandColorBrushOpacityTrack.Value, landColor);
 
-            LandSelectedPaintColorLabel.BackColor = argbColor;
-            LandColorBrushOpacityLabel.Text = argbColor.A.ToString();
+            LandSelectedPaintColorLabel.BackColor = landColor;
 
             LandSelectedPaintColorLabel.Refresh();
-            LandColorBrushOpacityLabel.Refresh();
         }
 
         private void LandButtonE6D0AB_Click(object sender, EventArgs e)
@@ -3932,13 +3795,10 @@ namespace MapCreator
             if (b.Text != "")
             {
                 Color landColor = b.BackColor;
-                Color argbColor = Color.FromArgb(LandColorBrushOpacityTrack.Value, landColor);
 
-                LandSelectedPaintColorLabel.BackColor = argbColor;
-                LandColorBrushOpacityLabel.Text = argbColor.A.ToString();
+                LandSelectedPaintColorLabel.BackColor = landColor;
 
                 LandSelectedPaintColorLabel.Refresh();
-                LandColorBrushOpacityLabel.Refresh();
             }
         }
 
@@ -4017,9 +3877,7 @@ namespace MapCreator
             waterFeature.WaterFeatureType = waterFeatureType;
 
             waterFeature.WaterFeatureColor = WaterColorSelectionLabel.BackColor;
-            waterFeature.WaterFeatureColorOpacity = WaterColorOpacityTrack.Value;
             waterFeature.WaterFeatureShorelineColor = ShorelineColorSelectionLabel.BackColor;
-            waterFeature.WaterFeatureShorelineColorOpacity = ShorelineColorOpacityTrack.Value;
 
             WaterFeatureMethods.ConstructWaterFeaturePaintObjects(waterFeature);
         }
@@ -4029,10 +3887,8 @@ namespace MapCreator
             if (mapRiver == null) { return; }
 
             mapRiver.RiverColor = WaterColorSelectionLabel.BackColor;
-            mapRiver.RiverColorOpacity = (byte)WaterColorOpacityTrack.Value;
 
             mapRiver.RiverShorelineColor = ShorelineColorSelectionLabel.BackColor;
-            mapRiver.RiverShorelineColorOpacity = (byte)ShorelineColorOpacityTrack.Value;
 
             mapRiver.RiverWidth = RiverWidthTrack.Value / 2.0F;
 
@@ -4142,50 +3998,24 @@ namespace MapCreator
 
         private void WaterColorSelectionLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, WaterColorSelectionLabel.BackColor);
 
             if (selectedColor != Color.Empty)
             {
-                Color waterPaintColor = selectedColor;
-                WaterColorSelectionLabel.BackColor = Color.FromArgb(WaterColorOpacityTrack.Value, waterPaintColor);
+                WaterColorSelectionLabel.BackColor = selectedColor;
                 WaterColorSelectionLabel.Refresh();
             }
         }
 
-        private void WaterColorOpacity_Scroll(object sender, EventArgs e)
-        {
-            WaterColorOpacityLabel.Text = WaterColorOpacityTrack.Value.ToString();
-            WaterColorSelectionLabel.BackColor = Color.FromArgb(WaterColorOpacityTrack.Value,
-                WaterColorSelectionLabel.BackColor.R, WaterColorSelectionLabel.BackColor.G, WaterColorSelectionLabel.BackColor.B);
-
-            WaterColorSelectionLabel.Refresh();
-            WaterColorOpacityLabel.Refresh();
-        }
-
         private void ShorelineColorSelectionLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, ShorelineColorSelectionLabel.BackColor);
 
             if (selectedColor != Color.Empty)
             {
-                Color shorelineColor = selectedColor;
-                ShorelineColorSelectionLabel.BackColor = Color.FromArgb(ShorelineColorOpacityTrack.Value, shorelineColor);
+                ShorelineColorSelectionLabel.BackColor = selectedColor;
                 ShorelineColorSelectionLabel.Refresh();
             }
-        }
-
-        private void ShorelineColorOpacityTrack_Scroll(object sender, EventArgs e)
-        {
-            ShorelineColorOpacityLabel.Text = WaterColorOpacityTrack.Value.ToString();
-            ShorelineColorSelectionLabel.BackColor = Color.FromArgb(ShorelineColorOpacityTrack.Value,
-                ShorelineColorSelectionLabel.BackColor.R, ShorelineColorSelectionLabel.BackColor.G, ShorelineColorSelectionLabel.BackColor.B);
-
-            ShorelineColorSelectionLabel.Refresh();
-            ShorelineColorOpacityLabel.Refresh();
         }
 
         private void RiverWidthTrack_Scroll(object sender, EventArgs e)
@@ -4258,19 +4088,6 @@ namespace MapCreator
             WaterColorBrushSizeLabel.Refresh();
         }
 
-        private void WaterColorBrushOpacityTrack_Scroll(object sender, EventArgs e)
-        {
-            Color waterColor = WaterSelectedPaintColorLabel.BackColor;
-            Color argbColor = Color.FromArgb(WaterColorBrushOpacityTrack.Value, waterColor);
-
-            WaterSelectedPaintColorLabel.BackColor = argbColor;
-
-            WaterColorBrushOpacityLabel.Text = argbColor.A.ToString();
-
-            WaterSelectedPaintColorLabel.Refresh();
-            WaterColorBrushOpacityLabel.Refresh();
-        }
-
         private void WaterColorEraserSizeTrack_Scroll(object sender, EventArgs e)
         {
             WaterColorEraserSizeLabel.Text = WaterColorEraserSizeTrack.Value.ToString();
@@ -4285,28 +4102,19 @@ namespace MapCreator
 
         private void WaterColorSelectionButton_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, WaterSelectedPaintColorLabel.BackColor);
 
             if (selectedColor != Color.Empty)
             {
                 WaterSelectedPaintColorLabel.BackColor = selectedColor;
 
-                WaterColorBrushOpacityLabel.Text = selectedColor.A.ToString();
-                WaterColorBrushOpacityTrack.Value = selectedColor.A;
-
                 WaterSelectedPaintColorLabel.Refresh();
-                WaterColorBrushOpacityLabel.Refresh();
-                WaterColorBrushOpacityTrack.Refresh();
             }
         }
 
         private void WaterAddColorPresetButton_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, Color.Empty);
 
             if (selectedColor != Color.Empty)
             {
@@ -4366,15 +4174,9 @@ namespace MapCreator
         private void SetWaterColorFromPreset(string htmlColor)
         {
             Color waterColor = ColorTranslator.FromHtml(htmlColor);
-            Color argbColor = Color.FromArgb(WaterColorBrushOpacityTrack.Value, waterColor);
 
-            WaterSelectedPaintColorLabel.BackColor = argbColor;
-            WaterColorBrushOpacityLabel.Text = argbColor.A.ToString();
-            WaterColorBrushOpacityTrack.Value = argbColor.A;
-
+            WaterSelectedPaintColorLabel.BackColor = waterColor;
             WaterSelectedPaintColorLabel.Refresh();
-            WaterColorBrushOpacityLabel.Refresh();
-            WaterColorBrushOpacityTrack.Refresh();
         }
 
         private void WaterButton91CBB8_Click(object sender, EventArgs e)
@@ -4402,15 +4204,10 @@ namespace MapCreator
             if (b.Text != "")
             {
                 Color waterColor = b.BackColor;
-                Color argbColor = Color.FromArgb(WaterColorBrushOpacityTrack.Value, waterColor);
 
-                WaterSelectedPaintColorLabel.BackColor = argbColor;
-                WaterColorBrushOpacityLabel.Text = argbColor.A.ToString();
-                WaterColorBrushOpacityTrack.Value = argbColor.A;
+                WaterSelectedPaintColorLabel.BackColor = waterColor;
 
                 WaterSelectedPaintColorLabel.Refresh();
-                WaterColorBrushOpacityLabel.Refresh();
-                WaterColorBrushOpacityTrack.Refresh();
             }
         }
 
@@ -4480,7 +4277,6 @@ namespace MapCreator
             if (mapPath == null) { return; }
 
             mapPath.PathColor = PathColorSelectionLabel.BackColor;
-            mapPath.PathColorOpacity = (byte)PathColorOpacityTrack.Value;
 
             mapPath.PathWidth = PathWidthTrack.Value / 2.0F;
 
@@ -4614,34 +4410,12 @@ namespace MapCreator
         *******************************************************************************************************/
         private void PathColorSelectionLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color selectedColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false; ;
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, PathColorSelectionLabel.BackColor);
 
             if (selectedColor != Color.Empty)
             {
                 PathColorSelectionLabel.BackColor = selectedColor;
-
-                PathColorOpacityLabel.Text = selectedColor.A.ToString();
-                PathColorOpacityTrack.Value = selectedColor.A;
-
-                PathColorSelectionLabel.Refresh();
-                PathColorOpacityLabel.Refresh();
-                PathColorOpacityTrack.Refresh();
             }
-        }
-
-        private void PathColorOpacityTrack_Scroll(object sender, EventArgs e)
-        {
-            Color pathColor = PathColorSelectionLabel.BackColor;
-            Color argbColor = Color.FromArgb(PathColorOpacityTrack.Value, pathColor);
-
-            PathColorSelectionLabel.BackColor = argbColor;
-
-            PathColorOpacityLabel.Text = argbColor.A.ToString();
-
-            PathColorSelectionLabel.Refresh();
-            PathColorOpacityLabel.Refresh();
         }
 
         private void PathWidthTrack_Scroll(object sender, EventArgs e)
@@ -5308,9 +5082,7 @@ namespace MapCreator
 
         private void SymbolColor1Label_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color c = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color c = MapPaintMethods.SelectColorFromDialog(this, SymbolColor1Label.BackColor);
 
             SymbolColor1Label.BackColor = c;
             SymbolColor1Label.Refresh();
@@ -5322,9 +5094,7 @@ namespace MapCreator
 
         private void SymbolColor2Label_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color c = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color c = MapPaintMethods.SelectColorFromDialog(this, SymbolColor2Label.BackColor);
 
             SymbolColor2Label.BackColor = c;
             SymbolColor2Label.Refresh();
@@ -5336,9 +5106,7 @@ namespace MapCreator
 
         private void SymbolColor3Label_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color c = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color c = MapPaintMethods.SelectColorFromDialog(this, SymbolColor3Label.BackColor);
 
             SymbolColor3Label.BackColor = c;
             SymbolColor3Label.Refresh();
@@ -5350,9 +5118,7 @@ namespace MapCreator
 
         private void SymbolColor4Label_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color c = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color c = MapPaintMethods.SelectColorFromDialog(this, SymbolColor4Label.BackColor);
 
             SymbolColor4Label.BackColor = c;
             SymbolColor4Label.Refresh();
@@ -5644,23 +5410,14 @@ namespace MapCreator
             FontColorSelectLabel.BackColor = Color.FromArgb(preset.LabelColor);
             FontColorSelectLabel.Refresh();
 
-            FontColorOpacityTrack.Value = FontColorSelectLabel.BackColor.A;
-            FontColorOpacityTrack.Refresh();
-
             OutlineColorSelectLabel.BackColor = Color.FromArgb(preset.LabelOutlineColor);
             OutlineColorSelectLabel.Refresh();
-
-            OutlineColorOpacityTrack.Value = OutlineColorSelectLabel.BackColor.A;
-            OutlineColorOpacityTrack.Refresh();
 
             OutlineWidthUpDown.Value = preset.LabelOutlineWidth;
             OutlineWidthUpDown.Refresh();
 
             GlowColorSelectLabel.BackColor = Color.FromArgb(preset.LabelGlowColor);
             GlowColorSelectLabel.Refresh();
-
-            GlowColorOpacityTrack.Value = GlowColorSelectLabel.BackColor.A;
-            GlowColorOpacityTrack.Refresh();
 
             GlowStrengthUpDown.Value = preset.LabelGlowStrength;
             GlowStrengthUpDown.Refresh();
@@ -5829,19 +5586,15 @@ namespace MapCreator
 
         private void SelectLabelFontButton_Click(object sender, EventArgs e)
         {
-            FontDialog fd = new()
-            {
-                FontMustExist = true
-            };
+            FontSelectionDialog fsd = new FontSelectionDialog();
+            DialogResult result = fsd.ShowDialog(this);
 
-            DialogResult result = fd.ShowDialog();
-
-            if (result == DialogResult.OK)
+            if (result == DialogResult.OK && fsd.SelectedFont != null)
             {
-                SelectLabelFontButton.Font = new Font(fd.Font.FontFamily, 14);
+                SelectLabelFontButton.Font = new Font(fsd.SelectedFont.FontFamily, 14);
                 SelectLabelFontButton.Refresh();
 
-                MapLabelMethods.SELECTED_FONT = fd.Font;
+                MapLabelMethods.SELECTED_FONT = fsd.SelectedFont;
 
                 UpdateSelectedLabelOnUIChange();
             }
@@ -5849,13 +5602,11 @@ namespace MapCreator
 
         private void FontColorSelectLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color labelColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color labelColor = MapPaintMethods.SelectColorFromDialog(this, FontColorSelectLabel.BackColor);
 
             if (labelColor.ToArgb() != Color.Empty.ToArgb())
             {
-                FontColorSelectLabel.BackColor = Color.FromArgb(FontColorOpacityTrack.Value, labelColor);
+                FontColorSelectLabel.BackColor = labelColor;
 
                 FontColorSelectLabel.Refresh();
 
@@ -5863,45 +5614,17 @@ namespace MapCreator
             }
         }
 
-        private void FontColorOpacityTrack_ValueChanged(object sender, EventArgs e)
-        {
-            FontColorOpacityLabel.Text = FontColorOpacityTrack.Value.ToString();
-            FontColorOpacityLabel.Refresh();
-
-            FontColorSelectLabel.BackColor = Color.FromArgb(FontColorOpacityTrack.Value,
-                FontColorSelectLabel.BackColor.R, FontColorSelectLabel.BackColor.G, FontColorSelectLabel.BackColor.B);
-
-            FontColorSelectLabel.Refresh();
-
-            UpdateSelectedLabelOnUIChange();
-        }
-
         private void OutlineColorSelectLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color outlineColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color outlineColor = MapPaintMethods.SelectColorFromDialog(this, OutlineColorSelectLabel.BackColor);
 
             if (outlineColor.ToArgb() != Color.Empty.ToArgb())
             {
-                OutlineColorSelectLabel.BackColor = Color.FromArgb(OutlineColorOpacityTrack.Value, outlineColor);
+                OutlineColorSelectLabel.BackColor = outlineColor;
                 OutlineColorSelectLabel.Refresh();
 
                 UpdateSelectedLabelOnUIChange();
             }
-        }
-
-        private void OutlineColorOpacityTrack_ValueChanged(object sender, EventArgs e)
-        {
-            OutlineColorOpacityLabel.Text = OutlineColorOpacityTrack.Value.ToString();
-            OutlineColorOpacityLabel.Refresh();
-
-            OutlineColorSelectLabel.BackColor = Color.FromArgb(OutlineColorOpacityTrack.Value,
-                OutlineColorSelectLabel.BackColor.R, OutlineColorSelectLabel.BackColor.G, OutlineColorSelectLabel.BackColor.B);
-
-            OutlineColorSelectLabel.Refresh();
-
-            UpdateSelectedLabelOnUIChange();
         }
 
         private void OutlineWidthUpDown_ValueChanged(object sender, EventArgs e)
@@ -5911,30 +5634,15 @@ namespace MapCreator
 
         private void GlowColorSelectLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color glowColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color glowColor = MapPaintMethods.SelectColorFromDialog(this, GlowColorSelectLabel.BackColor);
 
             if (glowColor.ToArgb() != Color.Empty.ToArgb())
             {
-                GlowColorSelectLabel.BackColor = Color.FromArgb(GlowColorOpacityTrack.Value, glowColor);
+                GlowColorSelectLabel.BackColor = glowColor;
                 GlowColorSelectLabel.Refresh();
 
                 UpdateSelectedLabelOnUIChange();
             }
-        }
-
-        private void GlowColorOpacityTrack_ValueChanged(object sender, EventArgs e)
-        {
-            GlowColorOpacityLabel.Text = GlowColorOpacityTrack.Value.ToString();
-            GlowColorOpacityLabel.Refresh();
-
-            GlowColorSelectLabel.BackColor = Color.FromArgb(GlowColorOpacityTrack.Value,
-                GlowColorSelectLabel.BackColor.R, GlowColorSelectLabel.BackColor.G, GlowColorSelectLabel.BackColor.B);
-
-            GlowColorSelectLabel.Refresh();
-
-            UpdateSelectedLabelOnUIChange();
         }
 
         private void GlowStrengthUpDown_ValueChanged(object sender, EventArgs e)
@@ -5996,13 +5704,11 @@ namespace MapCreator
 
         private void SelectBoxTintLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color boxColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color boxColor = MapPaintMethods.SelectColorFromDialog(this, SelectBoxTintLabel.BackColor);
 
             if (boxColor.ToArgb() != Color.Empty.ToArgb())
             {
-                SelectBoxTintLabel.BackColor = Color.FromArgb(BoxTintOpacityTrack.Value, boxColor);
+                SelectBoxTintLabel.BackColor = boxColor;
 
                 SelectBoxTintLabel.Refresh();
 
@@ -6014,26 +5720,6 @@ namespace MapCreator
 
                     MapImageBox.Refresh();
                 }
-            }
-        }
-
-        private void BoxTintOpacityTrack_Scroll(object sender, EventArgs e)
-        {
-            BoxTintOpacityLabel.Text = BoxTintOpacityTrack.Value.ToString();
-            BoxTintOpacityLabel.Refresh();
-
-            SelectBoxTintLabel.BackColor = Color.FromArgb(BoxTintOpacityTrack.Value,
-                SelectBoxTintLabel.BackColor.R, SelectBoxTintLabel.BackColor.G, SelectBoxTintLabel.BackColor.B);
-
-            SelectBoxTintLabel.Refresh();
-
-            if (UISelectedBox != null)
-            {
-                Cmd_ChangeBoxColor cmd = new(UISelectedBox, SelectBoxTintLabel.BackColor);
-                UndoManager.AddCommand(cmd);
-                cmd.DoOperation();
-
-                MapImageBox.Refresh();
             }
         }
 
@@ -6260,7 +5946,7 @@ namespace MapCreator
 
                             OverlayMethods.SelectedFrame = frame;
 
-                            Cmd_CreateMapFrame cmd = new(CURRENT_MAP, frame, SelectFrameTintLabel.BackColor, FrameTintOpacityTrack.Value, (float)FrameScaleUpDown.Value);
+                            Cmd_CreateMapFrame cmd = new(CURRENT_MAP, frame, SelectFrameTintLabel.BackColor, (float)FrameScaleUpDown.Value);
                             UndoManager.AddCommand(cmd);
                             cmd.DoOperation();
 
@@ -6327,13 +6013,11 @@ namespace MapCreator
 
         private void SelectFrameTintLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color frameColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color frameColor = MapPaintMethods.SelectColorFromDialog(this, SelectFrameTintLabel.BackColor);
 
             if (frameColor.ToArgb() != Color.Empty.ToArgb())
             {
-                SelectFrameTintLabel.BackColor = Color.FromArgb(FrameTintOpacityTrack.Value, frameColor);
+                SelectFrameTintLabel.BackColor = frameColor;
                 SelectFrameTintLabel.Refresh();
 
                 for (int i = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.OVERLAYLAYER).MapLayerComponents.Count - 1; i > 0; i--)
@@ -6352,35 +6036,6 @@ namespace MapCreator
                         MapImageBox.Refresh();
                         break;
                     }
-                }
-            }
-        }
-
-        private void FrameTintOpacityTrack_Scroll(object sender, EventArgs e)
-        {
-            SelectFrameTintOpacityLabel.Text = FrameTintOpacityTrack.Value.ToString();
-            SelectFrameTintOpacityLabel.Refresh();
-
-            SelectFrameTintLabel.BackColor = Color.FromArgb(FrameTintOpacityTrack.Value,
-                SelectFrameTintLabel.BackColor.R, SelectFrameTintLabel.BackColor.G, SelectFrameTintLabel.BackColor.B);
-
-            SelectFrameTintLabel.Refresh();
-
-            for (int i = MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.OVERLAYLAYER).MapLayerComponents.Count - 1; i > 0; i--)
-            {
-                if (MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.OVERLAYLAYER).MapLayerComponents[i] is PlacedMapFrame)
-                {
-                    PlacedMapFrame placedFrame = (PlacedMapFrame)MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.OVERLAYLAYER).MapLayerComponents[i];
-
-                    if (placedFrame != null)
-                    {
-                        Cmd_ChangeFrameColor cmd = new(placedFrame, SelectFrameTintLabel.BackColor);
-                        UndoManager.AddCommand(cmd);
-                        cmd.DoOperation();
-                    }
-
-                    MapImageBox.Refresh();
-                    break;
                 }
             }
         }
@@ -6511,13 +6166,11 @@ namespace MapCreator
 
         private void GridColorSelectLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color gridColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color gridColor = MapPaintMethods.SelectColorFromDialog(this, GridColorSelectLabel.BackColor);
 
             if (gridColor.ToArgb() != Color.Empty.ToArgb())
             {
-                GridColorSelectLabel.BackColor = Color.FromArgb(GridColorOpacityTrack.Value, gridColor);
+                GridColorSelectLabel.BackColor = gridColor;
                 GridColorSelectLabel.Refresh();
 
                 if (UIMapGrid != null)
@@ -6535,35 +6188,6 @@ namespace MapCreator
                     MapImageBox.Refresh();
                 }
 
-            }
-        }
-
-        private void GridColorOpacityTrack_Scroll(object sender, EventArgs e)
-        {
-            GridColorOpacityLabel.Text = GridColorOpacityTrack.Value.ToString();
-            GridColorOpacityLabel.Refresh();
-
-            GridColorSelectLabel.BackColor = Color.FromArgb(GridColorOpacityTrack.Value,
-                GridColorSelectLabel.BackColor.R, GridColorSelectLabel.BackColor.G, GridColorSelectLabel.BackColor.B);
-
-            GridColorSelectLabel.Refresh();
-
-            if (GridColorSelectLabel.BackColor.ToArgb() != Color.Empty.ToArgb())
-            {
-                if (UIMapGrid != null)
-                {
-                    UIMapGrid.GridColor = GridColorSelectLabel.BackColor;
-
-                    UIMapGrid.GridPaint = new()
-                    {
-                        Style = SKPaintStyle.Stroke,
-                        Color = UIMapGrid.GridColor.ToSKColor(),
-                        StrokeWidth = UIMapGrid.GridLineWidth,
-                        StrokeJoin = SKStrokeJoin.Bevel
-                    };
-
-                    MapImageBox.Refresh();
-                }
             }
         }
 
@@ -6598,9 +6222,7 @@ namespace MapCreator
 
         private void MeasureColorLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color measureColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color measureColor = MapPaintMethods.SelectColorFromDialog(this, MeasureColorLabel.BackColor);
 
             if (measureColor.ToArgb() != Color.Empty.ToArgb())
             {
@@ -6927,9 +6549,7 @@ namespace MapCreator
 
         private void RegionColorSelectLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color regionColor = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color regionColor = MapPaintMethods.SelectColorFromDialog(this, RegionColorSelectLabel.BackColor);
 
             if (regionColor.ToArgb() != Color.Empty.ToArgb())
             {
@@ -8652,29 +8272,17 @@ namespace MapCreator
                         case 1:
                             // ocean layer
                             OceanSelectedPaintColorLabel.BackColor = pixelColor;
-                            OceanColorBrushOpacityLabel.Text = pixelColor.A.ToString();
-                            OceanBrushOpacityScroll.Value = pixelColor.A;
                             OceanSelectedPaintColorLabel.Refresh();
-                            OceanColorBrushOpacityLabel.Refresh();
-                            OceanBrushOpacityScroll.Refresh();
                             break;
                         case 2:
                             // land layer
                             LandSelectedPaintColorLabel.BackColor = pixelColor;
-                            LandColorBrushOpacityLabel.Text = pixelColor.A.ToString();
-                            LandColorBrushOpacityTrack.Value = pixelColor.A;
                             LandSelectedPaintColorLabel.Refresh();
-                            LandColorBrushOpacityLabel.Refresh();
-                            LandColorBrushOpacityTrack.Refresh();
                             break;
                         case 3:
                             // water layer
                             WaterSelectedPaintColorLabel.BackColor = pixelColor;
-                            WaterColorBrushOpacityLabel.Text = pixelColor.A.ToString();
-                            WaterColorBrushOpacityTrack.Value = pixelColor.A;
                             WaterSelectedPaintColorLabel.Refresh();
-                            WaterColorBrushOpacityLabel.Refresh();
-                            WaterColorBrushOpacityTrack.Refresh();
                             break;
                     }
                     break;
@@ -9035,7 +8643,7 @@ namespace MapCreator
             {
                 case DrawingModeEnum.OceanPaint:
                     SKShader oceanshader = MapPaintMethods.ConstructColorPaintShader(MapPaintMethods.GetSelectedColorBrushType(),
-                        OceanSelectedPaintColorLabel.BackColor, OceanBrushOpacityScroll.Value, brushRadius, X, Y);
+                        OceanSelectedPaintColorLabel.BackColor, brushRadius, X, Y);
 
                     COLOR_OCEAN_COMMAND.AddCircle(X, Y, brushRadius, oceanshader);
 
@@ -9073,7 +8681,7 @@ namespace MapCreator
                     }
 
                     SKShader landshader = MapPaintMethods.ConstructColorPaintShader(MapPaintMethods.GetSelectedColorBrushType(),
-                        LandSelectedPaintColorLabel.BackColor, LandColorBrushOpacityTrack.Value, brushRadius, X, Y);
+                        LandSelectedPaintColorLabel.BackColor, brushRadius, X, Y);
 
                     COLOR_LANDFORM_COMMAND.AddCircle(X, Y, brushRadius, landshader);
 
@@ -9097,7 +8705,7 @@ namespace MapCreator
                     break;
                 case DrawingModeEnum.WaterColor:
                     SKShader watershader = MapPaintMethods.ConstructColorPaintShader(MapPaintMethods.GetSelectedColorBrushType(),
-                        WaterSelectedPaintColorLabel.BackColor, WaterColorBrushOpacityTrack.Value, brushRadius, X, Y);
+                        WaterSelectedPaintColorLabel.BackColor, brushRadius, X, Y);
 
                     COLOR_WATERFEATURE_COMMAND.AddCircle(X, Y, brushRadius, watershader);
 

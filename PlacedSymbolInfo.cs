@@ -151,25 +151,25 @@ namespace MapCreator
 
         private void SymbolColor1Label_Click(object sender, EventArgs e)
         {
-            Color c = MapPaintMethods.SelectColorFromDialog();
+            Color c = MapPaintMethods.SelectColorFromDialog(this, SymbolColor1Label.BackColor);
             SymbolColor1Label.BackColor = c;
         }
 
         private void SymbolColor2Label_Click(object sender, EventArgs e)
         {
-            Color c = MapPaintMethods.SelectColorFromDialog();
+            Color c = MapPaintMethods.SelectColorFromDialog(this, SymbolColor2Label.BackColor);
             SymbolColor2Label.BackColor = c;
         }
 
         private void SymbolColor3Label_Click(object sender, EventArgs e)
         {
-            Color c = MapPaintMethods.SelectColorFromDialog();
+            Color c = MapPaintMethods.SelectColorFromDialog(this, SymbolColor3Label.BackColor);
             SymbolColor3Label.BackColor = c;
         }
 
         private void SymbolColor4Label_Click(object sender, EventArgs e)
         {
-            Color c = MapPaintMethods.SelectColorFromDialog();
+            Color c = MapPaintMethods.SelectColorFromDialog(this, SymbolColor4Label.BackColor);
             SymbolColor4Label.BackColor = c;
         }
 

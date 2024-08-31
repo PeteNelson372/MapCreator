@@ -41,8 +41,6 @@ namespace MapCreator
 
         public Color LabelColor { get; set; } = ColorTranslator.FromHtml("#3D351E");
 
-        public byte LabelColorOpacity { get; set; } = 255;
-
         public Color LabelOutlineColor { get; set; } = ColorTranslator.FromHtml("#A1D6CAAB");
 
         public int LabelOutlineWidth { get; set; } = 0;
@@ -119,13 +117,6 @@ namespace MapCreator
             {
                 string? labelColor = mapLabelDoc.Descendants().Select(x => x.Element(ns + "LabelColor").Value).FirstOrDefault();
                 LabelColor = ColorTranslator.FromHtml(labelColor);
-            }
-
-            IEnumerable<XElement?> labelColorOpacityElem = mapLabelDoc.Descendants().Select(x => x.Element(ns + "LabelColorOpacity"));
-            if (labelColorOpacityElem.First() != null)
-            {
-                string? labelColorOpacity = mapLabelDoc.Descendants().Select(x => x.Element(ns + "LabelColorOpacity").Value).FirstOrDefault();
-                LabelColorOpacity = byte.Parse(labelColorOpacity);
             }
 
             IEnumerable<XElement> labelOutlineColorElem = mapLabelDoc.Descendants(ns + "LabelOutlineColor");
@@ -213,10 +204,6 @@ namespace MapCreator
             XmlColor labelColor = new(LabelColor);
             writer.WriteStartElement("LabelColor");
             labelColor.WriteXml(writer);
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("LabelColorOpacity");
-            writer.WriteValue(LabelColorOpacity);
             writer.WriteEndElement();
 
             XmlColor labelOutlineColor = new(LabelOutlineColor);

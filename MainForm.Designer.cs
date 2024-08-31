@@ -89,9 +89,6 @@
             ShowOceanLayerCheck = new CheckBox();
             groupBox17 = new GroupBox();
             ClearWindroseButton = new Button();
-            WindroseColorOpacityTrack = new TrackBar();
-            WindroseColorOpacityLabel = new Label();
-            label83 = new Label();
             WindroseFadeOutCheck = new CheckBox();
             label82 = new Label();
             WindroseInnerCirclesTrack = new TrackBar();
@@ -119,9 +116,6 @@
             groupBox3 = new GroupBox();
             OceanColorClearButton = new FontAwesome.Sharp.IconButton();
             OceanColorFillButton = new FontAwesome.Sharp.IconButton();
-            OceanColorOpacityTrack = new TrackBar();
-            OceanOpacityLabel = new Label();
-            label6 = new Label();
             OceanColorSelectionLabel = new Label();
             landPage = new TabPage();
             ShowLandLayerCheck = new CheckBox();
@@ -130,7 +124,6 @@
             LandEraserSizeLabel = new Label();
             label17 = new Label();
             groupBox9 = new GroupBox();
-            CoastColorOpacityScroll = new TrackBar();
             PaintGradientCheck = new CheckBox();
             HatchScaleLabel = new Label();
             label22 = new Label();
@@ -145,8 +138,6 @@
             HatchPatternPreviewBox = new PictureBox();
             HatchPatternSelectionBox = new ComboBox();
             FxDistanceLabel = new Label();
-            CoastColorOpacityLabel = new Label();
-            label19 = new Label();
             label9 = new Label();
             label8 = new Label();
             CoastStyleSelectionBox = new ComboBox();
@@ -187,14 +178,8 @@
             label36 = new Label();
             RiverWidthTrack = new TrackBar();
             groupBox1 = new GroupBox();
-            ShorelineColorOpacityTrack = new TrackBar();
-            ShorelineColorOpacityLabel = new Label();
-            label39 = new Label();
             label37 = new Label();
             ShorelineColorSelectionLabel = new Label();
-            WaterColorOpacityTrack = new TrackBar();
-            WaterColorOpacityLabel = new Label();
-            label29 = new Label();
             WaterBrushSizeTrack = new TrackBar();
             WaterBrushSizeLabel = new Label();
             label45 = new Label();
@@ -217,9 +202,6 @@
             PathWidthTrack = new TrackBar();
             PathWidthLabel = new Label();
             label50 = new Label();
-            PathColorOpacityTrack = new TrackBar();
-            PathColorOpacityLabel = new Label();
-            label47 = new Label();
             label48 = new Label();
             PathColorSelectionLabel = new Label();
             PathTools = new ToolStrip();
@@ -277,24 +259,15 @@
             LabelRotationTrack = new TrackBar();
             label42 = new Label();
             groupBox12 = new GroupBox();
-            FontColorOpacityTrack = new TrackBar();
-            FontColorOpacityLabel = new Label();
-            label69 = new Label();
             label61 = new Label();
             FontColorSelectLabel = new Label();
             SelectLabelFontButton = new Button();
             groupBox11 = new GroupBox();
-            OutlineColorOpacityTrack = new TrackBar();
-            OutlineColorOpacityLabel = new Label();
-            label68 = new Label();
             label63 = new Label();
             OutlineWidthUpDown = new NumericUpDown();
             label60 = new Label();
             OutlineColorSelectLabel = new Label();
             groupBox10 = new GroupBox();
-            GlowColorOpacityTrack = new TrackBar();
-            GlowColorOpacityLabel = new Label();
-            label66 = new Label();
             label64 = new Label();
             GlowStrengthUpDown = new NumericUpDown();
             label65 = new Label();
@@ -321,9 +294,6 @@
             GridLineWidthLabel = new Label();
             label59 = new Label();
             GridLineWidthTrack = new TrackBar();
-            GridColorOpacityTrack = new TrackBar();
-            GridColorOpacityLabel = new Label();
-            label77 = new Label();
             label78 = new Label();
             GridColorSelectLabel = new Label();
             label75 = new Label();
@@ -339,9 +309,6 @@
             FrameScaleUpDown = new NumericUpDown();
             label72 = new Label();
             FrameScaleTrack = new TrackBar();
-            FrameTintOpacityTrack = new TrackBar();
-            SelectFrameTintOpacityLabel = new Label();
-            label71 = new Label();
             label67 = new Label();
             SelectFrameTintLabel = new Label();
             EnableFrameCheck = new CheckBox();
@@ -378,7 +345,6 @@
             LandColorSelectButton = new FontAwesome.Sharp.IconButton();
             LandColorButton = new FontAwesome.Sharp.IconButton();
             LandColorBrushSizeLabel = new Label();
-            LandColorBrushOpacityLabel = new Label();
             LandColorEraserSizeLabel = new Label();
             label35 = new Label();
             LandColorEraserSizeTrack = new TrackBar();
@@ -398,8 +364,6 @@
             LandButtonD8B48F = new Button();
             LandButtonE6D0AB = new Button();
             LandColorEraseButton = new FontAwesome.Sharp.IconButton();
-            label24 = new Label();
-            LandColorBrushOpacityTrack = new TrackBar();
             label23 = new Label();
             LandColorBrushSizeTrack = new TrackBar();
             LandSelectedPaintColorLabel = new Label();
@@ -419,7 +383,6 @@
             OceanEraserSizeLabel = new Label();
             label32 = new Label();
             OceanEraserSizeScroll = new TrackBar();
-            OceanColorBrushOpacityLabel = new Label();
             OceanBrushSizeLabel = new Label();
             OceanCustomColorButton8 = new Button();
             OceanCustomColorButton7 = new Button();
@@ -437,15 +400,12 @@
             OceanButton88B5BB = new Button();
             OceanButton91CBB8 = new Button();
             OceanColorEraseButton = new FontAwesome.Sharp.IconButton();
-            label25 = new Label();
-            OceanBrushOpacityScroll = new TrackBar();
             label26 = new Label();
             OceanBrushSizeScroll = new TrackBar();
             OceanSelectedPaintColorLabel = new Label();
             label28 = new Label();
             OceanColorSelectionButton = new FontAwesome.Sharp.IconButton();
             WaterColorToolPanel = new Panel();
-            WaterColorBrushOpacityLabel = new Label();
             WaterColorBrushSizeLabel = new Label();
             WaterColorButton = new FontAwesome.Sharp.IconButton();
             WaterColorSelectButton = new FontAwesome.Sharp.IconButton();
@@ -468,8 +428,6 @@
             WaterButton88B5BB = new Button();
             WaterButton91CBB8 = new Button();
             WaterColorEraseButton = new FontAwesome.Sharp.IconButton();
-            label5 = new Label();
-            WaterColorBrushOpacityTrack = new TrackBar();
             label10 = new Label();
             WaterColorBrushSizeTrack = new TrackBar();
             WaterSelectedPaintColorLabel = new Label();
@@ -520,9 +478,6 @@
             label51 = new Label();
             iconToolStripButton3 = new FontAwesome.Sharp.IconToolStripButton();
             LabelsToolPanel = new Panel();
-            BoxTintOpacityTrack = new TrackBar();
-            BoxTintOpacityLabel = new Label();
-            label62 = new Label();
             TintLabel = new Label();
             SelectBoxTintLabel = new Label();
             LabelBoxStyleTable = new TableLayoutPanel();
@@ -559,7 +514,6 @@
             ((System.ComponentModel.ISupportInitialize)backgroundTxPictureBox).BeginInit();
             oceanPage.SuspendLayout();
             groupBox17.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)WindroseColorOpacityTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)WindroseInnerCirclesTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)WindroseOuterRadiusUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)WindroseInnerRadiusUpDown).BeginInit();
@@ -570,12 +524,10 @@
             ((System.ComponentModel.ISupportInitialize)OceanTextureOpacityTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)OceanTxPictureBox).BeginInit();
             groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)OceanColorOpacityTrack).BeginInit();
             landPage.SuspendLayout();
             groupBox8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)LandEraserSizeScroll).BeginInit();
             groupBox9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)CoastColorOpacityScroll).BeginInit();
             ((System.ComponentModel.ISupportInitialize)HatchScaleTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)HatchOpacityTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)FxDistanceTrack).BeginInit();
@@ -591,15 +543,12 @@
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)RiverWidthTrack).BeginInit();
             groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)ShorelineColorOpacityTrack).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)WaterColorOpacityTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)WaterBrushSizeTrack).BeginInit();
             WaterPaintTools.SuspendLayout();
             pathPage.SuspendLayout();
             groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PathTexturePreviewBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PathWidthTrack).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)PathColorOpacityTrack).BeginInit();
             PathTools.SuspendLayout();
             symbolPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)AreaBrushSizeTrack).BeginInit();
@@ -618,24 +567,19 @@
             ((System.ComponentModel.ISupportInitialize)LabelRotationUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)LabelRotationTrack).BeginInit();
             groupBox12.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)FontColorOpacityTrack).BeginInit();
             groupBox11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)OutlineColorOpacityTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)OutlineWidthUpDown).BeginInit();
             groupBox10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)GlowColorOpacityTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GlowStrengthUpDown).BeginInit();
             LabelTools.SuspendLayout();
             overlayPage.SuspendLayout();
             groupBox16.SuspendLayout();
             groupBox15.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)GridLineWidthTrack).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)GridColorOpacityTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GridSizeTrack).BeginInit();
             groupBox14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)FrameScaleUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)FrameScaleTrack).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)FrameTintOpacityTrack).BeginInit();
             OverlayTools.SuspendLayout();
             regionsPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)RegionBorderSmoothingTrack).BeginInit();
@@ -646,17 +590,14 @@
             mapPanel.SuspendLayout();
             LandColorToolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)LandColorEraserSizeTrack).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)LandColorBrushOpacityTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)LandColorBrushSizeTrack).BeginInit();
             MapStatusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             OceanColorToolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)OceanEraserSizeScroll).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)OceanBrushOpacityScroll).BeginInit();
             ((System.ComponentModel.ISupportInitialize)OceanBrushSizeScroll).BeginInit();
             WaterColorToolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)WaterColorEraserSizeTrack).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)WaterColorBrushOpacityTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)WaterColorBrushSizeTrack).BeginInit();
             SymbolsToolPanel.SuspendLayout();
             PathPanel.SuspendLayout();
@@ -678,7 +619,6 @@
             ((System.ComponentModel.ISupportInitialize)DottedLinePictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)SolidLinePictureBox).BeginInit();
             LabelsToolPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)BoxTintOpacityTrack).BeginInit();
             OverlayToolsPanel.SuspendLayout();
             RegionsToolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)LightSolidRegionBorderPicture).BeginInit();
@@ -1230,9 +1170,6 @@
             // groupBox17
             // 
             groupBox17.Controls.Add(ClearWindroseButton);
-            groupBox17.Controls.Add(WindroseColorOpacityTrack);
-            groupBox17.Controls.Add(WindroseColorOpacityLabel);
-            groupBox17.Controls.Add(label83);
             groupBox17.Controls.Add(WindroseFadeOutCheck);
             groupBox17.Controls.Add(label82);
             groupBox17.Controls.Add(WindroseInnerCirclesTrack);
@@ -1246,9 +1183,9 @@
             groupBox17.Controls.Add(label3);
             groupBox17.Controls.Add(label2);
             groupBox17.Controls.Add(WindroseColorSelectLabel);
-            groupBox17.Location = new Point(8, 520);
+            groupBox17.Location = new Point(8, 458);
             groupBox17.Name = "groupBox17";
-            groupBox17.Size = new Size(120, 488);
+            groupBox17.Size = new Size(120, 439);
             groupBox17.TabIndex = 15;
             groupBox17.TabStop = false;
             groupBox17.Text = "Windrose";
@@ -1256,7 +1193,7 @@
             // ClearWindroseButton
             // 
             ClearWindroseButton.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            ClearWindroseButton.Location = new Point(22, 449);
+            ClearWindroseButton.Location = new Point(22, 399);
             ClearWindroseButton.Name = "ClearWindroseButton";
             ClearWindroseButton.Size = new Size(75, 23);
             ClearWindroseButton.TabIndex = 97;
@@ -1264,43 +1201,11 @@
             ClearWindroseButton.UseVisualStyleBackColor = true;
             ClearWindroseButton.Click += ClearWindroseButton_Click;
             // 
-            // WindroseColorOpacityTrack
-            // 
-            WindroseColorOpacityTrack.AutoSize = false;
-            WindroseColorOpacityTrack.Location = new Point(5, 100);
-            WindroseColorOpacityTrack.Maximum = 255;
-            WindroseColorOpacityTrack.Name = "WindroseColorOpacityTrack";
-            WindroseColorOpacityTrack.Size = new Size(108, 20);
-            WindroseColorOpacityTrack.TabIndex = 52;
-            WindroseColorOpacityTrack.TickStyle = TickStyle.None;
-            WindroseColorOpacityTrack.Value = 127;
-            WindroseColorOpacityTrack.Scroll += WindroseColorOpacityTrack_Scroll;
-            // 
-            // WindroseColorOpacityLabel
-            // 
-            WindroseColorOpacityLabel.Font = new Font("Tahoma", 9F);
-            WindroseColorOpacityLabel.Location = new Point(85, 83);
-            WindroseColorOpacityLabel.Name = "WindroseColorOpacityLabel";
-            WindroseColorOpacityLabel.Size = new Size(30, 14);
-            WindroseColorOpacityLabel.TabIndex = 51;
-            WindroseColorOpacityLabel.Text = "127";
-            WindroseColorOpacityLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // label83
-            // 
-            label83.AutoSize = true;
-            label83.Font = new Font("Tahoma", 9F);
-            label83.Location = new Point(10, 83);
-            label83.Name = "label83";
-            label83.Size = new Size(48, 14);
-            label83.TabIndex = 50;
-            label83.Text = "Opacity";
-            // 
             // WindroseFadeOutCheck
             // 
             WindroseFadeOutCheck.AutoSize = true;
             WindroseFadeOutCheck.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            WindroseFadeOutCheck.Location = new Point(10, 404);
+            WindroseFadeOutCheck.Location = new Point(10, 354);
             WindroseFadeOutCheck.Name = "WindroseFadeOutCheck";
             WindroseFadeOutCheck.Size = new Size(77, 18);
             WindroseFadeOutCheck.TabIndex = 23;
@@ -1312,7 +1217,7 @@
             // 
             label82.AutoSize = true;
             label82.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label82.Location = new Point(11, 348);
+            label82.Location = new Point(11, 298);
             label82.Name = "label82";
             label82.Size = new Size(73, 14);
             label82.TabIndex = 22;
@@ -1322,7 +1227,7 @@
             // 
             WindroseInnerCirclesTrack.AutoSize = false;
             WindroseInnerCirclesTrack.LargeChange = 1;
-            WindroseInnerCirclesTrack.Location = new Point(5, 365);
+            WindroseInnerCirclesTrack.Location = new Point(5, 315);
             WindroseInnerCirclesTrack.Maximum = 2;
             WindroseInnerCirclesTrack.Name = "WindroseInnerCirclesTrack";
             WindroseInnerCirclesTrack.Size = new Size(109, 24);
@@ -1332,7 +1237,7 @@
             // WindroseOuterRadiusUpDown
             // 
             WindroseOuterRadiusUpDown.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            WindroseOuterRadiusUpDown.Location = new Point(6, 311);
+            WindroseOuterRadiusUpDown.Location = new Point(6, 261);
             WindroseOuterRadiusUpDown.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             WindroseOuterRadiusUpDown.Name = "WindroseOuterRadiusUpDown";
             WindroseOuterRadiusUpDown.Size = new Size(107, 22);
@@ -1345,7 +1250,7 @@
             // 
             label79.AutoSize = true;
             label79.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label79.Location = new Point(10, 294);
+            label79.Location = new Point(10, 244);
             label79.Name = "label79";
             label79.Size = new Size(77, 14);
             label79.TabIndex = 19;
@@ -1354,7 +1259,7 @@
             // WindroseInnerRadiusUpDown
             // 
             WindroseInnerRadiusUpDown.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            WindroseInnerRadiusUpDown.Location = new Point(6, 257);
+            WindroseInnerRadiusUpDown.Location = new Point(6, 207);
             WindroseInnerRadiusUpDown.Maximum = new decimal(new int[] { 1024, 0, 0, 0 });
             WindroseInnerRadiusUpDown.Name = "WindroseInnerRadiusUpDown";
             WindroseInnerRadiusUpDown.Size = new Size(108, 22);
@@ -1366,7 +1271,7 @@
             // 
             label76.AutoSize = true;
             label76.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label76.Location = new Point(11, 240);
+            label76.Location = new Point(11, 190);
             label76.Name = "label76";
             label76.Size = new Size(74, 14);
             label76.TabIndex = 17;
@@ -1375,7 +1280,7 @@
             // WindroseLineWidthUpDown
             // 
             WindroseLineWidthUpDown.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            WindroseLineWidthUpDown.Location = new Point(5, 205);
+            WindroseLineWidthUpDown.Location = new Point(5, 155);
             WindroseLineWidthUpDown.Maximum = new decimal(new int[] { 16, 0, 0, 0 });
             WindroseLineWidthUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             WindroseLineWidthUpDown.Name = "WindroseLineWidthUpDown";
@@ -1389,7 +1294,7 @@
             // 
             label70.AutoSize = true;
             label70.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label70.Location = new Point(10, 188);
+            label70.Location = new Point(10, 138);
             label70.Name = "label70";
             label70.Size = new Size(66, 14);
             label70.TabIndex = 15;
@@ -1398,7 +1303,7 @@
             // WindroseDirectionsUpDown
             // 
             WindroseDirectionsUpDown.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            WindroseDirectionsUpDown.Location = new Point(5, 154);
+            WindroseDirectionsUpDown.Location = new Point(5, 104);
             WindroseDirectionsUpDown.Maximum = new decimal(new int[] { 32, 0, 0, 0 });
             WindroseDirectionsUpDown.Minimum = new decimal(new int[] { 4, 0, 0, 0 });
             WindroseDirectionsUpDown.Name = "WindroseDirectionsUpDown";
@@ -1412,7 +1317,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(10, 137);
+            label3.Location = new Point(10, 87);
             label3.Name = "label3";
             label3.Size = new Size(60, 14);
             label3.TabIndex = 13;
@@ -1602,13 +1507,10 @@
             // 
             groupBox3.Controls.Add(OceanColorClearButton);
             groupBox3.Controls.Add(OceanColorFillButton);
-            groupBox3.Controls.Add(OceanColorOpacityTrack);
-            groupBox3.Controls.Add(OceanOpacityLabel);
-            groupBox3.Controls.Add(label6);
             groupBox3.Controls.Add(OceanColorSelectionLabel);
             groupBox3.Location = new Point(8, 319);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(120, 180);
+            groupBox3.Size = new Size(120, 124);
             groupBox3.TabIndex = 12;
             groupBox3.TabStop = false;
             groupBox3.Text = "Color";
@@ -1622,7 +1524,7 @@
             OceanColorClearButton.IconColor = Color.Black;
             OceanColorClearButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             OceanColorClearButton.IconSize = 18;
-            OceanColorClearButton.Location = new Point(64, 112);
+            OceanColorClearButton.Location = new Point(65, 59);
             OceanColorClearButton.Name = "OceanColorClearButton";
             OceanColorClearButton.Size = new Size(50, 50);
             OceanColorClearButton.TabIndex = 51;
@@ -1640,7 +1542,7 @@
             OceanColorFillButton.IconColor = Color.Black;
             OceanColorFillButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             OceanColorFillButton.IconSize = 18;
-            OceanColorFillButton.Location = new Point(6, 112);
+            OceanColorFillButton.Location = new Point(5, 59);
             OceanColorFillButton.Name = "OceanColorFillButton";
             OceanColorFillButton.Size = new Size(50, 50);
             OceanColorFillButton.TabIndex = 50;
@@ -1648,38 +1550,6 @@
             OceanColorFillButton.TextImageRelation = TextImageRelation.TextAboveImage;
             OceanColorFillButton.UseVisualStyleBackColor = false;
             OceanColorFillButton.Click += OceanFillColorButton_Click;
-            // 
-            // OceanColorOpacityTrack
-            // 
-            OceanColorOpacityTrack.AutoSize = false;
-            OceanColorOpacityTrack.Location = new Point(5, 83);
-            OceanColorOpacityTrack.Maximum = 255;
-            OceanColorOpacityTrack.Name = "OceanColorOpacityTrack";
-            OceanColorOpacityTrack.Size = new Size(108, 20);
-            OceanColorOpacityTrack.TabIndex = 49;
-            OceanColorOpacityTrack.TickStyle = TickStyle.None;
-            OceanColorOpacityTrack.Value = 255;
-            OceanColorOpacityTrack.Scroll += OceanOpacityScroll_ValueChanged;
-            // 
-            // OceanOpacityLabel
-            // 
-            OceanOpacityLabel.Font = new Font("Tahoma", 9F);
-            OceanOpacityLabel.Location = new Point(85, 66);
-            OceanOpacityLabel.Name = "OceanOpacityLabel";
-            OceanOpacityLabel.Size = new Size(30, 14);
-            OceanOpacityLabel.TabIndex = 23;
-            OceanOpacityLabel.Text = "255";
-            OceanOpacityLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Tahoma", 9F);
-            label6.Location = new Point(10, 66);
-            label6.Name = "label6";
-            label6.Size = new Size(48, 14);
-            label6.TabIndex = 21;
-            label6.Text = "Opacity";
             // 
             // OceanColorSelectionLabel
             // 
@@ -1728,7 +1598,7 @@
             groupBox8.Controls.Add(LandEraserSizeScroll);
             groupBox8.Controls.Add(LandEraserSizeLabel);
             groupBox8.Controls.Add(label17);
-            groupBox8.Location = new Point(8, 880);
+            groupBox8.Location = new Point(8, 826);
             groupBox8.Name = "groupBox8";
             groupBox8.Size = new Size(120, 74);
             groupBox8.TabIndex = 20;
@@ -1770,7 +1640,6 @@
             // 
             // groupBox9
             // 
-            groupBox9.Controls.Add(CoastColorOpacityScroll);
             groupBox9.Controls.Add(PaintGradientCheck);
             groupBox9.Controls.Add(HatchScaleLabel);
             groupBox9.Controls.Add(label22);
@@ -1785,8 +1654,6 @@
             groupBox9.Controls.Add(HatchPatternPreviewBox);
             groupBox9.Controls.Add(HatchPatternSelectionBox);
             groupBox9.Controls.Add(FxDistanceLabel);
-            groupBox9.Controls.Add(CoastColorOpacityLabel);
-            groupBox9.Controls.Add(label19);
             groupBox9.Controls.Add(label9);
             groupBox9.Controls.Add(label8);
             groupBox9.Controls.Add(CoastStyleSelectionBox);
@@ -1794,22 +1661,10 @@
             groupBox9.Controls.Add(CoastColorSelectionLabel);
             groupBox9.Location = new Point(8, 380);
             groupBox9.Name = "groupBox9";
-            groupBox9.Size = new Size(120, 482);
+            groupBox9.Size = new Size(120, 437);
             groupBox9.TabIndex = 19;
             groupBox9.TabStop = false;
             groupBox9.Text = "Coastline";
-            // 
-            // CoastColorOpacityScroll
-            // 
-            CoastColorOpacityScroll.AutoSize = false;
-            CoastColorOpacityScroll.Location = new Point(5, 90);
-            CoastColorOpacityScroll.Maximum = 255;
-            CoastColorOpacityScroll.Name = "CoastColorOpacityScroll";
-            CoastColorOpacityScroll.Size = new Size(108, 20);
-            CoastColorOpacityScroll.TabIndex = 48;
-            CoastColorOpacityScroll.TickStyle = TickStyle.None;
-            CoastColorOpacityScroll.Value = 187;
-            CoastColorOpacityScroll.ValueChanged += CoastColorOpacityScroll_ValueChanged;
             // 
             // PaintGradientCheck
             // 
@@ -1818,7 +1673,7 @@
             PaintGradientCheck.CheckState = CheckState.Checked;
             PaintGradientCheck.Enabled = false;
             PaintGradientCheck.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            PaintGradientCheck.Location = new Point(5, 437);
+            PaintGradientCheck.Location = new Point(5, 401);
             PaintGradientCheck.Name = "PaintGradientCheck";
             PaintGradientCheck.Size = new Size(94, 17);
             PaintGradientCheck.TabIndex = 47;
@@ -1829,7 +1684,7 @@
             // 
             HatchScaleLabel.AutoSize = true;
             HatchScaleLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            HatchScaleLabel.Location = new Point(87, 354);
+            HatchScaleLabel.Location = new Point(87, 318);
             HatchScaleLabel.Name = "HatchScaleLabel";
             HatchScaleLabel.Size = new Size(25, 13);
             HatchScaleLabel.TabIndex = 46;
@@ -1840,7 +1695,7 @@
             // 
             label22.AutoSize = true;
             label22.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label22.Location = new Point(9, 393);
+            label22.Location = new Point(9, 357);
             label22.Name = "label22";
             label22.Size = new Size(62, 13);
             label22.TabIndex = 45;
@@ -1852,7 +1707,7 @@
             BlendModeSelectionBox.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             BlendModeSelectionBox.FormattingEnabled = true;
             BlendModeSelectionBox.Items.AddRange(new object[] { "Clear\t\t\t", "Src", "Dst\t", "SrcOver", "* DstOver - default", "SrcIn", "DstIn\t", "SrcOut", "DstOut\t", "SrcATop\t", "DstATop", "Xor", "Plus", "Modulate", "Screen", "Overlay", "Darken", "Lighten", "ColorDodge", "ColorBurn", "HardLight", "SoftLight", "Difference", "Exclusion", "Multiply", "Hue", "Saturation", "Color", "Luminosity" });
-            BlendModeSelectionBox.Location = new Point(4, 409);
+            BlendModeSelectionBox.Location = new Point(4, 373);
             BlendModeSelectionBox.Name = "BlendModeSelectionBox";
             BlendModeSelectionBox.Size = new Size(108, 22);
             BlendModeSelectionBox.TabIndex = 44;
@@ -1862,7 +1717,7 @@
             // 
             label21.AutoSize = true;
             label21.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label21.Location = new Point(9, 354);
+            label21.Location = new Point(9, 318);
             label21.Name = "label21";
             label21.Size = new Size(63, 13);
             label21.TabIndex = 43;
@@ -1872,7 +1727,7 @@
             // 
             HatchScaleTrack.AutoSize = false;
             HatchScaleTrack.Enabled = false;
-            HatchScaleTrack.Location = new Point(5, 370);
+            HatchScaleTrack.Location = new Point(5, 334);
             HatchScaleTrack.Maximum = 300;
             HatchScaleTrack.Minimum = 10;
             HatchScaleTrack.Name = "HatchScaleTrack";
@@ -1887,7 +1742,7 @@
             // 
             HatchOpacityLabel.AutoSize = true;
             HatchOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            HatchOpacityLabel.Location = new Point(93, 315);
+            HatchOpacityLabel.Location = new Point(93, 279);
             HatchOpacityLabel.Name = "HatchOpacityLabel";
             HatchOpacityLabel.Size = new Size(19, 13);
             HatchOpacityLabel.TabIndex = 41;
@@ -1898,7 +1753,7 @@
             // 
             label20.AutoSize = true;
             label20.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label20.Location = new Point(9, 315);
+            label20.Location = new Point(9, 279);
             label20.Name = "label20";
             label20.Size = new Size(75, 13);
             label20.TabIndex = 40;
@@ -1908,7 +1763,7 @@
             // 
             HatchOpacityTrack.AutoSize = false;
             HatchOpacityTrack.Enabled = false;
-            HatchOpacityTrack.Location = new Point(5, 331);
+            HatchOpacityTrack.Location = new Point(5, 295);
             HatchOpacityTrack.Maximum = 100;
             HatchOpacityTrack.Name = "HatchOpacityTrack";
             HatchOpacityTrack.Size = new Size(108, 20);
@@ -1921,7 +1776,7 @@
             // FxDistanceTrack
             // 
             FxDistanceTrack.AutoSize = false;
-            FxDistanceTrack.Location = new Point(5, 135);
+            FxDistanceTrack.Location = new Point(5, 99);
             FxDistanceTrack.Maximum = 40;
             FxDistanceTrack.Name = "FxDistanceTrack";
             FxDistanceTrack.Size = new Size(108, 20);
@@ -1934,7 +1789,7 @@
             // 
             label14.AutoSize = true;
             label14.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label14.Location = new Point(9, 209);
+            label14.Location = new Point(9, 173);
             label14.Name = "label14";
             label14.Size = new Size(74, 13);
             label14.TabIndex = 37;
@@ -1944,7 +1799,7 @@
             // 
             HatchPatternPreviewBox.BackColor = Color.White;
             HatchPatternPreviewBox.BorderStyle = BorderStyle.FixedSingle;
-            HatchPatternPreviewBox.Location = new Point(4, 253);
+            HatchPatternPreviewBox.Location = new Point(4, 217);
             HatchPatternPreviewBox.Name = "HatchPatternPreviewBox";
             HatchPatternPreviewBox.Size = new Size(108, 50);
             HatchPatternPreviewBox.TabIndex = 36;
@@ -1956,7 +1811,7 @@
             HatchPatternSelectionBox.Enabled = false;
             HatchPatternSelectionBox.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             HatchPatternSelectionBox.FormattingEnabled = true;
-            HatchPatternSelectionBox.Location = new Point(4, 225);
+            HatchPatternSelectionBox.Location = new Point(4, 189);
             HatchPatternSelectionBox.Name = "HatchPatternSelectionBox";
             HatchPatternSelectionBox.Size = new Size(108, 22);
             HatchPatternSelectionBox.TabIndex = 35;
@@ -1965,38 +1820,18 @@
             // FxDistanceLabel
             // 
             FxDistanceLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            FxDistanceLabel.Location = new Point(89, 118);
+            FxDistanceLabel.Location = new Point(89, 82);
             FxDistanceLabel.Name = "FxDistanceLabel";
             FxDistanceLabel.Size = new Size(25, 14);
             FxDistanceLabel.TabIndex = 33;
             FxDistanceLabel.Text = "16";
             FxDistanceLabel.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // CoastColorOpacityLabel
-            // 
-            CoastColorOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            CoastColorOpacityLabel.Location = new Point(83, 73);
-            CoastColorOpacityLabel.Name = "CoastColorOpacityLabel";
-            CoastColorOpacityLabel.Size = new Size(30, 14);
-            CoastColorOpacityLabel.TabIndex = 32;
-            CoastColorOpacityLabel.Text = "187";
-            CoastColorOpacityLabel.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label19
-            // 
-            label19.AutoSize = true;
-            label19.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label19.Location = new Point(9, 73);
-            label19.Name = "label19";
-            label19.Size = new Size(44, 13);
-            label19.TabIndex = 31;
-            label19.Text = "Opacity";
-            // 
             // label9
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label9.Location = new Point(9, 119);
+            label9.Location = new Point(9, 83);
             label9.Name = "label9";
             label9.Size = new Size(80, 13);
             label9.TabIndex = 14;
@@ -2006,7 +1841,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label8.Location = new Point(9, 162);
+            label8.Location = new Point(9, 126);
             label8.Name = "label8";
             label8.Size = new Size(31, 13);
             label8.TabIndex = 13;
@@ -2018,7 +1853,7 @@
             CoastStyleSelectionBox.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             CoastStyleSelectionBox.FormattingEnabled = true;
             CoastStyleSelectionBox.Items.AddRange(new object[] { "None", "Uniform Band", "Uniform Blend", "Uniform Outline", "Three-Tiered", "Circular Pattern", "Dash Pattern", "Hatch Pattern", "User Defined" });
-            CoastStyleSelectionBox.Location = new Point(4, 178);
+            CoastStyleSelectionBox.Location = new Point(4, 142);
             CoastStyleSelectionBox.Name = "CoastStyleSelectionBox";
             CoastStyleSelectionBox.Size = new Size(108, 22);
             CoastStyleSelectionBox.TabIndex = 12;
@@ -2406,7 +2241,7 @@
             groupBox7.Controls.Add(WaterEraserSizeTrack);
             groupBox7.Controls.Add(WaterEraserSizeLabel);
             groupBox7.Controls.Add(label43);
-            groupBox7.Location = new Point(8, 447);
+            groupBox7.Location = new Point(8, 358);
             groupBox7.Name = "groupBox7";
             groupBox7.Size = new Size(132, 74);
             groupBox7.TabIndex = 23;
@@ -2452,7 +2287,7 @@
             groupBox2.Controls.Add(RiverSourceFadeInCheck);
             groupBox2.Controls.Add(label36);
             groupBox2.Controls.Add(RiverWidthTrack);
-            groupBox2.Location = new Point(8, 323);
+            groupBox2.Location = new Point(8, 237);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(132, 105);
             groupBox2.TabIndex = 21;
@@ -2507,14 +2342,8 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(ShorelineColorOpacityTrack);
-            groupBox1.Controls.Add(ShorelineColorOpacityLabel);
-            groupBox1.Controls.Add(label39);
             groupBox1.Controls.Add(label37);
             groupBox1.Controls.Add(ShorelineColorSelectionLabel);
-            groupBox1.Controls.Add(WaterColorOpacityTrack);
-            groupBox1.Controls.Add(WaterColorOpacityLabel);
-            groupBox1.Controls.Add(label29);
             groupBox1.Controls.Add(WaterBrushSizeTrack);
             groupBox1.Controls.Add(WaterBrushSizeLabel);
             groupBox1.Controls.Add(label45);
@@ -2522,48 +2351,16 @@
             groupBox1.Controls.Add(WaterColorSelectionLabel);
             groupBox1.Location = new Point(8, 28);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(132, 283);
+            groupBox1.Size = new Size(132, 197);
             groupBox1.TabIndex = 20;
             groupBox1.TabStop = false;
             groupBox1.Text = "Appearance";
-            // 
-            // ShorelineColorOpacityTrack
-            // 
-            ShorelineColorOpacityTrack.AutoSize = false;
-            ShorelineColorOpacityTrack.Location = new Point(5, 250);
-            ShorelineColorOpacityTrack.Maximum = 255;
-            ShorelineColorOpacityTrack.Name = "ShorelineColorOpacityTrack";
-            ShorelineColorOpacityTrack.Size = new Size(108, 20);
-            ShorelineColorOpacityTrack.TabIndex = 68;
-            ShorelineColorOpacityTrack.TickStyle = TickStyle.None;
-            ShorelineColorOpacityTrack.Value = 255;
-            ShorelineColorOpacityTrack.Scroll += ShorelineColorOpacityTrack_Scroll;
-            // 
-            // ShorelineColorOpacityLabel
-            // 
-            ShorelineColorOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            ShorelineColorOpacityLabel.Location = new Point(82, 233);
-            ShorelineColorOpacityLabel.Name = "ShorelineColorOpacityLabel";
-            ShorelineColorOpacityLabel.Size = new Size(30, 14);
-            ShorelineColorOpacityLabel.TabIndex = 67;
-            ShorelineColorOpacityLabel.Text = "255";
-            ShorelineColorOpacityLabel.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label39
-            // 
-            label39.AutoSize = true;
-            label39.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label39.Location = new Point(8, 233);
-            label39.Name = "label39";
-            label39.Size = new Size(44, 13);
-            label39.TabIndex = 66;
-            label39.Text = "Opacity";
             // 
             // label37
             // 
             label37.AutoSize = true;
             label37.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label37.Location = new Point(10, 182);
+            label37.Location = new Point(10, 139);
             label37.Name = "label37";
             label37.Size = new Size(79, 13);
             label37.TabIndex = 65;
@@ -2574,45 +2371,13 @@
             ShorelineColorSelectionLabel.BorderStyle = BorderStyle.FixedSingle;
             ShorelineColorSelectionLabel.Font = new Font("Tahoma", 8F);
             ShorelineColorSelectionLabel.ForeColor = SystemColors.ButtonShadow;
-            ShorelineColorSelectionLabel.Location = new Point(6, 195);
+            ShorelineColorSelectionLabel.Location = new Point(6, 152);
             ShorelineColorSelectionLabel.Name = "ShorelineColorSelectionLabel";
             ShorelineColorSelectionLabel.Size = new Size(108, 28);
             ShorelineColorSelectionLabel.TabIndex = 64;
             ShorelineColorSelectionLabel.Text = "Click to Select";
             ShorelineColorSelectionLabel.TextAlign = ContentAlignment.MiddleCenter;
             ShorelineColorSelectionLabel.Click += ShorelineColorSelectionLabel_Click;
-            // 
-            // WaterColorOpacityTrack
-            // 
-            WaterColorOpacityTrack.AutoSize = false;
-            WaterColorOpacityTrack.Location = new Point(5, 149);
-            WaterColorOpacityTrack.Maximum = 255;
-            WaterColorOpacityTrack.Name = "WaterColorOpacityTrack";
-            WaterColorOpacityTrack.Size = new Size(108, 20);
-            WaterColorOpacityTrack.TabIndex = 54;
-            WaterColorOpacityTrack.TickStyle = TickStyle.None;
-            WaterColorOpacityTrack.Value = 255;
-            WaterColorOpacityTrack.Scroll += WaterColorOpacity_Scroll;
-            // 
-            // WaterColorOpacityLabel
-            // 
-            WaterColorOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            WaterColorOpacityLabel.Location = new Point(83, 132);
-            WaterColorOpacityLabel.Name = "WaterColorOpacityLabel";
-            WaterColorOpacityLabel.Size = new Size(30, 14);
-            WaterColorOpacityLabel.TabIndex = 53;
-            WaterColorOpacityLabel.Text = "255";
-            WaterColorOpacityLabel.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label29
-            // 
-            label29.AutoSize = true;
-            label29.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label29.Location = new Point(9, 132);
-            label29.Name = "label29";
-            label29.Size = new Size(44, 13);
-            label29.TabIndex = 52;
-            label29.Text = "Opacity";
             // 
             // WaterBrushSizeTrack
             // 
@@ -2814,14 +2579,11 @@
             groupBox5.Controls.Add(PathWidthTrack);
             groupBox5.Controls.Add(PathWidthLabel);
             groupBox5.Controls.Add(label50);
-            groupBox5.Controls.Add(PathColorOpacityTrack);
-            groupBox5.Controls.Add(PathColorOpacityLabel);
-            groupBox5.Controls.Add(label47);
             groupBox5.Controls.Add(label48);
             groupBox5.Controls.Add(PathColorSelectionLabel);
             groupBox5.Location = new Point(8, 28);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(127, 383);
+            groupBox5.Size = new Size(127, 314);
             groupBox5.TabIndex = 21;
             groupBox5.TabStop = false;
             groupBox5.Text = "Path";
@@ -2830,7 +2592,7 @@
             // 
             PathTexturePreviewBox.BackColor = Color.White;
             PathTexturePreviewBox.BorderStyle = BorderStyle.FixedSingle;
-            PathTexturePreviewBox.Location = new Point(9, 305);
+            PathTexturePreviewBox.Location = new Point(6, 247);
             PathTexturePreviewBox.Name = "PathTexturePreviewBox";
             PathTexturePreviewBox.Size = new Size(108, 50);
             PathTexturePreviewBox.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -2841,7 +2603,7 @@
             // 
             label49.AutoSize = true;
             label49.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label49.Location = new Point(8, 258);
+            label49.Location = new Point(8, 199);
             label49.Name = "label49";
             label49.Size = new Size(45, 13);
             label49.TabIndex = 82;
@@ -2851,7 +2613,7 @@
             // 
             PathTextureBox.DropDownWidth = 190;
             PathTextureBox.FormattingEnabled = true;
-            PathTextureBox.Location = new Point(9, 275);
+            PathTextureBox.Location = new Point(6, 215);
             PathTextureBox.Name = "PathTextureBox";
             PathTextureBox.Size = new Size(108, 26);
             PathTextureBox.TabIndex = 81;
@@ -2861,7 +2623,7 @@
             // 
             EditPathPointsCheck.AutoSize = true;
             EditPathPointsCheck.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            EditPathPointsCheck.Location = new Point(9, 228);
+            EditPathPointsCheck.Location = new Point(8, 174);
             EditPathPointsCheck.Name = "EditPathPointsCheck";
             EditPathPointsCheck.Size = new Size(101, 17);
             EditPathPointsCheck.TabIndex = 80;
@@ -2873,7 +2635,7 @@
             // 
             DrawOverSymbolsCheck.AutoSize = true;
             DrawOverSymbolsCheck.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            DrawOverSymbolsCheck.Location = new Point(8, 188);
+            DrawOverSymbolsCheck.Location = new Point(8, 146);
             DrawOverSymbolsCheck.Name = "DrawOverSymbolsCheck";
             DrawOverSymbolsCheck.Size = new Size(120, 17);
             DrawOverSymbolsCheck.TabIndex = 79;
@@ -2883,7 +2645,7 @@
             // PathWidthTrack
             // 
             PathWidthTrack.AutoSize = false;
-            PathWidthTrack.Location = new Point(5, 144);
+            PathWidthTrack.Location = new Point(5, 102);
             PathWidthTrack.Maximum = 128;
             PathWidthTrack.Minimum = 1;
             PathWidthTrack.Name = "PathWidthTrack";
@@ -2897,7 +2659,7 @@
             // 
             PathWidthLabel.CausesValidation = false;
             PathWidthLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            PathWidthLabel.Location = new Point(83, 127);
+            PathWidthLabel.Location = new Point(83, 85);
             PathWidthLabel.Name = "PathWidthLabel";
             PathWidthLabel.Size = new Size(30, 14);
             PathWidthLabel.TabIndex = 77;
@@ -2910,48 +2672,12 @@
             label50.AutoSize = true;
             label50.CausesValidation = false;
             label50.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label50.Location = new Point(9, 127);
+            label50.Location = new Point(9, 85);
             label50.Name = "label50";
             label50.Size = new Size(35, 13);
             label50.TabIndex = 76;
             label50.Text = "Width";
             label50.UseMnemonic = false;
-            // 
-            // PathColorOpacityTrack
-            // 
-            PathColorOpacityTrack.AutoSize = false;
-            PathColorOpacityTrack.Location = new Point(5, 97);
-            PathColorOpacityTrack.Maximum = 255;
-            PathColorOpacityTrack.Name = "PathColorOpacityTrack";
-            PathColorOpacityTrack.Size = new Size(108, 20);
-            PathColorOpacityTrack.TabIndex = 75;
-            PathColorOpacityTrack.TickStyle = TickStyle.None;
-            PathColorOpacityTrack.Value = 255;
-            PathColorOpacityTrack.Scroll += PathColorOpacityTrack_Scroll;
-            // 
-            // PathColorOpacityLabel
-            // 
-            PathColorOpacityLabel.CausesValidation = false;
-            PathColorOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            PathColorOpacityLabel.Location = new Point(83, 80);
-            PathColorOpacityLabel.Name = "PathColorOpacityLabel";
-            PathColorOpacityLabel.Size = new Size(30, 14);
-            PathColorOpacityLabel.TabIndex = 74;
-            PathColorOpacityLabel.Text = "255";
-            PathColorOpacityLabel.TextAlign = ContentAlignment.MiddleRight;
-            PathColorOpacityLabel.UseMnemonic = false;
-            // 
-            // label47
-            // 
-            label47.AutoSize = true;
-            label47.CausesValidation = false;
-            label47.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label47.Location = new Point(9, 80);
-            label47.Name = "label47";
-            label47.Size = new Size(44, 13);
-            label47.TabIndex = 73;
-            label47.Text = "Opacity";
-            label47.UseMnemonic = false;
             // 
             // label48
             // 
@@ -3682,7 +3408,7 @@
             groupBox13.Controls.Add(LabelRotationUpDown);
             groupBox13.Controls.Add(LabelRotationTrack);
             groupBox13.Controls.Add(label42);
-            groupBox13.Location = new Point(10, 686);
+            groupBox13.Location = new Point(10, 626);
             groupBox13.Name = "groupBox13";
             groupBox13.Size = new Size(119, 82);
             groupBox13.TabIndex = 100;
@@ -3724,54 +3450,15 @@
             // 
             // groupBox12
             // 
-            groupBox12.Controls.Add(FontColorOpacityTrack);
-            groupBox12.Controls.Add(FontColorOpacityLabel);
-            groupBox12.Controls.Add(label69);
             groupBox12.Controls.Add(label61);
             groupBox12.Controls.Add(FontColorSelectLabel);
             groupBox12.Controls.Add(SelectLabelFontButton);
             groupBox12.Location = new Point(8, 172);
             groupBox12.Name = "groupBox12";
-            groupBox12.Size = new Size(121, 187);
+            groupBox12.Size = new Size(121, 143);
             groupBox12.TabIndex = 99;
             groupBox12.TabStop = false;
             groupBox12.Text = "Font";
-            // 
-            // FontColorOpacityTrack
-            // 
-            FontColorOpacityTrack.AutoSize = false;
-            FontColorOpacityTrack.Location = new Point(5, 154);
-            FontColorOpacityTrack.Maximum = 255;
-            FontColorOpacityTrack.Name = "FontColorOpacityTrack";
-            FontColorOpacityTrack.Size = new Size(108, 20);
-            FontColorOpacityTrack.TabIndex = 109;
-            FontColorOpacityTrack.TickStyle = TickStyle.None;
-            FontColorOpacityTrack.Value = 255;
-            FontColorOpacityTrack.ValueChanged += FontColorOpacityTrack_ValueChanged;
-            // 
-            // FontColorOpacityLabel
-            // 
-            FontColorOpacityLabel.CausesValidation = false;
-            FontColorOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            FontColorOpacityLabel.Location = new Point(83, 137);
-            FontColorOpacityLabel.Name = "FontColorOpacityLabel";
-            FontColorOpacityLabel.Size = new Size(30, 14);
-            FontColorOpacityLabel.TabIndex = 108;
-            FontColorOpacityLabel.Text = "255";
-            FontColorOpacityLabel.TextAlign = ContentAlignment.MiddleRight;
-            FontColorOpacityLabel.UseMnemonic = false;
-            // 
-            // label69
-            // 
-            label69.AutoSize = true;
-            label69.CausesValidation = false;
-            label69.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label69.Location = new Point(9, 137);
-            label69.Name = "label69";
-            label69.Size = new Size(44, 13);
-            label69.TabIndex = 107;
-            label69.Text = "Opacity";
-            label69.UseMnemonic = false;
             // 
             // label61
             // 
@@ -3809,61 +3496,22 @@
             // 
             // groupBox11
             // 
-            groupBox11.Controls.Add(OutlineColorOpacityTrack);
-            groupBox11.Controls.Add(OutlineColorOpacityLabel);
-            groupBox11.Controls.Add(label68);
             groupBox11.Controls.Add(label63);
             groupBox11.Controls.Add(OutlineWidthUpDown);
             groupBox11.Controls.Add(label60);
             groupBox11.Controls.Add(OutlineColorSelectLabel);
-            groupBox11.Location = new Point(8, 365);
+            groupBox11.Location = new Point(8, 331);
             groupBox11.Name = "groupBox11";
-            groupBox11.Size = new Size(121, 176);
+            groupBox11.Size = new Size(121, 131);
             groupBox11.TabIndex = 98;
             groupBox11.TabStop = false;
             groupBox11.Text = "Outline";
-            // 
-            // OutlineColorOpacityTrack
-            // 
-            OutlineColorOpacityTrack.AutoSize = false;
-            OutlineColorOpacityTrack.Location = new Point(2, 111);
-            OutlineColorOpacityTrack.Maximum = 255;
-            OutlineColorOpacityTrack.Name = "OutlineColorOpacityTrack";
-            OutlineColorOpacityTrack.Size = new Size(108, 20);
-            OutlineColorOpacityTrack.TabIndex = 106;
-            OutlineColorOpacityTrack.TickStyle = TickStyle.None;
-            OutlineColorOpacityTrack.Value = 255;
-            OutlineColorOpacityTrack.ValueChanged += OutlineColorOpacityTrack_ValueChanged;
-            // 
-            // OutlineColorOpacityLabel
-            // 
-            OutlineColorOpacityLabel.CausesValidation = false;
-            OutlineColorOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            OutlineColorOpacityLabel.Location = new Point(80, 94);
-            OutlineColorOpacityLabel.Name = "OutlineColorOpacityLabel";
-            OutlineColorOpacityLabel.Size = new Size(30, 14);
-            OutlineColorOpacityLabel.TabIndex = 105;
-            OutlineColorOpacityLabel.Text = "255";
-            OutlineColorOpacityLabel.TextAlign = ContentAlignment.MiddleRight;
-            OutlineColorOpacityLabel.UseMnemonic = false;
-            // 
-            // label68
-            // 
-            label68.AutoSize = true;
-            label68.CausesValidation = false;
-            label68.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label68.Location = new Point(6, 94);
-            label68.Name = "label68";
-            label68.Size = new Size(44, 13);
-            label68.TabIndex = 104;
-            label68.Text = "Opacity";
-            label68.UseMnemonic = false;
             // 
             // label63
             // 
             label63.AutoSize = true;
             label63.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label63.Location = new Point(3, 144);
+            label63.Location = new Point(3, 97);
             label63.Name = "label63";
             label63.Size = new Size(40, 16);
             label63.TabIndex = 82;
@@ -3872,7 +3520,7 @@
             // OutlineWidthUpDown
             // 
             OutlineWidthUpDown.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            OutlineWidthUpDown.Location = new Point(65, 142);
+            OutlineWidthUpDown.Location = new Point(65, 95);
             OutlineWidthUpDown.Name = "OutlineWidthUpDown";
             OutlineWidthUpDown.Size = new Size(53, 23);
             OutlineWidthUpDown.TabIndex = 81;
@@ -3905,62 +3553,23 @@
             // 
             // groupBox10
             // 
-            groupBox10.Controls.Add(GlowColorOpacityTrack);
-            groupBox10.Controls.Add(GlowColorOpacityLabel);
-            groupBox10.Controls.Add(label66);
             groupBox10.Controls.Add(label64);
             groupBox10.Controls.Add(GlowStrengthUpDown);
             groupBox10.Controls.Add(label65);
             groupBox10.Controls.Add(GlowColorSelectLabel);
             groupBox10.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            groupBox10.Location = new Point(8, 551);
+            groupBox10.Location = new Point(8, 477);
             groupBox10.Name = "groupBox10";
-            groupBox10.Size = new Size(121, 176);
+            groupBox10.Size = new Size(121, 130);
             groupBox10.TabIndex = 97;
             groupBox10.TabStop = false;
             groupBox10.Text = "Glow";
-            // 
-            // GlowColorOpacityTrack
-            // 
-            GlowColorOpacityTrack.AutoSize = false;
-            GlowColorOpacityTrack.Location = new Point(3, 107);
-            GlowColorOpacityTrack.Maximum = 255;
-            GlowColorOpacityTrack.Name = "GlowColorOpacityTrack";
-            GlowColorOpacityTrack.Size = new Size(108, 20);
-            GlowColorOpacityTrack.TabIndex = 103;
-            GlowColorOpacityTrack.TickStyle = TickStyle.None;
-            GlowColorOpacityTrack.Value = 255;
-            GlowColorOpacityTrack.ValueChanged += GlowColorOpacityTrack_ValueChanged;
-            // 
-            // GlowColorOpacityLabel
-            // 
-            GlowColorOpacityLabel.CausesValidation = false;
-            GlowColorOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            GlowColorOpacityLabel.Location = new Point(81, 90);
-            GlowColorOpacityLabel.Name = "GlowColorOpacityLabel";
-            GlowColorOpacityLabel.Size = new Size(30, 14);
-            GlowColorOpacityLabel.TabIndex = 102;
-            GlowColorOpacityLabel.Text = "255";
-            GlowColorOpacityLabel.TextAlign = ContentAlignment.MiddleRight;
-            GlowColorOpacityLabel.UseMnemonic = false;
-            // 
-            // label66
-            // 
-            label66.AutoSize = true;
-            label66.CausesValidation = false;
-            label66.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label66.Location = new Point(7, 90);
-            label66.Name = "label66";
-            label66.Size = new Size(44, 13);
-            label66.TabIndex = 101;
-            label66.Text = "Opacity";
-            label66.UseMnemonic = false;
             // 
             // label64
             // 
             label64.AutoSize = true;
             label64.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label64.Location = new Point(3, 139);
+            label64.Location = new Point(5, 95);
             label64.Name = "label64";
             label64.Size = new Size(56, 16);
             label64.TabIndex = 100;
@@ -3969,7 +3578,7 @@
             // GlowStrengthUpDown
             // 
             GlowStrengthUpDown.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            GlowStrengthUpDown.Location = new Point(65, 137);
+            GlowStrengthUpDown.Location = new Point(67, 93);
             GlowStrengthUpDown.Name = "GlowStrengthUpDown";
             GlowStrengthUpDown.Size = new Size(46, 23);
             GlowStrengthUpDown.TabIndex = 99;
@@ -4010,7 +3619,7 @@
             BezierTextPathButton.IconColor = Color.Black;
             BezierTextPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             BezierTextPathButton.IconSize = 32;
-            BezierTextPathButton.Location = new Point(75, 811);
+            BezierTextPathButton.Location = new Point(75, 743);
             BezierTextPathButton.Name = "BezierTextPathButton";
             BezierTextPathButton.Size = new Size(58, 58);
             BezierTextPathButton.TabIndex = 89;
@@ -4029,7 +3638,7 @@
             CircleTextPathButton.IconColor = Color.Black;
             CircleTextPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             CircleTextPathButton.IconSize = 32;
-            CircleTextPathButton.Location = new Point(11, 811);
+            CircleTextPathButton.Location = new Point(11, 743);
             CircleTextPathButton.Name = "CircleTextPathButton";
             CircleTextPathButton.Size = new Size(58, 58);
             CircleTextPathButton.TabIndex = 88;
@@ -4042,7 +3651,7 @@
             // 
             label40.AutoSize = true;
             label40.Font = new Font("Tahoma", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label40.Location = new Point(15, 792);
+            label40.Location = new Point(15, 724);
             label40.Name = "label40";
             label40.Size = new Size(75, 18);
             label40.TabIndex = 87;
@@ -4169,7 +3778,7 @@
             groupBox16.Controls.Add(UseScaleUnitsCheck);
             groupBox16.Controls.Add(label80);
             groupBox16.Controls.Add(MeasureColorLabel);
-            groupBox16.Location = new Point(8, 748);
+            groupBox16.Location = new Point(9, 654);
             groupBox16.Name = "groupBox16";
             groupBox16.Size = new Size(120, 191);
             groupBox16.TabIndex = 20;
@@ -4242,9 +3851,6 @@
             groupBox15.Controls.Add(GridLineWidthLabel);
             groupBox15.Controls.Add(label59);
             groupBox15.Controls.Add(GridLineWidthTrack);
-            groupBox15.Controls.Add(GridColorOpacityTrack);
-            groupBox15.Controls.Add(GridColorOpacityLabel);
-            groupBox15.Controls.Add(label77);
             groupBox15.Controls.Add(label78);
             groupBox15.Controls.Add(GridColorSelectLabel);
             groupBox15.Controls.Add(label75);
@@ -4256,9 +3862,9 @@
             groupBox15.Controls.Add(FlatHexRadio);
             groupBox15.Controls.Add(SquareGridRadio);
             groupBox15.Controls.Add(EnableGridCheck);
-            groupBox15.Location = new Point(8, 275);
+            groupBox15.Location = new Point(9, 232);
             groupBox15.Name = "groupBox15";
-            groupBox15.Size = new Size(120, 454);
+            groupBox15.Size = new Size(120, 406);
             groupBox15.TabIndex = 19;
             groupBox15.TabStop = false;
             groupBox15.Text = "Grid";
@@ -4269,7 +3875,7 @@
             ShowGridSizeCheck.Checked = true;
             ShowGridSizeCheck.CheckState = CheckState.Checked;
             ShowGridSizeCheck.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            ShowGridSizeCheck.Location = new Point(6, 416);
+            ShowGridSizeCheck.Location = new Point(5, 366);
             ShowGridSizeCheck.Name = "ShowGridSizeCheck";
             ShowGridSizeCheck.Size = new Size(107, 18);
             ShowGridSizeCheck.TabIndex = 100;
@@ -4322,42 +3928,6 @@
             GridLineWidthTrack.TickStyle = TickStyle.None;
             GridLineWidthTrack.Value = 2;
             GridLineWidthTrack.Scroll += GridLineWidthTrack_Scroll;
-            // 
-            // GridColorOpacityTrack
-            // 
-            GridColorOpacityTrack.AutoSize = false;
-            GridColorOpacityTrack.Location = new Point(6, 378);
-            GridColorOpacityTrack.Maximum = 255;
-            GridColorOpacityTrack.Name = "GridColorOpacityTrack";
-            GridColorOpacityTrack.Size = new Size(108, 20);
-            GridColorOpacityTrack.TabIndex = 95;
-            GridColorOpacityTrack.TickStyle = TickStyle.None;
-            GridColorOpacityTrack.Value = 126;
-            GridColorOpacityTrack.Scroll += GridColorOpacityTrack_Scroll;
-            // 
-            // GridColorOpacityLabel
-            // 
-            GridColorOpacityLabel.CausesValidation = false;
-            GridColorOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            GridColorOpacityLabel.Location = new Point(84, 361);
-            GridColorOpacityLabel.Name = "GridColorOpacityLabel";
-            GridColorOpacityLabel.Size = new Size(30, 14);
-            GridColorOpacityLabel.TabIndex = 94;
-            GridColorOpacityLabel.Text = "126";
-            GridColorOpacityLabel.TextAlign = ContentAlignment.MiddleRight;
-            GridColorOpacityLabel.UseMnemonic = false;
-            // 
-            // label77
-            // 
-            label77.AutoSize = true;
-            label77.CausesValidation = false;
-            label77.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label77.Location = new Point(10, 361);
-            label77.Name = "label77";
-            label77.Size = new Size(44, 13);
-            label77.TabIndex = 93;
-            label77.Text = "Opacity";
-            label77.UseMnemonic = false;
             // 
             // label78
             // 
@@ -4496,15 +4066,12 @@
             groupBox14.Controls.Add(FrameScaleUpDown);
             groupBox14.Controls.Add(label72);
             groupBox14.Controls.Add(FrameScaleTrack);
-            groupBox14.Controls.Add(FrameTintOpacityTrack);
-            groupBox14.Controls.Add(SelectFrameTintOpacityLabel);
-            groupBox14.Controls.Add(label71);
             groupBox14.Controls.Add(label67);
             groupBox14.Controls.Add(SelectFrameTintLabel);
             groupBox14.Controls.Add(EnableFrameCheck);
             groupBox14.Location = new Point(8, 28);
             groupBox14.Name = "groupBox14";
-            groupBox14.Size = new Size(120, 233);
+            groupBox14.Size = new Size(120, 194);
             groupBox14.TabIndex = 18;
             groupBox14.TabStop = false;
             groupBox14.Text = "Frame";
@@ -4514,7 +4081,7 @@
             FrameScaleUpDown.DecimalPlaces = 2;
             FrameScaleUpDown.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             FrameScaleUpDown.Increment = new decimal(new int[] { 1, 0, 0, 131072 });
-            FrameScaleUpDown.Location = new Point(14, 196);
+            FrameScaleUpDown.Location = new Point(14, 152);
             FrameScaleUpDown.Maximum = new decimal(new int[] { 2, 0, 0, 0 });
             FrameScaleUpDown.Minimum = new decimal(new int[] { 25, 0, 0, 131072 });
             FrameScaleUpDown.Name = "FrameScaleUpDown";
@@ -4528,7 +4095,7 @@
             // 
             label72.AutoSize = true;
             label72.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label72.Location = new Point(6, 158);
+            label72.Location = new Point(6, 114);
             label72.Name = "label72";
             label72.Size = new Size(38, 16);
             label72.TabIndex = 86;
@@ -4537,7 +4104,7 @@
             // FrameScaleTrack
             // 
             FrameScaleTrack.AutoSize = false;
-            FrameScaleTrack.Location = new Point(6, 174);
+            FrameScaleTrack.Location = new Point(6, 130);
             FrameScaleTrack.Maximum = 200;
             FrameScaleTrack.Minimum = 25;
             FrameScaleTrack.Name = "FrameScaleTrack";
@@ -4546,42 +4113,6 @@
             FrameScaleTrack.TickStyle = TickStyle.None;
             FrameScaleTrack.Value = 100;
             FrameScaleTrack.Scroll += FrameScaleTrack_Scroll;
-            // 
-            // FrameTintOpacityTrack
-            // 
-            FrameTintOpacityTrack.AutoSize = false;
-            FrameTintOpacityTrack.Location = new Point(6, 127);
-            FrameTintOpacityTrack.Maximum = 255;
-            FrameTintOpacityTrack.Name = "FrameTintOpacityTrack";
-            FrameTintOpacityTrack.Size = new Size(108, 20);
-            FrameTintOpacityTrack.TabIndex = 78;
-            FrameTintOpacityTrack.TickStyle = TickStyle.None;
-            FrameTintOpacityTrack.Value = 255;
-            FrameTintOpacityTrack.Scroll += FrameTintOpacityTrack_Scroll;
-            // 
-            // SelectFrameTintOpacityLabel
-            // 
-            SelectFrameTintOpacityLabel.CausesValidation = false;
-            SelectFrameTintOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            SelectFrameTintOpacityLabel.Location = new Point(84, 110);
-            SelectFrameTintOpacityLabel.Name = "SelectFrameTintOpacityLabel";
-            SelectFrameTintOpacityLabel.Size = new Size(30, 14);
-            SelectFrameTintOpacityLabel.TabIndex = 77;
-            SelectFrameTintOpacityLabel.Text = "255";
-            SelectFrameTintOpacityLabel.TextAlign = ContentAlignment.MiddleRight;
-            SelectFrameTintOpacityLabel.UseMnemonic = false;
-            // 
-            // label71
-            // 
-            label71.AutoSize = true;
-            label71.CausesValidation = false;
-            label71.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label71.Location = new Point(10, 110);
-            label71.Name = "label71";
-            label71.Size = new Size(44, 13);
-            label71.TabIndex = 76;
-            label71.Text = "Opacity";
-            label71.UseMnemonic = false;
             // 
             // label67
             // 
@@ -5030,7 +4561,6 @@
             LandColorToolPanel.Controls.Add(LandColorSelectButton);
             LandColorToolPanel.Controls.Add(LandColorButton);
             LandColorToolPanel.Controls.Add(LandColorBrushSizeLabel);
-            LandColorToolPanel.Controls.Add(LandColorBrushOpacityLabel);
             LandColorToolPanel.Controls.Add(LandColorEraserSizeLabel);
             LandColorToolPanel.Controls.Add(label35);
             LandColorToolPanel.Controls.Add(LandColorEraserSizeTrack);
@@ -5050,8 +4580,6 @@
             LandColorToolPanel.Controls.Add(LandButtonD8B48F);
             LandColorToolPanel.Controls.Add(LandButtonE6D0AB);
             LandColorToolPanel.Controls.Add(LandColorEraseButton);
-            LandColorToolPanel.Controls.Add(label24);
-            LandColorToolPanel.Controls.Add(LandColorBrushOpacityTrack);
             LandColorToolPanel.Controls.Add(label23);
             LandColorToolPanel.Controls.Add(LandColorBrushSizeTrack);
             LandColorToolPanel.Controls.Add(LandSelectedPaintColorLabel);
@@ -5083,7 +4611,7 @@
             LandColorSelectButton.IconColor = Color.Black;
             LandColorSelectButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             LandColorSelectButton.IconSize = 24;
-            LandColorSelectButton.Location = new Point(80, 415);
+            LandColorSelectButton.Location = new Point(80, 356);
             LandColorSelectButton.Name = "LandColorSelectButton";
             LandColorSelectButton.Size = new Size(60, 60);
             LandColorSelectButton.TabIndex = 58;
@@ -5100,7 +4628,7 @@
             LandColorButton.IconColor = Color.Black;
             LandColorButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             LandColorButton.IconSize = 24;
-            LandColorButton.Location = new Point(14, 283);
+            LandColorButton.Location = new Point(14, 224);
             LandColorButton.Name = "LandColorButton";
             LandColorButton.Size = new Size(60, 60);
             LandColorButton.TabIndex = 57;
@@ -5119,20 +4647,10 @@
             LandColorBrushSizeLabel.Text = "20";
             LandColorBrushSizeLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // LandColorBrushOpacityLabel
-            // 
-            LandColorBrushOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            LandColorBrushOpacityLabel.Location = new Point(106, 167);
-            LandColorBrushOpacityLabel.Name = "LandColorBrushOpacityLabel";
-            LandColorBrushOpacityLabel.Size = new Size(32, 13);
-            LandColorBrushOpacityLabel.TabIndex = 55;
-            LandColorBrushOpacityLabel.Text = "255";
-            LandColorBrushOpacityLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
             // LandColorEraserSizeLabel
             // 
             LandColorEraserSizeLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            LandColorEraserSizeLabel.Location = new Point(106, 226);
+            LandColorEraserSizeLabel.Location = new Point(107, 168);
             LandColorEraserSizeLabel.Name = "LandColorEraserSizeLabel";
             LandColorEraserSizeLabel.Size = new Size(32, 13);
             LandColorEraserSizeLabel.TabIndex = 54;
@@ -5143,7 +4661,7 @@
             // 
             label35.AutoSize = true;
             label35.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label35.Location = new Point(16, 226);
+            label35.Location = new Point(17, 168);
             label35.Name = "label35";
             label35.Size = new Size(60, 13);
             label35.TabIndex = 53;
@@ -5152,7 +4670,7 @@
             // LandColorEraserSizeTrack
             // 
             LandColorEraserSizeTrack.AutoSize = false;
-            LandColorEraserSizeTrack.Location = new Point(16, 242);
+            LandColorEraserSizeTrack.Location = new Point(16, 184);
             LandColorEraserSizeTrack.Maximum = 256;
             LandColorEraserSizeTrack.Minimum = 2;
             LandColorEraserSizeTrack.Name = "LandColorEraserSizeTrack";
@@ -5170,7 +4688,7 @@
             LandCustomColorButton6.FlatStyle = FlatStyle.Flat;
             LandCustomColorButton6.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LandCustomColorButton6.ForeColor = SystemColors.ControlDark;
-            LandCustomColorButton6.Location = new Point(80, 796);
+            LandCustomColorButton6.Location = new Point(80, 737);
             LandCustomColorButton6.Name = "LandCustomColorButton6";
             LandCustomColorButton6.Size = new Size(60, 57);
             LandCustomColorButton6.TabIndex = 42;
@@ -5184,7 +4702,7 @@
             LandCustomColorButton5.FlatStyle = FlatStyle.Flat;
             LandCustomColorButton5.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LandCustomColorButton5.ForeColor = SystemColors.ControlDark;
-            LandCustomColorButton5.Location = new Point(14, 796);
+            LandCustomColorButton5.Location = new Point(14, 737);
             LandCustomColorButton5.Name = "LandCustomColorButton5";
             LandCustomColorButton5.Size = new Size(60, 57);
             LandCustomColorButton5.TabIndex = 41;
@@ -5198,7 +4716,7 @@
             LandCustomColorButton4.FlatStyle = FlatStyle.Flat;
             LandCustomColorButton4.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LandCustomColorButton4.ForeColor = SystemColors.ControlDark;
-            LandCustomColorButton4.Location = new Point(80, 733);
+            LandCustomColorButton4.Location = new Point(80, 674);
             LandCustomColorButton4.Name = "LandCustomColorButton4";
             LandCustomColorButton4.Size = new Size(60, 57);
             LandCustomColorButton4.TabIndex = 40;
@@ -5212,7 +4730,7 @@
             LandCustomColorButton3.FlatStyle = FlatStyle.Flat;
             LandCustomColorButton3.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LandCustomColorButton3.ForeColor = SystemColors.ControlDark;
-            LandCustomColorButton3.Location = new Point(14, 733);
+            LandCustomColorButton3.Location = new Point(14, 674);
             LandCustomColorButton3.Name = "LandCustomColorButton3";
             LandCustomColorButton3.Size = new Size(60, 57);
             LandCustomColorButton3.TabIndex = 39;
@@ -5226,7 +4744,7 @@
             LandCustomColorButton2.FlatStyle = FlatStyle.Flat;
             LandCustomColorButton2.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LandCustomColorButton2.ForeColor = SystemColors.ControlDark;
-            LandCustomColorButton2.Location = new Point(80, 670);
+            LandCustomColorButton2.Location = new Point(80, 611);
             LandCustomColorButton2.Name = "LandCustomColorButton2";
             LandCustomColorButton2.Size = new Size(60, 57);
             LandCustomColorButton2.TabIndex = 38;
@@ -5240,7 +4758,7 @@
             LandCustomColorButton1.FlatStyle = FlatStyle.Flat;
             LandCustomColorButton1.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LandCustomColorButton1.ForeColor = SystemColors.ControlDark;
-            LandCustomColorButton1.Location = new Point(14, 670);
+            LandCustomColorButton1.Location = new Point(14, 611);
             LandCustomColorButton1.Name = "LandCustomColorButton1";
             LandCustomColorButton1.Size = new Size(60, 57);
             LandCustomColorButton1.TabIndex = 37;
@@ -5254,7 +4772,7 @@
             LandButton3D3728.FlatStyle = FlatStyle.Flat;
             LandButton3D3728.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LandButton3D3728.ForeColor = SystemColors.ControlDark;
-            LandButton3D3728.Location = new Point(80, 607);
+            LandButton3D3728.Location = new Point(80, 548);
             LandButton3D3728.Name = "LandButton3D3728";
             LandButton3D3728.Size = new Size(60, 57);
             LandButton3D3728.TabIndex = 36;
@@ -5271,7 +4789,7 @@
             LandAddColorPresetButton.IconColor = Color.Black;
             LandAddColorPresetButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             LandAddColorPresetButton.IconSize = 24;
-            LandAddColorPresetButton.Location = new Point(14, 415);
+            LandAddColorPresetButton.Location = new Point(14, 356);
             LandAddColorPresetButton.Name = "LandAddColorPresetButton";
             LandAddColorPresetButton.Size = new Size(60, 60);
             LandAddColorPresetButton.TabIndex = 35;
@@ -5313,7 +4831,7 @@
             LandButtonAD9C7E.FlatStyle = FlatStyle.Flat;
             LandButtonAD9C7E.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LandButtonAD9C7E.ForeColor = SystemColors.ControlDarkDark;
-            LandButtonAD9C7E.Location = new Point(14, 607);
+            LandButtonAD9C7E.Location = new Point(14, 548);
             LandButtonAD9C7E.Name = "LandButtonAD9C7E";
             LandButtonAD9C7E.Size = new Size(60, 57);
             LandButtonAD9C7E.TabIndex = 32;
@@ -5328,7 +4846,7 @@
             LandButtonD7C293.FlatStyle = FlatStyle.Flat;
             LandButtonD7C293.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LandButtonD7C293.ForeColor = SystemColors.ControlDarkDark;
-            LandButtonD7C293.Location = new Point(80, 544);
+            LandButtonD7C293.Location = new Point(80, 485);
             LandButtonD7C293.Name = "LandButtonD7C293";
             LandButtonD7C293.Size = new Size(60, 57);
             LandButtonD7C293.TabIndex = 31;
@@ -5343,7 +4861,7 @@
             LandButtonBEBB8E.FlatStyle = FlatStyle.Flat;
             LandButtonBEBB8E.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LandButtonBEBB8E.ForeColor = SystemColors.ControlDarkDark;
-            LandButtonBEBB8E.Location = new Point(14, 544);
+            LandButtonBEBB8E.Location = new Point(14, 485);
             LandButtonBEBB8E.Name = "LandButtonBEBB8E";
             LandButtonBEBB8E.Size = new Size(60, 57);
             LandButtonBEBB8E.TabIndex = 30;
@@ -5358,7 +4876,7 @@
             LandButtonD8B48F.FlatStyle = FlatStyle.Flat;
             LandButtonD8B48F.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LandButtonD8B48F.ForeColor = SystemColors.ControlDarkDark;
-            LandButtonD8B48F.Location = new Point(80, 481);
+            LandButtonD8B48F.Location = new Point(80, 422);
             LandButtonD8B48F.Name = "LandButtonD8B48F";
             LandButtonD8B48F.Size = new Size(60, 57);
             LandButtonD8B48F.TabIndex = 29;
@@ -5373,7 +4891,7 @@
             LandButtonE6D0AB.FlatStyle = FlatStyle.Flat;
             LandButtonE6D0AB.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LandButtonE6D0AB.ForeColor = SystemColors.ControlDarkDark;
-            LandButtonE6D0AB.Location = new Point(14, 481);
+            LandButtonE6D0AB.Location = new Point(14, 422);
             LandButtonE6D0AB.Name = "LandButtonE6D0AB";
             LandButtonE6D0AB.Size = new Size(60, 57);
             LandButtonE6D0AB.TabIndex = 28;
@@ -5391,7 +4909,7 @@
             LandColorEraseButton.IconColor = Color.Black;
             LandColorEraseButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             LandColorEraseButton.IconSize = 24;
-            LandColorEraseButton.Location = new Point(80, 283);
+            LandColorEraseButton.Location = new Point(80, 224);
             LandColorEraseButton.Name = "LandColorEraseButton";
             LandColorEraseButton.Size = new Size(60, 60);
             LandColorEraseButton.TabIndex = 27;
@@ -5399,29 +4917,6 @@
             LandColorEraseButton.TextImageRelation = TextImageRelation.TextAboveImage;
             LandColorEraseButton.UseVisualStyleBackColor = false;
             LandColorEraseButton.Click += LandColorEraseButton_Click;
-            // 
-            // label24
-            // 
-            label24.AutoSize = true;
-            label24.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label24.Location = new Point(16, 167);
-            label24.Name = "label24";
-            label24.Size = new Size(74, 13);
-            label24.TabIndex = 26;
-            label24.Text = "Brush Opacity";
-            // 
-            // LandColorBrushOpacityTrack
-            // 
-            LandColorBrushOpacityTrack.AutoSize = false;
-            LandColorBrushOpacityTrack.Location = new Point(14, 183);
-            LandColorBrushOpacityTrack.Maximum = 255;
-            LandColorBrushOpacityTrack.Minimum = 1;
-            LandColorBrushOpacityTrack.Name = "LandColorBrushOpacityTrack";
-            LandColorBrushOpacityTrack.Size = new Size(126, 20);
-            LandColorBrushOpacityTrack.TabIndex = 25;
-            LandColorBrushOpacityTrack.TickStyle = TickStyle.None;
-            LandColorBrushOpacityTrack.Value = 100;
-            LandColorBrushOpacityTrack.ValueChanged += LandColorBrushOpacityTrack_ValueChanged;
             // 
             // label23
             // 
@@ -5453,7 +4948,7 @@
             LandSelectedPaintColorLabel.BorderStyle = BorderStyle.FixedSingle;
             LandSelectedPaintColorLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LandSelectedPaintColorLabel.ForeColor = SystemColors.ControlDark;
-            LandSelectedPaintColorLabel.Location = new Point(80, 349);
+            LandSelectedPaintColorLabel.Location = new Point(80, 290);
             LandSelectedPaintColorLabel.Name = "LandSelectedPaintColorLabel";
             LandSelectedPaintColorLabel.Size = new Size(60, 60);
             LandSelectedPaintColorLabel.TabIndex = 22;
@@ -5480,7 +4975,7 @@
             LandColorSelectionButton.IconColor = Color.Black;
             LandColorSelectionButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             LandColorSelectionButton.IconSize = 24;
-            LandColorSelectionButton.Location = new Point(14, 349);
+            LandColorSelectionButton.Location = new Point(14, 290);
             LandColorSelectionButton.Name = "LandColorSelectionButton";
             LandColorSelectionButton.Size = new Size(60, 60);
             LandColorSelectionButton.TabIndex = 18;
@@ -5575,7 +5070,6 @@
             OceanColorToolPanel.Controls.Add(OceanEraserSizeLabel);
             OceanColorToolPanel.Controls.Add(label32);
             OceanColorToolPanel.Controls.Add(OceanEraserSizeScroll);
-            OceanColorToolPanel.Controls.Add(OceanColorBrushOpacityLabel);
             OceanColorToolPanel.Controls.Add(OceanBrushSizeLabel);
             OceanColorToolPanel.Controls.Add(OceanCustomColorButton8);
             OceanColorToolPanel.Controls.Add(OceanCustomColorButton7);
@@ -5593,8 +5087,6 @@
             OceanColorToolPanel.Controls.Add(OceanButton88B5BB);
             OceanColorToolPanel.Controls.Add(OceanButton91CBB8);
             OceanColorToolPanel.Controls.Add(OceanColorEraseButton);
-            OceanColorToolPanel.Controls.Add(label25);
-            OceanColorToolPanel.Controls.Add(OceanBrushOpacityScroll);
             OceanColorToolPanel.Controls.Add(label26);
             OceanColorToolPanel.Controls.Add(OceanBrushSizeScroll);
             OceanColorToolPanel.Controls.Add(OceanSelectedPaintColorLabel);
@@ -5616,7 +5108,7 @@
             OceanColorSelectButton.IconColor = Color.Black;
             OceanColorSelectButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             OceanColorSelectButton.IconSize = 24;
-            OceanColorSelectButton.Location = new Point(80, 415);
+            OceanColorSelectButton.Location = new Point(80, 356);
             OceanColorSelectButton.Name = "OceanColorSelectButton";
             OceanColorSelectButton.Size = new Size(60, 60);
             OceanColorSelectButton.TabIndex = 53;
@@ -5633,7 +5125,7 @@
             OceanPaintButton.IconColor = Color.Black;
             OceanPaintButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             OceanPaintButton.IconSize = 24;
-            OceanPaintButton.Location = new Point(14, 283);
+            OceanPaintButton.Location = new Point(14, 224);
             OceanPaintButton.Name = "OceanPaintButton";
             OceanPaintButton.Size = new Size(60, 60);
             OceanPaintButton.TabIndex = 52;
@@ -5645,7 +5137,7 @@
             // OceanEraserSizeLabel
             // 
             OceanEraserSizeLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            OceanEraserSizeLabel.Location = new Point(108, 226);
+            OceanEraserSizeLabel.Location = new Point(108, 168);
             OceanEraserSizeLabel.Name = "OceanEraserSizeLabel";
             OceanEraserSizeLabel.Size = new Size(32, 13);
             OceanEraserSizeLabel.TabIndex = 51;
@@ -5656,7 +5148,7 @@
             // 
             label32.AutoSize = true;
             label32.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label32.Location = new Point(16, 226);
+            label32.Location = new Point(16, 168);
             label32.Name = "label32";
             label32.Size = new Size(60, 13);
             label32.TabIndex = 50;
@@ -5665,7 +5157,7 @@
             // OceanEraserSizeScroll
             // 
             OceanEraserSizeScroll.AutoSize = false;
-            OceanEraserSizeScroll.Location = new Point(14, 242);
+            OceanEraserSizeScroll.Location = new Point(14, 184);
             OceanEraserSizeScroll.Maximum = 256;
             OceanEraserSizeScroll.Minimum = 2;
             OceanEraserSizeScroll.Name = "OceanEraserSizeScroll";
@@ -5675,16 +5167,6 @@
             OceanEraserSizeScroll.TickStyle = TickStyle.None;
             OceanEraserSizeScroll.Value = 20;
             OceanEraserSizeScroll.ValueChanged += OceanEraserSizeScroll_ValueChanged;
-            // 
-            // OceanColorBrushOpacityLabel
-            // 
-            OceanColorBrushOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            OceanColorBrushOpacityLabel.Location = new Point(108, 167);
-            OceanColorBrushOpacityLabel.Name = "OceanColorBrushOpacityLabel";
-            OceanColorBrushOpacityLabel.Size = new Size(32, 13);
-            OceanColorBrushOpacityLabel.TabIndex = 48;
-            OceanColorBrushOpacityLabel.Text = "128";
-            OceanColorBrushOpacityLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // OceanBrushSizeLabel
             // 
@@ -5703,7 +5185,7 @@
             OceanCustomColorButton8.FlatStyle = FlatStyle.Flat;
             OceanCustomColorButton8.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OceanCustomColorButton8.ForeColor = SystemColors.ControlDark;
-            OceanCustomColorButton8.Location = new Point(80, 796);
+            OceanCustomColorButton8.Location = new Point(80, 737);
             OceanCustomColorButton8.Name = "OceanCustomColorButton8";
             OceanCustomColorButton8.Size = new Size(60, 57);
             OceanCustomColorButton8.TabIndex = 44;
@@ -5717,7 +5199,7 @@
             OceanCustomColorButton7.FlatStyle = FlatStyle.Flat;
             OceanCustomColorButton7.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OceanCustomColorButton7.ForeColor = SystemColors.ControlDark;
-            OceanCustomColorButton7.Location = new Point(14, 796);
+            OceanCustomColorButton7.Location = new Point(14, 737);
             OceanCustomColorButton7.Name = "OceanCustomColorButton7";
             OceanCustomColorButton7.Size = new Size(60, 57);
             OceanCustomColorButton7.TabIndex = 43;
@@ -5731,7 +5213,7 @@
             OceanCustomColorButton6.FlatStyle = FlatStyle.Flat;
             OceanCustomColorButton6.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OceanCustomColorButton6.ForeColor = SystemColors.ControlDark;
-            OceanCustomColorButton6.Location = new Point(80, 733);
+            OceanCustomColorButton6.Location = new Point(80, 674);
             OceanCustomColorButton6.Name = "OceanCustomColorButton6";
             OceanCustomColorButton6.Size = new Size(60, 57);
             OceanCustomColorButton6.TabIndex = 42;
@@ -5745,7 +5227,7 @@
             OceanCustomColorButton5.FlatStyle = FlatStyle.Flat;
             OceanCustomColorButton5.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OceanCustomColorButton5.ForeColor = SystemColors.ControlDark;
-            OceanCustomColorButton5.Location = new Point(14, 733);
+            OceanCustomColorButton5.Location = new Point(14, 674);
             OceanCustomColorButton5.Name = "OceanCustomColorButton5";
             OceanCustomColorButton5.Size = new Size(60, 57);
             OceanCustomColorButton5.TabIndex = 41;
@@ -5759,7 +5241,7 @@
             OceanCustomColorButton4.FlatStyle = FlatStyle.Flat;
             OceanCustomColorButton4.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OceanCustomColorButton4.ForeColor = SystemColors.ControlDark;
-            OceanCustomColorButton4.Location = new Point(80, 670);
+            OceanCustomColorButton4.Location = new Point(80, 611);
             OceanCustomColorButton4.Name = "OceanCustomColorButton4";
             OceanCustomColorButton4.Size = new Size(60, 57);
             OceanCustomColorButton4.TabIndex = 40;
@@ -5773,7 +5255,7 @@
             OceanCustomColorButton3.FlatStyle = FlatStyle.Flat;
             OceanCustomColorButton3.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OceanCustomColorButton3.ForeColor = SystemColors.ControlDark;
-            OceanCustomColorButton3.Location = new Point(14, 670);
+            OceanCustomColorButton3.Location = new Point(14, 611);
             OceanCustomColorButton3.Name = "OceanCustomColorButton3";
             OceanCustomColorButton3.Size = new Size(60, 57);
             OceanCustomColorButton3.TabIndex = 39;
@@ -5787,7 +5269,7 @@
             OceanCustomColorButton2.FlatStyle = FlatStyle.Flat;
             OceanCustomColorButton2.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OceanCustomColorButton2.ForeColor = SystemColors.ControlDark;
-            OceanCustomColorButton2.Location = new Point(80, 607);
+            OceanCustomColorButton2.Location = new Point(80, 548);
             OceanCustomColorButton2.Name = "OceanCustomColorButton2";
             OceanCustomColorButton2.Size = new Size(60, 57);
             OceanCustomColorButton2.TabIndex = 38;
@@ -5801,7 +5283,7 @@
             OceanCustomColorButton1.FlatStyle = FlatStyle.Flat;
             OceanCustomColorButton1.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OceanCustomColorButton1.ForeColor = SystemColors.ControlDark;
-            OceanCustomColorButton1.Location = new Point(14, 607);
+            OceanCustomColorButton1.Location = new Point(14, 548);
             OceanCustomColorButton1.Name = "OceanCustomColorButton1";
             OceanCustomColorButton1.Size = new Size(60, 57);
             OceanCustomColorButton1.TabIndex = 37;
@@ -5818,7 +5300,7 @@
             OceanAddColorPresetButton.IconColor = Color.Black;
             OceanAddColorPresetButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             OceanAddColorPresetButton.IconSize = 24;
-            OceanAddColorPresetButton.Location = new Point(14, 415);
+            OceanAddColorPresetButton.Location = new Point(14, 356);
             OceanAddColorPresetButton.Name = "OceanAddColorPresetButton";
             OceanAddColorPresetButton.Size = new Size(60, 60);
             OceanAddColorPresetButton.TabIndex = 35;
@@ -5860,7 +5342,7 @@
             OceanButton42718D.FlatStyle = FlatStyle.Flat;
             OceanButton42718D.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OceanButton42718D.ForeColor = SystemColors.ControlDark;
-            OceanButton42718D.Location = new Point(80, 544);
+            OceanButton42718D.Location = new Point(80, 485);
             OceanButton42718D.Name = "OceanButton42718D";
             OceanButton42718D.Size = new Size(60, 57);
             OceanButton42718D.TabIndex = 31;
@@ -5875,7 +5357,7 @@
             OceanButton6BA5B9.FlatStyle = FlatStyle.Flat;
             OceanButton6BA5B9.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OceanButton6BA5B9.ForeColor = SystemColors.ControlDarkDark;
-            OceanButton6BA5B9.Location = new Point(14, 544);
+            OceanButton6BA5B9.Location = new Point(14, 485);
             OceanButton6BA5B9.Name = "OceanButton6BA5B9";
             OceanButton6BA5B9.Size = new Size(60, 57);
             OceanButton6BA5B9.TabIndex = 30;
@@ -5890,7 +5372,7 @@
             OceanButton88B5BB.FlatStyle = FlatStyle.Flat;
             OceanButton88B5BB.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OceanButton88B5BB.ForeColor = SystemColors.ControlDarkDark;
-            OceanButton88B5BB.Location = new Point(80, 481);
+            OceanButton88B5BB.Location = new Point(80, 422);
             OceanButton88B5BB.Name = "OceanButton88B5BB";
             OceanButton88B5BB.Size = new Size(60, 57);
             OceanButton88B5BB.TabIndex = 29;
@@ -5905,7 +5387,7 @@
             OceanButton91CBB8.FlatStyle = FlatStyle.Flat;
             OceanButton91CBB8.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OceanButton91CBB8.ForeColor = SystemColors.ControlDarkDark;
-            OceanButton91CBB8.Location = new Point(14, 481);
+            OceanButton91CBB8.Location = new Point(14, 422);
             OceanButton91CBB8.Name = "OceanButton91CBB8";
             OceanButton91CBB8.Size = new Size(60, 57);
             OceanButton91CBB8.TabIndex = 28;
@@ -5924,7 +5406,7 @@
             OceanColorEraseButton.IconColor = Color.Black;
             OceanColorEraseButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             OceanColorEraseButton.IconSize = 24;
-            OceanColorEraseButton.Location = new Point(80, 283);
+            OceanColorEraseButton.Location = new Point(80, 224);
             OceanColorEraseButton.Name = "OceanColorEraseButton";
             OceanColorEraseButton.Size = new Size(60, 60);
             OceanColorEraseButton.TabIndex = 27;
@@ -5932,29 +5414,6 @@
             OceanColorEraseButton.TextImageRelation = TextImageRelation.TextAboveImage;
             OceanColorEraseButton.UseVisualStyleBackColor = false;
             OceanColorEraseButton.Click += OceanEraseButton_Click;
-            // 
-            // label25
-            // 
-            label25.AutoSize = true;
-            label25.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label25.Location = new Point(16, 167);
-            label25.Name = "label25";
-            label25.Size = new Size(74, 13);
-            label25.TabIndex = 26;
-            label25.Text = "Brush Opacity";
-            // 
-            // OceanBrushOpacityScroll
-            // 
-            OceanBrushOpacityScroll.AutoSize = false;
-            OceanBrushOpacityScroll.Location = new Point(14, 183);
-            OceanBrushOpacityScroll.Maximum = 255;
-            OceanBrushOpacityScroll.Minimum = 1;
-            OceanBrushOpacityScroll.Name = "OceanBrushOpacityScroll";
-            OceanBrushOpacityScroll.Size = new Size(126, 20);
-            OceanBrushOpacityScroll.TabIndex = 25;
-            OceanBrushOpacityScroll.TickStyle = TickStyle.None;
-            OceanBrushOpacityScroll.Value = 128;
-            OceanBrushOpacityScroll.ValueChanged += OceanBrushOpacityScroll_ValueChanged;
             // 
             // label26
             // 
@@ -5987,7 +5446,7 @@
             OceanSelectedPaintColorLabel.FlatStyle = FlatStyle.Flat;
             OceanSelectedPaintColorLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OceanSelectedPaintColorLabel.ForeColor = Color.Gray;
-            OceanSelectedPaintColorLabel.Location = new Point(80, 349);
+            OceanSelectedPaintColorLabel.Location = new Point(80, 290);
             OceanSelectedPaintColorLabel.Name = "OceanSelectedPaintColorLabel";
             OceanSelectedPaintColorLabel.Size = new Size(60, 60);
             OceanSelectedPaintColorLabel.TabIndex = 22;
@@ -6014,7 +5473,7 @@
             OceanColorSelectionButton.IconColor = Color.Black;
             OceanColorSelectionButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             OceanColorSelectionButton.IconSize = 24;
-            OceanColorSelectionButton.Location = new Point(14, 349);
+            OceanColorSelectionButton.Location = new Point(14, 290);
             OceanColorSelectionButton.Name = "OceanColorSelectionButton";
             OceanColorSelectionButton.Size = new Size(60, 60);
             OceanColorSelectionButton.TabIndex = 18;
@@ -6027,7 +5486,6 @@
             // 
             WaterColorToolPanel.BackColor = SystemColors.Control;
             WaterColorToolPanel.BorderStyle = BorderStyle.FixedSingle;
-            WaterColorToolPanel.Controls.Add(WaterColorBrushOpacityLabel);
             WaterColorToolPanel.Controls.Add(WaterColorBrushSizeLabel);
             WaterColorToolPanel.Controls.Add(WaterColorButton);
             WaterColorToolPanel.Controls.Add(WaterColorSelectButton);
@@ -6050,8 +5508,6 @@
             WaterColorToolPanel.Controls.Add(WaterButton88B5BB);
             WaterColorToolPanel.Controls.Add(WaterButton91CBB8);
             WaterColorToolPanel.Controls.Add(WaterColorEraseButton);
-            WaterColorToolPanel.Controls.Add(label5);
-            WaterColorToolPanel.Controls.Add(WaterColorBrushOpacityTrack);
             WaterColorToolPanel.Controls.Add(label10);
             WaterColorToolPanel.Controls.Add(WaterColorBrushSizeTrack);
             WaterColorToolPanel.Controls.Add(WaterSelectedPaintColorLabel);
@@ -6062,16 +5518,6 @@
             WaterColorToolPanel.Size = new Size(152, 897);
             WaterColorToolPanel.TabIndex = 21;
             WaterColorToolPanel.Visible = false;
-            // 
-            // WaterColorBrushOpacityLabel
-            // 
-            WaterColorBrushOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            WaterColorBrushOpacityLabel.Location = new Point(106, 167);
-            WaterColorBrushOpacityLabel.Name = "WaterColorBrushOpacityLabel";
-            WaterColorBrushOpacityLabel.Size = new Size(32, 13);
-            WaterColorBrushOpacityLabel.TabIndex = 62;
-            WaterColorBrushOpacityLabel.Text = "255";
-            WaterColorBrushOpacityLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // WaterColorBrushSizeLabel
             // 
@@ -6093,7 +5539,7 @@
             WaterColorButton.IconColor = Color.Black;
             WaterColorButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             WaterColorButton.IconSize = 24;
-            WaterColorButton.Location = new Point(14, 283);
+            WaterColorButton.Location = new Point(14, 224);
             WaterColorButton.Name = "WaterColorButton";
             WaterColorButton.Size = new Size(60, 60);
             WaterColorButton.TabIndex = 60;
@@ -6111,7 +5557,7 @@
             WaterColorSelectButton.IconColor = Color.Black;
             WaterColorSelectButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             WaterColorSelectButton.IconSize = 24;
-            WaterColorSelectButton.Location = new Point(80, 415);
+            WaterColorSelectButton.Location = new Point(80, 356);
             WaterColorSelectButton.Name = "WaterColorSelectButton";
             WaterColorSelectButton.Size = new Size(60, 60);
             WaterColorSelectButton.TabIndex = 59;
@@ -6121,7 +5567,7 @@
             // WaterColorEraserSizeLabel
             // 
             WaterColorEraserSizeLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            WaterColorEraserSizeLabel.Location = new Point(108, 226);
+            WaterColorEraserSizeLabel.Location = new Point(108, 168);
             WaterColorEraserSizeLabel.Name = "WaterColorEraserSizeLabel";
             WaterColorEraserSizeLabel.Size = new Size(32, 13);
             WaterColorEraserSizeLabel.TabIndex = 54;
@@ -6132,7 +5578,7 @@
             // 
             label33.AutoSize = true;
             label33.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label33.Location = new Point(16, 226);
+            label33.Location = new Point(16, 168);
             label33.Name = "label33";
             label33.Size = new Size(60, 13);
             label33.TabIndex = 53;
@@ -6141,7 +5587,7 @@
             // WaterColorEraserSizeTrack
             // 
             WaterColorEraserSizeTrack.AutoSize = false;
-            WaterColorEraserSizeTrack.Location = new Point(14, 242);
+            WaterColorEraserSizeTrack.Location = new Point(14, 184);
             WaterColorEraserSizeTrack.Maximum = 256;
             WaterColorEraserSizeTrack.Minimum = 2;
             WaterColorEraserSizeTrack.Name = "WaterColorEraserSizeTrack";
@@ -6159,7 +5605,7 @@
             WaterCustomColor8.FlatStyle = FlatStyle.Flat;
             WaterCustomColor8.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             WaterCustomColor8.ForeColor = SystemColors.ControlDark;
-            WaterCustomColor8.Location = new Point(80, 796);
+            WaterCustomColor8.Location = new Point(80, 737);
             WaterCustomColor8.Name = "WaterCustomColor8";
             WaterCustomColor8.Size = new Size(60, 57);
             WaterCustomColor8.TabIndex = 44;
@@ -6173,7 +5619,7 @@
             WaterCustomColor7.FlatStyle = FlatStyle.Flat;
             WaterCustomColor7.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             WaterCustomColor7.ForeColor = SystemColors.ControlDark;
-            WaterCustomColor7.Location = new Point(14, 796);
+            WaterCustomColor7.Location = new Point(14, 737);
             WaterCustomColor7.Name = "WaterCustomColor7";
             WaterCustomColor7.Size = new Size(60, 57);
             WaterCustomColor7.TabIndex = 43;
@@ -6187,7 +5633,7 @@
             WaterCustomColor6.FlatStyle = FlatStyle.Flat;
             WaterCustomColor6.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             WaterCustomColor6.ForeColor = SystemColors.ControlDark;
-            WaterCustomColor6.Location = new Point(80, 733);
+            WaterCustomColor6.Location = new Point(80, 674);
             WaterCustomColor6.Name = "WaterCustomColor6";
             WaterCustomColor6.Size = new Size(60, 57);
             WaterCustomColor6.TabIndex = 42;
@@ -6201,7 +5647,7 @@
             WaterCustomColor5.FlatStyle = FlatStyle.Flat;
             WaterCustomColor5.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             WaterCustomColor5.ForeColor = SystemColors.ControlDark;
-            WaterCustomColor5.Location = new Point(14, 733);
+            WaterCustomColor5.Location = new Point(14, 674);
             WaterCustomColor5.Name = "WaterCustomColor5";
             WaterCustomColor5.Size = new Size(60, 57);
             WaterCustomColor5.TabIndex = 41;
@@ -6215,7 +5661,7 @@
             WaterCustomColor4.FlatStyle = FlatStyle.Flat;
             WaterCustomColor4.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             WaterCustomColor4.ForeColor = SystemColors.ControlDark;
-            WaterCustomColor4.Location = new Point(80, 670);
+            WaterCustomColor4.Location = new Point(80, 611);
             WaterCustomColor4.Name = "WaterCustomColor4";
             WaterCustomColor4.Size = new Size(60, 57);
             WaterCustomColor4.TabIndex = 40;
@@ -6229,7 +5675,7 @@
             WaterCustomColor3.FlatStyle = FlatStyle.Flat;
             WaterCustomColor3.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             WaterCustomColor3.ForeColor = SystemColors.ControlDark;
-            WaterCustomColor3.Location = new Point(14, 670);
+            WaterCustomColor3.Location = new Point(14, 611);
             WaterCustomColor3.Name = "WaterCustomColor3";
             WaterCustomColor3.Size = new Size(60, 57);
             WaterCustomColor3.TabIndex = 39;
@@ -6243,7 +5689,7 @@
             WaterCustomColor2.FlatStyle = FlatStyle.Flat;
             WaterCustomColor2.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             WaterCustomColor2.ForeColor = SystemColors.ControlDark;
-            WaterCustomColor2.Location = new Point(80, 607);
+            WaterCustomColor2.Location = new Point(80, 548);
             WaterCustomColor2.Name = "WaterCustomColor2";
             WaterCustomColor2.Size = new Size(60, 57);
             WaterCustomColor2.TabIndex = 38;
@@ -6257,7 +5703,7 @@
             WaterCustomColor1.FlatStyle = FlatStyle.Flat;
             WaterCustomColor1.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             WaterCustomColor1.ForeColor = SystemColors.ControlDark;
-            WaterCustomColor1.Location = new Point(14, 607);
+            WaterCustomColor1.Location = new Point(14, 548);
             WaterCustomColor1.Name = "WaterCustomColor1";
             WaterCustomColor1.Size = new Size(60, 57);
             WaterCustomColor1.TabIndex = 37;
@@ -6273,7 +5719,7 @@
             WaterAddColorPresetButton.IconColor = Color.Black;
             WaterAddColorPresetButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             WaterAddColorPresetButton.IconSize = 24;
-            WaterAddColorPresetButton.Location = new Point(14, 415);
+            WaterAddColorPresetButton.Location = new Point(14, 356);
             WaterAddColorPresetButton.Name = "WaterAddColorPresetButton";
             WaterAddColorPresetButton.Size = new Size(60, 60);
             WaterAddColorPresetButton.TabIndex = 35;
@@ -6315,7 +5761,7 @@
             WaterButton42718D.FlatStyle = FlatStyle.Flat;
             WaterButton42718D.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             WaterButton42718D.ForeColor = SystemColors.ControlDark;
-            WaterButton42718D.Location = new Point(80, 544);
+            WaterButton42718D.Location = new Point(80, 485);
             WaterButton42718D.Name = "WaterButton42718D";
             WaterButton42718D.Size = new Size(60, 57);
             WaterButton42718D.TabIndex = 31;
@@ -6330,7 +5776,7 @@
             WaterButton6BA5B9.FlatStyle = FlatStyle.Flat;
             WaterButton6BA5B9.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             WaterButton6BA5B9.ForeColor = SystemColors.ControlDarkDark;
-            WaterButton6BA5B9.Location = new Point(14, 544);
+            WaterButton6BA5B9.Location = new Point(14, 485);
             WaterButton6BA5B9.Name = "WaterButton6BA5B9";
             WaterButton6BA5B9.Size = new Size(60, 57);
             WaterButton6BA5B9.TabIndex = 30;
@@ -6345,7 +5791,7 @@
             WaterButton88B5BB.FlatStyle = FlatStyle.Flat;
             WaterButton88B5BB.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             WaterButton88B5BB.ForeColor = SystemColors.ControlDarkDark;
-            WaterButton88B5BB.Location = new Point(80, 481);
+            WaterButton88B5BB.Location = new Point(80, 422);
             WaterButton88B5BB.Name = "WaterButton88B5BB";
             WaterButton88B5BB.Size = new Size(60, 57);
             WaterButton88B5BB.TabIndex = 29;
@@ -6360,7 +5806,7 @@
             WaterButton91CBB8.FlatStyle = FlatStyle.Flat;
             WaterButton91CBB8.Font = new Font("Tahoma", 6.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             WaterButton91CBB8.ForeColor = SystemColors.ControlDarkDark;
-            WaterButton91CBB8.Location = new Point(14, 481);
+            WaterButton91CBB8.Location = new Point(14, 422);
             WaterButton91CBB8.Name = "WaterButton91CBB8";
             WaterButton91CBB8.Size = new Size(60, 57);
             WaterButton91CBB8.TabIndex = 28;
@@ -6378,7 +5824,7 @@
             WaterColorEraseButton.IconColor = Color.Black;
             WaterColorEraseButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             WaterColorEraseButton.IconSize = 24;
-            WaterColorEraseButton.Location = new Point(80, 283);
+            WaterColorEraseButton.Location = new Point(80, 224);
             WaterColorEraseButton.Name = "WaterColorEraseButton";
             WaterColorEraseButton.Size = new Size(60, 60);
             WaterColorEraseButton.TabIndex = 27;
@@ -6386,29 +5832,6 @@
             WaterColorEraseButton.TextImageRelation = TextImageRelation.TextAboveImage;
             WaterColorEraseButton.UseVisualStyleBackColor = false;
             WaterColorEraseButton.Click += WaterColorEraseButton_Click;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.Location = new Point(16, 167);
-            label5.Name = "label5";
-            label5.Size = new Size(74, 13);
-            label5.TabIndex = 26;
-            label5.Text = "Brush Opacity";
-            // 
-            // WaterColorBrushOpacityTrack
-            // 
-            WaterColorBrushOpacityTrack.AutoSize = false;
-            WaterColorBrushOpacityTrack.Location = new Point(14, 183);
-            WaterColorBrushOpacityTrack.Maximum = 255;
-            WaterColorBrushOpacityTrack.Minimum = 1;
-            WaterColorBrushOpacityTrack.Name = "WaterColorBrushOpacityTrack";
-            WaterColorBrushOpacityTrack.Size = new Size(126, 20);
-            WaterColorBrushOpacityTrack.TabIndex = 25;
-            WaterColorBrushOpacityTrack.TickStyle = TickStyle.None;
-            WaterColorBrushOpacityTrack.Value = 255;
-            WaterColorBrushOpacityTrack.Scroll += WaterColorBrushOpacityTrack_Scroll;
             // 
             // label10
             // 
@@ -6440,7 +5863,7 @@
             WaterSelectedPaintColorLabel.BorderStyle = BorderStyle.FixedSingle;
             WaterSelectedPaintColorLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             WaterSelectedPaintColorLabel.ForeColor = SystemColors.ControlDark;
-            WaterSelectedPaintColorLabel.Location = new Point(80, 349);
+            WaterSelectedPaintColorLabel.Location = new Point(80, 290);
             WaterSelectedPaintColorLabel.Name = "WaterSelectedPaintColorLabel";
             WaterSelectedPaintColorLabel.Size = new Size(60, 60);
             WaterSelectedPaintColorLabel.TabIndex = 22;
@@ -6467,7 +5890,7 @@
             WaterColorSelectionButton.IconColor = Color.Black;
             WaterColorSelectionButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             WaterColorSelectionButton.IconSize = 24;
-            WaterColorSelectionButton.Location = new Point(14, 349);
+            WaterColorSelectionButton.Location = new Point(14, 290);
             WaterColorSelectionButton.Name = "WaterColorSelectionButton";
             WaterColorSelectionButton.Size = new Size(60, 60);
             WaterColorSelectionButton.TabIndex = 18;
@@ -6992,9 +6415,6 @@
             // 
             // LabelsToolPanel
             // 
-            LabelsToolPanel.Controls.Add(BoxTintOpacityTrack);
-            LabelsToolPanel.Controls.Add(BoxTintOpacityLabel);
-            LabelsToolPanel.Controls.Add(label62);
             LabelsToolPanel.Controls.Add(TintLabel);
             LabelsToolPanel.Controls.Add(SelectBoxTintLabel);
             LabelsToolPanel.Controls.Add(LabelBoxStyleTable);
@@ -7002,42 +6422,6 @@
             LabelsToolPanel.Name = "LabelsToolPanel";
             LabelsToolPanel.Size = new Size(152, 897);
             LabelsToolPanel.TabIndex = 23;
-            // 
-            // BoxTintOpacityTrack
-            // 
-            BoxTintOpacityTrack.AutoSize = false;
-            BoxTintOpacityTrack.Location = new Point(14, 110);
-            BoxTintOpacityTrack.Maximum = 255;
-            BoxTintOpacityTrack.Name = "BoxTintOpacityTrack";
-            BoxTintOpacityTrack.Size = new Size(124, 20);
-            BoxTintOpacityTrack.TabIndex = 114;
-            BoxTintOpacityTrack.TickStyle = TickStyle.None;
-            BoxTintOpacityTrack.Value = 255;
-            BoxTintOpacityTrack.Scroll += BoxTintOpacityTrack_Scroll;
-            // 
-            // BoxTintOpacityLabel
-            // 
-            BoxTintOpacityLabel.CausesValidation = false;
-            BoxTintOpacityLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            BoxTintOpacityLabel.Location = new Point(107, 93);
-            BoxTintOpacityLabel.Name = "BoxTintOpacityLabel";
-            BoxTintOpacityLabel.Size = new Size(30, 14);
-            BoxTintOpacityLabel.TabIndex = 113;
-            BoxTintOpacityLabel.Text = "255";
-            BoxTintOpacityLabel.TextAlign = ContentAlignment.MiddleRight;
-            BoxTintOpacityLabel.UseMnemonic = false;
-            // 
-            // label62
-            // 
-            label62.AutoSize = true;
-            label62.CausesValidation = false;
-            label62.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label62.Location = new Point(18, 93);
-            label62.Name = "label62";
-            label62.Size = new Size(44, 13);
-            label62.TabIndex = 112;
-            label62.Text = "Opacity";
-            label62.UseMnemonic = false;
             // 
             // TintLabel
             // 
@@ -7055,7 +6439,7 @@
             SelectBoxTintLabel.BorderStyle = BorderStyle.FixedSingle;
             SelectBoxTintLabel.Font = new Font("Tahoma", 8F);
             SelectBoxTintLabel.ForeColor = SystemColors.ButtonShadow;
-            SelectBoxTintLabel.Location = new Point(15, 44);
+            SelectBoxTintLabel.Location = new Point(15, 40);
             SelectBoxTintLabel.Name = "SelectBoxTintLabel";
             SelectBoxTintLabel.Size = new Size(123, 38);
             SelectBoxTintLabel.TabIndex = 110;
@@ -7070,11 +6454,11 @@
             LabelBoxStyleTable.CellBorderStyle = TableLayoutPanelCellBorderStyle.Outset;
             LabelBoxStyleTable.ColumnCount = 1;
             LabelBoxStyleTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 42F));
-            LabelBoxStyleTable.Location = new Point(17, 144);
+            LabelBoxStyleTable.Location = new Point(15, 98);
             LabelBoxStyleTable.Name = "LabelBoxStyleTable";
             LabelBoxStyleTable.RowCount = 1;
             LabelBoxStyleTable.RowStyles.Add(new RowStyle());
-            LabelBoxStyleTable.Size = new Size(122, 672);
+            LabelBoxStyleTable.Size = new Size(122, 781);
             LabelBoxStyleTable.TabIndex = 72;
             // 
             // OverlayToolsPanel
@@ -7380,15 +6764,15 @@
             Controls.Add(mapPanel);
             Controls.Add(ApplicationStatusStrip);
             Controls.Add(MainMenu);
-            Controls.Add(RegionsToolPanel);
-            Controls.Add(BackgroundToolPanel);
-            Controls.Add(LandColorToolPanel);
-            Controls.Add(LabelsToolPanel);
             Controls.Add(OceanColorToolPanel);
             Controls.Add(WaterColorToolPanel);
             Controls.Add(PathPanel);
             Controls.Add(SymbolsToolPanel);
             Controls.Add(OverlayToolsPanel);
+            Controls.Add(RegionsToolPanel);
+            Controls.Add(BackgroundToolPanel);
+            Controls.Add(LandColorToolPanel);
+            Controls.Add(LabelsToolPanel);
             DoubleBuffered = true;
             HelpButton = true;
             KeyPreview = true;
@@ -7414,7 +6798,6 @@
             oceanPage.PerformLayout();
             groupBox17.ResumeLayout(false);
             groupBox17.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)WindroseColorOpacityTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)WindroseInnerCirclesTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)WindroseOuterRadiusUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)WindroseInnerRadiusUpDown).EndInit();
@@ -7427,8 +6810,6 @@
             ((System.ComponentModel.ISupportInitialize)OceanTextureOpacityTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)OceanTxPictureBox).EndInit();
             groupBox3.ResumeLayout(false);
-            groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)OceanColorOpacityTrack).EndInit();
             landPage.ResumeLayout(false);
             landPage.PerformLayout();
             groupBox8.ResumeLayout(false);
@@ -7436,7 +6817,6 @@
             ((System.ComponentModel.ISupportInitialize)LandEraserSizeScroll).EndInit();
             groupBox9.ResumeLayout(false);
             groupBox9.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)CoastColorOpacityScroll).EndInit();
             ((System.ComponentModel.ISupportInitialize)HatchScaleTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)HatchOpacityTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)FxDistanceTrack).EndInit();
@@ -7457,8 +6837,6 @@
             ((System.ComponentModel.ISupportInitialize)RiverWidthTrack).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)ShorelineColorOpacityTrack).EndInit();
-            ((System.ComponentModel.ISupportInitialize)WaterColorOpacityTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)WaterBrushSizeTrack).EndInit();
             WaterPaintTools.ResumeLayout(false);
             WaterPaintTools.PerformLayout();
@@ -7467,7 +6845,6 @@
             groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)PathTexturePreviewBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)PathWidthTrack).EndInit();
-            ((System.ComponentModel.ISupportInitialize)PathColorOpacityTrack).EndInit();
             PathTools.ResumeLayout(false);
             PathTools.PerformLayout();
             symbolPage.ResumeLayout(false);
@@ -7492,14 +6869,11 @@
             ((System.ComponentModel.ISupportInitialize)LabelRotationTrack).EndInit();
             groupBox12.ResumeLayout(false);
             groupBox12.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)FontColorOpacityTrack).EndInit();
             groupBox11.ResumeLayout(false);
             groupBox11.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)OutlineColorOpacityTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)OutlineWidthUpDown).EndInit();
             groupBox10.ResumeLayout(false);
             groupBox10.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)GlowColorOpacityTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)GlowStrengthUpDown).EndInit();
             LabelTools.ResumeLayout(false);
             LabelTools.PerformLayout();
@@ -7509,13 +6883,11 @@
             groupBox15.ResumeLayout(false);
             groupBox15.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)GridLineWidthTrack).EndInit();
-            ((System.ComponentModel.ISupportInitialize)GridColorOpacityTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)GridSizeTrack).EndInit();
             groupBox14.ResumeLayout(false);
             groupBox14.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)FrameScaleUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)FrameScaleTrack).EndInit();
-            ((System.ComponentModel.ISupportInitialize)FrameTintOpacityTrack).EndInit();
             OverlayTools.ResumeLayout(false);
             OverlayTools.PerformLayout();
             regionsPage.ResumeLayout(false);
@@ -7531,7 +6903,6 @@
             LandColorToolPanel.ResumeLayout(false);
             LandColorToolPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)LandColorEraserSizeTrack).EndInit();
-            ((System.ComponentModel.ISupportInitialize)LandColorBrushOpacityTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)LandColorBrushSizeTrack).EndInit();
             MapStatusStrip.ResumeLayout(false);
             MapStatusStrip.PerformLayout();
@@ -7539,12 +6910,10 @@
             OceanColorToolPanel.ResumeLayout(false);
             OceanColorToolPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)OceanEraserSizeScroll).EndInit();
-            ((System.ComponentModel.ISupportInitialize)OceanBrushOpacityScroll).EndInit();
             ((System.ComponentModel.ISupportInitialize)OceanBrushSizeScroll).EndInit();
             WaterColorToolPanel.ResumeLayout(false);
             WaterColorToolPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)WaterColorEraserSizeTrack).EndInit();
-            ((System.ComponentModel.ISupportInitialize)WaterColorBrushOpacityTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)WaterColorBrushSizeTrack).EndInit();
             SymbolsToolPanel.ResumeLayout(false);
             SymbolsToolPanel.PerformLayout();
@@ -7569,7 +6938,6 @@
             ((System.ComponentModel.ISupportInitialize)SolidLinePictureBox).EndInit();
             LabelsToolPanel.ResumeLayout(false);
             LabelsToolPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)BoxTintOpacityTrack).EndInit();
             OverlayToolsPanel.ResumeLayout(false);
             RegionsToolPanel.ResumeLayout(false);
             RegionsToolPanel.PerformLayout();
@@ -7644,8 +7012,6 @@
         private FontAwesome.Sharp.IconButton FillBackgroundButton;
         private FontAwesome.Sharp.IconButton ClearBackgroundButton;
         private ComboBox OceanTextureList;
-        private Label OceanOpacityLabel;
-        private Label label6;
         private Label OceanTxOpacityLabel;
         private Label label12;
         private FontAwesome.Sharp.IconToolStripButton iconToolStripButton6;
@@ -7665,8 +7031,6 @@
         private Label LandOutlineWidthLabel;
         private GroupBox groupBox9;
         private Label FxDistanceLabel;
-        private Label CoastColorOpacityLabel;
-        private Label label19;
         private Label label9;
         private Label label8;
         private ComboBox CoastStyleSelectionBox;
@@ -7698,8 +7062,6 @@
         private Label LandSelectedPaintColorLabel;
         private TrackBar LandColorBrushSizeTrack;
         private Label label23;
-        private Label label24;
-        private TrackBar LandColorBrushOpacityTrack;
         private FontAwesome.Sharp.IconButton LandColorEraseButton;
         private Button LandButtonE6D0AB;
         private Button LandButtonBEBB8E;
@@ -7736,8 +7098,6 @@
         private Button OceanButton88B5BB;
         private Button OceanButton91CBB8;
         private FontAwesome.Sharp.IconButton OceanColorEraseButton;
-        private Label label25;
-        private TrackBar OceanBrushOpacityScroll;
         private Label label26;
         private Label OceanSelectedPaintColorLabel;
         private Label label28;
@@ -7759,8 +7119,6 @@
         private Button WaterButton88B5BB;
         private Button WaterButton91CBB8;
         private FontAwesome.Sharp.IconButton WaterColorEraseButton;
-        private Label label5;
-        private TrackBar WaterColorBrushOpacityTrack;
         private Label label10;
         private TrackBar WaterColorBrushSizeTrack;
         private Label WaterSelectedPaintColorLabel;
@@ -7770,7 +7128,6 @@
         private Label OceanEraserSizeLabel;
         private Label label32;
         private TrackBar OceanEraserSizeScroll;
-        private Label OceanColorBrushOpacityLabel;
         private Label WaterColorEraserSizeLabel;
         private Label label33;
         private TrackBar WaterColorEraserSizeTrack;
@@ -7778,7 +7135,6 @@
         private Label label35;
         private TrackBar LandColorEraserSizeTrack;
         private TrackBar OceanBrushSizeScroll;
-        private Label LandColorBrushOpacityLabel;
         private Label LandColorBrushSizeLabel;
         private FontAwesome.Sharp.IconButton LandColorButton;
         private FontAwesome.Sharp.IconButton LandColorSelectButton;
@@ -7807,27 +7163,18 @@
         private Label label43;
         private TrackBar LandOutlineWidthScroll;
         private TrackBar WaterEraserSizeTrack;
-        private TrackBar CoastColorOpacityScroll;
         private TrackBar LandEraserSizeScroll;
         private TrackBar OceanTextureOpacityTrack;
-        private TrackBar OceanColorOpacityTrack;
         private TrackBar LandBrushSizeScroll;
         private Label LandBrushSizeLabel;
         private Label label15;
-        private TrackBar WaterColorOpacityTrack;
-        private Label WaterColorOpacityLabel;
-        private Label label29;
         private TrackBar WaterBrushSizeTrack;
         private Label WaterBrushSizeLabel;
         private Label label45;
         private Label RiverWidthLabel;
         private Label label37;
         private Label ShorelineColorSelectionLabel;
-        private TrackBar ShorelineColorOpacityTrack;
-        private Label ShorelineColorOpacityLabel;
-        private Label label39;
         private Label WaterColorBrushSizeLabel;
-        private Label WaterColorBrushOpacityLabel;
         private ToolStrip SymbolTools;
         private FontAwesome.Sharp.IconToolStripButton SelectSymbolButton;
         private FontAwesome.Sharp.IconToolStripButton StructureSymbolsButton;
@@ -7866,9 +7213,6 @@
         private TrackBar PathWidthTrack;
         private Label PathWidthLabel;
         private Label label50;
-        private TrackBar PathColorOpacityTrack;
-        private Label PathColorOpacityLabel;
-        private Label label47;
         private Label label48;
         private Label PathColorSelectionLabel;
         private RadioButton TexturePathRadio;
@@ -7955,9 +7299,6 @@
         private Label label60;
         private Label OutlineColorSelectLabel;
         private GroupBox groupBox10;
-        private TrackBar GlowColorOpacityTrack;
-        private Label GlowColorOpacityLabel;
-        private Label label66;
         private Label label64;
         private NumericUpDown GlowStrengthUpDown;
         private Label label65;
@@ -7966,18 +7307,9 @@
         private Label label61;
         private Label FontColorSelectLabel;
         private Button SelectLabelFontButton;
-        private TrackBar OutlineColorOpacityTrack;
-        private Label OutlineColorOpacityLabel;
-        private Label label68;
-        private TrackBar FontColorOpacityTrack;
-        private Label FontColorOpacityLabel;
-        private Label label69;
         private GroupBox groupBox13;
         private TrackBar LabelRotationTrack;
         private Label label42;
-        private TrackBar BoxTintOpacityTrack;
-        private Label BoxTintOpacityLabel;
-        private Label label62;
         private Label TintLabel;
         private Label SelectBoxTintLabel;
         public NumericUpDown LabelRotationUpDown;
@@ -7991,9 +7323,6 @@
         private NumericUpDown FrameScaleUpDown;
         private Label label72;
         private TrackBar FrameScaleTrack;
-        private TrackBar FrameTintOpacityTrack;
-        private Label SelectFrameTintOpacityLabel;
-        private Label label71;
         private Label label67;
         private Label SelectFrameTintLabel;
         private GroupBox groupBox15;
@@ -8002,9 +7331,6 @@
         private DomainUpDown LayerUpDown;
         private RadioButton PointedHexRadio;
         private RadioButton FlatHexRadio;
-        private TrackBar GridColorOpacityTrack;
-        private Label GridColorOpacityLabel;
-        private Label label77;
         private Label label78;
         private Label GridColorSelectLabel;
         private Label label75;
@@ -8045,9 +7371,6 @@
         private Label label82;
         private TrackBar WindroseInnerCirclesTrack;
         private CheckBox WindroseFadeOutCheck;
-        private TrackBar WindroseColorOpacityTrack;
-        private Label WindroseColorOpacityLabel;
-        private Label label83;
         private GroupBox groupBox18;
         private Label label1;
         private TrackBar VignetteStrengthScroll;

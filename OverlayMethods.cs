@@ -34,7 +34,7 @@ namespace MapCreator
 
         public static MapFrame? SelectedFrame { get; set; } = null;
 
-        internal static void CreateFrame(MapCreatorMap map, MapFrame? frame, Color frameTint, int frameTintOpacity, float frameScale)
+        internal static void CreateFrame(MapCreatorMap map, MapFrame? frame, Color frameTint, float frameScale)
         {
             if (frame == null) return;
 
@@ -250,13 +250,11 @@ namespace MapCreator
 
                 }
 
-                Color frameColor = Color.FromArgb(mapFrame.FrameTintOpacity, mapFrame.FrameTint);
-
                 SKPaint framePaint = new()
                 {
                     Style = SKPaintStyle.Fill,
                     ColorFilter = SKColorFilter.CreateBlendMode(
-                        Extensions.ToSKColor(frameColor),
+                        Extensions.ToSKColor(mapFrame.FrameTint),
                         SKBlendMode.Modulate), // combine the tint with the bitmap color
                 };
 

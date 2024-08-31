@@ -44,9 +44,7 @@ namespace MapCreator
         public Guid WaterFeatureGuid { get; set; }
         public WaterFeatureTypeEnum WaterFeatureType { get; set; } = WaterFeatureTypeEnum.NotSet;
         public Color? WaterFeatureColor { get; set; }
-        public int? WaterFeatureColorOpacity { get; set; }
         public Color? WaterFeatureShorelineColor { get; set; } = ColorTranslator.FromHtml("#A19076");
-        public int? WaterFeatureShorelineColorOpacity { get; set; } = 255;
 
         [XmlIgnore]
         public SKPaint? WaterFeatureBackgroundPaint { get; set; } = null;
@@ -176,25 +174,11 @@ namespace MapCreator
                 WaterFeatureColor = ColorTranslator.FromHtml(waterFeatureColor);
             }
 
-            IEnumerable<XElement?> colorOpacityElemEnum = mapWaterFeatureDoc.Descendants().Select(x => x.Element(ns + "WaterFeatureColorOpacity"));
-            if (colorOpacityElemEnum.First() != null)
-            {
-                string? waterFeatureColorOpacity = mapWaterFeatureDoc.Descendants().Select(x => x.Element(ns + "WaterFeatureColorOpacity").Value).FirstOrDefault();
-                WaterFeatureColorOpacity = Convert.ToInt32(waterFeatureColorOpacity);
-            }
-
             IEnumerable<XElement?> shoreColorElemEnum = mapWaterFeatureDoc.Descendants().Select(x => x.Element(ns + "WaterFeatureShorelineColor"));
             if (shoreColorElemEnum.First() != null)
             {
                 string? waterFeatureShorelineColor = mapWaterFeatureDoc.Descendants().Select(x => x.Element(ns + "WaterFeatureShorelineColor").Value).FirstOrDefault();
                 WaterFeatureShorelineColor = ColorTranslator.FromHtml(waterFeatureShorelineColor);
-            }
-
-            IEnumerable<XElement?> shoreColorOpacityElemEnum = mapWaterFeatureDoc.Descendants().Select(x => x.Element(ns + "WaterFeatureShorelineColorOpacity"));
-            if (shoreColorOpacityElemEnum.First() != null)
-            {
-                string? waterFeatureShorelineColorOpacity = mapWaterFeatureDoc.Descendants().Select(x => x.Element(ns + "WaterFeatureShorelineColorOpacity").Value).FirstOrDefault();
-                WaterFeatureShorelineColorOpacity = Convert.ToInt32(waterFeatureShorelineColorOpacity);
             }
 
             IEnumerable<XElement?> pathElemEnum = mapWaterFeatureDoc.Descendants().Select(x => x.Element(ns + "WaterFeaturePath"));
@@ -255,14 +239,6 @@ namespace MapCreator
                 XmlColor waterfeaturecolor = new XmlColor((Color)WaterFeatureColor);
                 writer.WriteStartElement("WaterFeatureColor");
                 waterfeaturecolor.WriteXml(writer);
-                writer.WriteEndElement();
-            }
-
-            if (WaterFeatureColorOpacity != null)
-            {
-                // water feature color opacity
-                writer.WriteStartElement("WaterFeatureColorOpacity");
-                writer.WriteValue(WaterFeatureColorOpacity);
                 writer.WriteEndElement();
             }
 

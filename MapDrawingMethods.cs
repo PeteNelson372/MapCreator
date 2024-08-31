@@ -27,8 +27,6 @@ using SkiaSharp.Views.Desktop;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using System.Windows.Controls;
-using System.Windows.Media.Media3D;
 using Color = System.Drawing.Color;
 using Extensions = SkiaSharp.Views.Desktop.Extensions;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;

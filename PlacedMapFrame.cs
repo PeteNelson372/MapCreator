@@ -48,8 +48,6 @@ namespace MapCreator
 
         public Color FrameTint { get; set; } = Color.WhiteSmoke;
 
-        public int FrameTintOpacity { get; set; } = 255;
-
         public float FrameScale { get; set; } = 1.0F;
 
         public SKPaint? FramePaint { get; set; } = null;
@@ -248,13 +246,6 @@ namespace MapCreator
                 FrameTint = ColorTranslator.FromHtml(frameTint);
             }
 
-            IEnumerable<XElement?> frameTintOpacityElem = mapFrameDoc.Descendants().Select(x => x.Element(ns + "FrameTintOpacity"));
-            if (frameTintOpacityElem.First() != null)
-            {
-                string? frameTintOpacity = mapFrameDoc.Descendants().Select(x => x.Element(ns + "FrameTintOpacity").Value).FirstOrDefault();
-                FrameTintOpacity = int.Parse(frameTintOpacity);
-            }
-
             IEnumerable<XElement?> frameScaleElem = mapFrameDoc.Descendants().Select(x => x.Element(ns + "FrameScale"));
             if (frameScaleElem.First() != null)
             {
@@ -328,10 +319,6 @@ namespace MapCreator
             XmlColor frametint = new(FrameTint);
             writer.WriteStartElement("FrameTint");
             frametint.WriteXml(writer);
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("FrameTintOpacity");
-            writer.WriteValue(FrameTintOpacity);
             writer.WriteEndElement();
 
             writer.WriteStartElement("FrameScale");

@@ -273,7 +273,7 @@ namespace MapCreator
                 Style = SKPaintStyle.Fill,
                 Shader = colorShader,
                 BlendMode = SKBlendMode.Src,
-                Color = Extensions.ToSKColor(Color.FromArgb((int)waterFeature.WaterFeatureColorOpacity, (Color)waterFeature.WaterFeatureColor)),
+                Color = Extensions.ToSKColor((Color)waterFeature.WaterFeatureColor),
                 IsAntialias = true,
             };
 
@@ -281,7 +281,7 @@ namespace MapCreator
             {
                 Style = SKPaintStyle.Stroke,
                 BlendMode = SKBlendMode.Src,
-                Color = Extensions.ToSKColor(Color.FromArgb((int)waterFeature.WaterFeatureShorelineColorOpacity, (Color)waterFeature.WaterFeatureShorelineColor)),
+                Color = Extensions.ToSKColor((Color)waterFeature.WaterFeatureShorelineColor),
                 StrokeWidth = 3,
                 IsAntialias = true,
             };
@@ -307,7 +307,6 @@ namespace MapCreator
             }
 
             mapWaterFeature1.WaterFeatureColor = mapWaterFeature2.WaterFeatureColor;
-            mapWaterFeature1.WaterFeatureColorOpacity = mapWaterFeature2.WaterFeatureColorOpacity;
 
             mapWaterFeature1.WaterFeatureBackgroundPaint = mapWaterFeature2.WaterFeatureBackgroundPaint;
             mapWaterFeature1.WaterFeatureShorelinePaint = mapWaterFeature2.WaterFeatureShorelinePaint;
@@ -702,7 +701,7 @@ namespace MapCreator
                 StrokeWidth = strokeWidth,
                 Style = SKPaintStyle.Stroke,
                 BlendMode = SKBlendMode.Src,
-                Color = Extensions.ToSKColor(Color.FromArgb(mapRiver.RiverShorelineColorOpacity, mapRiver.RiverShorelineColor)),
+                Color = Extensions.ToSKColor(mapRiver.RiverShorelineColor),
                 IsAntialias = true,
             };
 

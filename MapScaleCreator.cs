@@ -55,7 +55,7 @@ namespace MapCreator
         private void ScaleColor1Label_Click(object sender, EventArgs e)
         {
             TopMost = true;
-            Color color = MapPaintMethods.SelectColorFromDialog();
+            Color color = MapPaintMethods.SelectColorFromDialog(this, ScaleColor1Label.BackColor);
             TopMost = false;
 
             if (color.ToArgb() != Color.Empty.ToArgb())
@@ -67,7 +67,7 @@ namespace MapCreator
         private void ScaleColor2Label_Click(object sender, EventArgs e)
         {
             TopMost = true;
-            Color color = MapPaintMethods.SelectColorFromDialog();
+            Color color = MapPaintMethods.SelectColorFromDialog(this, ScaleColor2Label.BackColor);
             TopMost = false;
 
             if (color.ToArgb() != Color.Empty.ToArgb())
@@ -79,7 +79,7 @@ namespace MapCreator
         private void ScaleColor3Label_Click(object sender, EventArgs e)
         {
             TopMost = true;
-            Color color = MapPaintMethods.SelectColorFromDialog();
+            Color color = MapPaintMethods.SelectColorFromDialog(this, ScaleColor3Label.BackColor);
             TopMost = false;
 
             if (color.ToArgb() != Color.Empty.ToArgb())
@@ -106,9 +106,7 @@ namespace MapCreator
 
         private void ScaleFontColorSelectLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color color = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color color = MapPaintMethods.SelectColorFromDialog(this, ScaleFontColorSelectLabel.BackColor);
 
             if (color.ToArgb() != Color.Empty.ToArgb())
             {
@@ -126,9 +124,7 @@ namespace MapCreator
 
         private void ScaleOutlineColorSelectLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
-            Color color = MapPaintMethods.SelectColorFromDialog();
-            TopMost = false;
+            Color color = MapPaintMethods.SelectColorFromDialog(this, ScaleOutlineColorSelectLabel.BackColor);
 
             if (color.ToArgb() != Color.Empty.ToArgb())
             {

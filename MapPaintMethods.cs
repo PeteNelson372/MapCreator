@@ -21,6 +21,7 @@
 * contact@brookmonte.com
 *
 ***************************************************************************************************************************/
+using Cyotek.Windows.Forms;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using Point = System.Drawing.Point;
@@ -89,15 +90,15 @@ namespace MapCreator
         * UTILITY METHODS
         * ************************************************************************************************************************/
 
-        internal static SKShader ConstructColorPaintShader(ColorPaintBrush colorPaintBrush, Color gradientColor, int brushOpacity, float brushRadius, float x, float y)
+        internal static SKShader ConstructColorPaintShader(ColorPaintBrush colorPaintBrush, Color gradientColor, float brushRadius, float x, float y)
         {
-            SKShader oceanShader = SKShader.CreateColor(Extensions.ToSKColor(gradientColor).WithAlpha((byte)brushOpacity));
+            SKShader oceanShader = SKShader.CreateColor(Extensions.ToSKColor(gradientColor));
 
             if (colorPaintBrush == ColorPaintBrush.SoftBrush)
             {
                 oceanShader.Dispose();
                 SKPoint gradientCenter = new(x, y);
-                oceanShader = SKShader.CreateRadialGradient(gradientCenter, brushRadius, [Extensions.ToSKColor(gradientColor).WithAlpha((byte)brushOpacity), Extensions.ToSKColor(gradientColor).WithAlpha(0)], SKShaderTileMode.Clamp);
+                oceanShader = SKShader.CreateRadialGradient(gradientCenter, brushRadius, [Extensions.ToSKColor(gradientColor), Extensions.ToSKColor(gradientColor).WithAlpha(0)], SKShaderTileMode.Clamp);
             }
 
             return oceanShader;
@@ -162,19 +163,20 @@ namespace MapCreator
             return newPaint;
         }
 
-        public static Color SelectColorFromDialog()
+        public static Color SelectColorFromDialog(Form owner, Color initialColor)
         {
-            using ColorDialog colorDlg = new()
+            // cyotek color picker
+            using ColorPickerDialog cpd = new()
             {
-                FullOpen = true,
-                AllowFullOpen = true,
-                AnyColor = true,
-                SolidColorOnly = false,
+                TopMost = true,
+                Owner = owner,
+                Color = initialColor,
+                Text = "Select Color"
             };
 
-            if (colorDlg.ShowDialog() == DialogResult.OK)
+            if (cpd.ShowDialog(owner) == DialogResult.OK)
             {
-                return colorDlg.Color;
+                return cpd.Color;
             }
             else
             {
