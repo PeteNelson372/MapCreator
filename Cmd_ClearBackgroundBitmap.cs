@@ -32,24 +32,25 @@ namespace MapCreator
 
         public void DoOperation()
         {
-            MapLayer backgroundLayer = MapBuilder.GetMapLayerByIndex(Map, MapBuilder.BASELAYER);
+            MapLayer baseLayer = MapBuilder.GetMapLayerByIndex(Map, MapBuilder.BASELAYER);
 
             if (LayerBitmap != null)
             {
-                backgroundLayer.MapLayerComponents.Remove(LayerBitmap);
+                baseLayer.MapLayerComponents.Remove(LayerBitmap);
             }
 
             // base layer is cleared to WHITE, not transparent or empty
-            MapBuilder.GetLayerCanvas(Map, MapBuilder.BASELAYER).Clear(SKColors.White);
+            
+            baseLayer.LayerSurface?.Canvas.Clear(SKColors.White);
         }
 
         public void UndoOperation()
         {
-            MapLayer backgroundLayer = MapBuilder.GetMapLayerByIndex(Map, MapBuilder.BASELAYER);
+            MapLayer baseLayer = MapBuilder.GetMapLayerByIndex(Map, MapBuilder.BASELAYER);
 
-            if (backgroundLayer.MapLayerComponents.Count() <= 1)
+            if (baseLayer.MapLayerComponents.Count() == 0)
             {
-                backgroundLayer.MapLayerComponents.Add(LayerBitmap);
+                baseLayer.MapLayerComponents.Add(LayerBitmap);
             }
         }
     }

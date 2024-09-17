@@ -112,6 +112,8 @@ namespace MapCreator
         private static int PREVIOUS_REGION_POINT_INDEX = -1;
         private static int NEXT_REGION_POINT_INDEX = -1;
 
+        private GeneratedLandformTypeEnum SELECTED_LANDFORM_TYPE = GeneratedLandformTypeEnum.Random;
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private static SKSurface MAP_SURFACE;
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -1305,10 +1307,13 @@ namespace MapCreator
         {
             if (sender is GenerateLandform gl)
             {
-                MapImageBox.Refresh();
+                SetLandformData(LandformType2Methods.SELECTED_LANDFORM);
+
+                RenderDrawingPanel();
+                //MapImageBox.Refresh();
                 gl.Hide();
                 UISelectedLandformArea = null;
-                MapBuilder.ClearLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER);
+                //MapBuilder.ClearLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER);
             }
         }
 
@@ -3028,7 +3033,7 @@ namespace MapCreator
 
         private void OceanColorSelectionButton_Click(object sender, EventArgs e)
         {
-            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, OceanColorSelectButton.BackColor);
+            Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, OceanSelectedPaintColorLabel.BackColor);
 
             if (selectedColor != Color.Empty)
             {
@@ -3039,9 +3044,7 @@ namespace MapCreator
 
         private void OceanAddColorPresetButton_Click(object sender, EventArgs e)
         {
-            TopMost = true;
             Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, Color.Empty);
-            TopMost = false;
 
             if (selectedColor != Color.Empty)
             {
@@ -3389,9 +3392,7 @@ namespace MapCreator
 
         private void LandOutlineColorSelectionLabel_Click(object sender, EventArgs e)
         {
-            TopMost = true;
             Color selectedColor = MapPaintMethods.SelectColorFromDialog(this, LandOutlineColorSelectionLabel.BackColor);
-            TopMost = false;
 
             if (selectedColor != Color.Empty)
             {
@@ -3571,16 +3572,29 @@ namespace MapCreator
 
         private void GenerateLandFormButton_Click(object sender, EventArgs e)
         {
-            if (GENERATE_LANDFORM_DIALOG != null)
+            switch (SELECTED_LANDFORM_TYPE)
             {
-                MapLandformType2 newLandform = LandformType2Methods.GetNewLandform(CURRENT_MAP);
+                case GeneratedLandformTypeEnum.Random:
+                    MapLandformType2? newLandform = MapGenerator.GenerateRandomLandform(CURRENT_MAP, UISelectedLandformArea);
 
-                SetLandformData(newLandform);
-                newLandform.LandformPath.Reset();
+                    if (newLandform != null)
+                    {
+                        SetLandformData(newLandform);
+                        newLandform.DrawLandform = true;
 
-                GENERATE_LANDFORM_DIALOG.Initialize(CURRENT_MAP, newLandform, UISelectedLandformArea);
+                        MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.LANDFORMLAYER).MapLayerComponents.Add(newLandform);
+                        LandformType2Methods.LANDFORM_LIST.Add(newLandform);
 
-                GENERATE_LANDFORM_DIALOG.Show();
+                        // TODO: merging generated landforms isn't working - why?
+                        //LandformType2Methods.MergeLandforms();
+
+                        LandformType2Methods.SELECTED_LANDFORM = newLandform;
+
+                        RenderDrawingPanel();
+
+                        MapImageBox.Refresh();
+                    }
+                    break;
             }
         }
 
@@ -3846,6 +3860,73 @@ namespace MapCreator
             MapBuilder.GetMapLayerByIndex(CURRENT_MAP, MapBuilder.LANDDRAWINGLAYER).ShowLayer = ShowLandLayerCheck.Checked;
 
             MapImageBox.Refresh();
+        }
+
+        private void RandomLandformButton_Click(object sender, EventArgs e)
+        {
+            UncheckAllLandformTypeMenuItems();
+            RandomLandformButton.Checked = true;
+            SELECTED_LANDFORM_TYPE = GeneratedLandformTypeEnum.Random;
+        }
+
+        private void ContinentLandformButton_Click(object sender, EventArgs e)
+        {
+            UncheckAllLandformTypeMenuItems();
+            ContinentLandformButton.Checked = true;
+            SELECTED_LANDFORM_TYPE = GeneratedLandformTypeEnum.Continent;
+        }
+
+        private void ArchipelagoLandformButton_Click(object sender, EventArgs e)
+        {
+            UncheckAllLandformTypeMenuItems();
+            ArchipelagoLandformButton.Checked = true;
+            SELECTED_LANDFORM_TYPE = GeneratedLandformTypeEnum.Archipelago;
+        }
+
+        private void AtollLandformButton_Click(object sender, EventArgs e)
+        {
+            UncheckAllLandformTypeMenuItems();
+            AtollLandformButton.Checked = true;
+            SELECTED_LANDFORM_TYPE = GeneratedLandformTypeEnum.Atoll;
+        }
+
+        private void WorldLandformButton_Click(object sender, EventArgs e)
+        {
+            UncheckAllLandformTypeMenuItems();
+            WorldLandformButton.Checked = true;
+            SELECTED_LANDFORM_TYPE = GeneratedLandformTypeEnum.World;
+        }
+
+        private void EquilateralLandformButton_Click(object sender, EventArgs e)
+        {
+            UncheckAllLandformTypeMenuItems();
+            EquilateralLandformButton.Checked = true;
+            SELECTED_LANDFORM_TYPE = GeneratedLandformTypeEnum.Equirectangular;
+        }
+
+        private void AdvancedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (GENERATE_LANDFORM_DIALOG != null)
+            {
+                MapLandformType2 newLandform = LandformType2Methods.GetNewLandform(CURRENT_MAP);
+
+                SetLandformData(newLandform);
+                newLandform.LandformPath.Reset();
+
+                GENERATE_LANDFORM_DIALOG.Initialize(CURRENT_MAP, newLandform, UISelectedLandformArea);
+
+                GENERATE_LANDFORM_DIALOG.Show();
+            }
+        }
+
+        private void UncheckAllLandformTypeMenuItems()
+        {
+            RandomLandformButton.Checked = false;
+            ContinentLandformButton.Checked = false;
+            ArchipelagoLandformButton.Checked = false;
+            AtollLandformButton.Checked = false;
+            WorldLandformButton.Checked = false;
+            EquilateralLandformButton.Checked = false;
         }
 
         #endregion
@@ -8536,7 +8617,7 @@ namespace MapCreator
 
                     MapBuilder.ClearLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER);
                     MapBuilder.GetLayerCanvas(CURRENT_MAP, MapBuilder.WORKLAYER)?.DrawRect((SKRect)UISelectedLandformArea, LandformType2Methods.LANDFORM_AREA_SELECT_PAINT);
-                    
+
                     break;
             }
 
@@ -8650,7 +8731,7 @@ namespace MapCreator
                     LandformType2Methods.SELECTED_LANDFORM.LandformPath.AddCircle(X, Y, brushRadius);
                     LandformType2Methods.SELECTED_LANDFORM.DrawLandform = true;
 
-                    //LandformType2Methods.CreateType2LandformPaths(CURRENT_MAP, LandformType2Methods.SELECTED_LANDFORM);
+                    LandformType2Methods.CreateType2LandformPaths(CURRENT_MAP, LandformType2Methods.SELECTED_LANDFORM);
 
                     CURRENT_MAP.IsSaved = false;
 
@@ -9270,6 +9351,5 @@ namespace MapCreator
         }
 
         #endregion
-
     }
 }

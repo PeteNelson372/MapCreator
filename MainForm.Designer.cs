@@ -165,6 +165,14 @@
             LandClearButton = new FontAwesome.Sharp.IconToolStripButton();
             FractalizeButton = new FontAwesome.Sharp.IconToolStripButton();
             GenerateLandFormButton = new FontAwesome.Sharp.IconToolStripButton();
+            LandformTypeButton = new ToolStripSplitButton();
+            RandomLandformButton = new ToolStripMenuItem();
+            ContinentLandformButton = new ToolStripMenuItem();
+            ArchipelagoLandformButton = new ToolStripMenuItem();
+            AtollLandformButton = new ToolStripMenuItem();
+            WorldLandformButton = new ToolStripMenuItem();
+            EquilateralLandformButton = new ToolStripMenuItem();
+            AdvancedToolStripMenuItem = new ToolStripMenuItem();
             SelectLandformAreaButton = new FontAwesome.Sharp.IconToolStripButton();
             waterPage = new TabPage();
             ShowWaterLayerCheck = new CheckBox();
@@ -2052,8 +2060,9 @@
             LandPaintTools.AutoSize = false;
             LandPaintTools.BackColor = SystemColors.Control;
             LandPaintTools.Dock = DockStyle.None;
+            LandPaintTools.Font = new Font("Tahoma", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LandPaintTools.GripStyle = ToolStripGripStyle.Hidden;
-            LandPaintTools.Items.AddRange(new ToolStripItem[] { LandformSelectButton, LandformPaintButton, LandEraseButton, LandFillButton, LandClearButton, FractalizeButton, GenerateLandFormButton, SelectLandformAreaButton });
+            LandPaintTools.Items.AddRange(new ToolStripItem[] { LandformSelectButton, LandformPaintButton, LandEraseButton, LandFillButton, LandClearButton, FractalizeButton, GenerateLandFormButton, LandformTypeButton, SelectLandformAreaButton });
             LandPaintTools.LayoutStyle = ToolStripLayoutStyle.VerticalStackWithOverflow;
             LandPaintTools.Location = new Point(135, 3);
             LandPaintTools.Name = "LandPaintTools";
@@ -2191,6 +2200,95 @@
             GenerateLandFormButton.Text = "Generate";
             GenerateLandFormButton.TextImageRelation = TextImageRelation.TextAboveImage;
             GenerateLandFormButton.Click += GenerateLandFormButton_Click;
+            // 
+            // LandformTypeButton
+            // 
+            LandformTypeButton.AutoSize = false;
+            LandformTypeButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            LandformTypeButton.DropDownItems.AddRange(new ToolStripItem[] { RandomLandformButton, ContinentLandformButton, ArchipelagoLandformButton, AtollLandformButton, WorldLandformButton, EquilateralLandformButton, AdvancedToolStripMenuItem });
+            LandformTypeButton.Image = (Image)resources.GetObject("LandformTypeButton.Image");
+            LandformTypeButton.ImageScaling = ToolStripItemImageScaling.None;
+            LandformTypeButton.ImageTransparentColor = Color.Magenta;
+            LandformTypeButton.Name = "LandformTypeButton";
+            LandformTypeButton.Size = new Size(60, 20);
+            LandformTypeButton.Text = "Type";
+            LandformTypeButton.TextImageRelation = TextImageRelation.Overlay;
+            LandformTypeButton.ToolTipText = "Landform Type";
+            // 
+            // RandomLandformButton
+            // 
+            RandomLandformButton.AutoToolTip = true;
+            RandomLandformButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            RandomLandformButton.Name = "RandomLandformButton";
+            RandomLandformButton.Size = new Size(141, 22);
+            RandomLandformButton.Text = "&Random";
+            RandomLandformButton.TextImageRelation = TextImageRelation.Overlay;
+            RandomLandformButton.ToolTipText = "Generate a random landform";
+            RandomLandformButton.Click += RandomLandformButton_Click;
+            // 
+            // ContinentLandformButton
+            // 
+            ContinentLandformButton.AutoToolTip = true;
+            ContinentLandformButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            ContinentLandformButton.Name = "ContinentLandformButton";
+            ContinentLandformButton.Size = new Size(141, 22);
+            ContinentLandformButton.Text = "&Continent";
+            ContinentLandformButton.TextImageRelation = TextImageRelation.Overlay;
+            ContinentLandformButton.ToolTipText = "Generate a continent";
+            ContinentLandformButton.Click += ContinentLandformButton_Click;
+            // 
+            // ArchipelagoLandformButton
+            // 
+            ArchipelagoLandformButton.AutoToolTip = true;
+            ArchipelagoLandformButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            ArchipelagoLandformButton.Name = "ArchipelagoLandformButton";
+            ArchipelagoLandformButton.Size = new Size(141, 22);
+            ArchipelagoLandformButton.Text = "&Archipelago";
+            ArchipelagoLandformButton.TextImageRelation = TextImageRelation.Overlay;
+            ArchipelagoLandformButton.ToolTipText = "Generate an archipelago";
+            ArchipelagoLandformButton.Click += ArchipelagoLandformButton_Click;
+            // 
+            // AtollLandformButton
+            // 
+            AtollLandformButton.AutoToolTip = true;
+            AtollLandformButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            AtollLandformButton.Name = "AtollLandformButton";
+            AtollLandformButton.Size = new Size(141, 22);
+            AtollLandformButton.Text = "A&toll";
+            AtollLandformButton.TextImageRelation = TextImageRelation.Overlay;
+            AtollLandformButton.ToolTipText = "Generat an atoll";
+            AtollLandformButton.Click += AtollLandformButton_Click;
+            // 
+            // WorldLandformButton
+            // 
+            WorldLandformButton.AutoToolTip = true;
+            WorldLandformButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            WorldLandformButton.Name = "WorldLandformButton";
+            WorldLandformButton.Size = new Size(141, 22);
+            WorldLandformButton.Text = "&World";
+            WorldLandformButton.TextImageRelation = TextImageRelation.Overlay;
+            WorldLandformButton.ToolTipText = "Generate World Map";
+            WorldLandformButton.Click += WorldLandformButton_Click;
+            // 
+            // EquilateralLandformButton
+            // 
+            EquilateralLandformButton.AutoToolTip = true;
+            EquilateralLandformButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            EquilateralLandformButton.Name = "EquilateralLandformButton";
+            EquilateralLandformButton.Size = new Size(141, 22);
+            EquilateralLandformButton.Text = "&Equilateral";
+            EquilateralLandformButton.TextImageRelation = TextImageRelation.Overlay;
+            EquilateralLandformButton.ToolTipText = "Generate an Equilateral World Map";
+            EquilateralLandformButton.Click += EquilateralLandformButton_Click;
+            // 
+            // AdvancedToolStripMenuItem
+            // 
+            AdvancedToolStripMenuItem.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            AdvancedToolStripMenuItem.Name = "AdvancedToolStripMenuItem";
+            AdvancedToolStripMenuItem.Size = new Size(141, 22);
+            AdvancedToolStripMenuItem.Text = "A&dvanced...";
+            AdvancedToolStripMenuItem.TextImageRelation = TextImageRelation.Overlay;
+            AdvancedToolStripMenuItem.Click += AdvancedToolStripMenuItem_Click;
             // 
             // SelectLandformAreaButton
             // 
@@ -4944,7 +5042,7 @@
             // 
             // LandSelectedPaintColorLabel
             // 
-            LandSelectedPaintColorLabel.BackColor = Color.White;
+            LandSelectedPaintColorLabel.BackColor = Color.FromArgb(230, 208, 171);
             LandSelectedPaintColorLabel.BorderStyle = BorderStyle.FixedSingle;
             LandSelectedPaintColorLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LandSelectedPaintColorLabel.ForeColor = SystemColors.ControlDark;
@@ -5441,7 +5539,7 @@
             // 
             // OceanSelectedPaintColorLabel
             // 
-            OceanSelectedPaintColorLabel.BackColor = SystemColors.ControlLightLight;
+            OceanSelectedPaintColorLabel.BackColor = Color.FromArgb(145, 203, 184);
             OceanSelectedPaintColorLabel.BorderStyle = BorderStyle.FixedSingle;
             OceanSelectedPaintColorLabel.FlatStyle = FlatStyle.Flat;
             OceanSelectedPaintColorLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -5859,7 +5957,7 @@
             // 
             // WaterSelectedPaintColorLabel
             // 
-            WaterSelectedPaintColorLabel.BackColor = Color.White;
+            WaterSelectedPaintColorLabel.BackColor = Color.FromArgb(145, 203, 184);
             WaterSelectedPaintColorLabel.BorderStyle = BorderStyle.FixedSingle;
             WaterSelectedPaintColorLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             WaterSelectedPaintColorLabel.ForeColor = SystemColors.ControlDark;
@@ -6764,7 +6862,6 @@
             Controls.Add(mapPanel);
             Controls.Add(ApplicationStatusStrip);
             Controls.Add(MainMenu);
-            Controls.Add(OceanColorToolPanel);
             Controls.Add(WaterColorToolPanel);
             Controls.Add(PathPanel);
             Controls.Add(SymbolsToolPanel);
@@ -6773,6 +6870,7 @@
             Controls.Add(BackgroundToolPanel);
             Controls.Add(LandColorToolPanel);
             Controls.Add(LabelsToolPanel);
+            Controls.Add(OceanColorToolPanel);
             DoubleBuffered = true;
             HelpButton = true;
             KeyPreview = true;
@@ -7431,5 +7529,13 @@
         private CheckBox ShowBackgroundLayerCheck;
         private FontAwesome.Sharp.IconToolStripButton GenerateNameButton;
         private FontAwesome.Sharp.IconToolStripButton SelectLandformAreaButton;
+        private ToolStripSplitButton LandformTypeButton;
+        private ToolStripMenuItem RandomLandformButton;
+        private ToolStripMenuItem ContinentLandformButton;
+        private ToolStripMenuItem ArchipelagoLandformButton;
+        private ToolStripMenuItem AtollLandformButton;
+        private ToolStripMenuItem WorldLandformButton;
+        private ToolStripMenuItem EquilateralLandformButton;
+        private ToolStripMenuItem AdvancedToolStripMenuItem;
     }
 }

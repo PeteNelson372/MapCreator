@@ -504,7 +504,7 @@ namespace MapCreator
                 g.FillEllipse(brush, new Rectangle((int)p.X, (int)p.Y, 2, 2));
             }
 
-            b.Save("C:\\Users\\Pete Nelson\\OneDrive\\Desktop\\mapPoints.bmp");
+            //b.Save("C:\\Users\\Pete Nelson\\OneDrive\\Desktop\\mapPoints.bmp");
         }
 
         private static void SaveDebugTriangeEdgeBitmap(int width, int height, GeneratedMapData mapData)
@@ -563,7 +563,7 @@ namespace MapCreator
                     }
                 }
 
-                b.Save("C:\\Users\\Pete Nelson\\OneDrive\\Desktop\\voronoiCells.bmp");
+                //b.Save("C:\\Users\\Pete Nelson\\OneDrive\\Desktop\\voronoiCells.bmp");
             }
 
         }
@@ -600,7 +600,7 @@ namespace MapCreator
                 }
             }
 
-            b.Save("C:\\Users\\Pete Nelson\\OneDrive\\Desktop\\voronoiCellsWithHeight.bmp");
+            //b.Save("C:\\Users\\Pete Nelson\\OneDrive\\Desktop\\voronoiCellsWithHeight.bmp");
         }
 
         private static int NextHalfedge(int e)
@@ -611,6 +611,95 @@ namespace MapCreator
         private static int PreviousHalfedge(int e)
         {
             return (e % 3 == 0) ? e + 2 : e - 1;
+        }
+
+
+        //***********************************************************************************************
+
+        public static MapLandformType2? GenerateRandomLandform(MapCreatorMap map, SKRect? selectedLandformArea)
+        {
+            const int MAX_TRIES = 20;
+
+            if (map != null)
+            {
+                int top = (int)((selectedLandformArea == null) ? 0 : ((SKRect)selectedLandformArea).Top);
+                int left = (int)((selectedLandformArea == null) ? 0 : ((SKRect)selectedLandformArea).Left);
+                int width = (int)((selectedLandformArea == null) ? map.MapWidth : ((SKRect)selectedLandformArea).Width);
+                int height = (int)((selectedLandformArea == null) ? map.MapHeight : ((SKRect)selectedLandformArea).Height);
+
+                GeneratedMapData LandformData = new()
+                {
+                    LandformLocationTop = top,
+                    LandformLocationLeft = left,
+                    LandformAreaWidth = width,
+                    LandformAreaHeight = height,
+                    MapWidth = map.MapWidth,
+                    MapHeight = map.MapHeight,
+                    GridSize = 20
+                };
+
+                int tryCount = 0;
+                MapLandformType2 NewLandform = new();
+
+                while (LandformData.LandformContourPath == null
+                    || LandformData.LandformContourPath.PointCount < 100
+                    || LandformData.RotatedScaledBitmap == null)
+                {
+                    LandformData = new()
+                    {
+                        LandformLocationTop = top,
+                        LandformLocationLeft = left,
+                        LandformAreaWidth = width,
+                        LandformAreaHeight = height,
+                        MapWidth = map.MapWidth,
+                        MapHeight = map.MapHeight,
+                        GridSize = 20,
+                        SeaLevel = 0.5F
+                    };
+
+                    float noiseScale = (float)Random.Shared.NextDouble();
+                    LandformData.NoiseScale = noiseScale;
+
+                    float interpolationWeight = (float)Random.Shared.NextDouble();
+                    LandformData.InterpolationWeight = interpolationWeight;
+
+                    LandformData.DistanceFunction = "Distance Squared";
+
+                    LandformData.Variation = 50;
+                    LandformData.Smoothing = 5;
+                    LandformData.SegmentLength = 20;
+
+                    GenerateLandform(LandformData);
+
+                    tryCount++;
+
+                    if (tryCount > MAX_TRIES) break;
+                }
+
+                if (tryCount < MAX_TRIES)
+                {
+                    if (LandformData.LandformContourPath != null && LandformData.LandformContourPath.PointCount > 0 && map != null)
+                    {
+                        NewLandform.GenMapData = LandformData;
+                        NewLandform.X = LandformData.LandformLocationLeft;
+                        NewLandform.Y = LandformData.LandformLocationTop;
+                        NewLandform.Width = LandformData.LandformAreaWidth;
+                        NewLandform.Height = LandformData.LandformAreaHeight;
+
+                        SKMatrix translateMatrix = SKMatrix.CreateTranslation(LandformData.LandformLocationLeft, LandformData.LandformLocationTop);
+
+                        LandformData.LandformContourPath.Transform(translateMatrix);
+
+                        NewLandform.LandformPath = LandformData.LandformContourPath;
+
+                        LandformType2Methods.CreateType2LandformPaths(map, NewLandform);
+
+                        return NewLandform;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

@@ -23,8 +23,6 @@
 ***************************************************************************************************************************/
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
-using System.Reflection;
-using System.Windows.Controls;
 
 namespace MapCreator
 {
@@ -590,11 +588,8 @@ namespace MapCreator
 
             // if no texture selected, then fill the landform with the border color
             LAND_BORDER_PAINT.Style = SKPaintStyle.Stroke;
-
-#pragma warning disable CS8629 // Nullable value type may be null.
-            LAND_BORDER_PAINT.Color = Extensions.ToSKColor((Color)landform.LandformOutlineColor);
-            LAND_BORDER_PAINT.StrokeWidth = (float)landform.LandformOutlineWidth;
-#pragma warning restore CS8629 // Nullable value type may be null.
+            LAND_BORDER_PAINT.Color = Extensions.ToSKColor(landform.LandformOutlineColor);
+            LAND_BORDER_PAINT.StrokeWidth = landform.LandformOutlineWidth;
 
             MapBuilder.GetLayerCanvas(map, MapBuilder.LANDFORMLAYER)?.DrawPath(landform.LandformPath, LAND_BORDER_PAINT);
 
@@ -602,7 +597,7 @@ namespace MapCreator
             {
                 LAND_FILL_PAINT.Shader = null;
                 int a = 51;
-                LAND_FILL_PAINT.Color = Extensions.ToSKColor(Color.FromArgb(a, (Color)landform.LandformOutlineColor));
+                LAND_FILL_PAINT.Color = Extensions.ToSKColor(Color.FromArgb(a, landform.LandformOutlineColor));
                 LAND_FILL_PAINT.BlendMode = SKBlendMode.Src;
                 landform.LandformBackgroundPaint = LAND_FILL_PAINT;
             }

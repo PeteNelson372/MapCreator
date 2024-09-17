@@ -26,7 +26,6 @@ using AForge.Imaging.Filters;
 using DelaunatorSharp;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
-using System.Drawing;
 using System.Drawing.Imaging;
 
 namespace MapCreator
@@ -37,8 +36,6 @@ namespace MapCreator
 
         private MapCreatorMap? Map {  get; set; }
         private MapLandformType2? NewLandform {  get; set; }
-
-        private GeneratedLandformTypeEnum SelectedLandformType = GeneratedLandformTypeEnum.Random;
 
         private SKRect? SelectedLandformArea = null;
 
@@ -51,8 +48,6 @@ namespace MapCreator
         public GenerateLandform()
         {
             InitializeComponent();
-
-            GenLandformSplitContainer.SplitterDistance = 530;
         }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
@@ -156,14 +151,10 @@ namespace MapCreator
 
                 Bitmap filledB = MapGenerator.FillHoles(LandformData.ScaledBitmap);
 
-                //LandformPictureBox.Image = filledB;
-                
                 Bitmap? landformBitmap = MapGenerator.ExtractLargestBlob(filledB);
 
                 if (landformBitmap != null)
                 {
-                    //LandformPictureBox.Image = landformBitmap;
-
                     SKBitmap resizedSKBitmap = new(LandformData.LandformAreaWidth, LandformData.LandformAreaHeight);
                     landformBitmap.ToSKBitmap().ScalePixels(resizedSKBitmap, SKFilterQuality.High);
 
@@ -445,220 +436,23 @@ namespace MapCreator
             }
         }
 
-        private void ShowHideAdvancedButton_Click(object sender, EventArgs e)
-        {
-            if (GenLandformSplitContainer.SplitterDistance < GenLandformSplitContainer.Size.Height / 2)
-            {
-                GenLandformSplitContainer.SplitterDistance = GenLandformSplitContainer.Size.Height - GenLandformSplitContainer.Panel2MinSize;
-            }
-            else
-            {
-                GenLandformSplitContainer.SplitterDistance = GenLandformSplitContainer.Panel1MinSize;
-            }
-        }
-
-        private void GenerateLandformButton_Click(object sender, EventArgs e)
-        {
-            switch (SelectedLandformType)
-            {
-                case GeneratedLandformTypeEnum.Random:
-                    GenerateRandomLandform();
-                    break;
-                case GeneratedLandformTypeEnum.Continent:
-                    // TODO
-                    break;
-
-                case GeneratedLandformTypeEnum.Atoll:
-                    // TODO
-                    break;
-
-                case GeneratedLandformTypeEnum.Archipelago:
-                    // TODO
-                    break;
-
-                case GeneratedLandformTypeEnum.World:
-                    // TODO
-                    break;
-
-                case GeneratedLandformTypeEnum.Equirectangular:
-                    // TODO
-                    break;
-
-                default:
-                    GenerateRandomLandform();
-                    break;
-            }
-        }
-
-        private void GenerateRandomLandform()
-        {
-            const int MAX_TRIES = 20;
-
-            if (Map != null)
-            {
-                int top = (int)((SelectedLandformArea == null) ? 0 : ((SKRect)SelectedLandformArea).Top);
-                int left = (int)((SelectedLandformArea == null) ? 0 : ((SKRect)SelectedLandformArea).Left);
-                int width = (int)((SelectedLandformArea == null) ? Map.MapWidth : ((SKRect)SelectedLandformArea).Width);
-                int height = (int)((SelectedLandformArea == null) ? Map.MapHeight : ((SKRect)SelectedLandformArea).Height);
-
-                LandformData = new()
-                {
-                    LandformLocationTop = top,
-                    LandformLocationLeft = left,
-                    LandformAreaWidth = width,
-                    LandformAreaHeight = height,
-                    MapWidth = Map.MapWidth,
-                    MapHeight = Map.MapHeight,
-                    GridSize = 20
-                };
-
-                int tryCount = 0;
-
-                GenerationStatusLabel.Text = "Generating landform...";
-                GenerationStatusLabel.Refresh();
-
-                while (LandformData.LandformContourPath == null
-                    || LandformData.LandformContourPath.PointCount < 100
-                    || LandformData.RotatedScaledBitmap == null)
-                {
-                    LandformData = new()
-                    {
-                        LandformLocationTop = top,
-                        LandformLocationLeft = left,
-                        LandformAreaWidth = width,
-                        LandformAreaHeight = height,
-                        MapWidth = Map.MapWidth,
-                        MapHeight = Map.MapHeight,
-                        GridSize = 20
-                    };
-
-                    RandomizeLandformData();
-
-                    LandformData.Variation = VariationTrack.Value;
-                    LandformData.Smoothing = SmoothingTrack.Value;
-                    LandformData.SegmentLength = RoughnessTrack.Value;
-
-                    MapGenerator.GenerateLandform(LandformData);
-
-                    tryCount++;
-
-                    if (tryCount > MAX_TRIES) break;
-                }
-
-                if (tryCount < MAX_TRIES)
-                {
-                    GenerationStatusLabel.Text += "Complete.";
-                    GenerationStatusLabel.Refresh();
-                    DrawLandformBoundary(true);
-
-                    LandformDataList.Add(LandformData);
-                }
-                else
-                {
-                    GenerationStatusLabel.Text = "Landform generation failed. Please try again.";
-                    GenerationStatusLabel.Refresh();
-                }
-            }
-        }
-
-        private void RandomizeLandformData()
-        {
-            LandformData.SeaLevel = 0.5F;
-            float noiseScale = (float)Random.Shared.NextDouble();
-            LandformData.NoiseScale = noiseScale;
-
-            float interpolationWeight = (float)Random.Shared.NextDouble();
-            LandformData.InterpolationWeight = interpolationWeight;
-
-            string? distanceFunction = (string?)DistanceFunctionUpDown.Items[0];
-
-            if (!string.IsNullOrEmpty(distanceFunction))
-            {
-                LandformData.DistanceFunction = distanceFunction;
-            }
-        }
-
-        private void RandomLandformRadio_CheckedChanged(object sender, EventArgs e)
-        {
-            if (RandomLandformRadio.Checked)
-            {
-                SelectedLandformType = GeneratedLandformTypeEnum.Random;
-            }
-        }
-
-        private void ContinentRadio_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ContinentRadio.Checked)
-            {
-                SelectedLandformType = GeneratedLandformTypeEnum.Continent;
-            }
-        }
-
-        private void ArchipelagoRadio_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ArchipelagoRadio.Checked)
-            {
-                SelectedLandformType = GeneratedLandformTypeEnum.Archipelago;
-            }
-        }
-
-        private void AtollRadio_CheckedChanged(object sender, EventArgs e)
-        {
-            if (AtollRadio.Checked)
-            {
-                SelectedLandformType = GeneratedLandformTypeEnum.Atoll;
-            }
-        }
-
-        private void WorldRadio_CheckedChanged(object sender, EventArgs e)
-        {
-            if (WorldRadio.Checked)
-            {
-                SelectedLandformType = GeneratedLandformTypeEnum.World;
-            }
-        }
-
-        private void EquirectangularRadio_CheckedChanged(object sender, EventArgs e)
-        {
-            if (EquirectangularRadio.Checked)
-            {
-                SelectedLandformType = GeneratedLandformTypeEnum.Equirectangular;
-            }
-        }
-
         private void PlaceLandformButton_Click(object sender, EventArgs e)
         {
             if (LandformData.LandformContourPath != null && LandformData.LandformContourPath.PointCount > 0
                 && NewLandform != null && Map != null)
             {
-                NewLandform.GenMapData = LandformData;
-                NewLandform.X = LandformData.LandformLocationLeft;
-                NewLandform.Y = LandformData.LandformLocationTop;
-                NewLandform.Width = LandformData.LandformAreaWidth;
-                NewLandform.Height = LandformData.LandformAreaHeight;
-
-                SKMatrix translateMatrix = SKMatrix.CreateTranslation(LandformData.LandformLocationLeft, LandformData.LandformLocationTop);
-
-                LandformData.LandformContourPath.Transform(translateMatrix);
-
-                NewLandform.LandformPath = LandformData.LandformContourPath;
-
-                LandformType2Methods.CreateType2LandformPaths(Map, NewLandform);
-
+                NewLandform.DrawLandform = true;
                 MapBuilder.GetMapLayerByIndex(Map, MapBuilder.LANDFORMLAYER).MapLayerComponents.Add(NewLandform);
                 LandformType2Methods.LANDFORM_LIST.Add(NewLandform);
 
                 // TODO: merging generated landforms isn't working - why?
-                LandformType2Methods.MergeLandforms();
+                //LandformType2Methods.MergeLandforms();
 
                 LandformType2Methods.SELECTED_LANDFORM = NewLandform;
 
                 // TODO: undo/redo
 
                 OnLandformGenerated(EventArgs.Empty);
-
-                
-
             }
         }
     }

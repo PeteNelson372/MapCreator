@@ -21,7 +21,7 @@
 * contact@brookmonte.com
 *
 ***************************************************************************************************************************/
-using Application = System.Windows.Forms.Application;
+//using Application = System.Windows.Forms.Application;
 
 namespace MapCreator
 {
