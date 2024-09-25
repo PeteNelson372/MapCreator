@@ -21,8 +21,6 @@
 * contact@brookmonte.com
 *
 ***************************************************************************************************************************/
-using System.Windows.Forms;
-
 namespace MapCreator
 {
     public partial class NameGeneratorSettings : Form

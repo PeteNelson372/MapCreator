@@ -36,7 +36,7 @@ namespace MapCreator
         // the symbol selected by the user from the SymbolTable control on the UI
         private static MapSymbol? SelectedMapSymbol = null;
 
-        // additional symbols selected by the user from the SymbolTable control on the US
+        // additional symbols selected by the user from the SymbolTable control on the UI
         private static readonly List<MapSymbol> SecondarySelectedSymbols = [];
 
         // the symbols placed on the map

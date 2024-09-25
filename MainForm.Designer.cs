@@ -6862,6 +6862,8 @@
             Controls.Add(mapPanel);
             Controls.Add(ApplicationStatusStrip);
             Controls.Add(MainMenu);
+            Controls.Add(LabelsToolPanel);
+            Controls.Add(OceanColorToolPanel);
             Controls.Add(WaterColorToolPanel);
             Controls.Add(PathPanel);
             Controls.Add(SymbolsToolPanel);
@@ -6869,8 +6871,6 @@
             Controls.Add(RegionsToolPanel);
             Controls.Add(BackgroundToolPanel);
             Controls.Add(LandColorToolPanel);
-            Controls.Add(LabelsToolPanel);
-            Controls.Add(OceanColorToolPanel);
             DoubleBuffered = true;
             HelpButton = true;
             KeyPreview = true;
